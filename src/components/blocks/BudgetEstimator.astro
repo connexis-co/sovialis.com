@@ -38,7 +38,7 @@ const startModality: Modality = "12h_dia";
 <section class="section budget" data-block="budget-estimator" id={v.anchor || "estimador"}>
 	<div class="container-page">
 		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
-		<div class="budget__card mt-10" data-budget data-rates={JSON.stringify(data)}>
+		<div class="budget__card mt-8 sm:mt-10" data-budget data-rates={JSON.stringify(data)}>
 			<form class="budget__form" aria-label="Datos para estimar el presupuesto" onsubmit="return false">
 				<fieldset class="bg-group">
 					<legend>Perfil</legend>
@@ -288,7 +288,14 @@ const startModality: Modality = "12h_dia";
 	.budget__lines :global(li) {
 		display: flex;
 		justify-content: space-between;
+		align-items: baseline;
 		gap: 1rem;
+	}
+	.budget__lines :global(small) {
+		display: block;
+		margin-top: 0.1rem;
+		font-size: 0.82rem;
+		color: rgb(255 255 255 / 0.65);
 	}
 	.budget__lines :global(b) {
 		color: #fff;

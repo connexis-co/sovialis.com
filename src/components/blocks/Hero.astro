@@ -80,18 +80,19 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 	) : variant === "centrado" ? (
 		<section class="hero-centered relative isolate overflow-hidden" data-block="hero">
 			<BrandS class="pointer-events-none absolute top-[-10%] left-1/2 -z-10 hidden h-[125%] w-auto -translate-x-1/2 text-primary opacity-[0.05] sm:block" />
-			<div class="container-page py-[clamp(4rem,9vw,8rem)] text-center">
+			<div class="container-page pt-[clamp(2.75rem,9vw,8rem)] pb-[clamp(3.25rem,9vw,8rem)] text-center">
 				{v.eyebrow && <p class="eyebrow animate-fade-up">{v.eyebrow}</p>}
-				<Tag class="on-light mx-auto mt-4 max-w-4xl font-display text-display text-deep" set:html={titleHtml} />
-				{v.subtitle && <p class="mx-auto mt-5 max-w-2xl text-lead text-muted">{v.subtitle}</p>}
-				<div class="mt-8 flex flex-wrap justify-center gap-3">
+				<Tag class="on-light mx-auto mt-4 max-w-4xl font-display text-[2.15rem]/[1.1] text-deep sm:text-display" set:html={titleHtml} />
+				{v.subtitle && <p class="mx-auto mt-5 max-w-2xl text-[1.06rem] leading-relaxed text-muted sm:text-lead">{v.subtitle}</p>}
+				{/* En móvil los botones van apilados y del mismo ancho. */}
+				<div class="mx-auto mt-7 grid max-w-sm gap-3 sm:mt-8 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center">
 					<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel />
 					<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" />
 				</div>
 				{badges.length > 0 && (
-					<ul class="mt-8 flex flex-wrap justify-center gap-2.5">
+					<ul class="mt-6 flex flex-wrap justify-center gap-2 sm:mt-8 sm:gap-2.5">
 						{badges.map((b) => (
-							<li class="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 px-3.5 py-1.5 text-[0.95rem] font-semibold text-deep backdrop-blur">
+							<li class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-3 py-1 text-[0.85rem] font-semibold text-deep backdrop-blur sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-[0.95rem]">
 								<span class="text-primary" set:html={icon("check", "size-4")} />
 								{b}
 							</li>

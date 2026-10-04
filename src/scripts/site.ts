@@ -549,16 +549,21 @@ for (const root of $$<HTMLElement>("[data-budget]")) {
 		const month = Math.round((week * 52) / 12 / 1000) * 1000;
 		animateNumber($<HTMLElement>("[data-bg-month]", root)!, month);
 		$("[data-bg-week]", root)!.textContent = cop(week);
-		const unit = perHour ? `${hours} h × ` : "";
-		const lines: Array<[string, number]> = [];
-		if (weekdays) lines.push([`${weekdays} ${weekdays === 1 ? "día" : "días"} entre semana · ${unit}${cop(r.price)}`, weekdays * r.price * mult]);
-		if (weekend) lines.push([`${weekend} ${weekend === 1 ? "día" : "días"} de fin de semana · ${unit}${cop(r.priceWeekend)}`, weekend * r.priceWeekend * mult]);
-		if (!lines.length) lines.push(["Elige al menos un día de la semana", 0]);
+		const each = (price: number) => (perHour ? `${hours} h × ${cop(price)} por día` : `${cop(price)} por día`);
+		const lines: Array<[string, string, number]> = [];
+		if (weekdays) lines.push([`${weekdays} ${weekdays === 1 ? "día" : "días"} entre semana`, each(r.price), weekdays * r.price * mult]);
+		if (weekend) lines.push([`${weekend} ${weekend === 1 ? "día" : "días"} de fin de semana`, each(r.priceWeekend), weekend * r.priceWeekend * mult]);
+		if (!lines.length) lines.push(["Elige al menos un día de la semana", "", 0]);
 		$<HTMLElement>("[data-bg-lines]", root)!.replaceChildren(
-			...lines.map(([label, value]) => {
+			...lines.map(([label, detail, value]) => {
 				const li = document.createElement("li");
 				const span = document.createElement("span");
 				span.textContent = label;
+				if (detail) {
+					const small = document.createElement("small");
+					small.textContent = detail;
+					span.appendChild(small);
+				}
 				const b = document.createElement("b");
 				b.textContent = value ? `${cop(value)}/sem.` : "";
 				li.appendChild(span);

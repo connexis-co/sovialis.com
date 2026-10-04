@@ -29,13 +29,14 @@ const data = {
 	auxService: serviceName("auxiliar-de-enfermeria"),
 };
 const showTable = v.show_table !== false;
+const profileKeys = Object.keys(PROFILES) as Profile[];
 ---
 
 <section class="section price-explorer" data-block="price-explorer" id={v.anchor || "explorador"}>
 	<div class="container-page">
 		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
 
-		<div class="mt-10 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10" data-price-explorer data-rates={JSON.stringify(data)}>
+		<div class="mt-8 grid grid-cols-1 gap-6 sm:mt-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10" data-price-explorer data-rates={JSON.stringify(data)}>
 			<form class="pe-controls" aria-label="Elige perfil, modalidad y días" onsubmit="return false">
 				<fieldset class="pe-group">
 					<legend class="pe-legend"><span class="pe-step">1</span> ¿Qué perfil necesitas?</legend>
@@ -60,7 +61,10 @@ const showTable = v.show_table !== false;
 								<input type="radio" name={`${id}-modality`} value={m} checked={m === start.modality} data-pe="modality" />
 								<span class="pe-option__body">
 									<span class="pe-option__icon" set:html={icon(MODALITIES[m].icon, "size-5")} />
-									<span class="pe-option__label">{MODALITIES[m].label}</span>
+									<span class="pe-option__label">
+										<span class="sm:hidden">{MODALITIES[m].short}</span>
+										<span class="max-sm:hidden">{MODALITIES[m].label}</span>
+									</span>
 									<span class="pe-option__from" data-pe-from={m}>
 										desde {formatCOP(findRate(rates, start.profile, m).price)}
 									</span>
@@ -83,14 +87,14 @@ const showTable = v.show_table !== false;
 						</label>
 					</div>
 				</fieldset>
-				<a href={`#${id}-resultado`} class="pe-mini lg:hidden" data-pe-mini>
+				<a href={`#${id}-resultado`} class="pe-mini" data-pe-mini>
 					<span class="pe-mini__label" data-pe-mini-label>{PROFILES[start.profile].short} · {MODALITIES[start.modality].short}</span>
 					<span class="pe-mini__price" data-pe-mini-price>{formatCOP(first.price)}</span>
-					<span class="pe-mini__go">Ver detalle</span>
+					<span class="pe-mini__go" set:html={icon("chevron-abajo", "size-4")} /><span class="sr-only">Ver detalle</span>
 				</a>
 			</form>
 
-			<aside id={`${id}-resultado`} class="pe-result lg:sticky lg:top-28 lg:self-start" aria-live="polite">
+			<aside id={`${id}-resultado`} class="pe-result" aria-live="polite">
 				<p class="pe-result__eyebrow">Tu precio de referencia</p>
 				<p class="pe-result__title" data-pe-title>{PROFILES[start.profile].short} · {MODALITIES[start.modality].label}</p>
 				<p class="pe-result__price">
@@ -121,31 +125,50 @@ const showTable = v.show_table !== false;
 				<div class="mt-14">
 					<h3 class="text-center font-display text-h3 text-deep">{v.table_title || "Tabla completa de tarifas"}</h3>
 					<p class="mx-auto mt-2 max-w-2xl text-center text-muted">{v.note || "Precios de referencia con IVA incluido. Sábados, domingos y festivos tienen tarifa propia."}</p>
-					<div class="pt-table mx-auto mt-6 max-w-5xl">
+					{/* En móvil, un selector de perfil deja la tabla en 3 columnas legibles (sin JS: :has()). */}
+					<div class="rates mx-auto mt-6 max-w-5xl">
+						<div class="rates__toggle" role="radiogroup" aria-label="Perfil que quieres ver en la tabla">
+							{profileKeys.map((p) => (
+								<label>
+									<input type="radio" name={`${id}-tabla`} value={p} checked={p === "cuidadora"} />
+									<span>{PROFILES[p].label}</span>
+								</label>
+							))}
+						</div>
 						<table>
 							<thead>
 								<tr>
 									<th scope="col">Modalidad</th>
-									<th scope="col">Cuidadora · lun. a vie.</th>
-									<th scope="col">Cuidadora · sáb., dom. y fest.</th>
-									<th scope="col">Auxiliar · lun. a vie.</th>
-									<th scope="col">Auxiliar · sáb., dom. y fest.</th>
+									{profileKeys.map((p) => (
+										<Fragment>
+											<th scope="col" data-p={p}>
+												<span class="rates__who">{PROFILES[p].short} · </span>lun. a vie.
+											</th>
+											<th scope="col" data-p={p}>
+												<span class="rates__who">{PROFILES[p].short} · </span>sáb., dom. y fest.
+											</th>
+										</Fragment>
+									))}
 								</tr>
 							</thead>
 							<tbody>
-								{MODALITY_ORDER.map((m) => {
-									const c = findRate(rates, "cuidadora", m);
-									const a = findRate(rates, "auxiliar", m);
-									return (
-										<tr>
-											<th scope="row" data-label="Modalidad">{MODALITIES[m].label}</th>
-											<td data-label="Cuidadora · lun. a vie.">{formatCOP(c.price)}</td>
-											<td data-label="Cuidadora · sáb., dom. y fest.">{formatCOP(c.priceWeekend)}</td>
-											<td data-label="Auxiliar · lun. a vie.">{formatCOP(a.price)}</td>
-											<td data-label="Auxiliar · sáb., dom. y fest.">{formatCOP(a.priceWeekend)}</td>
-										</tr>
-									);
-								})}
+								{MODALITY_ORDER.map((m) => (
+									<tr>
+										<th scope="row">
+											<span class="sm:hidden">{MODALITIES[m].short}</span>
+											<span class="max-sm:hidden">{MODALITIES[m].label}</span>
+										</th>
+										{profileKeys.map((p) => {
+											const r = findRate(rates, p, m);
+											return (
+												<Fragment>
+													<td data-p={p}>{formatCOP(r.price)}</td>
+													<td data-p={p}>{formatCOP(r.priceWeekend)}</td>
+												</Fragment>
+											);
+										})}
+									</tr>
+								))}
 							</tbody>
 						</table>
 					</div>
@@ -400,7 +423,7 @@ const showTable = v.show_table !== false;
 		align-items: center;
 		gap: 0.75rem;
 		margin-right: 64px;
-		padding: 0.7rem 0.9rem;
+		padding: 0.5rem 0.5rem 0.5rem 1rem;
 		border-radius: 999px;
 		background: var(--sv-deep);
 		color: #fff;
@@ -410,10 +433,12 @@ const showTable = v.show_table !== false;
 	.pe-mini__label {
 		flex: 1;
 		min-width: 0;
+		display: -webkit-box;
 		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		font-size: 0.88rem;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		font-size: 0.8rem;
+		line-height: 1.2;
 		color: rgb(255 255 255 / 0.8);
 	}
 	.pe-mini__price {
@@ -422,12 +447,194 @@ const showTable = v.show_table !== false;
 		font-weight: 600;
 	}
 	.pe-mini__go {
-		padding: 0.3rem 0.65rem;
-		border-radius: 999px;
+		display: grid;
+		place-items: center;
+		flex: none;
+		inline-size: 2rem;
+		block-size: 2rem;
+		border-radius: 50%;
 		background: rgb(255 255 255 / 0.14);
-		font-size: 0.8rem;
+	}
+	/* Indicador de selección en las tarjetas de perfil. */
+	.pe-segment:not(.pe-segment--compact) .pe-seg > span {
+		position: relative;
+		padding-right: 2.75rem;
+	}
+	.pe-segment:not(.pe-segment--compact) .pe-seg > span::after {
+		content: "";
+		position: absolute;
+		top: 0.95rem;
+		right: 0.95rem;
+		inline-size: 1.25rem;
+		block-size: 1.25rem;
+		border: 2px solid var(--sv-border);
+		border-radius: 50%;
+		transition:
+			background var(--sv-dur),
+			border-color var(--sv-dur),
+			box-shadow var(--sv-dur);
+	}
+	.pe-segment:not(.pe-segment--compact) .pe-seg input:checked + span::after {
+		border-color: var(--sv-primary);
+		background: var(--sv-primary);
+		box-shadow: inset 0 0 0 3px var(--sv-surface);
+	}
+	@media (max-width: 639px) {
+		.pe-controls {
+			gap: 1.4rem;
+		}
+		.pe-seg > span {
+			padding: 0.8rem 0.95rem;
+		}
+		.pe-seg small {
+			font-size: 0.86rem;
+		}
+		/* Modalidades en móvil: ícono a la izquierda y nombre corto, dos por fila. */
+		.pe-option__body {
+			grid-template-columns: auto minmax(0, 1fr);
+			align-items: center;
+			column-gap: 0.5rem;
+			row-gap: 0.05rem;
+			padding: 0.7rem 0.65rem;
+		}
+		.pe-option__icon {
+			grid-row: span 2;
+			inline-size: 1.9rem;
+			block-size: 1.9rem;
+		}
+		.pe-option__from {
+			font-size: 0.8rem;
+			white-space: nowrap;
+		}
+		.pe-result {
+			padding: 1.5rem 1.3rem;
+		}
+	}
+
+	/* Tabla completa de tarifas */
+	.rates table {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		border-radius: calc(var(--sv-radius) * 0.75);
+		overflow: hidden;
+		box-shadow: var(--sv-shadow-sm);
+		font-variant-numeric: tabular-nums;
+		line-height: 1.4;
+	}
+	.rates :is(th, td) {
+		padding: 0.85rem 1.1rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sv-border);
+	}
+	.rates thead th {
+		vertical-align: bottom;
+		background: var(--sv-deep);
+		color: #fff;
+		font-size: 0.95rem;
 		font-weight: 650;
 	}
+	.rates tbody th {
+		font-weight: 650;
+		color: var(--sv-deep);
+	}
+	.rates td {
+		color: var(--sv-deep);
+	}
+	.rates tbody tr:nth-child(even) {
+		background: color-mix(in oklab, var(--sv-surface-alt) 60%, transparent);
+	}
+	.rates tbody tr:last-child > * {
+		border-bottom: 0;
+	}
+	.rates__toggle {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4px;
+		margin-bottom: 0.9rem;
+		padding: 4px;
+		border: 1px solid var(--sv-border);
+		border-radius: 999px;
+		background: var(--sv-surface);
+	}
+	.rates__toggle label {
+		position: relative;
+		cursor: pointer;
+	}
+	.rates__toggle input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.rates__toggle span {
+		display: grid;
+		place-items: center;
+		min-height: 44px;
+		padding: 0.45rem 0.6rem;
+		border-radius: 999px;
+		font-size: 0.93rem;
+		font-weight: 650;
+		line-height: 1.2;
+		text-align: center;
+		color: var(--sv-deep);
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur);
+	}
+	.rates__toggle input:checked + span {
+		background: var(--sv-deep);
+		color: #fff;
+	}
+	.rates__toggle input:focus-visible + span {
+		outline: 3px solid var(--sv-primary);
+		outline-offset: 2px;
+	}
+	@media (max-width: 639px) {
+		.rates :is(th, td) {
+			padding: 0.8rem 0.75rem;
+		}
+		.rates thead th {
+			font-size: 0.8rem;
+			line-height: 1.25;
+		}
+		.rates :is(thead th[data-p], td) {
+			text-align: right;
+		}
+		.rates :is(tbody th, td) {
+			white-space: nowrap;
+		}
+		.rates td {
+			font-weight: 600;
+		}
+		.rates__who {
+			display: none;
+		}
+		.rates:has(input[value="cuidadora"]:checked) [data-p="auxiliar"],
+		.rates:has(input[value="auxiliar"]:checked) [data-p="cuidadora"] {
+			display: none;
+		}
+	}
+
+	/* Las reglas del componente ganan a las utilidades de Tailwind (van en capa), así que
+	   la visibilidad y el sticky por tamaño de pantalla se declaran aquí. */
+	@media (min-width: 640px) {
+		.rates__toggle {
+			display: none;
+		}
+	}
+	@media (min-width: 1024px) {
+		.pe-mini {
+			display: none;
+		}
+		.pe-result {
+			position: sticky;
+			top: 7rem;
+			align-self: start;
+		}
+	}
+
 	.pe-bump {
 		animation: pe-bump 0.45s var(--sv-ease-out);
 	}

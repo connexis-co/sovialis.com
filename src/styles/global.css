@@ -246,6 +246,13 @@
 		padding: 0.9rem 1.85rem;
 		font-size: 1.08rem;
 	}
+	/* En pantallas angostas el relleno lateral partía en dos líneas etiquetas como «Escríbenos por WhatsApp». */
+	@media (max-width: 479px) {
+		.btn-lg {
+			padding-inline: 1.15rem;
+			font-size: 1.04rem;
+		}
+	}
 
 	/* Enlace con flecha */
 	.link-arrow {
