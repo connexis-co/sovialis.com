@@ -41,7 +41,8 @@
     // Cloudflare Access (panel /_emdash/admin): equipo y audiencia de la aplicación «Sovialis · Web (panel EmDash)».
     "CF_ACCESS_TEAM_DOMAIN": "holy-king-fdc9.cloudflareaccess.com",
     "CF_ACCESS_AUDIENCE": "cab13b1a85efeb6ae0af0d6a79d212703a56d9f1a0c907fea2e240e7b5d2ea78",
-    "ADMIN_EMAILS": "connexis.co@gmail.com,equipo.sovialis@gmail.com"
+    "ADMIN_EMAILS": "connexis.co@gmail.com,equipo.sovialis@gmail.com",
+    "ADMIN_NAMES": "connexis.co@gmail.com=JP Misat;equipo.sovialis@gmail.com=Eilin Dayanna"
   },
   // Mantenimiento de EmDash (publicaciones programadas, cron de plugins).
   "triggers": {

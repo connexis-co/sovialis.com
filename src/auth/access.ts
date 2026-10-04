@@ -20,6 +20,16 @@ interface AccessEnv {
 	CF_ACCESS_AUTOMATION_CLIENT_ID?: string;
 	SOVIALIS_AUTOMATION_TOKEN?: string;
 	ADMIN_EMAILS?: string;
+	ADMIN_NAMES?: string;
+}
+
+/** Nombre visible del usuario en el panel: ADMIN_NAMES="correo=Nombre;correo=Nombre". */
+function adminName(map: string | undefined, email: string): string {
+	for (const pair of (map ?? "").split(";")) {
+		const [mail, name] = pair.split("=").map((part) => part.trim());
+		if (mail?.toLowerCase() === email && name) return name;
+	}
+	return email.split("@")[0] ?? email;
 }
 
 const AUTOMATION_USER = { email: "automatizacion@sovialis.com", name: "Automatización", role: 50, subject: "sovialis-automation" };
@@ -82,7 +92,7 @@ export async function authenticate(request: Request) {
 	if (email) {
 		const allowed = (e.ADMIN_EMAILS ?? "").split(",").map((a) => a.trim().toLowerCase()).filter(Boolean);
 		if (allowed.length && !allowed.includes(email)) throw new Error("Correo sin permiso de administración");
-		return { email, name: email.split("@")[0] ?? email, role: ADMIN, subject: String(payload.sub ?? email) };
+		return { email, name: adminName(e.ADMIN_NAMES, email), role: ADMIN, subject: String(payload.sub ?? email) };
 	}
 
 	const commonName = typeof payload.common_name === "string" ? payload.common_name : "";
