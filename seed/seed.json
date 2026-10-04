@@ -1,0 +1,2180 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Sovialis",
+		"description": "Cuidado del adulto mayor a domicilio en Bogotá — sitio público sobre EmDash.",
+		"author": "Connexis"
+	},
+	"settings": {
+		"title": "Sovialis",
+		"tagline": "Vínculos que protegen",
+		"timezone": "America/Bogota"
+	},
+	"blockTypes": [
+		{
+			"slug": "hero",
+			"label": "Portada (hero)",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "variant",
+							"label": "Diseño",
+							"type": "select",
+							"validation": {
+								"options": [
+									"foto-completa",
+									"dividido",
+									"centrado"
+								]
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "image",
+							"label": "Imagen",
+							"type": "image"
+						},
+						{
+							"slug": "primary_label",
+							"label": "Botón principal: texto",
+							"type": "string"
+						},
+						{
+							"slug": "primary_action",
+							"label": "Botón principal: acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "primary_url",
+							"label": "Botón principal: enlace (si la acción es «enlace»)",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_label",
+							"label": "Botón secundario: texto",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_action",
+							"label": "Botón secundario: acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "secondary_url",
+							"label": "Botón secundario: enlace (si la acción es «enlace»)",
+							"type": "string"
+						},
+						{
+							"slug": "badges",
+							"label": "Insignias (una por línea)",
+							"type": "text"
+						},
+						{
+							"slug": "card_title",
+							"label": "Tarjeta flotante: título",
+							"type": "string"
+						},
+						{
+							"slug": "card_text",
+							"label": "Tarjeta flotante: texto",
+							"type": "text"
+						},
+						{
+							"slug": "shortcuts_title",
+							"label": "Atajos de servicios: título (vacío = sin atajos)",
+							"type": "string"
+						},
+						{
+							"slug": "show_form",
+							"label": "Mostrar formulario corto (landings)",
+							"type": "boolean"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "trust_bar",
+			"label": "Franja de confianza",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "items",
+							"label": "Elementos",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icono",
+										"type": "select",
+										"options": [
+											"corazon",
+											"escudo",
+											"reloj",
+											"luna",
+											"sol",
+											"casa",
+											"hospital",
+											"calendario",
+											"usuarios",
+											"usuario",
+											"estrella",
+											"check",
+											"telefono",
+											"whatsapp",
+											"ubicacion",
+											"cerebro",
+											"venda",
+											"manos",
+											"cama",
+											"silla-ruedas",
+											"documento",
+											"chat",
+											"sparkles",
+											"medalla",
+											"familia",
+											"cafe",
+											"pastillas",
+											"brujula"
+										]
+									},
+									{
+										"slug": "text",
+										"label": "Texto",
+										"type": "string",
+										"required": true
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "services_grid",
+			"label": "Servicios (automático)",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "mode",
+							"label": "Mostrar",
+							"type": "select",
+							"validation": {
+								"options": [
+									"todos",
+									"destacados"
+								]
+							}
+						},
+						{
+							"slug": "limit",
+							"label": "Máximo",
+							"type": "integer"
+						},
+						{
+							"slug": "style",
+							"label": "Estilo",
+							"type": "select",
+							"validation": {
+								"options": [
+									"tarjetas-foto",
+									"lista-compacta"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "card_carousel",
+			"label": "Carrusel de tarjetas con foto",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "items",
+							"label": "Tarjetas",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "tag",
+										"label": "Etiqueta",
+										"type": "string"
+									},
+									{
+										"slug": "title",
+										"label": "Título",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Texto",
+										"type": "text"
+									},
+									{
+										"slug": "image",
+										"label": "Imagen",
+										"type": "image"
+									},
+									{
+										"slug": "url",
+										"label": "Enlace",
+										"type": "string"
+									},
+									{
+										"slug": "link_label",
+										"label": "Texto del enlace",
+										"type": "string"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "steps",
+			"label": "Pasos (cómo funciona)",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "items",
+							"label": "Pasos",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icono",
+										"type": "select",
+										"options": [
+											"corazon",
+											"escudo",
+											"reloj",
+											"luna",
+											"sol",
+											"casa",
+											"hospital",
+											"calendario",
+											"usuarios",
+											"usuario",
+											"estrella",
+											"check",
+											"telefono",
+											"whatsapp",
+											"ubicacion",
+											"cerebro",
+											"venda",
+											"manos",
+											"cama",
+											"silla-ruedas",
+											"documento",
+											"chat",
+											"sparkles",
+											"medalla",
+											"familia",
+											"cafe",
+											"pastillas",
+											"brujula"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Título",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Texto",
+										"type": "text"
+									}
+								]
+							}
+						},
+						{
+							"slug": "cta_label",
+							"label": "Botón: texto",
+							"type": "string"
+						},
+						{
+							"slug": "cta_action",
+							"label": "Botón: acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "cta_url",
+							"label": "Botón: enlace (si la acción es «enlace»)",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "feature_grid",
+			"label": "Beneficios (cuadrícula)",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "layout",
+							"label": "Diseño",
+							"type": "select",
+							"validation": {
+								"options": [
+									"bento",
+									"cuadricula",
+									"lista"
+								]
+							}
+						},
+						{
+							"slug": "tone",
+							"label": "Fondo",
+							"type": "select",
+							"validation": {
+								"options": [
+									"claro",
+									"arena",
+									"bruma",
+									"oscuro"
+								]
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Imagen (bento)",
+							"type": "image"
+						},
+						{
+							"slug": "items",
+							"label": "Elementos",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icono",
+										"type": "select",
+										"options": [
+											"corazon",
+											"escudo",
+											"reloj",
+											"luna",
+											"sol",
+											"casa",
+											"hospital",
+											"calendario",
+											"usuarios",
+											"usuario",
+											"estrella",
+											"check",
+											"telefono",
+											"whatsapp",
+											"ubicacion",
+											"cerebro",
+											"venda",
+											"manos",
+											"cama",
+											"silla-ruedas",
+											"documento",
+											"chat",
+											"sparkles",
+											"medalla",
+											"familia",
+											"cafe",
+											"pastillas",
+											"brujula"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Título",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "Texto",
+										"type": "text"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "media_text",
+			"label": "Imagen + texto",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "body",
+							"label": "Texto",
+							"type": "portableText"
+						},
+						{
+							"slug": "image",
+							"label": "Imagen",
+							"type": "image"
+						},
+						{
+							"slug": "image_side",
+							"label": "Imagen a la",
+							"type": "select",
+							"validation": {
+								"options": [
+									"derecha",
+									"izquierda"
+								]
+							}
+						},
+						{
+							"slug": "tone",
+							"label": "Fondo",
+							"type": "select",
+							"validation": {
+								"options": [
+									"claro",
+									"arena",
+									"bruma",
+									"oscuro"
+								]
+							}
+						},
+						{
+							"slug": "bullets",
+							"label": "Viñetas (una por línea)",
+							"type": "text"
+						},
+						{
+							"slug": "cta_label",
+							"label": "Botón: texto",
+							"type": "string"
+						},
+						{
+							"slug": "cta_action",
+							"label": "Botón: acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "cta_url",
+							"label": "Botón: enlace (si la acción es «enlace»)",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "tabs_media",
+			"label": "Pestañas sobre imagen",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "image",
+							"label": "Imagen",
+							"type": "image"
+						},
+						{
+							"slug": "tabs",
+							"label": "Pestañas",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "label",
+										"label": "Pestaña",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "title",
+										"label": "Título",
+										"type": "string"
+									},
+									{
+										"slug": "body",
+										"label": "Texto (viñetas con «- »)",
+										"type": "text"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "pricing",
+			"label": "Precios desde",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "note",
+							"label": "Nota al pie",
+							"type": "text"
+						},
+						{
+							"slug": "plans",
+							"label": "Planes",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "name",
+										"label": "Nombre",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "price",
+										"label": "Precio desde (COP)",
+										"type": "integer"
+									},
+									{
+										"slug": "unit",
+										"label": "Unidad (por turno, por hora…)",
+										"type": "string"
+									},
+									{
+										"slug": "description",
+										"label": "Descripción",
+										"type": "text"
+									},
+									{
+										"slug": "features",
+										"label": "Incluye (una por línea)",
+										"type": "text"
+									},
+									{
+										"slug": "cta_label",
+										"label": "Texto del botón",
+										"type": "string"
+									},
+									{
+										"slug": "highlighted",
+										"label": "Destacado",
+										"type": "boolean"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "zones_grid",
+			"label": "Zonas de cobertura (automático)",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "note",
+							"label": "Nota",
+							"type": "text"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "comparison",
+			"label": "Tabla comparativa",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "col_a",
+							"label": "Columna A (destacada)",
+							"type": "string"
+						},
+						{
+							"slug": "col_b",
+							"label": "Columna B",
+							"type": "string"
+						},
+						{
+							"slug": "col_c",
+							"label": "Columna C",
+							"type": "string"
+						},
+						{
+							"slug": "rows",
+							"label": "Filas",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "feature",
+										"label": "Aspecto",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "a",
+										"label": "A",
+										"type": "string"
+									},
+									{
+										"slug": "b",
+										"label": "B",
+										"type": "string"
+									},
+									{
+										"slug": "c",
+										"label": "C",
+										"type": "string"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "testimonials",
+			"label": "Testimonios",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "items",
+							"label": "Testimonios",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "quote",
+										"label": "Testimonio",
+										"type": "text",
+										"required": true
+									},
+									{
+										"slug": "author",
+										"label": "Nombre",
+										"type": "string"
+									},
+									{
+										"slug": "relation",
+										"label": "Relación (hija de…)",
+										"type": "string"
+									},
+									{
+										"slug": "zone",
+										"label": "Barrio o zona",
+										"type": "string"
+									},
+									{
+										"slug": "rating",
+										"label": "Estrellas (1–5)",
+										"type": "integer"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "stats",
+			"label": "Cifras",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "items",
+							"label": "Cifras",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "value",
+										"label": "Valor",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "label",
+										"label": "Descripción",
+										"type": "string"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "faq",
+			"label": "Preguntas frecuentes",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "items",
+							"label": "Preguntas",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "question",
+										"label": "Pregunta",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "answer",
+										"label": "Respuesta",
+										"type": "text",
+										"required": true
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "cta_band",
+			"label": "Llamado a la acción",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "variant",
+							"label": "Estilo",
+							"type": "select",
+							"validation": {
+								"options": [
+									"oscuro",
+									"claro",
+									"imagen"
+								]
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "text",
+							"label": "Texto",
+							"type": "text"
+						},
+						{
+							"slug": "image",
+							"label": "Imagen",
+							"type": "image"
+						},
+						{
+							"slug": "primary_label",
+							"label": "Botón principal: texto",
+							"type": "string"
+						},
+						{
+							"slug": "primary_action",
+							"label": "Botón principal: acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "primary_url",
+							"label": "Botón principal: enlace (si la acción es «enlace»)",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_label",
+							"label": "Botón secundario: texto",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_action",
+							"label": "Botón secundario: acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "secondary_url",
+							"label": "Botón secundario: enlace (si la acción es «enlace»)",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "lead_form",
+			"label": "Formulario en la página",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "text",
+							"label": "Texto",
+							"type": "text"
+						},
+						{
+							"slug": "bullets",
+							"label": "Viñetas (una por línea)",
+							"type": "text"
+						},
+						{
+							"slug": "service",
+							"label": "Servicio preseleccionado (slug)",
+							"type": "string"
+						},
+						{
+							"slug": "image",
+							"label": "Imagen",
+							"type": "image"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "blog_latest",
+			"label": "Últimos artículos del blog",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "limit",
+							"label": "Cantidad",
+							"type": "integer"
+						},
+						{
+							"slug": "category",
+							"label": "Categoría (slug, opcional)",
+							"type": "string"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "rich_text",
+			"label": "Texto libre",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "body",
+							"label": "Contenido",
+							"type": "portableText"
+						},
+						{
+							"slug": "width",
+							"label": "Ancho",
+							"type": "select",
+							"validation": {
+								"options": [
+									"lectura",
+									"amplio"
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"collections": [
+		{
+			"slug": "pages",
+			"label": "Páginas",
+			"icon": "file-text",
+			"sortOrder": 1,
+			"urlPattern": "/{slug}/",
+			"labelSingular": "Página",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Título (H1)",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "summary",
+					"label": "Resumen",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "layout",
+					"label": "Secciones",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"hero",
+							"trust_bar",
+							"services_grid",
+							"card_carousel",
+							"steps",
+							"feature_grid",
+							"media_text",
+							"tabs_media",
+							"pricing",
+							"zones_grid",
+							"comparison",
+							"testimonials",
+							"stats",
+							"faq",
+							"cta_band",
+							"lead_form",
+							"blog_latest",
+							"rich_text"
+						],
+						"maxItems": 30
+					}
+				},
+				{
+					"slug": "body",
+					"label": "Contenido",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "faqs",
+					"label": "Preguntas frecuentes",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "question",
+								"label": "Pregunta",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "answer",
+								"label": "Respuesta",
+								"type": "text",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "focus_keyword",
+					"label": "Palabra clave principal (SEO)",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"slug": "services",
+			"label": "Servicios",
+			"icon": "heart-handshake",
+			"sortOrder": 2,
+			"urlPattern": "/servicios/{slug}/",
+			"admin": {
+				"listColumns": [
+					"short_title",
+					"price_from",
+					"order"
+				]
+			},
+			"labelSingular": "Servicio",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Título (H1)",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "short_title",
+					"label": "Nombre corto (menús y tarjetas)",
+					"type": "string"
+				},
+				{
+					"slug": "menu_group",
+					"label": "Grupo en el menú",
+					"type": "select",
+					"validation": {
+						"options": [
+							"turno",
+							"necesidad"
+						]
+					}
+				},
+				{
+					"slug": "icon",
+					"label": "Icono",
+					"type": "select",
+					"validation": {
+						"options": [
+							"corazon",
+							"escudo",
+							"reloj",
+							"luna",
+							"sol",
+							"casa",
+							"hospital",
+							"calendario",
+							"usuarios",
+							"usuario",
+							"estrella",
+							"check",
+							"telefono",
+							"whatsapp",
+							"ubicacion",
+							"cerebro",
+							"venda",
+							"manos",
+							"cama",
+							"silla-ruedas",
+							"documento",
+							"chat",
+							"sparkles",
+							"medalla",
+							"familia",
+							"cafe",
+							"pastillas",
+							"brujula"
+						]
+					}
+				},
+				{
+					"slug": "excerpt",
+					"label": "Resumen (tarjetas)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "price_from",
+					"label": "Precio desde (COP)",
+					"type": "integer"
+				},
+				{
+					"slug": "price_unit",
+					"label": "Unidad del precio",
+					"type": "string"
+				},
+				{
+					"slug": "hero_eyebrow",
+					"label": "Antetítulo de la portada",
+					"type": "string"
+				},
+				{
+					"slug": "hero_subtitle",
+					"label": "Subtítulo de la portada",
+					"type": "text"
+				},
+				{
+					"slug": "hero_image",
+					"label": "Imagen de portada",
+					"type": "image"
+				},
+				{
+					"slug": "highlights",
+					"label": "Puntos clave (uno por línea)",
+					"type": "text"
+				},
+				{
+					"slug": "layout",
+					"label": "Secciones",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"hero",
+							"trust_bar",
+							"services_grid",
+							"card_carousel",
+							"steps",
+							"feature_grid",
+							"media_text",
+							"tabs_media",
+							"pricing",
+							"zones_grid",
+							"comparison",
+							"testimonials",
+							"stats",
+							"faq",
+							"cta_band",
+							"lead_form",
+							"blog_latest",
+							"rich_text"
+						],
+						"maxItems": 30
+					}
+				},
+				{
+					"slug": "body",
+					"label": "Contenido adicional",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "faqs",
+					"label": "Preguntas frecuentes",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "question",
+								"label": "Pregunta",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "answer",
+								"label": "Respuesta",
+								"type": "text",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "service_type",
+					"label": "Tipo de servicio (schema)",
+					"type": "string"
+				},
+				{
+					"slug": "order",
+					"label": "Orden",
+					"type": "integer"
+				},
+				{
+					"slug": "featured",
+					"label": "Destacado en el inicio",
+					"type": "boolean"
+				},
+				{
+					"slug": "focus_keyword",
+					"label": "Palabra clave principal (SEO)",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"slug": "zones",
+			"label": "Zonas",
+			"icon": "map-pin",
+			"sortOrder": 3,
+			"urlPattern": "/zonas/{slug}/",
+			"admin": {
+				"listColumns": [
+					"kind",
+					"parent",
+					"order"
+				]
+			},
+			"labelSingular": "Zona",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Título (H1)",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "short_title",
+					"label": "Nombre de la zona",
+					"type": "string"
+				},
+				{
+					"slug": "kind",
+					"label": "Tipo de zona",
+					"type": "select",
+					"validation": {
+						"options": [
+							"localidad",
+							"barrio",
+							"sector",
+							"municipio"
+						]
+					}
+				},
+				{
+					"slug": "parent",
+					"label": "Zona padre (slug de la localidad, solo para barrios)",
+					"type": "string"
+				},
+				{
+					"slug": "locality",
+					"label": "Localidad",
+					"type": "string"
+				},
+				{
+					"slug": "neighborhoods",
+					"label": "Barrios que cubrimos (separados por coma)",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Resumen",
+					"type": "text"
+				},
+				{
+					"slug": "hero_image",
+					"label": "Imagen",
+					"type": "image"
+				},
+				{
+					"slug": "intro",
+					"label": "Introducción",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "landmarks",
+					"label": "Clínicas y referencias cercanas",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "name",
+								"label": "Nombre",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "kind",
+								"label": "Tipo",
+								"type": "select",
+								"options": [
+									"clinica",
+									"hospital",
+									"parque",
+									"centro-comercial",
+									"otro"
+								]
+							},
+							{
+								"slug": "note",
+								"label": "Nota",
+								"type": "string"
+							}
+						]
+					}
+				},
+				{
+					"slug": "layout",
+					"label": "Secciones",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"hero",
+							"trust_bar",
+							"services_grid",
+							"card_carousel",
+							"steps",
+							"feature_grid",
+							"media_text",
+							"tabs_media",
+							"pricing",
+							"zones_grid",
+							"comparison",
+							"testimonials",
+							"stats",
+							"faq",
+							"cta_band",
+							"lead_form",
+							"blog_latest",
+							"rich_text"
+						],
+						"maxItems": 30
+					}
+				},
+				{
+					"slug": "faqs",
+					"label": "Preguntas frecuentes",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "question",
+								"label": "Pregunta",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "answer",
+								"label": "Respuesta",
+								"type": "text",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "lat",
+					"label": "Latitud",
+					"type": "number"
+				},
+				{
+					"slug": "lng",
+					"label": "Longitud",
+					"type": "number"
+				},
+				{
+					"slug": "order",
+					"label": "Orden",
+					"type": "integer"
+				},
+				{
+					"slug": "focus_keyword",
+					"label": "Palabra clave principal (SEO)",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"slug": "posts",
+			"label": "Blog",
+			"icon": "newspaper",
+			"sortOrder": 4,
+			"urlPattern": "/blog/{slug}/",
+			"labelSingular": "Artículo",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"scheduling",
+				"search",
+				"seo"
+			],
+			"commentsEnabled": true,
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Título (H1)",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Resumen",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Imagen destacada",
+					"type": "image"
+				},
+				{
+					"slug": "key_takeaways",
+					"label": "En resumen (una idea por línea)",
+					"type": "text"
+				},
+				{
+					"slug": "content",
+					"label": "Contenido",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "faqs",
+					"label": "Preguntas frecuentes",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "question",
+								"label": "Pregunta",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "answer",
+								"label": "Respuesta",
+								"type": "text",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "cta_service",
+					"label": "Servicio relacionado (slug)",
+					"type": "string"
+				},
+				{
+					"slug": "reading_minutes",
+					"label": "Minutos de lectura",
+					"type": "integer"
+				},
+				{
+					"slug": "focus_keyword",
+					"label": "Palabra clave principal (SEO)",
+					"type": "string"
+				}
+			]
+		},
+		{
+			"slug": "site",
+			"label": "Ajustes del sitio",
+			"icon": "settings",
+			"sortOrder": 9,
+			"routable": false,
+			"admin": {
+				"quickCreate": false
+			},
+			"labelSingular": "Ajustes",
+			"supports": [
+				"revisions"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Nombre interno",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "legal_name",
+					"label": "Razón social",
+					"type": "string"
+				},
+				{
+					"slug": "nit",
+					"label": "NIT",
+					"type": "string"
+				},
+				{
+					"slug": "phone_display",
+					"label": "Teléfono visible",
+					"type": "string"
+				},
+				{
+					"slug": "phone_e164",
+					"label": "Teléfono para llamar (+57…)",
+					"type": "string"
+				},
+				{
+					"slug": "whatsapp_display",
+					"label": "WhatsApp visible",
+					"type": "string"
+				},
+				{
+					"slug": "email",
+					"label": "Correo de contacto",
+					"type": "string"
+				},
+				{
+					"slug": "address",
+					"label": "Dirección",
+					"type": "string"
+				},
+				{
+					"slug": "city",
+					"label": "Ciudad",
+					"type": "string"
+				},
+				{
+					"slug": "hours",
+					"label": "Horario de atención",
+					"type": "string"
+				},
+				{
+					"slug": "coverage",
+					"label": "Cobertura (texto corto)",
+					"type": "string"
+				},
+				{
+					"slug": "announcement",
+					"label": "Barra superior: texto",
+					"type": "string"
+				},
+				{
+					"slug": "announcement_url",
+					"label": "Barra superior: enlace",
+					"type": "string"
+				},
+				{
+					"slug": "header_cta",
+					"label": "Cabecera: texto del botón de cotizar",
+					"type": "string"
+				},
+				{
+					"slug": "sticky_title",
+					"label": "Barra fija en móvil: título",
+					"type": "string"
+				},
+				{
+					"slug": "sticky_text",
+					"label": "Barra fija en móvil: texto",
+					"type": "string"
+				},
+				{
+					"slug": "footer_about",
+					"label": "Pie: texto de la marca",
+					"type": "text"
+				},
+				{
+					"slug": "footer_legal",
+					"label": "Pie: nota legal",
+					"type": "text"
+				},
+				{
+					"slug": "lead_title",
+					"label": "Formulario emergente: título",
+					"type": "string"
+				},
+				{
+					"slug": "lead_eyebrow",
+					"label": "Formulario emergente: antetítulo",
+					"type": "string"
+				},
+				{
+					"slug": "lead_text",
+					"label": "Formulario emergente: texto",
+					"type": "text"
+				},
+				{
+					"slug": "lead_schedules",
+					"label": "Opciones de turno (una por línea)",
+					"type": "text"
+				},
+				{
+					"slug": "lead_relations",
+					"label": "Opciones «para quién» (una por línea)",
+					"type": "text"
+				},
+				{
+					"slug": "social",
+					"label": "Redes sociales",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "name",
+								"label": "Red",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "url",
+								"label": "Enlace",
+								"type": "string",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "trust",
+					"label": "Garantías (se repiten en el sitio)",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "icon",
+								"label": "Icono",
+								"type": "select",
+								"options": [
+									"corazon",
+									"escudo",
+									"reloj",
+									"luna",
+									"sol",
+									"casa",
+									"hospital",
+									"calendario",
+									"usuarios",
+									"usuario",
+									"estrella",
+									"check",
+									"telefono",
+									"whatsapp",
+									"ubicacion",
+									"cerebro",
+									"venda",
+									"manos",
+									"cama",
+									"silla-ruedas",
+									"documento",
+									"chat",
+									"sparkles",
+									"medalla",
+									"familia",
+									"cafe",
+									"pastillas",
+									"brujula"
+								]
+							},
+							{
+								"slug": "text",
+								"label": "Texto",
+								"type": "string",
+								"required": true
+							}
+						]
+					}
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "Categorías",
+			"labelSingular": "Categoría",
+			"hierarchical": true,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "contratar-cuidado",
+					"label": "Contratar cuidado",
+					"description": "Cómo elegir el perfil, contratar con seguridad y organizar el cuidado de una persona mayor en casa."
+				},
+				{
+					"slug": "costos-y-alternativas",
+					"label": "Costos y alternativas",
+					"description": "Cuánto cuesta cuidar a un adulto mayor y cómo se compara con hogares geriátricos y centros día."
+				},
+				{
+					"slug": "cuidados-y-salud-en-casa",
+					"label": "Cuidados y salud en casa",
+					"description": "Guías prácticas de cuidado diario, recuperación y condiciones como el Alzheimer, explicadas para familias."
+				},
+				{
+					"slug": "eps-derechos-y-tramites",
+					"label": "EPS, derechos y trámites",
+					"description": "Atención domiciliaria por EPS, tutela, derechos de las personas mayores y cómo pedir servicios de salud en casa."
+				},
+				{
+					"slug": "bienestar-y-cuidador-familiar",
+					"label": "Bienestar y cuidador familiar",
+					"description": "Actividades, ejercicio y vida social de las personas mayores, y apoyo para quien cuida."
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"label": "Etiquetas",
+			"labelSingular": "Etiqueta",
+			"hierarchical": false,
+			"collections": [
+				"posts"
+			],
+			"terms": []
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Menú principal",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Servicios",
+					"url": "/servicios/"
+				},
+				{
+					"type": "custom",
+					"label": "Zonas",
+					"url": "/zonas/"
+				},
+				{
+					"type": "custom",
+					"label": "Precios",
+					"url": "/precios/"
+				},
+				{
+					"type": "custom",
+					"label": "Cómo funciona",
+					"url": "/como-funciona/"
+				},
+				{
+					"type": "custom",
+					"label": "Guías",
+					"url": "/blog/"
+				},
+				{
+					"type": "custom",
+					"label": "Nosotros",
+					"url": "/nosotros/"
+				}
+			]
+		},
+		{
+			"name": "footer_empresa",
+			"label": "Pie: Sovialis",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Nosotros",
+					"url": "/nosotros/"
+				},
+				{
+					"type": "custom",
+					"label": "Cómo funciona",
+					"url": "/como-funciona/"
+				},
+				{
+					"type": "custom",
+					"label": "Precios",
+					"url": "/precios/"
+				},
+				{
+					"type": "custom",
+					"label": "Guías para familias",
+					"url": "/blog/"
+				},
+				{
+					"type": "custom",
+					"label": "Trabaja con nosotros",
+					"url": "/trabaja-con-nosotros/"
+				},
+				{
+					"type": "custom",
+					"label": "Contacto",
+					"url": "/contacto/"
+				}
+			]
+		},
+		{
+			"name": "footer_legal",
+			"label": "Pie: legal",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Política de tratamiento de datos",
+					"url": "/politica-de-tratamiento-de-datos/"
+				},
+				{
+					"type": "custom",
+					"label": "Términos y condiciones",
+					"url": "/terminos-y-condiciones/"
+				},
+				{
+					"type": "custom",
+					"label": "Política de cookies",
+					"url": "/politica-de-cookies/"
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "byline-equipo",
+			"slug": "equipo-sovialis",
+			"displayName": "Equipo editorial de Sovialis",
+			"bio": "Coordinación de cuidado de Sovialis. Escribimos guías prácticas para familias que cuidan a un adulto mayor en Bogotá."
+		}
+	],
+	"content": {}
+}

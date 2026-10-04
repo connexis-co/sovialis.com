@@ -31,6 +31,20 @@ export default {
 			url.hostname = CANONICAL_HOST;
 			return Response.redirect(url.toString(), 301);
 		}
+		// Barra final canónica en páginas públicas (Astro usa trailingSlash "ignore" porque la API de EmDash
+		// no lleva barra). Se excluyen el CMS, la API y cualquier archivo con extensión.
+		if (
+			(request.method === "GET" || request.method === "HEAD") &&
+			url.pathname !== "/" &&
+			!url.pathname.endsWith("/") &&
+			!url.pathname.startsWith("/_emdash") &&
+			!url.pathname.startsWith("/_astro") &&
+			!url.pathname.startsWith("/cdn-cgi") &&
+			!/\.[a-z0-9]{2,5}$/i.test(url.pathname)
+		) {
+			url.pathname += "/";
+			return Response.redirect(url.toString(), 301);
+		}
 		if (!handler.fetch) return new Response("Aplicación no disponible", { status: 503 });
 		const response = await handler.fetch(request, env, ctx);
 		return withSecurityHeaders(response);

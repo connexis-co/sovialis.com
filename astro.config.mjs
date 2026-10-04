@@ -1,4 +1,3 @@
-// @ts-check
 import { fileURLToPath } from "node:url";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
@@ -24,7 +23,7 @@ const plugin = (id, { admin = false, pages = [] } = {}) => ({
 export default defineConfig({
 	site,
 	output: "server",
-	trailingSlash: "always",
+	trailingSlash: "ignore",
 	adapter: cloudflare({ imageService: "passthrough" }),
 	integrations: [
 		react(),

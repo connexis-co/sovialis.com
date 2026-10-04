@@ -46,3 +46,4 @@ graphify-out/cache/
 scripts/.cache/
 public/_generated/
 *.local.json
+scripts/.cache/
