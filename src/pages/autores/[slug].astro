@@ -1,0 +1,33 @@
+---
+/** Perfil de autor (ProfilePage + Person en el JSON-LD) con sus guías. */
+import { getBylineBySlug, getEntriesByByline } from "emdash";
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+
+const { slug } = Astro.params;
+const byline = slug ? await getBylineBySlug(slug).catch(() => null) : null;
+if (!byline) return Astro.rewrite("/404/");
+const posts = await (getEntriesByByline as any)("posts", byline.id).catch(() => []);
+const entries = (Array.isArray(posts) ? posts : (posts?.entries ?? [])) as any[];
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Guías", url: "/blog/" },
+	{ name: byline.displayName, url: `/autores/${slug}/` },
+];
+---
+
+<Base title={`${byline.displayName}: autor de guías`} description={byline.bio ?? `Guías escritas por ${byline.displayName}.`} pageType="author" breadcrumbs={crumbs}>
+	<PageHeader title={byline.displayName} summary={byline.bio} crumbs={crumbs} eyebrow="Autor" />
+	<section class="section-tight">
+		<ul class="container-page grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{
+				entries.map((p) => (
+					<li>
+						<PostCard entry={p} headingLevel="h2" />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</Base>

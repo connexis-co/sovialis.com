@@ -1,0 +1,64 @@
+---
+/** Hub del blog: introducción editable (Páginas → «blog»), categorías y guías publicadas. */
+import { getEmDashCollection, getEmDashEntry, getTaxonomyTerms } from "emdash";
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import Faq from "../../components/blocks/Faq.astro";
+import ClosingCta from "../../components/page/ClosingCta.astro";
+import { ROUTES } from "../../lib/routes";
+
+const [{ entry }, { entries: posts, cacheHint }, categories] = await Promise.all([
+	getEmDashEntry("pages", "blog").catch(() => ({ entry: null })),
+	getEmDashCollection("posts", { status: "published", limit: 60, orderBy: { published_at: "desc" } }),
+	getTaxonomyTerms("category").catch(() => [] as any[]),
+]);
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const d = (entry?.data ?? {}) as Record<string, any>;
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Guías", url: "/blog/" },
+];
+const [first, ...rest] = posts as any[];
+---
+
+<Base
+	title={d.seo?.title || d.title || "Guías para cuidar a un adulto mayor"}
+	description={d.seo?.description || d.summary}
+	pageType="collection"
+	content={entry ? { collection: "pages", id: d.id, slug: "blog" } : undefined}
+	breadcrumbs={crumbs}
+>
+	<PageHeader title={d.title || "Guías para familias que cuidan a un adulto mayor"} summary={d.summary} crumbs={crumbs} />
+	<section class="section-tight">
+		<div class="container-page">
+			{
+				(categories as any[]).length > 0 && (
+					<nav aria-label="Categorías" class="mb-10 flex flex-wrap gap-2.5">
+						{(categories as any[]).map((c) => (
+							<a href={ROUTES.category(c.slug)} class="chip hover:!border-primary">
+								{c.label}
+							</a>
+						))}
+					</nav>
+				)
+			}
+			{
+				first && (
+					<div class="mb-10">
+						<PostCard entry={first} headingLevel="h2" />
+					</div>
+				)
+			}
+			<ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+				{rest.map((p) => (
+					<li class="reveal">
+						<PostCard entry={p} headingLevel="h2" />
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+	{d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} />}
+	<ClosingCta />
+</Base>

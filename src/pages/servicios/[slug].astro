@@ -1,0 +1,120 @@
+---
+/** Landing de servicio: hero dividido con formulario corto, bloques, cuerpo, FAQ, relacionados y cierre. */
+import { getEmDashEntry } from "emdash";
+import { Image, PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
+import Hero from "../../components/blocks/Hero.astro";
+import Blocks from "../../components/blocks/Blocks.astro";
+import Faq from "../../components/blocks/Faq.astro";
+import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
+import ClosingCta from "../../components/page/ClosingCta.astro";
+import { icon } from "../../lib/icons";
+import { getCatalog } from "../../lib/site";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/servicios/", 301);
+const { entry, cacheHint } = await getEmDashEntry("services", slug);
+if (!entry) return Astro.rewrite("/404/");
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const d = entry.data as Record<string, any>;
+const { zones } = await getCatalog();
+const name = d.short_title || d.title;
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Servicios", url: "/servicios/" },
+	{ name, url: `/servicios/${slug}/` },
+];
+const highlights = String(d.highlights ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
+const blocks: any[] = Array.isArray(d.layout) ? d.layout : [];
+const heroValue = {
+	variant: "dividido",
+	eyebrow: d.hero_eyebrow || "Servicio · Norte de Bogotá",
+	title: d.title,
+	subtitle: d.hero_subtitle || d.excerpt,
+	primary_label: "Escríbenos por WhatsApp",
+	primary_action: "whatsapp",
+	secondary_label: "Cotiza este servicio",
+	secondary_action: "cotizar",
+	badges: highlights.slice(0, 3).join("\n"),
+	show_form: true,
+};
+---
+
+<Base
+	title={d.seo?.title || d.title}
+	description={d.seo?.description || d.excerpt}
+	image={d.hero_image?.src}
+	pageType="service"
+	content={{ collection: "services", id: d.id, slug }}
+	breadcrumbs={crumbs}
+	quoteService={name}
+	robots={d.seo?.noIndex ? "noindex,follow" : undefined}
+>
+	<div class="bg-sand">
+		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
+	</div>
+	<Hero value={heroValue} index={0} context={{ service: name, priceFrom: d.price_from, priceUnit: d.price_unit }} />
+	{
+		d.hero_image && (
+			<div class="container-page -mt-6 mb-4">
+				<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-lift">
+					<Image image={d.hero_image} class="aspect-[16/9] w-full object-cover sm:aspect-[21/8]" sizes="(min-width:1240px) 1160px, 94vw" />
+				</div>
+			</div>
+		)
+	}
+	<Blocks blocks={blocks} offset={1} context={{ service: name }} />
+	{
+		d.body?.length > 0 && (
+			<section class="section">
+				<div class="container-page grid gap-12 lg:grid-cols-[1fr_20rem]">
+					<article class="prose-sv max-w-3xl">
+						<PortableText value={d.body} />
+					</article>
+					<aside class="hidden lg:block">
+						<div class="sticky top-28 rounded-card border border-line bg-surface p-6 shadow-soft">
+							<p class="font-display text-xl text-deep">{name}</p>
+							{highlights.length > 0 && (
+								<ul class="mt-4 grid gap-2.5 text-[1rem]">
+									{highlights.map((h) => (
+										<li class="flex gap-2.5">
+											<span class="mt-0.5 text-primary" set:html={icon("check", "size-5")} />
+											{h}
+										</li>
+									))}
+								</ul>
+							)}
+							<button type="button" class="btn btn-primary mt-6 w-full" data-quote data-service={name} data-cta={`servicio:${slug}:lateral`}>
+								Cotizar este servicio
+							</button>
+						</div>
+					</aside>
+				</div>
+			</section>
+		)
+	}
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Dudas sobre ${String(name).toLowerCase()}`, items: d.faqs }} index={50} />}
+	<ServicesGrid value={{ eyebrow: "Otros servicios", title: "También te puede servir", style: "lista-compacta", limit: 6 }} exclude={slug} />
+	{
+		zones.length > 0 && (
+			<section class="section-tight bg-mist">
+				<div class="container-page">
+					<p class="eyebrow">Cobertura</p>
+					<h2 class="mt-3 font-display text-h3 text-deep">Prestamos {String(name).toLowerCase()} en el norte de Bogotá</h2>
+					<ul class="mt-6 flex flex-wrap gap-3">
+						{zones.map((z) => (
+							<li>
+								<a href={z.url} class="chip !bg-surface hover:!border-primary">
+									<span class="text-primary" set:html={icon("ubicacion", "size-4")} />
+									{z.shortTitle}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+	<ClosingCta service={name} />
+</Base>

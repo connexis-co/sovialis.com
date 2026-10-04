@@ -1,0 +1,33 @@
+---
+/** 404 útil: atajos a servicios y guías + registro en el monitor de 404 del plugin SEO. */
+import Base from "../layouts/Base.astro";
+import ServicesGrid from "../components/blocks/ServicesGrid.astro";
+import { icon } from "../lib/icons";
+Astro.response.status = 404;
+---
+
+<Base title="Página no encontrada" description="La página que buscas no existe o cambió de dirección." robots="noindex,follow">
+	<section class="section bg-sand">
+		<div class="container-page max-w-3xl text-center">
+			<p class="font-display text-[5rem] leading-none text-primary/30">404</p>
+			<h1 class="mt-2 font-display text-h1 text-deep">No encontramos esta página</h1>
+			<p class="mt-4 text-lead text-muted">Puede que haya cambiado de dirección. Estas son las páginas más consultadas:</p>
+			<div class="mt-8 flex flex-wrap justify-center gap-3">
+				<a href="/" class="btn btn-primary">Ir al inicio</a>
+				<a href="/servicios/" class="btn btn-outline">Ver servicios</a>
+				<a href="/precios/" class="btn btn-outline">Precios</a>
+				<a href="/blog/" class="btn btn-outline">Guías <Fragment set:html={icon("flecha-derecha", "size-4")} /></a>
+			</div>
+		</div>
+	</section>
+	<ServicesGrid value={{ title: "Servicios de cuidado del adulto mayor", style: "lista-compacta" }} />
+</Base>
+
+<script>
+	fetch("/_emdash/api/plugins/sovialis-seo/log404", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({ path: location.pathname, referrer: document.referrer }),
+		keepalive: true,
+	}).catch(() => {});
+</script>

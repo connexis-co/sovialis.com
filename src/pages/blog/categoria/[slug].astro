@@ -1,0 +1,36 @@
+---
+/** Archivo de categoría del blog (noindex hasta tener 4 artículos, según la arquitectura SEO). */
+import { getEmDashCollection, getTerm } from "emdash";
+import Base from "../../../layouts/Base.astro";
+import PageHeader from "../../../components/page/PageHeader.astro";
+import PostCard from "../../../components/blog/PostCard.astro";
+import ClosingCta from "../../../components/page/ClosingCta.astro";
+
+const { slug } = Astro.params;
+const term = slug ? await getTerm("category", slug).catch(() => null) : null;
+if (!term) return Astro.rewrite("/404/");
+const { entries, cacheHint } = await getEmDashCollection("posts", { status: "published", where: { category: slug! }, orderBy: { published_at: "desc" }, limit: 60 });
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Guías", url: "/blog/" },
+	{ name: term.label, url: `/blog/categoria/${slug}/` },
+];
+const description = (term as any).description || `Guías de ${term.label.toLowerCase()} para familias que cuidan a un adulto mayor en Bogotá.`;
+---
+
+<Base title={`${term.label}: guías para familias`} description={description} pageType="collection" breadcrumbs={crumbs} robots={entries.length < 4 ? "noindex,follow" : undefined}>
+	<PageHeader title={term.label} summary={description} crumbs={crumbs} eyebrow="Guías Sovialis" />
+	<section class="section-tight">
+		<ul class="container-page grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{
+				(entries as any[]).map((p) => (
+					<li>
+						<PostCard entry={p} headingLevel="h2" />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+	<ClosingCta />
+</Base>
