@@ -51,12 +51,12 @@ export const CANONICAL_PHRASE =
 export const DEFAULT_SEO: SeoSettings = {
 	business: {
 		name: "Sovialis",
-		legalName: "SOVIALIS CUIDADO INTEGRAL S.A.S.",
+		legalName: "",
 		description: CANONICAL_PHRASE,
 		slogan: "Vínculos que protegen",
 		logo: "/brand/sovialis-logo-1600.png",
 		image: "/og/sovialis-og.jpg",
-		telephone: "+573008921144",
+		telephone: "+573117598641",
 		email: "contacto@sovialis.com",
 		streetAddress: "",
 		locality: "Bogotá",

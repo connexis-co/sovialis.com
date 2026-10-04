@@ -157,6 +157,10 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 		};
 	}
 
+	const aggregateRating = input.rating
+		? { "@type": "AggregateRating", ratingValue: input.rating.average, ratingCount: input.rating.count, bestRating: 5, worstRating: 1 }
+		: undefined;
+
 	if (input.collection === "services" && data) {
 		const price = typeof data.price_from === "number" ? data.price_from : null;
 		graph.push({
@@ -186,6 +190,7 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 						url: `${origin}/precios/`,
 					}
 				: undefined,
+			aggregateRating,
 		});
 		webPage.mainEntity = { "@id": `${url}#service` };
 	}
@@ -205,6 +210,7 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 			provider: { "@id": LB },
 			areaServed: place,
 			url,
+			aggregateRating,
 		});
 		webPage.about = place;
 	}
@@ -234,9 +240,7 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 			articleSection: data.terms?.category?.[0]?.label ?? undefined,
 			keywords: Array.isArray(data.terms?.tag) ? data.terms.tag.map((t: any) => t.label).join(", ") : undefined,
 			wordCount: words > 50 ? words : undefined,
-			aggregateRating: input.rating
-				? { "@type": "AggregateRating", ratingValue: input.rating.average, ratingCount: input.rating.count, bestRating: 5, worstRating: 1 }
-				: undefined,
+			aggregateRating,
 		});
 	}
 

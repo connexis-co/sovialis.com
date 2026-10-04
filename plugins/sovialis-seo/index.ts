@@ -56,10 +56,11 @@ export function createPlugin() {
 				if (collection === "posts" && data) {
 					const by = data.byline as { displayName?: string; slug?: string; bio?: string | null } | null;
 					if (by?.slug) author = { name: by.displayName ?? "Sovialis", slug: by.slug, bio: by.bio, isTeam: by.slug === "equipo-sovialis" };
-					if (settings.ratingsInSchema && data.id) {
-						const agg = await getPluginSetting<{ average: number; count: number }>("sovialis-ratings", `agg:posts:${data.id}`).catch(() => undefined);
-						if (agg && agg.count >= settings.ratingsMinVotes) rating = { average: agg.average, count: agg.count };
-					}
+				}
+				// Valoraciones reales de los visitantes (plugin sovialis-ratings), solo con el mínimo de votos configurado.
+				if (settings.ratingsInSchema && data?.id && collection && ["posts", "services", "zones", "pages"].includes(collection)) {
+					const agg = await getPluginSetting<{ average: number; count: number }>("sovialis-ratings", `agg:${collection}:${data.id}`).catch(() => undefined);
+					if (agg && agg.count >= settings.ratingsMinVotes) rating = { average: agg.average, count: agg.count };
 				}
 				let items: Array<{ name: string; url: string }> | undefined;
 				if (page.pageType === "collection") {
