@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.wrangler
+emdash-env.d.ts
+worker-configuration.d.ts
+package-lock.json
+seed/seed.json
+.agents
+docs/research
