@@ -19,7 +19,7 @@ const { entry, cacheHint } = await getEmDashEntry("zones", slug);
 if (!entry) return Astro.rewrite("/404/");
 if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
 const d = entry.data as Record<string, any>;
-const { zones } = await getCatalog();
+const { zones, services } = await getCatalog();
 const name = d.short_title || d.title;
 const parent = d.parent ? zones.find((z) => z.slug === d.parent) : null;
 const crumbs = [
@@ -36,7 +36,8 @@ const heroValue = {
 	eyebrow: parent ? `${parent.shortTitle} · Bogotá` : d.kind === "municipio" ? "Sabana Norte" : "Bogotá",
 	title: d.title,
 	subtitle: d.excerpt,
-	image: d.hero_image,
+	// Respaldo mientras una zona nueva no tiene foto propia: la de su zona padre o una genérica.
+	image: d.hero_image ?? parent?.image ?? services.find((s) => s.slug === "cuidado-por-horas")?.image,
 	image_side: d.hero_image_side,
 	primary_label: "Escríbenos por WhatsApp",
 	primary_action: "whatsapp",

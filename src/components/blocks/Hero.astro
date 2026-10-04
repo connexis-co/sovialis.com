@@ -40,6 +40,11 @@ const ctaId = `hero:${index}`;
 const shortcuts = v.shortcuts_title ? catalog.services.slice(0, 7) : [];
 const hasImage = Boolean(v.image?.src || v.image?.id);
 const imageLeft = v.image_side === "izquierda";
+// Formulario del hero: «barra» (foto + barra horizontal debajo), «tarjeta» (formulario en lugar de la
+// foto) o «boton» (solo el botón Cotizar, que abre la ventana emergente). show_form es el valor heredado.
+const formMode: "barra" | "tarjeta" | "boton" =
+	v.form_mode === "barra" || v.form_mode === "tarjeta" || v.form_mode === "boton" ? v.form_mode : v.show_form ? (hasImage ? "barra" : "tarjeta") : "boton";
+const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) ? "form" : hasImage ? "photo" : null;
 ---
 
 {
@@ -91,11 +96,14 @@ const imageLeft = v.image_side === "izquierda";
 		</section>
 	) : (
 		<section class="hero-split relative overflow-hidden" data-block="hero">
-			<div class:list={["container-page grid items-center gap-10 pt-8 pb-[clamp(3rem,6vw,5.5rem)] lg:gap-14 lg:pt-14", imageLeft ? "lg:grid-cols-[0.92fr_1.08fr]" : "lg:grid-cols-[1.08fr_0.92fr]"]}>
-				<div class:list={["on-light relative z-[1]", imageLeft && "lg:order-2"]}>
+			<div class:list={["hero-grid container-page pt-8 pb-[clamp(3rem,6vw,5.5rem)] lg:pt-14", imageLeft && "is-image-left", mediaKind === "form" && "is-form", !mediaKind && "is-text"]}>
+				<div class="hero-head on-light relative z-[1]">
 					{v.eyebrow && <p class="eyebrow">{v.eyebrow}</p>}
 					<Tag class="mt-4 font-display text-display font-medium text-deep" set:html={titleHtml} />
-					{v.subtitle && <p class="mt-5 max-w-xl text-lead text-muted">{v.subtitle}</p>}
+				</div>
+
+				<div class="hero-body on-light relative z-[1]">
+					{v.subtitle && <p class="max-w-xl text-lead text-muted">{v.subtitle}</p>}
 					{context.rating && <StarRating target={context.rating} label={context.ratingLabel} class="mt-4" />}
 					{context.priceFrom ? (
 						<p class="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[1.02rem] font-semibold text-deep shadow-soft">
@@ -119,15 +127,8 @@ const imageLeft = v.image_side === "izquierda";
 					)}
 				</div>
 
-				{v.show_form && hasImage ? (
-					<div class:list={["relative mx-auto w-full max-w-[36rem]", imageLeft && "lg:order-1"]}>
-						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-							<Img image={v.image} priority class="aspect-[4/3] w-full object-cover lg:aspect-[5/6]" sizes="(min-width:1024px) 46vw, 92vw" />
-						</div>
-						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
-					</div>
-				) : v.show_form ? (
-					<div class:list={["relative", imageLeft && "lg:order-1"]}>
+				{mediaKind === "form" ? (
+					<div class="hero-media relative">
 						<div class="rounded-[var(--sv-radius-hero)] border border-line bg-surface p-6 shadow-float sm:p-8" id="cotizar">
 							<p class="eyebrow">Cotiza sin compromiso</p>
 							<p class="mt-2 font-display text-2xl leading-tight text-deep">Recibe el precio para tu caso hoy</p>
@@ -136,14 +137,14 @@ const imageLeft = v.image_side === "izquierda";
 							</div>
 						</div>
 					</div>
-				) : hasImage ? (
-					<div class:list={["relative mx-auto w-full max-w-[34rem]", imageLeft && "lg:order-1"]}>
+				) : mediaKind === "photo" ? (
+					<div class="hero-media relative mx-auto w-full max-w-[36rem]">
 						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-							<Img image={v.image} priority class="aspect-[4/5] w-full object-cover" sizes="(min-width:1024px) 46vw, 92vw" />
+							<Img image={v.image} priority class="aspect-[4/3] w-full object-cover lg:aspect-[5/6]" sizes="(min-width:1024px) 46vw, 92vw" />
 						</div>
 						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
 						{(v.card_title || v.card_text) && (
-							<div class="glass-card absolute -bottom-6 left-4 max-w-[19rem] p-5 sm:-left-10">
+							<div class="glass-card absolute -bottom-6 left-4 hidden max-w-[19rem] p-5 sm:block sm:-left-10">
 								{v.card_title && (
 									<p class="flex items-center gap-2 font-display text-lg leading-tight text-deep">
 										<span class="grid size-9 flex-none place-items-center rounded-full bg-primary text-white" set:html={icon("corazon", "size-5")} />
@@ -156,7 +157,7 @@ const imageLeft = v.image_side === "izquierda";
 					</div>
 				) : null}
 			</div>
-			{v.show_form && hasImage && (
+			{formMode === "barra" && (
 				<div class="container-page relative z-[2] -mt-[clamp(1.5rem,4vw,3rem)] pb-[clamp(2.5rem,5vw,4rem)]">
 					<div class="hero-quote-bar rounded-[var(--sv-radius-hero)] border border-line bg-surface p-5 shadow-float sm:p-7" id="cotizar">
 						<div class="mb-4 flex flex-wrap items-end justify-between gap-2">
@@ -194,6 +195,50 @@ const imageLeft = v.image_side === "izquierda";
 }
 
 <style>
+	/* Móvil: título → imagen → texto y botones (la foto sube junto al título). Escritorio: dos columnas. */
+	.hero-grid {
+		display: grid;
+		gap: 1.75rem;
+		grid-template-areas: "head" "media" "body";
+	}
+	.hero-grid.is-form {
+		grid-template-areas: "head" "body" "media";
+	}
+	.hero-head {
+		grid-area: head;
+	}
+	.hero-body {
+		grid-area: body;
+	}
+	.hero-media {
+		grid-area: media;
+	}
+	@media (min-width: 1024px) {
+		.hero-grid {
+			column-gap: 3.5rem;
+			row-gap: 1.25rem;
+			grid-template-columns: 1.08fr 0.92fr;
+			grid-template-rows: auto 1fr;
+			grid-template-areas: "head media" "body media";
+		}
+		.hero-grid.is-image-left {
+			grid-template-columns: 0.92fr 1.08fr;
+			grid-template-areas: "media head" "media body";
+		}
+		.hero-grid.is-text {
+			grid-template-columns: minmax(0, 52rem);
+			grid-template-areas: "head" "body";
+		}
+		.hero-head {
+			align-self: end;
+		}
+		.hero-body {
+			align-self: start;
+		}
+		.hero-media {
+			align-self: center;
+		}
+	}
 	.hero-split {
 		background:
 			radial-gradient(60% 70% at 100% 0%, color-mix(in oklab, var(--sv-surface-alt) 90%, transparent) 0%, transparent 70%),
