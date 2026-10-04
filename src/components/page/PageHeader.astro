@@ -33,7 +33,7 @@ const titleHtml = (() => {
 
 <section class="page-header relative isolate overflow-hidden">
 	<div class="page-header__glow" aria-hidden="true"></div>
-	<BrandS class="page-header__mark pointer-events-none absolute -z-10 hidden w-auto text-primary sm:block" />
+	<BrandS class="pointer-events-none absolute -top-[14%] right-[-3rem] -z-10 hidden h-[132%] w-auto text-primary opacity-[0.07] sm:block lg:right-[6%]" />
 	<div class="container-page relative pt-7 pb-12 lg:pt-10 lg:pb-16">
 		{crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
 		<div class="max-w-4xl">
@@ -77,11 +77,5 @@ const titleHtml = (() => {
 			radial-gradient(42% 70% at 88% 18%, color-mix(in oklab, var(--sv-secondary) 22%, transparent) 0%, transparent 70%),
 			radial-gradient(38% 60% at 70% 100%, color-mix(in oklab, var(--sv-primary) 12%, transparent) 0%, transparent 70%),
 			radial-gradient(30% 50% at 0% 0%, var(--sv-surface-alt) 0%, transparent 70%);
-	}
-	.page-header__mark {
-		inset-block: -12% auto;
-		inset-inline-end: max(-4rem, calc((100vw - var(--sv-container, 1240px)) / 2 - 6rem));
-		block-size: 130%;
-		opacity: 0.07;
 	}
 </style>
