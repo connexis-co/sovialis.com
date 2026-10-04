@@ -491,6 +491,10 @@ for (const root of $$<HTMLElement>("[data-price-explorer]")) {
 		const mod = data.modalities[modality];
 		animateNumber(priceEl, weekend ? r.priceWeekend : r.price);
 		$("[data-pe-title]", root)!.textContent = `${data.profiles[profile].short} · ${mod.label}`;
+		const miniLabel = $("[data-pe-mini-label]", root);
+		if (miniLabel) miniLabel.textContent = `${data.profiles[profile].short} · ${mod.short}${weekend ? " · fin de semana" : ""}`;
+		const miniPrice = $("[data-pe-mini-price]", root);
+		if (miniPrice) miniPrice.textContent = cop(weekend ? r.priceWeekend : r.price);
 		$("[data-pe-unit]", root)!.textContent = `${mod.unit} · ${weekend ? "sábados, domingos y festivos" : "lunes a viernes"}`;
 		$("[data-pe-alt]", root)!.textContent = weekend ? `Lunes a viernes: ${cop(r.price)}` : `Sáb., dom. y festivos: ${cop(r.priceWeekend)}`;
 		const min = $<HTMLElement>("[data-pe-min]", root)!;
