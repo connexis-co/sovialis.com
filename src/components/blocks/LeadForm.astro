@@ -1,6 +1,6 @@
 ---
 /** Formulario en la página (contacto, landings): texto + viñetas a un lado y el formulario completo al otro. */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import SectionHead from "../ui/SectionHead.astro";
 import QuoteForm from "../forms/QuoteForm.astro";
 import { icon } from "../../lib/icons";
@@ -42,7 +42,7 @@ const bullets = String(v.bullets ?? "").split("\n").map((b) => b.trim()).filter(
 					{site.hours}
 				</p>
 			</div>
-			{v.image && <div class="mt-8 hidden overflow-hidden rounded-card lg:block"><Image image={v.image} class="aspect-[3/2] w-full object-cover" loading="lazy" /></div>}
+			{v.image && <div class="mt-8 hidden overflow-hidden rounded-card lg:block"><Img image={v.image} class="aspect-[3/2] w-full object-cover" loading="lazy" /></div>}
 		</div>
 		<div class="rounded-[var(--sv-radius-hero)] border border-line bg-surface p-6 shadow-lift sm:p-9">
 			<QuoteForm id={`inline-form-${index}`} site={site} services={catalog.services} zones={catalog.zones} variant="inline" service={v.service || context.service} zone={context.zone} source="pagina" />

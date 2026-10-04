@@ -1,6 +1,6 @@
 ---
 /** Tarjeta de artículo del blog. */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import { ROUTES } from "../../lib/routes";
 import { icon } from "../../lib/icons";
 
@@ -16,7 +16,7 @@ const date = d.publishedAt ? new Date(d.publishedAt).toLocaleDateString("es-CO",
 
 <article class="group relative flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift">
 	<div class="relative overflow-hidden">
-		{d.featured_image ? <Image image={d.featured_image} class="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" sizes="(min-width:1024px) 30vw, (min-width:768px) 45vw, 92vw" /> : <div class="aspect-[16/9] bg-mist" />}
+		{d.featured_image ? <Img image={d.featured_image} class="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" sizes="(min-width:1024px) 30vw, (min-width:768px) 45vw, 92vw" /> : <div class="aspect-[16/9] bg-mist" />}
 		{category && <span class="absolute top-4 left-4 rounded-full bg-deep/80 px-3 py-1 text-sm font-semibold text-white backdrop-blur">{category.label}</span>}
 	</div>
 	<div class="flex flex-1 flex-col p-6">

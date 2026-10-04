@@ -1,6 +1,6 @@
 ---
 /** Servicios (automático desde la colección): tarjetas con foto o lista compacta. */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import SectionHead from "../ui/SectionHead.astro";
 import { icon } from "../../lib/icons";
 import { HUBS, ROUTES } from "../../lib/routes";
@@ -44,7 +44,7 @@ const compact = v.style === "lista-compacta";
 							<a href={ROUTES.services(s.slug)} class="service-card group">
 								<div class="relative overflow-hidden">
 									{s.image ? (
-										<Image image={s.image as never} class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 92vw" />
+										<Img image={s.image as never} class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 92vw" />
 									) : (
 										<div class="aspect-[3/2] w-full bg-mist" />
 									)}

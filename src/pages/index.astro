@@ -5,12 +5,13 @@ import Base from "../layouts/Base.astro";
 import Blocks from "../components/blocks/Blocks.astro";
 import Faq from "../components/blocks/Faq.astro";
 import { HOME_SLUG } from "../lib/routes";
+import { mediaUrl } from "../lib/site";
 
 const { entry, cacheHint } = await getEmDashEntry("pages", HOME_SLUG);
 if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
 const d = (entry?.data ?? {}) as Record<string, any>;
 const hasFaqBlock = Array.isArray(d.layout) && d.layout.some((b: any) => b._type === "faq");
-const heroImage = d.layout?.find((b: any) => b._type === "hero")?.image?.src as string | undefined;
+const heroImage = mediaUrl(d.layout?.find((b: any) => b._type === "hero")?.image);
 ---
 
 <Base
@@ -20,6 +21,7 @@ const heroImage = d.layout?.find((b: any) => b._type === "hero")?.image?.src as 
 	content={entry ? { collection: "pages", id: d.id, slug: HOME_SLUG } : undefined}
 	breadcrumbs={[]}
 	preloadImage={heroImage}
+	image={heroImage}
 >
 	{
 		entry ? (

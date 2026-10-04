@@ -11,7 +11,7 @@ import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
 import ZonesGrid from "../../components/blocks/ZonesGrid.astro";
 import ClosingCta from "../../components/page/ClosingCta.astro";
 import { icon } from "../../lib/icons";
-import { getCatalog } from "../../lib/site";
+import { getCatalog, mediaUrl } from "../../lib/site";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/zonas/", 301);
@@ -50,7 +50,7 @@ const heroValue = {
 <Base
 	title={d.seo?.title || d.title}
 	description={d.seo?.description || d.excerpt}
-	image={d.hero_image?.src}
+	image={mediaUrl(d.hero_image)}
 	pageType="zone"
 	content={{ collection: "zones", id: d.id, slug }}
 	breadcrumbs={crumbs}

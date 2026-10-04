@@ -1,6 +1,6 @@
 ---
 /** Carrusel de tarjetas con foto (scroll-snap nativo, flechas y barra de progreso). Inspirado en VisitValle. */
-import { Image, } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import { sanitizeHref } from "emdash";
 import SectionHead from "../ui/SectionHead.astro";
 import { icon } from "../../lib/icons";
@@ -27,7 +27,7 @@ if (!items.length) return null;
 				items.map((it) => (
 					<li class="snap-start">
 						<article class="tile group">
-							{it.image ? <Image image={it.image} class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" sizes="(min-width:1024px) 30vw, 80vw" /> : <div class="absolute inset-0 bg-mist" />}
+							{it.image ? <Img image={it.image} class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" sizes="(min-width:1024px) 30vw, 80vw" /> : <div class="absolute inset-0 bg-mist" />}
 							<div class="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent" />
 							{it.tag && <span class="tile__tag">{it.tag}</span>}
 							<div class="tile__panel">

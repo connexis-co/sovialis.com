@@ -1,7 +1,8 @@
 ---
 /** Landing de servicio: hero dividido con formulario corto, bloques, cuerpo, FAQ, relacionados y cierre. */
 import { getEmDashEntry } from "emdash";
-import { Image, PortableText } from "emdash/ui";
+import { PortableText } from "emdash/ui";
+import Img from "../../components/ui/Img.astro";
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Hero from "../../components/blocks/Hero.astro";
@@ -10,7 +11,7 @@ import Faq from "../../components/blocks/Faq.astro";
 import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
 import ClosingCta from "../../components/page/ClosingCta.astro";
 import { icon } from "../../lib/icons";
-import { getCatalog } from "../../lib/site";
+import { getCatalog, mediaUrl } from "../../lib/site";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/servicios/", 301);
@@ -44,7 +45,7 @@ const heroValue = {
 <Base
 	title={d.seo?.title || d.title}
 	description={d.seo?.description || d.excerpt}
-	image={d.hero_image?.src}
+	image={mediaUrl(d.hero_image)}
 	pageType="service"
 	content={{ collection: "services", id: d.id, slug }}
 	breadcrumbs={crumbs}
@@ -59,7 +60,7 @@ const heroValue = {
 		d.hero_image && (
 			<div class="container-page -mt-6 mb-4">
 				<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-lift">
-					<Image image={d.hero_image} class="aspect-[16/9] w-full object-cover sm:aspect-[21/8]" sizes="(min-width:1240px) 1160px, 94vw" />
+					<Img image={d.hero_image} class="aspect-[16/9] w-full object-cover sm:aspect-[21/8]" sizes="(min-width:1240px) 1160px, 94vw" />
 				</div>
 			</div>
 		)

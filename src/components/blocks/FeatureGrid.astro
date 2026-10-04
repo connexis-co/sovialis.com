@@ -1,6 +1,6 @@
 ---
 /** Beneficios: diseño bento (con foto), cuadrícula o lista; cuatro tonos de fondo. */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import SectionHead from "../ui/SectionHead.astro";
 import { icon } from "../../lib/icons";
 
@@ -23,7 +23,7 @@ const bg = { claro: "bg-canvas", arena: "bg-sand", bruma: "bg-mist", oscuro: "bg
 				<div class="bento mt-12 grid gap-5 md:grid-cols-6">
 					{v.image && (
 						<div class="reveal relative overflow-hidden rounded-card md:col-span-3 md:row-span-2 min-h-72">
-							<Image image={v.image} class="absolute inset-0 size-full object-cover" loading="lazy" sizes="(min-width:768px) 50vw, 92vw" />
+							<Img image={v.image} class="absolute inset-0 size-full object-cover" loading="lazy" sizes="(min-width:768px) 50vw, 92vw" />
 						</div>
 					)}
 					{items.map((it, i) => (

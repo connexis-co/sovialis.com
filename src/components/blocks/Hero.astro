@@ -7,7 +7,7 @@
  * Con «formulario corto» activo muestra la tarjeta de cotización de 3 campos (landings y Ads).
  * El título es el H1 cuando el bloque es el primero de la página.
  */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import Cta from "../ui/Cta.astro";
 import QuoteForm from "../forms/QuoteForm.astro";
 import { icon } from "../../lib/icons";
@@ -43,7 +43,7 @@ const hasImage = Boolean(v.image?.src || v.image?.id);
 	variant === "foto-completa" ? (
 		<section class="px-3 pt-3 sm:px-4" data-block="hero">
 			<div class="hero-full relative isolate overflow-hidden">
-				{hasImage && <Image image={v.image} priority class="absolute inset-0 -z-10 size-full object-cover animate-ken-burns" sizes="100vw" />}
+				{hasImage && <Img image={v.image} priority class="absolute inset-0 -z-10 size-full object-cover animate-ken-burns" sizes="100vw" />}
 				<div class="absolute inset-0 -z-10 bg-gradient-to-t from-deep/80 via-deep/25 to-transparent" style="opacity: calc(var(--sv-hero-overlay) + 0.3)" />
 				<div class="container-page flex min-h-[min(88svh,760px)] items-end pt-32 pb-8 sm:pb-12">
 					<div class="hero-card max-w-xl animate-fade-up on-dark p-7 text-white sm:p-9">
@@ -70,7 +70,7 @@ const hasImage = Boolean(v.image?.src || v.image?.id);
 				</div>
 				{hasImage && (
 					<div class="mx-auto mt-12 max-w-5xl overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-						<Image image={v.image} priority class="aspect-[21/9] w-full object-cover" />
+						<Img image={v.image} priority class="aspect-[21/9] w-full object-cover" />
 					</div>
 				)}
 			</div>
@@ -117,7 +117,7 @@ const hasImage = Boolean(v.image?.src || v.image?.id);
 				) : hasImage ? (
 					<div class="relative mx-auto w-full max-w-[34rem]">
 						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-							<Image image={v.image} priority class="aspect-[4/5] w-full object-cover" sizes="(min-width:1024px) 46vw, 92vw" />
+							<Img image={v.image} priority class="aspect-[4/5] w-full object-cover" sizes="(min-width:1024px) 46vw, 92vw" />
 						</div>
 						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
 						{(v.card_title || v.card_text) && (
@@ -237,6 +237,8 @@ const hasImage = Boolean(v.image?.src || v.image?.id);
 		font-weight: 650;
 		line-height: 1.2;
 		color: var(--sv-deep);
+		hyphens: auto;
+		overflow-wrap: break-word;
 	}
 	.shortcut small {
 		color: var(--sv-text-muted);

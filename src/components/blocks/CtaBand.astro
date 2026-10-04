@@ -1,6 +1,6 @@
 ---
 /** Llamado a la acción: oscuro con la curva de la S, claro o con imagen. */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import Cta from "../ui/Cta.astro";
 import { getSiteData } from "../../lib/site";
 
@@ -27,7 +27,7 @@ const titleHtml = (() => {
 		<div class:list={["cta-band reveal relative isolate overflow-hidden px-6 py-14 sm:px-12 lg:px-16 lg:py-20", dark ? "on-dark text-white" : "on-light bg-mist text-deep", `cta-band--${variant}`]}>
 			{variant === "imagen" && v.image && (
 				<>
-					<Image image={v.image} class="absolute inset-0 -z-20 size-full object-cover" loading="lazy" sizes="100vw" />
+					<Img image={v.image} class="absolute inset-0 -z-20 size-full object-cover" loading="lazy" sizes="100vw" />
 					<div class="absolute inset-0 -z-10 bg-gradient-to-r from-deep/95 via-deep/80 to-deep/30" />
 				</>
 			)}

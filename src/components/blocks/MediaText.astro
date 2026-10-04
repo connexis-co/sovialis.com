@@ -1,6 +1,7 @@
 ---
 /** Imagen + texto con viñetas y botón; la imagen puede ir a la izquierda o a la derecha. */
-import { Image, PortableText } from "emdash/ui";
+import { PortableText } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import SectionHead from "../ui/SectionHead.astro";
 import Cta from "../ui/Cta.astro";
 import { icon } from "../../lib/icons";
@@ -42,7 +43,7 @@ const left = v.image_side === "izquierda";
 			v.image && (
 				<div class:list={["reveal relative", left && "lg:order-1"]}>
 					<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-						<Image image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]" loading="lazy" sizes="(min-width:1024px) 45vw, 92vw" />
+						<Img image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]" loading="lazy" sizes="(min-width:1024px) 45vw, 92vw" />
 					</div>
 					<svg class="absolute -bottom-8 -left-8 -z-0 hidden h-40 w-auto text-secondary/30 lg:block" viewBox="0 0 120 160" aria-hidden="true"><path d="M100 10C55 -5 15 20 20 55c5 40 85 45 80 85-4 25-40 30-75 12" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" /></svg>
 				</div>

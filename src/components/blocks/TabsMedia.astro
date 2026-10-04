@@ -1,6 +1,6 @@
 ---
 /** Pestañas tipo píldora sobre la imagen; el texto cambia al lado (inspiración VisitValle «Planea tu visita»). */
-import { Image } from "emdash/ui";
+import Img from "../ui/Img.astro";
 import SectionHead from "../ui/SectionHead.astro";
 
 interface Props {
@@ -22,7 +22,7 @@ const paragraphs = (text: string) => {
 		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
 		<div class="mt-12 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16" data-tabs>
 			<div class="relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-				{v.image ? <Image image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[6/5]" loading="lazy" sizes="(min-width:1024px) 50vw, 92vw" /> : <div class="aspect-[6/5] bg-mist" />}
+				{v.image ? <Img image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[6/5]" loading="lazy" sizes="(min-width:1024px) 50vw, 92vw" /> : <div class="aspect-[6/5] bg-mist" />}
 				<div class="absolute inset-x-4 bottom-4 flex gap-1 overflow-x-auto rounded-full bg-surface/95 p-1.5 shadow-lift backdrop-blur" role="tablist" aria-label={v.title}>
 					{tabs.map((t, i) => (
 						<button type="button" role="tab" id={`${id}-t${i}`} aria-controls={`${id}-p${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="tab-pill">

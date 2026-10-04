@@ -69,7 +69,8 @@ function urlset(items: UrlItem[]): string {
 function imagesOf(origin: string, d: Record<string, any>): UrlItem["images"] {
 	const imgs: UrlItem["images"] = [];
 	for (const img of [d.hero_image, d.featured_image, ...(Array.isArray(d.layout) ? d.layout.map((b: any) => b?.image) : [])]) {
-		if (img?.src) imgs.push({ loc: new URL(img.src, origin).toString(), title: img.alt });
+		const path = img?.src || (img?.meta?.storageKey ? `/_emdash/api/media/file/${img.meta.storageKey}` : "");
+		if (path) imgs.push({ loc: new URL(path, origin).toString(), title: img.alt });
 	}
 	return imgs.slice(0, 5);
 }

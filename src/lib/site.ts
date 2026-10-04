@@ -192,3 +192,12 @@ export async function getCatalog(): Promise<{ services: CatalogItem[]; zones: Ca
 	catalogCache = { at: Date.now(), services: serviceItems, zones: zoneItems };
 	return catalogCache;
 }
+
+/** URL pública de un valor de imagen de EmDash (archivo en R2 servido por la API de medios). */
+export function mediaUrl(value: unknown): string | undefined {
+	if (!value) return undefined;
+	if (typeof value === "string") return value;
+	const v = value as { src?: string; url?: string; meta?: { storageKey?: string }; storageKey?: string };
+	const key = v.meta?.storageKey ?? v.storageKey;
+	return v.src || v.url || (key ? `/_emdash/api/media/file/${key}` : undefined);
+}
