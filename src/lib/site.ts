@@ -136,7 +136,7 @@ export function telLink(site: Pick<SiteData, "phoneE164">): string {
 
 const COP = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 export function formatCOP(value: number | null | undefined): string {
-	return typeof value === "number" && value > 0 ? COP.format(value).replace(/\s/g, " ") : "";
+	return typeof value === "number" && value > 0 ? COP.format(value).replace(/\$\s+/, "$").replace(/\s/g, " ") : "";
 }
 
 /** Servicios y zonas publicados, ordenados, para menús, mega menú, formularios y bloques automáticos. */

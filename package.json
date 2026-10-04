@@ -23,7 +23,9 @@
     "seed:build": "node scripts/build-seed.mjs",
     "content:sync": "node scripts/sync-content.mjs",
     "sitemap:submit": "node scripts/submit-sitemaps.mjs",
-    "prepare": "husky"
+    "prepare": "husky",
+    "deploy:secrets": "node scripts/deploy.mjs --secrets",
+    "content:validate": "node scripts/validate-content.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.3.3",

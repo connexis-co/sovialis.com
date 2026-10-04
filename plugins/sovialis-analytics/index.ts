@@ -26,10 +26,9 @@ export const ANALYTICS_DEFAULTS: AnalyticsSettings = {
 	ga4Direct: true,
 	clarityId: "",
 	metaPixelId: "",
-	consentDefault: "granted",
+	consentDefault: "denied",
 	cookieBanner: true,
-	cookieText:
-		"Usamos cookies de medición para mejorar el sitio y entender qué información te sirve. Puedes rechazarlas cuando quieras.",
+	cookieText: "Usamos cookies de medición solo si las aceptas.",
 	privacyUrl: "/politica-de-cookies/",
 };
 
@@ -49,7 +48,7 @@ async function readSettings(get: <T>(key: string) => Promise<T | null>): Promise
 	return out;
 }
 
-const BANNER_CSS = `#sv-cookies{position:fixed;inset-inline:16px;bottom:16px;z-index:60;max-width:420px;margin-inline:auto 0;padding:16px 18px;border-radius:18px;background:var(--color-surface-raised,#fff);color:var(--color-ink,#0b2a4e);box-shadow:0 18px 50px -20px rgb(11 42 78 / .45);border:1px solid var(--color-border,#d7e3ec);font:500 15px/1.5 var(--font-body,system-ui);display:none}#sv-cookies[data-open=true]{display:block;animation:sv-cookies-in .4s cubic-bezier(.2,.8,.2,1)}#sv-cookies p{margin:0 0 12px}#sv-cookies a{color:inherit;text-decoration:underline}#sv-cookies .sv-ck-actions{display:flex;gap:8px;flex-wrap:wrap}#sv-cookies button{min-height:44px;padding:0 16px;border-radius:999px;font:600 14px var(--font-body,system-ui);cursor:pointer;border:1px solid var(--color-border,#c9d6e2);background:transparent;color:inherit}#sv-cookies button[data-accept]{background:var(--color-primary,#005e9d);border-color:transparent;color:#fff}@keyframes sv-cookies-in{from{opacity:0;transform:translateY(12px)}}@media (prefers-reduced-motion:reduce){#sv-cookies[data-open=true]{animation:none}}html.has-sticky-cta #sv-cookies{bottom:84px}`;
+const BANNER_CSS = `#sv-cookies{position:fixed;right:16px;bottom:16px;left:auto;z-index:60;width:min(420px,calc(100% - 32px));padding:14px 16px;border-radius:18px;background:var(--sv-surface,#fff);color:var(--sv-text,#0b2a4e);box-shadow:0 18px 50px -20px rgb(11 42 78/.45);border:1px solid var(--sv-border,#d7e3ec);font:500 14.5px/1.45 var(--sv-font-body,system-ui);display:none}#sv-cookies[data-open=true]{display:flex;flex-direction:column;gap:10px;animation:sv-cookies-in .4s cubic-bezier(.2,.8,.2,1)}#sv-cookies p{margin:0}#sv-cookies a{color:inherit;text-decoration:underline}#sv-cookies .sv-ck-actions{display:flex;gap:8px}#sv-cookies button{flex:1;min-height:42px;padding:0 14px;border-radius:999px;font:600 14px var(--sv-font-body,system-ui);cursor:pointer;border:1px solid var(--sv-border,#c9d6e2);background:transparent;color:inherit}#sv-cookies button[data-accept]{background:var(--sv-primary,#005e9d);border-color:transparent;color:#fff}@keyframes sv-cookies-in{from{opacity:0;transform:translateY(12px)}}@media (prefers-reduced-motion:reduce){#sv-cookies[data-open=true]{animation:none}}@media (max-width:640px){#sv-cookies{right:0;bottom:0;width:100%;border-radius:18px 18px 0 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));font-size:13.5px}#sv-cookies[data-open=true]{flex-direction:row;align-items:center}#sv-cookies .sv-ck-actions{flex-direction:column;flex:none;gap:6px}#sv-cookies button{min-height:38px;padding:0 14px}}`;
 
 export function createPlugin() {
 	return definePlugin({
@@ -71,7 +70,7 @@ export function createPlugin() {
 				consentDefault: {
 					type: "select",
 					label: "Consentimiento por defecto",
-					description: "Concedido: mide desde la primera visita y permite rechazar. Denegado: espera a que la persona acepte.",
+					description: "Denegado (recomendado, coincide con la política de cookies): GA4 mide sin cookies hasta que la persona acepta; Clarity y Meta Pixel esperan la aceptación. Concedido: mide desde la primera visita.",
 					options: [
 						{ value: "granted", label: "Concedido (aviso informativo)" },
 						{ value: "denied", label: "Denegado hasta aceptar" },
@@ -127,21 +126,21 @@ export function createPlugin() {
 					});
 				}
 
-				if (clarity) {
+				// Clarity y Meta Pixel solo se cargan con consentimiento (al aceptar o si ya se aceptó antes).
+				if (clarity || pixel) {
+					const loaders = [
+						clarity
+							? `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarity}");`
+							: "",
+						pixel
+							? `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixel}');fbq('track','PageView');`
+							: "",
+					].join("");
 					fragments.push({
 						kind: "inline-script",
 						placement: "head",
-						key: "sv-clarity",
-						code: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarity}");`,
-					});
-				}
-
-				if (pixel) {
-					fragments.push({
-						kind: "inline-script",
-						placement: "head",
-						key: "sv-meta-pixel",
-						code: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixel}');fbq('track','PageView');`,
+						key: "sv-consented-tags",
+						code: `window.svLoadConsented=function(){if(window.svConsentedLoaded)return;window.svConsentedLoaded=true;${loaders}};(function(){var v;try{v=localStorage.getItem('sv-consent')}catch(e){}if(v==='granted'||(!v&&${denied ? "false" : "true"}))window.svLoadConsented();})();`,
 					});
 				}
 
@@ -156,7 +155,7 @@ export function createPlugin() {
 						kind: "inline-script",
 						placement: "body:end",
 						key: "sv-cookie-banner-js",
-						code: `(function(){var b=document.getElementById('sv-cookies');if(!b)return;var v;try{v=localStorage.getItem('sv-consent')}catch(e){}if(!v)setTimeout(function(){b.dataset.open='true'},1200);function set(g){var st=g?'granted':'denied';try{localStorage.setItem('sv-consent',st)}catch(e){}gtag('consent','update',{ad_storage:st,ad_user_data:st,ad_personalization:st,analytics_storage:st});dataLayer.push({event:'consent_update',consent:st});b.dataset.open='false'}b.querySelector('[data-accept]').addEventListener('click',function(){set(true)});b.querySelector('[data-reject]').addEventListener('click',function(){set(false)});document.addEventListener('sv:open-cookies',function(){b.dataset.open='true'});})();`,
+						code: `(function(){var b=document.getElementById('sv-cookies');if(!b)return;var v;try{v=localStorage.getItem('sv-consent')}catch(e){}if(!v){var shown=false,show=function(){if(shown)return;shown=true;b.dataset.open='true'};setTimeout(show,6000);addEventListener('scroll',function(){if(scrollY>200)show()},{passive:true,once:false})}function set(g){var st=g?'granted':'denied';try{localStorage.setItem('sv-consent',st)}catch(e){}gtag('consent','update',{ad_storage:st,ad_user_data:st,ad_personalization:st,analytics_storage:st});dataLayer.push({event:'consent_update',consent:st});if(g&&window.svLoadConsented)window.svLoadConsented();b.dataset.open='false'}b.querySelector('[data-accept]').addEventListener('click',function(){set(true)});b.querySelector('[data-reject]').addEventListener('click',function(){set(false)});document.addEventListener('sv:open-cookies',function(){b.dataset.open='true'});})();`,
 					});
 				}
 

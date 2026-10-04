@@ -53,17 +53,17 @@ const compact = v.style === "lista-compacta";
 								<div class="flex flex-1 flex-col p-6">
 									<h3 class="font-display text-h3 text-deep">{s.shortTitle}</h3>
 									<p class="mt-2 flex-1 text-muted">{s.excerpt}</p>
-									<div class="mt-5 flex items-end justify-between gap-3">
+									<div class="mt-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-3 border-t border-line pt-4">
 										{s.priceFrom ? (
 											<p class="leading-tight">
 												<span class="block text-sm text-muted">desde</span>
 												<strong class="text-xl text-deep">{formatCOP(s.priceFrom)}</strong>
-												<span class="text-sm text-muted"> {s.priceUnit}</span>
+												<span class="block text-sm text-muted">{s.priceUnit}</span>
 											</p>
 										) : (
 											<span />
 										)}
-										<span class="link-arrow">
+										<span class="link-arrow whitespace-nowrap">
 											Ver servicio <Fragment set:html={icon("flecha-derecha", "size-4")} />
 										</span>
 									</div>
