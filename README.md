@@ -98,6 +98,20 @@ El despliegue activa `PUBLIC_CF_IMAGES=on`: las fotos salen con `srcset` por `/c
 tamaño de la pantalla). Requiere Images → Transformations activo en la zona (plan gratuito: 5.000
 transformaciones únicas al mes). En local no se activa.
 
+### Rendimiento y caché
+
+- **HTML** (`src/worker.ts`): caché del borde con *stale-while-revalidate*. La copia se guarda 7 días; si tiene
+  más de 10 min se sirve al instante (`X-Sovialis-Cache: STALE`) y se renueva en segundo plano. Un cambio del
+  panel aparece en la primera visita pasados 10 min (o al momento, purgando la zona).
+- **Assets**: `/_astro/*` y `/fonts/*` se sirven directo de los assets del Worker (`run_worker_first` con
+  exclusiones en `wrangler.jsonc`) con caché inmutable de un año (`public/_headers`). Si se cambia una fuente,
+  publicarla con otro nombre.
+- **CSS en línea** (`build.inlineStylesheets: "always"`) y precarga de la foto de portada con el mismo
+  `srcset`/`sizes` que el Hero (`src/lib/images.ts`).
+- **GTM diferido**: se carga tras el evento `load` o con la primera interacción (plugin de analítica →
+  «Cargar GTM después de la página»).
+- **Mapa de cobertura**: `node scripts/build-map.mjs --solo-compactar` lo deja en ~9 KB.
+
 El plan gratuito de Workers admite 3 MB comprimidos: el plugin `trimAdminLocales` de `astro.config.mjs`
 deja solo los idiomas es/en del panel para que el bundle quede en ~2,6 MB.
 
