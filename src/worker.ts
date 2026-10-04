@@ -19,7 +19,7 @@ const SECURITY_HEADERS: Record<string, string> = {
 /** Parámetros de campaña que no cambian el contenido: no fragmentan la caché. */
 const TRACKING_PARAMS = /^(utm_[a-z]+|gclid|gbraid|wbraid|fbclid|msclkid|_gl)$/;
 const MEDIA_PREFIX = "/_emdash/api/media/file/";
-const HTML_TTL = 120;
+const HTML_TTL = 600;
 const TEXT_TTL = 3600;
 
 function withSecurityHeaders(response: Response): Response {
@@ -61,7 +61,7 @@ export default {
 			!url.pathname.startsWith("/_emdash") &&
 			!url.pathname.startsWith("/_astro") &&
 			!url.pathname.startsWith("/cdn-cgi") &&
-			!/\.[a-z0-9]{2,5}$/i.test(url.pathname)
+			!/\.[a-z0-9]{2,12}$/i.test(url.pathname)
 		) {
 			url.pathname += "/";
 			return Response.redirect(url.toString(), 301);

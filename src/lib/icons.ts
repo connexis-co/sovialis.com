@@ -61,9 +61,8 @@ export const ICONS: Record<string, string> = {
 /** Devuelve el SVG sin dimensiones fijas (las pone el CSS), con aria-hidden. */
 export function icon(name: string | null | undefined, className = "size-6"): string {
 	const svg = ICONS[name ?? ""] ?? ICONS.corazon!;
+	// Solo se quitan width/height de la etiqueta raíz: los <rect> internos (calendario, correo…) los necesitan.
 	return svg
-		.replace(/\s(width|height)="\d+"/g, "")
-		.replace(/class="[^"]*"/, "")
-		.replace("<svg", `<svg class="${className}" aria-hidden="true" focusable="false"`)
+		.replace(/<svg([^>]*)>/, (_, attrs: string) => `<svg${attrs.replace(/\s(width|height)="\d+"/g, "").replace(/\sclass="[^"]*"/, "")} class="${className}" aria-hidden="true" focusable="false">`)
 		.replace(/\n\s*/g, " ");
 }

@@ -60,15 +60,15 @@ const heroValue = {
 	</div>
 	<Hero value={heroValue} index={0} context={{ service: name, priceFrom: d.price_from, priceUnit: d.price_unit, rating: `services:${d.id}`, ratingLabel: "Califica este servicio" }} edit={{ eyebrow: entry.edit.hero_eyebrow, title: entry.edit.title, subtitle: d.hero_subtitle ? entry.edit.hero_subtitle : entry.edit.excerpt, image: entry.edit.hero_image }} />
 	<Blocks blocks={blocks} offset={1} context={{ service: name }} edit={entry.edit.layout} />
-	{d.body?.length > 0 && <GuideTabs value={d.body} eyebrow="Guía del servicio" title={`Todo sobre ${String(name).toLowerCase()}`} highlight={String(name).toLowerCase()} id={`guia-${slug}`} edit={entry.edit.body} />}
-	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Dudas sobre ${String(name).toLowerCase()}`, items: d.faqs }} index={50} edit={entry.edit.faqs} />}
+	{d.body?.length > 0 && <GuideTabs value={d.body} eyebrow="Guía del servicio" title={`Guía completa: ${name}`} highlight={String(name)} id={`guia-${slug}`} edit={entry.edit.body} />}
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Preguntas frecuentes sobre ${name}`, items: d.faqs }} index={50} edit={entry.edit.faqs} />}
 	<ServicesGrid value={{ eyebrow: "Otros servicios", title: "También te puede servir", style: "lista-compacta", limit: 6 }} exclude={slug} />
 	{
 		zones.length > 0 && (
 			<section class="section-tight bg-mist">
 				<div class="container-page">
 					<p class="eyebrow">Cobertura</p>
-					<h2 class="mt-3 font-display text-h3 text-deep">Prestamos {String(name).toLowerCase()} en estas zonas de Bogotá</h2>
+					<h2 class="mt-3 font-display text-h3 text-deep">Zonas de Bogotá donde prestamos este servicio</h2>
 					<ul class="mt-6 flex flex-wrap gap-3">
 						{zones.map((z) => (
 							<li>

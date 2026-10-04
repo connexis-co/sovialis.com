@@ -15,8 +15,11 @@ interface Props {
 	id?: string;
 	/** En el modo de edición de EmDash se pinta el texto completo para editarlo en la página. */
 	edit?: object;
+	/** Sin sección ni contenedor propios y con las pestañas siempre en fila (para columnas angostas). */
+	bare?: boolean;
 }
-const { value, eyebrow, title, highlight, id = "guia", edit } = Astro.props;
+const { value, eyebrow, title, highlight, id = "guia", edit, bare = false } = Astro.props;
+const Wrapper = bare ? "div" : "section";
 const editing = Boolean(edit && Object.keys(edit).length);
 const blocks = Array.isArray(value) ? value : [];
 const textOf = (b: any) => (Array.isArray(b?.children) ? b.children.map((c: any) => c?.text ?? "").join("") : "");
@@ -30,8 +33,8 @@ for (const b of blocks) {
 const asTabs = sections.length >= 2 && !editing;
 ---
 
-<section class="section" data-block="guide">
-	<div class="container-page">
+<Wrapper class:list={[!bare && "section"]} data-block="guide">
+	<div class:list={[!bare && "container-page"]}>
 		{(eyebrow || title) && <SectionHead eyebrow={eyebrow} title={title ?? ""} highlight={highlight} />}
 		{
 			!editing && intro.length > 0 && (
@@ -42,7 +45,7 @@ const asTabs = sections.length >= 2 && !editing;
 		}
 		{
 			asTabs ? (
-				<div class="guide mt-10" data-tabs>
+				<div class:list={["guide", bare ? "is-horizontal" : "mt-10"]} data-tabs>
 					<div class="guide__nav" role="tablist" aria-orientation="vertical" aria-label={title || "Guía"}>
 						{sections.map((s, i) => (
 							<button type="button" role="tab" id={`${id}-t${i}`} aria-controls={`${id}-p${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="guide__tab">
@@ -60,13 +63,13 @@ const asTabs = sections.length >= 2 && !editing;
 					</div>
 				</div>
 			) : (
-				<article class="prose-sv mx-auto mt-8 max-w-3xl">
+				<article class:list={["prose-sv max-w-3xl", !bare && "mx-auto mt-8"]}>
 					<Prose value={blocks} />
 				</article>
 			)
 		}
 	</div>
-</section>
+</Wrapper>
 
 <style>
 	.guide {
@@ -74,12 +77,12 @@ const asTabs = sections.length >= 2 && !editing;
 		gap: 1.5rem;
 	}
 	@media (min-width: 1024px) {
-		.guide {
+		.guide:not(.is-horizontal) {
 			grid-template-columns: 19rem 1fr;
 			gap: 2.5rem;
 			align-items: start;
 		}
-		.guide__nav {
+		.guide:not(.is-horizontal) .guide__nav {
 			position: sticky;
 			top: 7rem;
 			flex-direction: column;
@@ -117,9 +120,12 @@ const asTabs = sections.length >= 2 && !editing;
 			color var(--sv-dur) var(--sv-ease-out);
 	}
 	@media (min-width: 1024px) {
-		.guide__tab {
+		.guide:not(.is-horizontal) .guide__tab {
 			max-width: none;
 		}
+	}
+	.guide.is-horizontal .guide__nav {
+		flex-wrap: nowrap;
 	}
 	.guide__tab:hover {
 		border-color: color-mix(in oklab, var(--sv-primary) 40%, var(--sv-border));

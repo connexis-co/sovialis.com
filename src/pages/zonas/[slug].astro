@@ -1,7 +1,7 @@
 ---
 /** Landing de zona: contenido local único, lugares de referencia, servicios, mapa y FAQ. */
 import { getEmDashEntry } from "emdash";
-import Prose from "../../components/ui/Prose.astro";
+import GuideTabs from "../../components/page/GuideTabs.astro";
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Hero from "../../components/blocks/Hero.astro";
@@ -68,7 +68,7 @@ const heroValue = {
 		(d.intro?.length > 0 || landmarks.length > 0) && (
 			<section class="section">
 				<div class="container-page grid gap-12 lg:grid-cols-[1fr_22rem]">
-					<article class="prose-sv max-w-3xl">{d.intro?.length > 0 && <Prose value={d.intro} />}</article>
+					<div class="min-w-0">{d.intro?.length > 0 && <GuideTabs value={d.intro} id={`zona-${slug}`} edit={entry.edit.intro} bare />}</div>
 					{landmarks.length > 0 && (
 						<aside {...entry.edit.landmarks}>
 							<div class="rounded-card border border-line bg-surface p-6 shadow-soft lg:sticky lg:top-28">

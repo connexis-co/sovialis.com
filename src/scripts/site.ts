@@ -265,6 +265,13 @@ for (const form of $$<HTMLFormElement>("[data-quote-form]")) {
 		if (n >= 2 && (form.dataset.zoneTouched || /^\S+@\S+\.\S+$/.test(val("email")))) n = 3;
 		reached = Math.max(reached, n);
 		steps.forEach((s) => s.classList.toggle("is-visible", Number(s.dataset.step) <= reached));
+		const indicator = $<HTMLElement>("[data-step-indicator]", form);
+		if (indicator) {
+			const second = reached >= 2;
+			indicator.dataset.step = second ? "2" : "1";
+			const label = $("[data-step-text]", indicator);
+			if (label) label.textContent = second ? "Paso 2 de 2 · Zona y detalles (casi listo)" : "Paso 1 de 2 · Tus datos de contacto";
+		}
 	};
 	el("zone")?.addEventListener("change", () => {
 		form.dataset.zoneTouched = "1";

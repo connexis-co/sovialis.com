@@ -16,6 +16,7 @@ let items = services.filter((s) => s.slug !== exclude);
 if (v.mode === "destacados") items = items.filter((s) => s.featured);
 if (v.limit) items = items.slice(0, v.limit);
 const compact = v.style === "lista-compacta";
+// Tarjetas con foto: en móvil, carrusel deslizable (9 tarjetas apiladas eran ~4.000 px); desde sm, cuadrícula.
 ---
 
 <section class="section" data-block="services">
@@ -38,9 +39,9 @@ const compact = v.style === "lista-compacta";
 					))}
 				</ul>
 			) : (
-				<ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				<ul class="-mx-4 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
 					{items.map((s, i) => (
-						<li class="reveal">
+						<li class="reveal w-[82%] flex-none snap-start sm:w-auto">
 							<a href={ROUTES.services(s.slug)} class="service-card group">
 								<div class="relative overflow-hidden">
 									{s.image ? (

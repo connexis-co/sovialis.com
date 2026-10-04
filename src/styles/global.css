@@ -92,9 +92,13 @@
 		color: inherit;
 	}
 	:focus-visible {
-		outline: 3px solid var(--sv-secondary);
+		outline: 3px solid var(--sv-deep);
 		outline-offset: 3px;
 		border-radius: 6px;
+	}
+	/* Sobre fondos oscuros el anillo pasa a celeste para conservar el contraste. */
+	:is(.on-dark, .bg-deep, .site-footer) :focus-visible {
+		outline-color: #8fd8f2;
 	}
 	::selection {
 		background: color-mix(in oklab, var(--sv-secondary) 30%, transparent);
@@ -343,8 +347,9 @@
 	.fl-field[data-filled] > label,
 	.fl-field:has(:is(input, textarea):not(:placeholder-shown)) > label {
 		inset-block-start: 9px;
+		inset-inline-end: 12px;
 		translate: 0 0;
-		font-size: 0.8rem;
+		font-size: 0.84rem;
 		font-weight: 650;
 		letter-spacing: 0.01em;
 		color: var(--sv-deep);

@@ -39,13 +39,13 @@ const titleHtml = (() => {
 	return i < 0 ? esc(t) : `${esc(t.slice(0, i))}<span class="hl">${esc(t.slice(i, i + hl.length))}</span>${esc(t.slice(i + hl.length))}`;
 })();
 const ctaId = `hero:${index}`;
-const shortcuts = v.shortcuts_title ? catalog.services.slice(0, 7) : [];
+const shortcuts = v.shortcuts_title ? catalog.services : [];
 const hasImage = Boolean(v.image?.src || v.image?.id);
 const imageLeft = v.image_side === "izquierda";
 // Recorte según la proporción real de la foto: las horizontales (servicios, 3:2) no se recortan en móvil
 // y quedan 4:3 en escritorio; las verticales (inicio, 4:5) van cuadradas en móvil y 5:6 en escritorio.
 const landscape = Number(v.image?.width) > 0 && Number(v.image?.height) > 0 ? v.image.width / v.image.height >= 1.2 : true;
-const photoAspect = landscape ? "aspect-[3/2] lg:aspect-[5/4]" : "aspect-square lg:aspect-[5/6]";
+const photoAspect = landscape ? "aspect-[16/9] lg:aspect-[5/4]" : "aspect-[16/9] object-[50%_22%] lg:aspect-[5/6] lg:object-center";
 // Puntos clave en una tarjeta de vidrio sobre la foto (servicios), como la tarjeta del inicio.
 const badgesOnPhoto = Boolean(v.badges_on_photo) && badges.length > 0 && !(v.card_title || v.card_text);
 const titleClass = v.title_size === "h1" ? "text-h1" : "text-display";
@@ -120,10 +120,6 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 							Desde {formatCOP(context.priceFrom)} {context.priceUnit}
 						</p>
 					) : null}
-					<div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-						<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel service={context.service} zone={context.zone} />
-						<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
-					</div>
 					{badges.length > 0 && (
 						<ul class:list={["mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[1.02rem] font-semibold text-deep", badgesOnPhoto && "sm:hidden"]}>
 							{badges.map((b) => (
@@ -134,6 +130,11 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 							))}
 						</ul>
 					)}
+				</div>
+
+				<div class="hero-actions relative z-[1] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+					<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel service={context.service} zone={context.zone} />
+					<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
 				</div>
 
 				{mediaKind === "form" ? (
@@ -197,7 +198,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 				<div class="container-page pb-[clamp(3rem,6vw,5rem)]">
 					<div class="shortcuts rounded-[var(--sv-radius-hero)] border border-line bg-surface p-4 shadow-lift sm:p-6">
 						<p class="px-2 font-display text-xl text-deep">{v.shortcuts_title}</p>
-						<ul class="shortcuts__track mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 lg:grid lg:grid-cols-7 lg:overflow-visible">
+						<ul class="shortcuts__track mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 lg:grid lg:grid-cols-5 lg:overflow-visible xl:grid-cols-9">
 							{shortcuts.map((s) => (
 								<li class="min-w-[11.5rem] snap-start lg:min-w-0">
 									<a href={ROUTES.services(s.slug)} class="shortcut group" data-cta={`home:atajo-${s.slug}`}>
@@ -217,13 +218,26 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 
 <style>
 	/* Móvil: título → imagen → texto y botones (la foto sube junto al título). Escritorio: dos columnas. */
+	/* Móvil: título → foto (16:9, máx. ~30 % de la pantalla) → botones → texto, para que el botón
+	   principal quede en la primera pantalla. Escritorio: dos columnas. */
 	.hero-grid {
 		display: grid;
-		gap: 1.75rem;
-		grid-template-areas: "head" "media" "body";
+		gap: 1.5rem;
+		grid-template-areas: "head" "media" "actions" "body";
 	}
 	.hero-grid.is-form {
-		grid-template-areas: "head" "body" "media";
+		grid-template-areas: "head" "actions" "body" "media";
+	}
+	.hero-grid.is-text {
+		grid-template-areas: "head" "actions" "body";
+	}
+	.hero-actions {
+		grid-area: actions;
+	}
+	@media (max-width: 1023px) {
+		.hero-media :global(.hero-photo img) {
+			max-height: 32svh;
+		}
 	}
 	.hero-head {
 		grid-area: head;
@@ -239,12 +253,15 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 			column-gap: 3.5rem;
 			row-gap: 1.25rem;
 			grid-template-columns: 1.08fr 0.92fr;
-			grid-template-rows: auto 1fr;
-			grid-template-areas: "head media" "body media";
+			grid-template-rows: auto auto auto 1fr;
+			grid-template-areas: "head media" "body media" "actions media" ". media";
+		}
+		.hero-actions {
+			align-self: start;
 		}
 		.hero-grid.is-image-left {
 			grid-template-columns: 0.92fr 1.08fr;
-			grid-template-areas: "media head" "media body";
+			grid-template-areas: "media head" "media body" "media actions" "media .";
 		}
 		.hero-grid.is-wide-media {
 			grid-template-columns: 0.95fr 1.05fr;
@@ -254,7 +271,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 		}
 		.hero-grid.is-text {
 			grid-template-columns: minmax(0, 52rem);
-			grid-template-areas: "head" "body";
+			grid-template-areas: "head" "body" "actions";
 		}
 		.hero-head {
 			align-self: end;

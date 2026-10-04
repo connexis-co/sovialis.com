@@ -584,6 +584,16 @@
 										"slug": "text",
 										"label": "Texto",
 										"type": "text"
+									},
+									{
+										"slug": "url",
+										"label": "Enlace (opcional)",
+										"type": "string"
+									},
+									{
+										"slug": "link_label",
+										"label": "Texto del enlace",
+										"type": "string"
 									}
 								]
 							}

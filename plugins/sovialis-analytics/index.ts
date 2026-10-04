@@ -23,7 +23,8 @@ export interface AnalyticsSettings {
 export const ANALYTICS_DEFAULTS: AnalyticsSettings = {
 	gtmId: "GTM-N2PGLVR3",
 	ga4Id: "G-H7LD9WF7GG",
-	ga4Direct: true,
+	// GA4 ya va dentro del contenedor de GTM: cargarlo también directo lo duplica (≈ 176 KB y page_view doble).
+	ga4Direct: false,
 	clarityId: "",
 	metaPixelId: "",
 	consentDefault: "denied",

@@ -11,8 +11,8 @@ const rows: any[] = Array.isArray(v.rows) ? v.rows : [];
 if (!rows.length) return null;
 const cell = (text: string) => {
 	const t = String(text ?? "").trim();
-	if (/^(sí|si|✓)$/i.test(t)) return icon("check", "size-5 text-success mx-auto");
-	if (/^(no|✕|x)$/i.test(t)) return icon("cerrar", "size-5 text-[#9a3346] mx-auto");
+	if (/^(sí|si|✓)$/i.test(t)) return `${icon("check", "size-5 text-success mx-auto")}<span class="sr-only">Sí</span>`;
+	if (/^(no|✕|x)$/i.test(t)) return `${icon("cerrar", "size-5 text-[#9a3346] mx-auto")}<span class="sr-only">No</span>`;
 	return t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]!);
 };
 ---

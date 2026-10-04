@@ -41,6 +41,14 @@ const f = (name: string) => `${id}-${name}`;
 	novalidate
 	autocomplete="on"
 >
+	{
+		progressive && (
+			<p class="form-steps" data-step-indicator aria-live="polite">
+				<span class="form-steps__bar"><span /></span>
+				<span data-step-text>Paso 1 de 2 · Tus datos de contacto</span>
+			</p>
+		)
+	}
 	<div class="quote-errors" data-error-summary tabindex="-1" role="alert" hidden>
 		<p class="font-semibold">Revisa estos datos:</p>
 		<ul></ul>
@@ -194,6 +202,35 @@ const f = (name: string) => `${id}-${name}`;
 </form>
 
 <style>
+	.form-steps {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 16px;
+		font-size: 0.92rem;
+		font-weight: 650;
+		color: var(--sv-text-muted);
+	}
+	.form-steps__bar {
+		position: relative;
+		flex: none;
+		inline-size: 72px;
+		block-size: 6px;
+		border-radius: 999px;
+		background: var(--sv-border);
+		overflow: hidden;
+	}
+	.form-steps__bar > span {
+		position: absolute;
+		inset: 0 auto 0 0;
+		inline-size: 50%;
+		border-radius: inherit;
+		background: var(--sv-primary);
+		transition: inline-size var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.form-steps[data-step="2"] .form-steps__bar > span {
+		inline-size: 100%;
+	}
 	.quote-form [aria-invalid="true"] {
 		border-color: var(--sv-accent-text) !important;
 	}

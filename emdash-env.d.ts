@@ -96,7 +96,7 @@ export interface PageLayoutFeatureGridV1Block {
   "layout"?: "bento" | "cuadricula" | "lista" | null;
   "tone"?: "claro" | "arena" | "bruma" | "oscuro" | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null; "url"?: string | null; "link_label"?: string | null }[] | null;
 }
 
 export type PageLayoutFeatureGridBlock = PageLayoutFeatureGridV1Block;
@@ -400,7 +400,7 @@ export interface ServiceLayoutFeatureGridV1Block {
   "layout"?: "bento" | "cuadricula" | "lista" | null;
   "tone"?: "claro" | "arena" | "bruma" | "oscuro" | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null; "url"?: string | null; "link_label"?: string | null }[] | null;
 }
 
 export type ServiceLayoutFeatureGridBlock = ServiceLayoutFeatureGridV1Block;
@@ -718,7 +718,7 @@ export interface ZoneLayoutFeatureGridV1Block {
   "layout"?: "bento" | "cuadricula" | "lista" | null;
   "tone"?: "claro" | "arena" | "bruma" | "oscuro" | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null; "url"?: string | null; "link_label"?: string | null }[] | null;
 }
 
 export type ZoneLayoutFeatureGridBlock = ZoneLayoutFeatureGridV1Block;

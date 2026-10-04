@@ -108,6 +108,12 @@ const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3)
 					)
 				}
 				<div class="lg:hidden mb-8"><Toc content={d.content} /></div>
+				{/* Llamado temprano en móvil: en escritorio vive en la columna lateral. */}
+				<div class="mb-10 flex items-center gap-4 rounded-card border border-line bg-surface p-4 shadow-soft lg:hidden">
+					<span class="grid size-11 flex-none place-items-center rounded-full bg-primary/10 text-primary" set:html={icon("chat", "size-5")} />
+					<p class="flex-1 text-[0.98rem] leading-snug text-deep"><strong>¿Necesitas ayuda con el cuidado?</strong> Te orientamos sin compromiso.</p>
+					<button type="button" class="btn btn-primary btn-sm flex-none" data-quote data-cta={`guia:${slug}:temprano`}>Cotizar</button>
+				</div>
 				<div class="prose-sv">
 					<Prose value={d.content} />
 				</div>

@@ -31,6 +31,11 @@ const bg = { claro: "bg-canvas", arena: "bg-sand", bruma: "bg-mist", oscuro: "bg
 							<span class="feature__icon" set:html={icon(it.icon, "size-6")} />
 							<h3 class:list={["mt-4 font-display text-h3", dark ? "text-white" : "text-deep"]}>{it.title}</h3>
 							{it.text && <p class:list={["mt-2", dark ? "text-white/80" : "text-muted"]}>{it.text}</p>}
+							{it.url && (
+								<a href={it.url} class:list={["link-arrow mt-4", dark && "text-white"]}>
+									{it.link_label || "Ver servicio"} <Fragment set:html={icon("flecha-derecha", "size-4")} />
+								</a>
+							)}
 						</div>
 					))}
 				</div>
@@ -42,6 +47,11 @@ const bg = { claro: "bg-canvas", arena: "bg-sand", bruma: "bg-mist", oscuro: "bg
 							<div>
 								<h3 class:list={["font-display text-h3", dark ? "text-white" : "text-deep"]}>{it.title}</h3>
 								{it.text && <p class:list={["mt-1", dark ? "text-white/80" : "text-muted"]}>{it.text}</p>}
+								{it.url && (
+								<a href={it.url} class:list={["link-arrow mt-2", dark && "text-white"]}>
+									{it.link_label || "Ver servicio"} <Fragment set:html={icon("flecha-derecha", "size-4")} />
+								</a>
+							)}
 							</div>
 						</li>
 					))}
@@ -53,6 +63,11 @@ const bg = { claro: "bg-canvas", arena: "bg-sand", bruma: "bg-mist", oscuro: "bg
 							<span class="feature__icon" set:html={icon(it.icon, "size-6")} />
 							<h3 class:list={["mt-4 font-display text-h3", dark ? "text-white" : "text-deep"]}>{it.title}</h3>
 							{it.text && <p class:list={["mt-2", dark ? "text-white/80" : "text-muted"]}>{it.text}</p>}
+							{it.url && (
+								<a href={it.url} class:list={["link-arrow mt-4", dark && "text-white"]}>
+									{it.link_label || "Ver servicio"} <Fragment set:html={icon("flecha-derecha", "size-4")} />
+								</a>
+							)}
 						</li>
 					))}
 				</ul>

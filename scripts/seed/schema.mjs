@@ -81,7 +81,17 @@ export const blockTypes = [
 			select("layout", "Diseño", ["bento", "cuadricula", "lista"]),
 			select("tone", "Fondo", ["claro", "arena", "bruma", "oscuro"]),
 			f("image", "Imagen (bento)", "image"),
-			f("items", "Elementos", "repeater", { validation: { subFields: [subSelect("icon", "Icono", ICONS), f("title", "Título", "string", { required: true }), f("text", "Texto", "text")] } }),
+			f("items", "Elementos", "repeater", {
+				validation: {
+					subFields: [
+						subSelect("icon", "Icono", ICONS),
+						f("title", "Título", "string", { required: true }),
+						f("text", "Texto", "text"),
+						f("url", "Enlace (opcional)", "string"),
+						f("link_label", "Texto del enlace", "string"),
+					],
+				},
+			}),
 		],
 	},
 	{

@@ -16,7 +16,7 @@ const crumbs = [
 	{ name: "Guías", url: "/blog/" },
 	{ name: term.label, url: `/blog/categoria/${slug}/` },
 ];
-const description = (term as any).description || `Guías de ${term.label.toLowerCase()} para familias que cuidan a un adulto mayor en Bogotá.`;
+const description = (term as any).description || `${term.label}: guías para familias que cuidan a un adulto mayor en Bogotá.`;
 ---
 
 <Base title={`${term.label}: guías para familias`} description={description} pageType="collection" breadcrumbs={crumbs} robots={entries.length < 4 ? "noindex,follow" : undefined}>
