@@ -2,7 +2,8 @@
   "site": "https://sovialis.com",
   "generated": "2026-10-04",
   "trailingSlash": "always",
-  "trailingSlashNotes": "Astro: trailingSlash:'always' + build.format:'directory'. Cloudflare (static assets) redirige /ruta → /ruta/ de forma permanente. Canonical, sitemap y enlaces internos siempre con barra; archivos (.txt, .xml) sin barra. Host canónico sin www.",
+  "trailingSlashNotes": "Astro trailingSlash:'always' (EmDash 1.1.0 lo soporta: resolveContentRoutePath añade la barra a sitemap, menús y hreflang solo con 'always'; con 'ignore' los emite sin barra). Astro redirige /ruta → /ruta/ (301) en páginas SSR. Canonical, sitemap y enlaces internos siempre con barra; archivos (.txt, .xml) y /_emdash/* sin cambios. Host canónico sin www.",
+  "parentNote": "parent = padre lógico para migas y BreadcrumbList; en zonas no coincide con el prefijo de la URL (todas viven en /zonas/{slug}/).",
   "counts": {
     "pages": 71,
     "v1": 47,
@@ -1743,7 +1744,7 @@
           "anchor": "Usaquén"
         },
         {
-          "url": "/zonas/usaquen/cedritos/",
+          "url": "/zonas/cedritos/",
           "anchor": "Cedritos"
         },
         {
@@ -1751,7 +1752,7 @@
           "anchor": "Chapinero"
         },
         {
-          "url": "/zonas/chapinero/chico/",
+          "url": "/zonas/chico/",
           "anchor": "El Chicó"
         },
         {
@@ -1759,7 +1760,7 @@
           "anchor": "Suba"
         },
         {
-          "url": "/zonas/suba/niza/",
+          "url": "/zonas/niza/",
           "anchor": "Niza"
         },
         {
@@ -1844,16 +1845,16 @@
           "anchor": "zonas de cobertura"
         },
         {
-          "url": "/zonas/usaquen/cedritos/",
+          "url": "/zonas/cedritos/",
           "anchor": "Cedritos"
         },
         {
-          "url": "/zonas/chapinero/chico/",
+          "url": "/zonas/chico/",
           "anchor": "El Chicó"
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Usaquén"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -1904,10 +1905,10 @@
         "recursos": "Plaza fundacional y mercado de pulgas dominical de Usaquén; parques de barrio; ciclovía de la Carrera 7 los domingos.",
         "vias": "Carrera 7, Carrera 9, Autopista Norte, Calle 116 y Calle 127; TransMilenio por la Autopista Norte."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
-      "url": "/zonas/usaquen/cedritos/",
+      "url": "/zonas/cedritos/",
       "parent": "/zonas/usaquen/",
       "type": "zona",
       "title": "Cuidado del adulto mayor en Cedritos | Sovialis",
@@ -1974,12 +1975,12 @@
           "anchor": "cuidado en Usaquén"
         },
         {
-          "url": "/zonas/suba/niza/",
+          "url": "/zonas/niza/",
           "anchor": "Niza"
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Cedritos"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2005,7 +2006,7 @@
       "cta": "Consulta disponibilidad en Cedritos",
       "priority": "v1",
       "menu": "main",
-      "canonical": "https://sovialis.com/zonas/usaquen/cedritos/",
+      "canonical": "https://sovialis.com/zonas/cedritos/",
       "indexable": true,
       "keywordGroupVolume": 50,
       "primaryVolumeNote": "Sin volumen medible (<10) en Keyword Planner para «cuidado/cuidadora + Cedritos». Demanda proxy de la zona: «hogares geriatricos cedritos» 30 · «hogar geriátrico cedritos» 30 · «hogares geriátricos en cedritos bogotá» 20.",
@@ -2026,7 +2027,7 @@
         "recursos": "Zona comercial de las calles 140 y 147; parques de barrio.",
         "vias": "Calle 140, Calle 147, Avenida 19 y Autopista Norte."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/chapinero/",
@@ -2089,7 +2090,7 @@
           "anchor": "zonas de cobertura"
         },
         {
-          "url": "/zonas/chapinero/chico/",
+          "url": "/zonas/chico/",
           "anchor": "El Chicó"
         },
         {
@@ -2098,7 +2099,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Chapinero"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2150,10 +2151,10 @@
         "recursos": "Ciclovía de la Carrera 7 los domingos; parques de bolsillo; zona gastronómica de Quinta Camacho.",
         "vias": "Carrera 7, Carrera 11, Avenida Caracas y Calle 72; TransMilenio por la Caracas."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
-      "url": "/zonas/chapinero/chico/",
+      "url": "/zonas/chico/",
       "parent": "/zonas/chapinero/",
       "type": "zona",
       "title": "Cuidado del adulto mayor en el Chicó, Bogotá | Sovialis",
@@ -2221,7 +2222,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Chicó"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2243,7 +2244,7 @@
       "cta": "Consulta disponibilidad en Chicó",
       "priority": "v1",
       "menu": "main",
-      "canonical": "https://sovialis.com/zonas/chapinero/chico/",
+      "canonical": "https://sovialis.com/zonas/chico/",
       "indexable": true,
       "keywordGroupVolume": 0,
       "primaryVolumeNote": "Sin volumen medible (<10) en Keyword Planner para «cuidado/cuidadora + Chicó». Demanda proxy de la zona: sin búsquedas con el topónimo; prioridad por valor del negocio (estrato alto, clínicas de referencia).",
@@ -2264,7 +2265,7 @@
         "recursos": "Parque El Virrey y Parque de la 93 para caminatas cortas.",
         "vias": "Carrera 11, Carrera 15, Calle 85, Calle 93 y Autopista Norte."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/suba/",
@@ -2329,7 +2330,7 @@
           "anchor": "zonas de cobertura"
         },
         {
-          "url": "/zonas/suba/niza/",
+          "url": "/zonas/niza/",
           "anchor": "Niza"
         },
         {
@@ -2338,7 +2339,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Suba"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2389,10 +2390,10 @@
         "recursos": "Parque Mirador de los Nevados; Humedal de Córdoba (ver Niza).",
         "vias": "Avenida Suba, Avenida Boyacá, Calle 127 y Avenida Pepe Sierra (Calle 116)."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
-      "url": "/zonas/suba/niza/",
+      "url": "/zonas/niza/",
       "parent": "/zonas/suba/",
       "type": "zona",
       "title": "Cuidado del adulto mayor en Niza, Suba | Sovialis",
@@ -2458,12 +2459,12 @@
           "anchor": "cuidado en Suba"
         },
         {
-          "url": "/zonas/usaquen/cedritos/",
+          "url": "/zonas/cedritos/",
           "anchor": "Cedritos"
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Niza"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2489,7 +2490,7 @@
       "cta": "Consulta disponibilidad en Niza",
       "priority": "v1",
       "menu": "main",
-      "canonical": "https://sovialis.com/zonas/suba/niza/",
+      "canonical": "https://sovialis.com/zonas/niza/",
       "indexable": true,
       "keywordGroupVolume": 30,
       "primaryVolumeNote": "Sin volumen medible (<10) en Keyword Planner para «cuidado/cuidadora + Niza». Demanda proxy de la zona: «hogar geriátrico niza 127» 50 (marca de terceros) · «hogares geriátricos en niza bogotá» 20.",
@@ -2511,10 +2512,10 @@
         "recursos": "Humedal de Córdoba; centros comerciales Bulevar Niza e Iserra 100.",
         "vias": "Avenida Suba, Calle 127, Avenida Boyacá y Avenida Córdoba."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
-      "url": "/zonas/usaquen/santa-barbara/",
+      "url": "/zonas/santa-barbara/",
       "parent": "/zonas/usaquen/",
       "type": "zona",
       "title": "Cuidado del adulto mayor en Santa Bárbara | Sovialis",
@@ -2578,12 +2579,12 @@
           "anchor": "cuidado en Usaquén"
         },
         {
-          "url": "/zonas/usaquen/cedritos/",
+          "url": "/zonas/cedritos/",
           "anchor": "Cedritos"
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Santa Bárbara"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2605,7 +2606,7 @@
       "cta": "Consulta disponibilidad en Santa Bárbara",
       "priority": "v2",
       "menu": "main",
-      "canonical": "https://sovialis.com/zonas/usaquen/santa-barbara/",
+      "canonical": "https://sovialis.com/zonas/santa-barbara/",
       "indexable": true,
       "keywordGroupVolume": 110,
       "primaryVolumeNote": "Sin volumen medible (<10) en Keyword Planner para «cuidado/cuidadora + Santa Bárbara». Demanda proxy de la zona: «hogar geriatrico santa barbara» 110 (marca de terceros).",
@@ -2625,10 +2626,10 @@
         "recursos": "Parques de barrio y sector comercial de Unicentro.",
         "vias": "Carrera 7, Carrera 15, Calle 116 y Calle 127."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
-      "url": "/zonas/suba/colina-campestre/",
+      "url": "/zonas/colina-campestre/",
       "parent": "/zonas/suba/",
       "type": "zona",
       "title": "Cuidado del adulto mayor en Colina Campestre | Sovialis",
@@ -2690,12 +2691,12 @@
           "anchor": "cuidado en Suba"
         },
         {
-          "url": "/zonas/suba/niza/",
+          "url": "/zonas/niza/",
           "anchor": "Niza"
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Colina Campestre"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2717,7 +2718,7 @@
       "cta": "Consulta disponibilidad en Colina Campestre",
       "priority": "v2",
       "menu": "main",
-      "canonical": "https://sovialis.com/zonas/suba/colina-campestre/",
+      "canonical": "https://sovialis.com/zonas/colina-campestre/",
       "indexable": true,
       "keywordGroupVolume": 0,
       "primaryVolumeNote": "Sin volumen medible (<10) en Keyword Planner para «cuidado/cuidadora + Colina Campestre». Demanda proxy de la zona: sin búsquedas con el topónimo; prioridad por valor del negocio.",
@@ -2734,7 +2735,7 @@
         "recursos": "Zonas verdes de los conjuntos; centros comerciales de la Calle 138 y la Avenida Boyacá.",
         "vias": "Avenida Boyacá, Calle 138, Calle 147 y Avenida Suba."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/calle-170/",
@@ -2806,7 +2807,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Calle 170"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2848,7 +2849,7 @@
         "recursos": "Parques de barrio; Portal Norte y estación Toberín de TransMilenio.",
         "vias": "Calle 170, Autopista Norte, Avenida Boyacá y Avenida 9."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/teusaquillo/",
@@ -2921,7 +2922,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Teusaquillo"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -2970,7 +2971,7 @@
         "recursos": "Park Way y Parque Simón Bolívar.",
         "vias": "Avenida Caracas, Carrera 30 (NQS), Calle 45 y Calle 53."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/barrios-unidos/",
@@ -3041,7 +3042,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Barrios Unidos"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -3085,7 +3086,7 @@
         "recursos": "Parque de Los Novios (El Lago) y parques de barrio.",
         "vias": "Avenida 68, Calle 80, Autopista Norte y Avenida Suba."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/salitre-y-modelia/",
@@ -3156,7 +3157,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Salitre"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -3201,7 +3202,7 @@
         "recursos": "Zonas verdes de los conjuntos; parques de barrio; cercanía al aeropuerto El Dorado.",
         "vias": "Avenida La Esperanza, Avenida 68, Avenida Boyacá y Calle 26."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/zonas/chia/",
@@ -3271,7 +3272,7 @@
         },
         {
           "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora en Chía"
+          "anchor": "cuidadora de adulto mayor"
         },
         {
           "url": "/servicios/cuidado-nocturno/",
@@ -3314,7 +3315,7 @@
         "recursos": "Parques del casco urbano de Chía; senderos de los conjuntos.",
         "vias": "Autopista Norte, Carrera Séptima (vía a Chía) y Variante Chía–Cajicá."
       },
-      "notes": "Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
     {
       "url": "/blog/",
@@ -5496,7 +5497,7 @@
           "anchor": "hogar geriátrico o casa"
         },
         {
-          "url": "/zonas/usaquen/cedritos/",
+          "url": "/zonas/cedritos/",
           "anchor": "recogida en centros día de Cedritos"
         }
       ],
@@ -6237,11 +6238,11 @@
             "links": [
               {
                 "label": "Cedritos",
-                "url": "/zonas/usaquen/cedritos/"
+                "url": "/zonas/cedritos/"
               },
               {
                 "label": "Santa Bárbara (v2)",
-                "url": "/zonas/usaquen/santa-barbara/",
+                "url": "/zonas/santa-barbara/",
                 "priority": "v2"
               },
               {
@@ -6257,7 +6258,7 @@
             "links": [
               {
                 "label": "El Chicó",
-                "url": "/zonas/chapinero/chico/"
+                "url": "/zonas/chico/"
               }
             ]
           },
@@ -6267,11 +6268,11 @@
             "links": [
               {
                 "label": "Niza",
-                "url": "/zonas/suba/niza/"
+                "url": "/zonas/niza/"
               },
               {
                 "label": "Colina Campestre (v2)",
-                "url": "/zonas/suba/colina-campestre/",
+                "url": "/zonas/colina-campestre/",
                 "priority": "v2"
               }
             ]
@@ -6400,7 +6401,7 @@
           },
           {
             "label": "Cedritos",
-            "url": "/zonas/usaquen/cedritos/"
+            "url": "/zonas/cedritos/"
           },
           {
             "label": "Chapinero",
@@ -6408,7 +6409,7 @@
           },
           {
             "label": "El Chicó",
-            "url": "/zonas/chapinero/chico/"
+            "url": "/zonas/chico/"
           },
           {
             "label": "Suba",
@@ -6416,7 +6417,7 @@
           },
           {
             "label": "Niza",
-            "url": "/zonas/suba/niza/"
+            "url": "/zonas/niza/"
           }
         ]
       },
@@ -6538,6 +6539,7 @@
       ],
       "rules": [
         "El blog usa la categoría principal en la miga aunque no esté en la URL.",
+        "Las zonas de tipo barrio muestran su localidad (campo localidad) aunque la URL sea /zonas/{slug}/.",
         "El último elemento no es enlace; los anteriores sí.",
         "Nombres cortos (no el H1 completo) para la miga visible; el JSON-LD usa los mismos nombres."
       ]
@@ -6881,6 +6883,12 @@
       "owner": "/zonas/",
       "mustNotTarget": "localidades y barrios",
       "note": ""
+    },
+    {
+      "queryFamily": "cabezas sin dueño: «adultos mayores» (3.600), «día de la enfermera» (2.400), «enfermería» (1.900), «auxiliar de enfermería» (1.300), «cuidador» (210), «geriátrico» como directorio de marcas",
+      "owner": "ninguna (no se apuntan)",
+      "mustNotTarget": "todas",
+      "note": "Intención mixta o ajena (estudio, empleo, efemérides, navegación a terceros). Se mencionan en el cuerpo cuando aportan contexto, nunca en title/H1."
     }
   ],
   "toponymOwnership": [
@@ -6899,7 +6907,7 @@
       ]
     },
     {
-      "url": "/zonas/usaquen/cedritos/",
+      "url": "/zonas/cedritos/",
       "priority": "v1",
       "toponyms": [
         "Cedritos",
@@ -6926,7 +6934,7 @@
       ]
     },
     {
-      "url": "/zonas/chapinero/chico/",
+      "url": "/zonas/chico/",
       "priority": "v1",
       "toponyms": [
         "Chicó",
@@ -6953,7 +6961,7 @@
       ]
     },
     {
-      "url": "/zonas/suba/niza/",
+      "url": "/zonas/niza/",
       "priority": "v1",
       "toponyms": [
         "Niza",
@@ -6965,7 +6973,7 @@
       ]
     },
     {
-      "url": "/zonas/usaquen/santa-barbara/",
+      "url": "/zonas/santa-barbara/",
       "priority": "v2",
       "toponyms": [
         "Santa Bárbara",
@@ -6976,7 +6984,7 @@
       ]
     },
     {
-      "url": "/zonas/suba/colina-campestre/",
+      "url": "/zonas/colina-campestre/",
       "priority": "v2",
       "toponyms": [
         "Colina Campestre",
@@ -7065,8 +7073,8 @@
       "note": "Contenido en §12.2; generado en build"
     },
     {
-      "path": "/sitemap-index.xml",
-      "note": "@astrojs/sitemap; excluye /gracias/, /404/, categorías en noindex y páginas v2 no publicadas"
+      "path": "/sitemap.xml",
+      "note": "Índice nativo de EmDash (/sitemap-{coleccion}.xml por colección, excluye noindex). Las rutas fijas (hubs /servicios/, /zonas/, /blog/, categorías) deben existir como entradas de la colección pages o añadirse con un sitemap propio; excluir /gracias/, /404/ y v2 no publicadas."
     }
   ]
 }
