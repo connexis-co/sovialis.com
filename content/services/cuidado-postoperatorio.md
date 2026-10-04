@@ -39,26 +39,39 @@ faqs:
   - question: "¿Cómo ayudan a mi familiar a ir al baño si no puede apoyar la pierna operada?"
     answer: "La cuidadora asiste cada traslado con las ayudas indicadas, como caminador, silla o pato, siguiendo las restricciones de apoyo que dio el ortopedista. Antes del primer turno revisamos contigo el camino de la cama al baño, la altura del sanitario y si hace falta un elevador o una barra. De noche deja una luz de paso encendida."
 layout:
-  - _type: media_text
+  - _type: accordion
+    cta_label: Organiza el regreso a casa
+    cta_action: cotizar
     eyebrow: Para quién es
     title: Cómo ayudamos después de una cirugía de cadera, rodilla o abdomen
     highlight: cadera, rodilla o abdomen
+    subtitle: "Después de una cirugía, la estancia en la clínica suele ser corta y la recuperación sigue en casa. Una cuidadora para el postoperatorio se encarga de lo cotidiano para que tu familiar se concentre en recuperarse."
     image:
       media: servicio-auxiliar
-      alt: "Persona con formación de auxiliar ayuda a una persona mayor a caminar con andador en su casa después de una cirugía"
+      alt: "Persona con formación de auxiliar acompaña de cerca a una señora mayor que camina con andador por el pasillo de su casa después de una cirugía"
     image_side: izquierda
     tone: claro
-    body: |
-      Después de una cirugía, la estancia en la clínica suele ser corta y la recuperación sigue en casa. Los primeros días son los más delicados: tu familiar no puede apoyar bien la pierna, le duele levantarse o tiene que cuidar la herida del abdomen cada vez que tose.
-
-      Una cuidadora para el postoperatorio se encarga de lo cotidiano para que tu familiar se concentre en recuperarse: le ayuda a levantarse sin forzar la zona operada, a bañarse sin riesgo y a cumplir las indicaciones que le dieron al salir. Si la dependencia es alta, el servicio lo puede cubrir [personal con formación de auxiliar](/servicios/auxiliar-de-enfermeria/).
-    bullets: |
-      Reemplazo de cadera o de rodilla
-      Fracturas operadas, como la de cadera
-      Cirugías de abdomen, como hernias o vesícula
-      Otras cirugías con reposo indicado por el médico
-    cta_label: Organiza el regreso a casa
-    cta_action: cotizar
+    items:
+      - icon: silla-ruedas
+        title: Reemplazo de cadera o de rodilla
+        body: |
+          Los primeros días tu familiar no puede apoyar bien la pierna y le duele levantarse.
+          La cuidadora asiste cada traslado con caminador o silla, respetando las restricciones de apoyo que dio el ortopedista.
+      - icon: escudo
+        title: Fracturas operadas, como la de cadera
+        body: |
+          Después de una caída y una cirugía, el miedo a volver a caerse es grande.
+          Caminar acompañado, con el paso despejado y una luz encendida hacia el baño, ayuda a recuperar la confianza.
+      - icon: venda
+        title: Cirugías de abdomen, como hernias o vesícula
+        body: |
+          Cada vez que tose o se levanta tiene que cuidar la herida del abdomen.
+          La cuidadora le ayuda a incorporarse sin forzar la zona operada y a bañarse sin mojar el vendaje.
+      - icon: cama
+        title: Otras cirugías con reposo indicado por el médico
+        body: |
+          Si el médico indicó reposo, alguien tiene que encargarse de las comidas, la higiene y los medicamentos orales a tiempo.
+          La cuidadora le ayuda a cumplir las indicaciones que le dieron al salir de la clínica.
 
   - _type: comparison
     eyebrow: Qué incluye y qué no
@@ -113,11 +126,23 @@ layout:
 
 ## Prevención de caídas y de lesiones de piel en la recuperación
 
-Una caída en las semanas siguientes a una cirugía puede echar atrás toda la recuperación. Por eso la cuidadora asiste cada traslado, de la cama a la silla, al baño o a la ducha, con las ayudas que indicó el médico (caminador, muletas, silla o pato) y respetando las restricciones de apoyo que dio el ortopedista.
+Una caída en las semanas siguientes a una cirugía puede echar atrás toda la recuperación. Por eso la cuidadora asiste cada traslado, de la cama a la silla, al baño o a la ducha, con las ayudas que indicó el médico (caminador, muletas, silla o pato).
 
-La piel también necesita atención. Cuando tu familiar pasa muchas horas en cama o sentado, la cuidadora le ayuda a cambiar de posición, mantiene la ropa de cama seca y sin arrugas y avisa si nota una zona enrojecida que no desaparece. Si la herida sangra, huele mal o tu familiar tiene fiebre, avisa de inmediato a la familia para consultar.
+La piel también necesita atención cuando tu familiar pasa muchas horas en cama o sentado. La cuidadora:
 
-Si estás comparando casas de cuidados postoperatorios o estancias postoperatorias para adultos mayores, ten en cuenta que recuperarse en casa es otra opción: tu familiar duerme en su cama, usa su baño y mantiene sus rutinas, mientras tu EPS se encarga de la atención en salud y una cuidadora de lo demás.
+- Le ayuda a cambiar de posición.
+- Mantiene la ropa de cama seca y sin arrugas.
+- Avisa si nota una zona enrojecida que no desaparece.
+
+Si la herida sangra, huele mal o tu familiar tiene fiebre, avisa de inmediato a la familia para consultar.
+
+## Cuidado postoperatorio en casa o en una estancia
+
+Si estás comparando casas de cuidados postoperatorios o estancias postoperatorias para adultos mayores, ten en cuenta que recuperarse en casa es otra opción:
+
+- Tu familiar duerme en su cama y usa su baño.
+- Mantiene sus rutinas y sus horarios.
+- Tu EPS se encarga de la atención en salud y una cuidadora de lo demás.
 
 ## Turnos recomendados según la etapa de la recuperación
 
@@ -127,12 +152,24 @@ No hay una receta única, pero este esquema sirve de punto de partida para conve
 - **Semanas siguientes:** turnos de día de 8 o 12 horas mientras recupera fuerza y confianza para caminar.
 - **Etapa final:** visitas por horas para el baño, una caminata o el acompañamiento a controles y terapias.
 
-En el cuidado después de una cirugía de cadera, por ejemplo, las noches pesan mucho, porque tu familiar se levanta medio dormido al baño. El plan se ajusta en cada etapa y no hay permanencia mínima. Si tu familiar todavía está hospitalizado, podemos empezar con [acompañamiento en la clínica](/servicios/acompanamiento-hospitalario/) y seguir en casa después del alta; coordinamos la salida desde las [clínicas del norte donde acompañamos](/zonas/).
+En el cuidado después de una cirugía de cadera, por ejemplo, las noches pesan mucho, porque tu familiar se levanta medio dormido al baño. El plan se ajusta en cada etapa y no hay permanencia mínima.
+
+Si la dependencia es alta, el servicio lo puede cubrir [personal con formación de auxiliar](/servicios/auxiliar-de-enfermeria/).
+
+## Si tu familiar todavía está en la clínica
+
+Podemos empezar con [acompañamiento en la clínica](/servicios/acompanamiento-hospitalario/) y seguir en casa después del alta. Coordinamos la salida desde las [clínicas del norte donde acompañamos](/zonas/).
 
 Para saber qué cuidados necesita tu familiar en cada momento, qué señales vigilar y cuándo consultar, lee nuestra [guía de cuidados después de una cirugía](/blog/cuidados-postoperatorios-en-casa/).
 
 ## Tarifas de referencia
 
-El cuidado postoperatorio en casa se cotiza con las tarifas de la cuidadora: desde $160.000 por turno de 12 horas de día, $190.000 de noche y $300.000 por 24 horas, de lunes a viernes; por horas, desde $20.000 la hora con un mínimo de 4. Revisa todas las [tarifas](/precios/), incluidas las del perfil auxiliar y las de fines de semana y festivos.
+El cuidado postoperatorio en casa se cotiza con las tarifas de la cuidadora: desde $160.000 por turno de 12 horas de día, de lunes a viernes. Otras modalidades:
+
+- Turno de 12 horas de noche: desde $190.000.
+- Cobertura 24 horas: desde $300.000.
+- Por horas: desde $20.000 la hora, con un mínimo de 4.
+
+Revisa todas las [tarifas](/precios/), incluidas las del perfil auxiliar y las de fines de semana y festivos.
 
 Precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar.

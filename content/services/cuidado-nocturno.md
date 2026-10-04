@@ -39,69 +39,70 @@ faqs:
   - question: "¿Qué necesita la cuidadora en casa para el turno nocturno?"
     answer: "Un lugar donde sentarse cerca de la habitación, luz de paso hacia el baño y los teléfonos de la familia y de la EPS a la mano. También ayuda tener a la vista la lista de medicamentos, una cobija extra para tu familiar y, en las madrugadas frías de Bogotá, una manta para quien pasa la noche despierta."
 layout:
-  - _type: media_text
+  - _type: accordion
+    cta_label: Cotiza noches de cuidado
+    cta_action: cotizar
     eyebrow: Para quién es
     title: Por qué muchas familias necesitan apoyo en la noche
     highlight: en la noche
+    subtitle: "De noche los riesgos cambian, y quien cuida de día también necesita dormir. Una cuidadora de noche cubre ese hueco: se queda despierta cerca de la habitación y acompaña cada levantada."
     image:
       media: cta-familia
-      alt: "Hija adulta abraza a su madre mayor en casa, con la tranquilidad de una noche bien acompañada"
-    image_side: derecha
+      alt: "Hija adulta abraza a su madre mayor en el sofá de la sala, tranquila porque las noches están cubiertas"
+    image_side: izquierda
     tone: claro
-    body: |
-      De noche los riesgos cambian. Tu familiar se levanta medio dormido para ir al baño, el pasillo está oscuro y el piso puede estar frío o resbaloso. Ese trayecto entre la cama y el baño es uno de los momentos de más riesgo de caída en una persona mayor.
-
-      Mientras tanto, quien cuida de día ya no da más. Una cuidadora de noche cubre ese hueco: se queda despierta cerca de la habitación, acompaña cada levantada y te deja dormir para que al día siguiente puedas trabajar o atender la casa.
-    bullets: |
-      Tu familiar se levanta varias veces en la noche
-      Hay riesgo de caídas o usa pañal y necesita cambios
-      Se despierta confundido o inquieto de madrugada
-      Quien cuida de día necesita dormir de verdad
-    cta_label: Cotiza noches de cuidado
-    cta_action: cotizar
-
-  - _type: feature_grid
-    eyebrow: Qué incluye
-    title: Qué hace la cuidadora mientras tu familiar duerme
-    highlight: mientras tu familiar duerme
-    layout: cuadricula
-    tone: arena
     items:
       - icon: luna
-        title: Vigilia toda la noche
-        text: Permanece despierta y atenta, sentada cerca de la habitación, durante todo el turno.
-      - icon: manos
-        title: Idas al baño
-        text: Acompaña cada levantada con luz de paso y apoyo firme, o asiste con el pato o el pañal si es lo indicado.
+        title: Se levanta varias veces en la noche
+        body: |
+          Tu familiar se levanta medio dormido para ir al baño, el pasillo está oscuro y el piso puede estar frío o resbaloso.
+          Ese trayecto entre la cama y el baño es uno de los momentos de más riesgo de caída en una persona mayor.
       - icon: cama
-        title: Pañal, ropa de cama y posición
-        text: Lo mantiene limpio y seco y, si pasa mucho tiempo en cama, lo cambia de posición en los horarios acordados.
+        title: Usa pañal y necesita cambios
+        body: |
+          A las 2:00 a. m. hay que cambiar el pañal y la ropa de cama, y a veces otra vez antes del amanecer.
+          La cuidadora lo hace con calma y lo deja limpio y seco para que vuelva a dormir.
+      - icon: cerebro
+        title: Se despierta confundido o inquieto de madrugada
+        body: |
+          Pregunta dónde está, busca la puerta o quiere levantarse sin ayuda.
+          La cuidadora le habla en voz baja, le ayuda a ubicarse y evita que se levante sin apoyo.
       - icon: corazon
-        title: Calma si se desorienta
-        text: Le habla con tranquilidad, le ayuda a ubicarse y evita que se levante sin apoyo.
-      - icon: pastillas
-        title: Medicamentos de la noche
-        text: Le recuerda las tomas orales de la noche o la madrugada que la familia dejó organizadas.
-      - icon: documento
-        title: Reporte al amanecer
-        text: Al entregar el turno cuenta cómo durmió, cuántas veces se levantó y cualquier novedad.
+        title: Quien cuida de día necesita dormir de verdad
+        body: |
+          Si eres tú quien se levanta cada noche, al día siguiente no rindes en el trabajo ni en la casa.
+          Con una cuidadora de noche, tú duermes de corrido.
 
-  - _type: feature_grid
-    eyebrow: Qué no incluye
-    title: Lo que no hace en el turno nocturno
-    highlight: no hace
-    layout: lista
-    tone: bruma
-    items:
-      - icon: hospital
-        title: Atención en salud
-        text: No aplica inyecciones ni insulina, no hace curaciones ni maneja oxígeno. Eso lo realiza tu EPS o una IPS habilitada, con la que contratas directamente.
-      - icon: reloj
-        title: Dormir durante el turno
-        text: El turno es de vigilia. Si tu familiar duerme de corrido toda la noche, conversemos antes de cotizar; quizá te sirva otra modalidad.
-      - icon: casa
-        title: Oficios de la casa
-        text: No lava la ropa de toda la familia ni hace aseo general mientras tu familiar duerme.
+  - _type: tabs_media
+    eyebrow: Qué incluye y qué no
+    title: Qué hace la cuidadora mientras tu familiar duerme
+    highlight: mientras tu familiar duerme
+    image:
+      media: tab-incluye
+      alt: "Cuidadora camina del brazo de una señora mayor con bastón por el pasillo de su apartamento"
+    image_side: derecha
+    tabs:
+      - label: Qué incluye
+        title: Toda la noche, cerca de la habitación
+        image:
+          media: tab-incluye
+          alt: "Cuidadora camina del brazo de una señora mayor con bastón por el pasillo de su apartamento"
+        body: |
+          - **Vigilia toda la noche:** permanece despierta y atenta, sentada cerca de la habitación, durante todo el turno.
+          - **Idas al baño:** acompaña cada levantada con luz de paso y apoyo firme, o asiste con el pato o el pañal si es lo indicado.
+          - **Pañal, ropa de cama y posición:** lo mantiene limpio y seco y, si pasa mucho tiempo en cama, lo cambia de posición en los horarios acordados.
+          - **Calma si se desorienta:** le habla con tranquilidad, le ayuda a ubicarse y evita que se levante sin apoyo.
+          - **Medicamentos de la noche:** le recuerda las tomas orales de la noche o la madrugada que la familia dejó organizadas.
+          - **Reporte al amanecer:** al entregar el turno cuenta cómo durmió, cuántas veces se levantó y cualquier novedad.
+      - label: Qué no incluye
+        title: Lo que no hace en el turno nocturno
+        image:
+          media: tab-no-incluye
+          alt: "Coordinadora de Sovialis revisa con una hija adulta el plan de cuidado por escrito en la mesa del comedor"
+        body: |
+          - **Atención en salud:** no aplica inyecciones ni insulina, no hace curaciones ni maneja oxígeno. Eso lo realiza tu EPS o una IPS habilitada, con la que contratas directamente.
+          - **Dormir durante el turno:** el turno es de vigilia. Si tu familiar duerme de corrido toda la noche, conversemos antes de cotizar; quizá te sirva otra modalidad.
+          - **Oficios de la casa:** no lava la ropa de toda la familia ni hace aseo general mientras tu familiar duerme.
 
   - _type: steps
     eyebrow: La primera noche
@@ -126,20 +127,51 @@ layout:
 
 ## Turnos nocturnos de 8 y 12 horas
 
-Un turno nocturno de 12 horas suele ir de 7:00 p. m. a 7:00 a. m. y cubre desde la comida hasta el desayuno: la cuidadora ayuda a tu familiar a alistarse para dormir y lo deja listo para empezar el día. El turno de 8 horas cubre el tramo más difícil, por ejemplo de 10:00 p. m. a 6:00 a. m., cuando alguien de la familia alcanza a acostarlo y a levantarlo.
+El cuidado nocturno de personas mayores se organiza en dos formatos:
 
-Puedes pedir noches sueltas, como las de la semana en que la familia viaja, o fijas, por ejemplo de domingo a jueves. Si buscas una cuidadora de adulto mayor para el turno de noche de forma permanente, procuramos que sea siempre un grupo pequeño de personas, para que tu familiar reconozca quién lo acompaña. Las cuidadoras nocturnas que coordinamos pasan por la misma verificación que las de día; aquí puedes ver [qué hace una cuidadora](/servicios/cuidadora-adulto-mayor/) en cualquier turno. Y si tu papá prefiere que lo acompañe un cuidador nocturno hombre, dínoslo al cotizar y buscamos esa disponibilidad.
+- **Turno de 12 horas**, por ejemplo de 7:00 p. m. a 7:00 a. m.: cubre desde la comida hasta el desayuno. La cuidadora ayuda a tu familiar a alistarse para dormir y lo deja listo para empezar el día.
+- **Turno de 8 horas**, por ejemplo de 10:00 p. m. a 6:00 a. m.: cubre el tramo más difícil, cuando alguien de la familia alcanza a acostarlo y a levantarlo.
 
-Si tu familiar ya no puede quedarse solo ni de día ni de noche, el paso siguiente es el [cuidado 24 horas con relevos](/servicios/cuidado-24-horas/). Cubrimos noches en Usaquén, Cedritos, Chicó, Chapinero, Suba, Niza y el resto de nuestras [zonas de cobertura](/zonas/); confirmamos la cobertura de tu dirección al cotizar.
+Puedes pedir noches sueltas, como las de la semana en que la familia viaja, o fijas, por ejemplo de domingo a jueves.
+
+## Quién acompaña a tu familiar de noche
+
+Si buscas una cuidadora de adulto mayor para el turno de noche de forma permanente, procuramos que sea siempre un grupo pequeño de personas. Así tu familiar reconoce quién lo acompaña.
+
+Las cuidadoras nocturnas que coordinamos pasan por la misma verificación que las de día. Aquí puedes ver [qué hace una cuidadora](/servicios/cuidadora-adulto-mayor/) en cualquier turno.
+
+¿Tu papá prefiere que lo acompañe un cuidador nocturno hombre? Dínoslo al cotizar y buscamos esa disponibilidad.
 
 ## Noches en casa o acompañamiento en clínica
 
-El turno de noche también funciona en una clínica. Si tu familiar está hospitalizado y la institución permite un acompañante nocturno, la cuidadora pasa la noche a su lado, le ayuda a acomodarse, lo acompaña al baño y avisa al personal de salud ante cualquier cambio. Te contamos cómo funcionan las [noches en clínica](/servicios/acompanamiento-hospitalario/) en la página de acompañamiento hospitalario.
+El turno de noche también funciona en una clínica, si la institución permite un acompañante nocturno. La cuidadora pasa la noche al lado de tu familiar hospitalizado:
 
-Para las personas con Alzheimer u otra demencia, la noche trae retos propios: insomnio, caminatas por la casa a la madrugada y confusión al despertar. En esos casos te sugerimos leer sobre el [cuidado en demencia](/servicios/cuidado-alzheimer-demencia/) antes de definir el turno, porque la continuidad de las mismas personas pesa todavía más.
+- Le ayuda a acomodarse.
+- Lo acompaña al baño.
+- Avisa al personal de salud ante cualquier cambio.
+
+Te contamos cómo funcionan las [noches en clínica](/servicios/acompanamiento-hospitalario/) en la página de acompañamiento hospitalario.
+
+## Noches con Alzheimer u otra demencia
+
+Para las personas con Alzheimer u otra demencia, la noche trae retos propios: insomnio, caminatas por la casa a la madrugada y confusión al despertar.
+
+En esos casos la continuidad de las mismas personas pesa todavía más. Te sugerimos leer sobre el [cuidado en demencia](/servicios/cuidado-alzheimer-demencia/) antes de definir el turno.
+
+## Del turno de noche al cuidado 24 horas
+
+Si tu familiar ya no puede quedarse solo ni de día ni de noche, el paso siguiente es el [cuidado 24 horas con relevos](/servicios/cuidado-24-horas/).
+
+Cubrimos noches en Usaquén, Cedritos, Chicó, Chapinero, Suba, Niza y el resto de nuestras [zonas de cobertura](/zonas/). Confirmamos la cobertura de tu dirección al cotizar.
 
 ## Tarifas de referencia del turno nocturno
 
-Una cuidadora de turno nocturno en Bogotá cuesta en Sovialis desde $190.000 por 12 horas y desde $140.000 por 8 horas, de lunes a viernes. Con personal con formación de auxiliar, desde $215.000 por 12 horas. Los sábados, domingos y festivos tienen otra tarifa; revisa las [tarifas del turno nocturno](/precios/) completas.
+Una cuidadora de turno nocturno en Bogotá cuesta en Sovialis desde $190.000 por 12 horas, de lunes a viernes. Otras tarifas de referencia:
+
+- Desde $140.000 por un turno de 8 horas con cuidadora.
+- Desde $215.000 por 12 horas con personal con formación de auxiliar.
+- Sábados, domingos y festivos: otra tarifa.
+
+Revisa las [tarifas del turno nocturno](/precios/) completas.
 
 Precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar.

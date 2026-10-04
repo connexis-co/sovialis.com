@@ -5,19 +5,19 @@ title: "Sovialis: vínculos que protegen"
 summary: "Sovialis es una empresa de Bogotá que presta cuidado no sanitario a domicilio para personas mayores, con cuidadoras y personal con formación de auxiliar de enfermería."
 seo:
   title: "Quiénes somos: Sovialis, vínculos que protegen"
-  description: "Conoce a Sovialis: empresa bogotana de cuidado no sanitario a domicilio para personas mayores. Equipo, cómo trabajamos, compromisos y datos de la empresa."
+  description: "Conoce a Sovialis: empresa bogotana de cuidado no sanitario a domicilio para personas mayores. Equipo, cómo trabajamos y nuestros compromisos con cada familia."
 focus_keyword: sovialis
 faqs:
   - question: ¿Quién está detrás de Sovialis?
-    answer: "Sovialis es la marca de SOVIALIS CUIDADO INTEGRAL S.A.S., una empresa bogotana con un equipo de coordinación que acompaña a las familias y a las personas que prestan el cuidado. La coordinación es tu contacto para cotizar, acordar el plan de cuidado, organizar relevos y hacer seguimiento; puedes hablar con ella por WhatsApp o por teléfono en el horario de atención."
+    answer: "Sovialis es una empresa bogotana con un equipo de coordinación que acompaña a las familias y a las personas que prestan el cuidado. La coordinación es tu contacto para cotizar, acordar el plan de cuidado, organizar relevos y hacer seguimiento; puedes hablar con ella por WhatsApp o por teléfono en el horario de atención."
   - question: ¿Sovialis es una IPS?
     answer: "No. Sovialis no está habilitada como Institución Prestadora de Servicios de Salud (IPS): presta cuidado no sanitario a domicilio. Cuando tu familiar necesita un servicio de salud, como una curación o un medicamento inyectable, te orientamos para pedirlo a tu EPS o a una IPS habilitada, con la que contratas directamente."
   - question: ¿Qué significa «Vínculos que protegen»?
     answer: "Es nuestro lema. Creemos que el buen cuidado nace de una relación de confianza entre la persona mayor, su familia y quien la cuida. Cuando esos tres vínculos funcionan, tu familiar está más tranquilo, la familia sabe qué esperar y quien cuida puede hacer bien su trabajo."
   - question: ¿Dónde están ubicados?
-    answer: "Sovialis tiene su domicilio en Bogotá D.C. Los servicios se coordinan por WhatsApp y por teléfono y se prestan en la casa de cada familia, sobre todo en el norte y el noroccidente de la ciudad. Los datos de la empresa están en la sección «Datos de la empresa» de esta página."
-  - question: ¿Cómo puedo verificar que Sovialis es una empresa legalmente constituida?
-    answer: "Busca a SOVIALIS CUIDADO INTEGRAL S.A.S. por su razón social o por su NIT, que aparece en «Datos de la empresa», en el Registro Único Empresarial y Social (RUES) de las cámaras de comercio. La consulta es pública y gratuita, y muestra el estado de la matrícula mercantil."
+    answer: "Sovialis tiene su domicilio en Bogotá D.C. Los servicios se coordinan por WhatsApp y por teléfono y se prestan en la casa de cada familia, sobre todo en el norte y el noroccidente de la ciudad."
+  - question: ¿Puedo conocer a la coordinación antes de contratar?
+    answer: "Sí. Antes de empezar hablas con la coordinación por teléfono, videollamada o en una visita de valoración, recibes la cotización y el plan de cuidado por escrito y conoces el perfil de la persona que va a cuidar a tu familiar. Si algo no te convence, lo ajustamos antes de iniciar."
 layout:
   - _type: hero
     variant: dividido
@@ -27,7 +27,7 @@ layout:
     subtitle: Somos una empresa bogotana que coordina el cuidado de personas mayores en casa, con personas verificadas y un plan acordado con cada familia.
     image:
       media: nosotros-equipo
-      alt: Coordinadora de cuidado revisa la agenda de servicios en una oficina luminosa de Bogotá
+      alt: Dos coordinadoras de Sovialis revisan la agenda semanal de servicios en una oficina luminosa de Bogotá
     primary_label: Conversa con la coordinación
     primary_action: whatsapp
     secondary_label: Cómo trabajamos
@@ -36,20 +36,77 @@ layout:
     card_title: Cuidado no sanitario
     card_text: No somos una IPS. Cuando tu familiar necesita un procedimiento de salud, te orientamos hacia tu EPS o una IPS habilitada.
 
-  - _type: rich_text
-    width: lectura
+  - _type: media_text
+    eyebrow: Nuestra razón de ser
+    title: Por qué existe Sovialis
+    highlight: Sovialis
+    image:
+      media: nuestro-cuidado
+      alt: Señora mayor con su taza de té cuenta una historia en el balcón mientras la cuidadora la escucha con un libro en las manos
+    image_side: izquierda
+    tone: claro
     body: |
-      ## Por qué existe Sovialis
+      Cuando una persona mayor empieza a necesitar ayuda en casa, muchas familias lo resuelven como pueden: turnos entre hermanos, una vecina que colabora, alguien que les recomendaron. Funciona mientras nada cambia.
 
-      Cuando una persona mayor empieza a necesitar ayuda en casa, muchas familias lo resuelven como pueden: turnos entre hermanos, una vecina que colabora, alguien que les recomendaron. Funciona mientras nada cambia. El problema aparece el día en que esa persona se enferma, no llega o deja de estar disponible, y la familia tiene que improvisar de nuevo.
+      El problema aparece el día en que esa persona se enferma, no llega o deja de estar disponible. Por ejemplo, un lunes a las 6:00 a. m., cuando tú ya vas tarde para el trabajo.
 
-      Sovialis existe para que el cuidado en casa tenga respaldo: personas verificadas, un plan de cuidado escrito y una coordinación que responde cuando algo cambia. Nuestro lema, «Vínculos que protegen», resume la idea: el buen cuidado nace de una relación de confianza entre la persona mayor, su familia y quien la cuida.
+      Sovialis existe para que el cuidado en casa tenga respaldo:
+    bullets: |
+      Personas verificadas antes de entrar a tu casa
+      Un plan de cuidado escrito que guía cada servicio, sin importar quién lo preste ese día
+      Una coordinación que responde cuando algo cambia
 
-      ## Lo que hacemos y lo que no hacemos
+  - _type: feature_grid
+    eyebrow: Nuestro lema
+    title: Tres vínculos que cuidamos
+    highlight: tres vínculos
+    subtitle: "«Vínculos que protegen» resume la idea: el buen cuidado nace de una relación de confianza entre la persona mayor, su familia y quien la cuida."
+    layout: cuadricula
+    tone: bruma
+    items:
+      - icon: usuario
+        title: La persona mayor, protagonista
+        text: Participa en las decisiones sobre su cuidado y se le habla con respeto, sin infantilizarla. Si a tu papá le gusta afeitarse solo, se le deja hacerlo.
+      - icon: familia
+        title: La familia, tranquila e informada
+        text: Sabe quién llega, qué se hace en cada turno y a quién llamar si algo cambia.
+      - icon: manos
+        title: Quien cuida, con respaldo
+        text: Cuidadoras y auxiliares independientes que coordinamos, con un plan claro y un canal abierto para reportar novedades.
 
-      Sovialis es una empresa de Bogotá que presta cuidado no sanitario a domicilio para personas mayores, con cuidadoras y personal con formación de auxiliar de enfermería. Acompañamos a tu familiar en lo cotidiano: compañía y conversación, higiene personal, alimentación, apoyo para caminar, recordatorio de medicamentos ya formulados y acompañamiento a citas médicas o en la clínica. Lo hacemos por horas, en turnos de día o de noche, o 24 horas. Conoce todos los [servicios](/servicios/).
-
-      No somos una IPS. Nuestro personal no aplica inyecciones ni insulina, no hace curaciones, no maneja sondas ni oxígeno y no toma muestras, aunque tenga formación para hacerlo. Tampoco hace oficios generales de la casa, conduce vehículos ni maneja dinero. Cuando tu familiar necesita un servicio de salud, te orientamos para pedirlo a tu EPS o a una IPS habilitada.
+  - _type: tabs_media
+    eyebrow: Alcance del servicio
+    title: Lo que hacemos y lo que no hacemos
+    highlight: lo que no hacemos
+    subtitle: Cuidado no sanitario a domicilio, por horas, en turnos de día o de noche, o 24 horas.
+    image:
+      media: tab-incluye
+      alt: Cuidadora camina del brazo de una señora mayor con bastón por el pasillo luminoso de su apartamento
+    image_side: derecha
+    tabs:
+      - label: Lo que hacemos
+        title: Acompañamos a tu familiar en lo cotidiano
+        image:
+          media: tab-incluye
+          alt: Cuidadora camina del brazo de una señora mayor con bastón por el pasillo luminoso de su apartamento
+        body: |
+          Sovialis es una empresa de Bogotá que presta cuidado no sanitario a domicilio para personas mayores, con cuidadoras y personal con formación de auxiliar de enfermería.
+          - **Compañía:** conversación, lectura, juegos y salidas.
+          - **Higiene personal:** baño, vestido y uso del sanitario.
+          - **Alimentación:** comidas sencillas, ayuda para comer e hidratación.
+          - **Movilidad:** apoyo para caminar y traslados seguros.
+          - **Medicamentos ya formulados:** recordatorio de los horarios.
+          - **Citas y clínica:** acompañamiento a citas médicas o durante una hospitalización.
+      - label: Lo que no hacemos
+        title: No somos una IPS
+        image:
+          media: tab-no-incluye
+          alt: Coordinadora de Sovialis revisa con una hija adulta el plan de cuidado por escrito en la mesa del comedor
+        body: |
+          - **Procedimientos de salud:** nuestro personal no aplica inyecciones ni insulina, no hace curaciones, no maneja sondas ni oxígeno y no toma muestras, aunque tenga formación para hacerlo.
+          - **Oficios generales:** no lava, plancha ni asea toda la casa.
+          - **Vehículos:** no conduce el carro de la familia.
+          - **Dinero:** no maneja dinero ni tarjetas.
 
   - _type: steps
     eyebrow: Selección
@@ -78,48 +135,54 @@ layout:
     body: |
       ## Equipo de coordinación
 
-      La coordinación es el equipo de Sovialis que habla contigo. Responde tus mensajes, prepara la cotización, acuerda el plan de cuidado con tu familia, ofrece cada servicio a las personas verificadas con el perfil adecuado, organiza los relevos y hace el seguimiento del servicio.
+      La coordinación es el equipo de Sovialis que habla contigo. Esto es lo que hace:
 
-      Quienes cuidan a tu familiar son cuidadoras y auxiliares independientes: publican su disponibilidad y eligen los servicios que aceptan. Frente a tu familia, el responsable del servicio es Sovialis. Si quieres hablar con la coordinación, escríbenos desde la página de [contacto](/contacto/).
+      - Responde tus mensajes y te ayuda a elegir entre nuestros [servicios](/servicios/).
+      - Prepara la cotización con el precio final.
+      - Acuerda el plan de cuidado con tu familia.
+      - Ofrece cada servicio a las personas verificadas con el perfil adecuado.
+      - Organiza los relevos y hace el seguimiento del servicio.
 
-  - _type: feature_grid
+      Por ejemplo, si un jueves tu mamá amanece enferma y necesitas mover el turno, le escribes a la coordinación y ella se encarga de reprogramarlo.
+
+      Quienes cuidan a tu familiar son cuidadoras y auxiliares independientes: publican su disponibilidad y eligen los servicios que aceptan. Frente a tu familia, el responsable del servicio es Sovialis.
+
+      Si quieres hablar con la coordinación, escríbenos desde la página de [contacto](/contacto/).
+
+  - _type: accordion
     eyebrow: Compromisos
     title: Nuestros compromisos con las familias
     highlight: compromisos
-    layout: cuadricula
+    subtitle: Lo que puedes esperar de Sovialis, con ejemplos del día a día.
+    image:
+      media: cta-familia
+      alt: Hija adulta abraza a su madre mayor en el sofá de la sala; ambas sonríen con los ojos cerrados, tranquilas
+    image_side: izquierda
     tone: arena
     items:
-      - icon: corazon
-        title: Dignidad
-        text: Tu familiar es protagonista de su cuidado. Participa en las decisiones y se le habla con respeto, sin infantilizarlo.
       - icon: documento
-        title: Claridad
-        text: Precio final por escrito, condiciones en lenguaje sencillo y ninguna permanencia mínima.
+        title: "Claridad: precio final y condiciones por escrito"
+        body: |
+          Antes de empezar recibes la cotización con el precio final, IVA incluido, y las condiciones en lenguaje sencillo.
+          Sin permanencia mínima: si en unos meses tu papá ya no necesita el servicio, lo terminas con el preaviso pactado y sin penalidad.
       - icon: reloj
-        title: Continuidad
-        text: Relevos coordinados y reemplazo en el plazo acordado, sin cobro del tiempo no prestado.
+        title: "Continuidad: relevos y reemplazos"
+        body: |
+          Si la persona que cuida a tu mamá se enferma, coordinamos el reemplazo en el plazo acordado y no cobramos el tiempo no prestado.
+          Los relevos se hacen entre personas verificadas y con el mismo plan de cuidado.
       - icon: chat
-        title: Comunicación
-        text: Seguimiento del servicio con tu familia y un canal de PQRS con respuesta en máximo 15 días hábiles.
+        title: "Comunicación: seguimiento y PQRS"
+        body: |
+          Hacemos seguimiento del servicio con tu familia y ajustamos el plan cuando hace falta.
+          Si tienes una petición, una queja o un reclamo, el canal de PQRS te responde en máximo 15 días hábiles.
       - icon: escudo
-        title: Privacidad
-        text: Pedimos solo los datos necesarios. Los de salud son voluntarios y se comparten solo con quien cuida.
+        title: "Privacidad: solo los datos necesarios"
+        body: |
+          Para cotizar no te pedimos diagnósticos. Los datos de salud son voluntarios y solo los conoce quien cuida, en la medida necesaria: por ejemplo, una alergia o si usa caminador.
       - icon: hospital
         title: Honestidad sobre el alcance
-        text: Si lo que tu familiar necesita es un servicio de salud, te lo decimos y te orientamos hacia tu EPS o una IPS.
-
-  - _type: rich_text
-    width: lectura
-    body: |
-      ## Datos de la empresa
-
-      - **Razón social:** SOVIALIS CUIDADO INTEGRAL S.A.S.
-      - **Nombre comercial:** Sovialis
-      - **NIT:** [por confirmar]
-      - **Domicilio:** Bogotá D.C., Colombia
-      - **Dirección:** [por confirmar]
-      - **Naturaleza del servicio:** cuidado no sanitario a domicilio. Sovialis no está inscrita como IPS en el Registro Especial de Prestadores de Servicios de Salud (REPS).
-      - **Contacto y PQRS:** por los canales de la página de [contacto](/contacto/).
+        body: |
+          Si lo que tu familiar necesita es un servicio de salud, como una curación o un medicamento inyectable, te lo decimos y te orientamos hacia tu EPS o una IPS habilitada.
 
   - _type: cta_band
     variant: oscuro

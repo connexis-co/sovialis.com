@@ -39,26 +39,38 @@ faqs:
   - question: "¿En qué casos recomiendan este perfil en lugar de una cuidadora?"
     answer: "Cuando hay alta dependencia: una persona encamada, con movilización difícil, en recuperación de una hospitalización o con varias enfermedades crónicas. Si tu familiar camina con poca ayuda y está lúcido, una cuidadora suele bastar y cuesta menos. En la llamada inicial te hacemos unas preguntas sencillas sobre su rutina y te ayudamos a decidir sin presión."
 layout:
-  - _type: media_text
+  - _type: accordion
+    cta_label: Consulta disponibilidad
+    cta_action: whatsapp
     eyebrow: Alta dependencia
     title: Para quién es este perfil
     highlight: este perfil
+    subtitle: "Para personas mayores que necesitan más que compañía. Quien lo cubre tiene la formación técnica de auxiliar y está inscrito en el ReTHUS; en Sovialis pone esa formación al servicio del cuidado básico."
     image:
       media: servicio-postoperatorio
-      alt: "Persona con formación de auxiliar acomoda una manta a una señora mayor que se recupera en el sofá de su casa"
+      alt: "Persona con formación de auxiliar arropa con una manta a una señora mayor que se recupera en el sofá de su casa"
     image_side: izquierda
     tone: claro
-    body: |
-      Este perfil está pensado para personas mayores que necesitan más que compañía: alguien que pasa la mayor parte del día en cama, que no puede levantarse sin ayuda o que acaba de volver a casa después de una hospitalización.
-
-      Quien lo cubre tiene la formación técnica de auxiliar y está inscrito en el ReTHUS. En Sovialis esa formación se pone al servicio del cuidado básico: movilizar con técnica, bañar en cama sin lastimar, cambiar de posición a tiempo y darse cuenta cuando algo no va bien. Si tu familiar camina, come solo y está tranquilo, probablemente le baste el [perfil cuidadora](/servicios/cuidadora-adulto-mayor/).
-    bullets: |
-      Personas encamadas o que necesitan ayuda en cada traslado
-      Regreso a casa después de una hospitalización o una cirugía
-      Varias enfermedades crónicas que exigen una rutina cuidadosa
-      Familias que quieren a alguien con práctica en movilización segura
-    cta_label: Consulta disponibilidad
-    cta_action: whatsapp
+    items:
+      - icon: cama
+        title: Pasa la mayor parte del día en cama
+        body: |
+          Tu papá ya no se levanta sin ayuda y cada traslado de la cama a la silla es un riesgo.
+          Quien tiene formación de auxiliar lo moviliza con técnica, lo baña en cama sin lastimarlo y lo cambia de posición a tiempo.
+      - icon: hospital
+        title: Vuelve a casa después de una hospitalización o una cirugía
+        body: |
+          Los primeros días después del alta piden más cuidado: levantarse con restricciones, asearse sin forzar el cuerpo y tomar los medicamentos orales a tiempo.
+          Su práctica ayuda a darse cuenta pronto cuando algo no va bien.
+      - icon: pastillas
+        title: Tiene varias enfermedades crónicas
+        body: |
+          La rutina tiene que ser cuidadosa con las comidas, los horarios y los cambios de ánimo o de energía.
+          La bitácora diaria le sirve a la familia para contarle al médico tratante cómo ha estado.
+      - icon: manos
+        title: La familia quiere a alguien con práctica en movilización
+        body: |
+          Una persona con formación sabe mover a tu familiar sin lastimarlo ni lastimarse, y nota a tiempo cuando algo cambia.
 
   - _type: feature_grid
     eyebrow: Qué incluye
@@ -124,15 +136,29 @@ layout:
 
 ## Qué no hace en Sovialis: lo que corresponde a una IPS
 
-Un auxiliar de enfermería a domicilio contratado a través de Sovialis no aplica inyecciones ni insulina, no pone sueros, no hace curaciones, no maneja sondas, ostomías ni oxígeno y no toma decisiones médicas, aunque su formación lo contemple. La razón es sencilla: Sovialis no es una IPS habilitada, y esa atención solo la puede prestar una institución de salud inscrita en el REPS del Ministerio de Salud.
+Un auxiliar de enfermería a domicilio contratado a través de Sovialis hace cuidado básico, aunque su formación contemple más. En Sovialis no:
 
-Eso no deja a tu familiar desatendido: la persona de turno está presente cuando llega el personal de la IPS, le cuenta cómo pasó la noche y sigue con el cuidado básico. Te explicamos con ejemplos [qué puede hacer cada perfil](/blog/enfermera-o-cuidadora-a-domicilio/) en una guía aparte.
+- Aplica inyecciones ni insulina, ni pone sueros.
+- Hace curaciones.
+- Maneja sondas, ostomías ni oxígeno.
+- Toma decisiones médicas.
+
+La razón es sencilla: Sovialis no es una IPS habilitada, y esa atención solo la puede prestar una institución de salud inscrita en el REPS del Ministerio de Salud.
+
+Eso no deja a tu familiar desatendido. La persona de turno está presente cuando llega el personal de la IPS, le cuenta cómo pasó la noche y sigue con el cuidado básico. Te explicamos con ejemplos [qué puede hacer cada perfil](/blog/enfermera-o-cuidadora-a-domicilio/) en una guía aparte.
 
 ## Formación y registro ReTHUS verificados
 
-El ReTHUS es el Registro Único Nacional del Talento Humano en Salud. Antes de presentarte a alguien de este perfil verificamos que esté inscrito, además de su identidad, sus referencias, sus antecedentes y su afiliación a seguridad social. Con su autorización te compartimos los datos para que también lo consultes tú en el portal del Ministerio de Salud.
+El ReTHUS es el Registro Único Nacional del Talento Humano en Salud. Antes de presentarte a alguien de este perfil verificamos:
 
-Más allá del título, nos fijamos en su recorrido con personas mayores: un auxiliar de adulto mayor que ya movilizó a alguien después de una cirugía de cadera llega al primer turno sabiendo qué hacer.
+- Su inscripción en el ReTHUS.
+- Su identidad y sus referencias.
+- Sus antecedentes.
+- Su afiliación a seguridad social.
+
+Con su autorización te compartimos los datos para que también lo consultes tú en el portal del Ministerio de Salud.
+
+Más allá del título, nos fijamos en su recorrido con personas mayores. Un auxiliar de adulto mayor que ya movilizó a alguien después de una cirugía de cadera llega al primer turno sabiendo qué hacer.
 
 ## Turnos de día, de noche y 24 horas
 
@@ -143,11 +169,28 @@ El perfil auxiliar está disponible en las mismas modalidades que la cuidadora:
 - Cobertura 24 horas con relevos coordinados entre personas verificadas.
 - Acompañamiento en la clínica durante una hospitalización.
 
-Los perfiles se pueden combinar: personal con formación de auxiliar las primeras semanas del [cuidado después de una cirugía](/servicios/cuidado-postoperatorio/) y una cuidadora cuando tu familiar recupera autonomía. También cubrimos el [acompañamiento durante una hospitalización](/servicios/acompanamiento-hospitalario/) y seguimos en casa después del alta. Las auxiliares a domicilio que coordinamos atienden en el norte y el noroccidente de Bogotá.
+Las auxiliares a domicilio que coordinamos atienden en el norte y el noroccidente de Bogotá.
+
+## Cómo combinar el perfil auxiliar con una cuidadora
+
+Los perfiles se pueden combinar según la etapa. Por ejemplo, en el [cuidado después de una cirugía](/servicios/cuidado-postoperatorio/):
+
+- **Primeras semanas:** personal con formación de auxiliar, mientras tu familiar necesita ayuda en cada traslado.
+- **Cuando recupera autonomía:** una cuidadora, que cuesta menos.
+
+Si tu familiar camina, come solo y está tranquilo, probablemente le baste el [perfil cuidadora](/servicios/cuidadora-adulto-mayor/) desde el principio.
+
+También cubrimos el [acompañamiento durante una hospitalización](/servicios/acompanamiento-hospitalario/) y seguimos en casa después del alta.
 
 ## Tarifas de referencia del perfil auxiliar
 
-El cuidado con personal con formación de auxiliar cuesta desde $25.000 por hora (mínimo 4 horas), desde $135.000 por un turno de 8 h de día y desde $180.000 por uno de 12 h de día, de lunes a viernes. Las noches, los fines de semana y los festivos tienen tarifa propia; consulta las [tarifas del perfil auxiliar](/precios/) completas.
+El cuidado con personal con formación de auxiliar cuesta desde $180.000 por un turno de 12 h de día, de lunes a viernes. Otras tarifas del perfil:
+
+- Desde $25.000 por hora, con un mínimo de 4 horas.
+- Desde $135.000 por un turno de 8 h de día.
+- Noches, fines de semana y festivos: tarifa propia.
+
+Consulta las [tarifas del perfil auxiliar](/precios/) completas.
 
 Precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar.
 
@@ -157,6 +200,6 @@ Si el médico ordenó inyecciones, curaciones o el manejo de una sonda, este es 
 
 1. Pide la orden médica y pregunta a tu EPS si esa atención en casa está cubierta por tu plan.
 2. Si no la cubre o tarda, contrata una IPS habilitada. Puedes revisar su habilitación en el REPS, el registro público del Ministerio de Salud.
-3. Cuéntanos los horarios de la IPS para que la persona de turno esté presente, tenga lista la información del día y siga con el cuidado básico.
+3. Cuéntanos los horarios de la IPS. Así la persona de turno está presente, tiene lista la información del día y sigue con el cuidado básico.
 
 Si lo que necesitas es una inyección puntual, en nuestra guía te explicamos [cómo pedir una inyección a domicilio](/blog/inyectologia-a-domicilio-bogota/) en Bogotá, con la ruta EPS o IPS.

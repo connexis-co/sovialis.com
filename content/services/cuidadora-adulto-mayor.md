@@ -41,26 +41,39 @@ faqs:
   - question: "¿Puedo pedir cambio de cuidadora?"
     answer: "Sí. Si la relación no funciona, cuéntanos qué pasó y buscamos otra persona verificada para los siguientes servicios. A veces basta un ajuste en el horario o en el plan de cuidado; otras veces es mejor que llegue alguien distinto. En los dos casos lo coordinamos contigo."
 layout:
-  - _type: media_text
+  - _type: accordion
+    cta_label: Pide una cuidadora
+    cta_action: whatsapp
     eyebrow: Para quién es
     title: Una cuidadora para la rutina de tu familiar
     highlight: rutina
+    subtitle: "Una cuidadora de adulto mayor acompaña a tu papá o a tu mamá en su casa y le ayuda con lo que hoy le cuesta hacer solo. Es el perfil indicado cuando todavía se mueve con algo de autonomía, pero ya no debería quedarse solo."
     image:
       media: home-hero
-      alt: "Cuidadora y señora mayor conversan en la sala luminosa de un apartamento del norte de Bogotá"
+      alt: "Cuidadora de adulto mayor y señora juegan parqués y se ríen junto a la ventana de un apartamento del norte de Bogotá"
     image_side: izquierda
     tone: claro
-    body: |
-      Una cuidadora de adulto mayor acompaña a tu papá o a tu mamá en su casa y le ayuda con lo que hoy le cuesta hacer solo: bañarse sin riesgo, comer a sus horas, caminar sin caerse o, sencillamente, no pasar el día sin hablar con nadie.
-
-      Es el perfil indicado cuando tu familiar todavía se mueve con algo de autonomía, pero ya no debería quedarse solo. Si hay alta dependencia, como una persona encamada o que acaba de salir del hospital, conviene más el [perfil con formación de auxiliar de enfermería](/servicios/auxiliar-de-enfermeria/).
-    bullets: |
-      Personas mayores que necesitan compañía y apoyo en sus rutinas
-      Familias que trabajan de día y no quieren dejar a su familiar solo
-      Recuperaciones sencillas en casa, sin procedimientos de salud
-      Olvidos o desorientación leve que piden una rutina estable
-    cta_label: Pide una cuidadora
-    cta_action: whatsapp
+    items:
+      - icon: corazon
+        title: Necesita compañía y apoyo en sus rutinas
+        body: |
+          Tu mamá ya no se atreve a bañarse sola o tu papá se salta el almuerzo si nadie se lo sirve.
+          La cuidadora le ayuda a bañarse sin riesgo, comer a sus horas, caminar sin caerse o, sencillamente, a no pasar el día sin hablar con nadie.
+      - icon: reloj
+        title: La familia trabaja de día
+        body: |
+          Sales a las 6:30 a. m. y vuelves de noche. Un turno de 8 o 12 horas cubre ese tramo para que tu familiar no se quede solo.
+          Al volver encuentras la bitácora: qué comió, cómo pasó el día y cualquier novedad.
+      - icon: casa
+        title: Una recuperación sencilla en casa
+        body: |
+          Una gripa fuerte, un esguince o unos días de reposo que indicó el médico.
+          La cuidadora ayuda con el baño, las comidas y los traslados, sin procedimientos de salud.
+      - icon: cerebro
+        title: Olvidos o desorientación leve
+        body: |
+          Cuando empiezan los olvidos, una rutina estable ayuda: las mismas horas para comer, salir y descansar.
+          La cuidadora le recuerda los medicamentos orales que la familia dejó organizados y avisa si nota algo distinto.
 
   - _type: tabs_media
     eyebrow: Qué incluye y qué no
@@ -68,11 +81,15 @@ layout:
     highlight: en casa
     subtitle: Las tareas se acuerdan contigo en el plan de cuidado antes del primer turno.
     image:
-      media: nuestro-cuidado
-      alt: "Cuidadora lee junto a una persona mayor que toma té en la sala de su casa"
+      media: tab-incluye
+      alt: "Cuidadora camina del brazo de una señora mayor con bastón por el pasillo luminoso de su apartamento"
+    image_side: derecha
     tabs:
       - label: Qué incluye
         title: Lo que hace durante el turno
+        image:
+          media: tab-incluye
+          alt: "Cuidadora camina del brazo de una señora mayor con bastón por el pasillo luminoso de su apartamento"
         body: |
           - **Higiene:** ducha o aseo, vestido, cambio de pañal, uso del sanitario y cuidado básico de la piel.
           - **Comidas:** alimentos sencillos o los que indique la familia, ayuda para comer e hidratación.
@@ -82,12 +99,15 @@ layout:
           - **Bitácora:** novedades del día, lo que comió y cómo pasó el turno.
       - label: Qué no incluye
         title: Lo que no le corresponde
+        image:
+          media: tab-no-incluye
+          alt: "Coordinadora de Sovialis revisa con una hija adulta el plan de cuidado por escrito en la mesa del comedor"
         body: |
-          - Inyecciones, insulina, sueros, curaciones, sondas u oxígeno: los realiza tu EPS o una IPS habilitada, con la que contratas directamente.
-          - Decisiones médicas o cambios en las dosis que indicó el médico.
-          - Oficios generales de la casa: lavar, planchar o asear toda la vivienda.
-          - Cuidar a otras personas que no estén en el plan de cuidado.
-          - Conducir el carro de la familia o manejar dinero y tarjetas.
+          - **Atención en salud:** inyecciones, insulina, sueros, curaciones, sondas u oxígeno los realiza tu EPS o una IPS habilitada, con la que contratas directamente.
+          - **Decisiones médicas:** no cambia las dosis que indicó el médico.
+          - **Oficios de la casa:** no lava, plancha ni asea toda la vivienda.
+          - **Otras personas:** no cuida a quien no esté en el plan de cuidado.
+          - **Carro y dinero:** no conduce el carro de la familia ni maneja dinero o tarjetas.
 
   - _type: comparison
     eyebrow: Dos perfiles
@@ -136,15 +156,31 @@ layout:
 
 ## Lo que no hace: tareas que corresponden a personal de salud
 
-Un cuidador de adulto mayor acompaña y apoya, pero no reemplaza al personal de salud. Sovialis no es una IPS: la cuidadora no aplica inyecciones ni insulina, no hace curaciones, no maneja sondas ni oxígeno y no cambia las dosis que indicó el médico. Eso lo realiza tu EPS o una IPS habilitada, con la que contratas directamente; la cuidadora puede estar presente y contarle al personal de salud cómo ha estado tu familiar.
+Un cuidador de adulto mayor acompaña y apoya, pero no reemplaza al personal de salud. Sovialis no es una IPS, así que la cuidadora:
 
-Si estás buscando una «cuidadora de ancianos» que también haga de enfermera, conviene tener claro dónde está el límite antes de contratar. Te explicamos las [diferencias entre cuidadora y enfermera](/blog/enfermera-o-cuidadora-a-domicilio/) en una guía aparte.
+- No aplica inyecciones ni insulina.
+- No hace curaciones ni maneja sondas u oxígeno.
+- No cambia las dosis que indicó el médico.
+
+Eso lo realiza tu EPS o una IPS habilitada, con la que contratas directamente. La cuidadora puede estar presente y contarle al personal de salud cómo ha estado tu familiar.
+
+Si buscas una «cuidadora de ancianos» que también haga de enfermera, conviene tener claro el límite antes de contratar. Te lo explicamos en las [diferencias entre cuidadora y enfermera](/blog/enfermera-o-cuidadora-a-domicilio/).
+
+Y si tu familiar está encamado o acaba de salir del hospital, conviene más el [perfil con formación de auxiliar de enfermería](/servicios/auxiliar-de-enfermeria/).
 
 ## Cómo seleccionamos y verificamos a cada cuidadora
 
-Antes de presentarte a una cuidadora verificamos su identidad, sus referencias, sus antecedentes, su formación y su afiliación a seguridad social, y dejamos constancia de cada consulta. También evaluamos si encaja con tu caso: no es lo mismo acompañar a una señora que camina sola hasta el parque que a un señor que necesita ayuda en cada traslado.
+Antes de presentarte a una cuidadora verificamos su identidad, sus referencias, sus antecedentes, su formación y su afiliación a seguridad social, y dejamos constancia de cada consulta.
 
-Los cuidadores de adulto mayor en Bogotá que coordinamos son personas independientes que publican su disponibilidad y aceptan los servicios que se ajustan a ella. Nosotros verificamos, hacemos el seguimiento del servicio con la familia y organizamos los relevos. Aquí te contamos [cómo seleccionamos al personal](/como-funciona/). Y si buscas una cuidadora de adulto mayor por tu cuenta, nuestra [guía para contratar una cuidadora](/blog/como-contratar-una-cuidadora/) te dice qué preguntar y qué dejar por escrito.
+También evaluamos si encaja con tu caso. No es lo mismo acompañar a una señora que camina sola hasta el parque que a un señor que necesita ayuda en cada traslado.
+
+## Cuidadores de adulto mayor en Bogotá: cómo trabajamos con ellos
+
+Los cuidadores de adulto mayor en Bogotá que coordinamos son personas independientes. Publican su disponibilidad y aceptan los servicios que se ajustan a ella.
+
+Nosotros verificamos, hacemos el seguimiento del servicio con la familia y organizamos los relevos. Aquí te contamos [cómo seleccionamos al personal](/como-funciona/).
+
+Si buscas una cuidadora de adulto mayor por tu cuenta, nuestra [guía para contratar una cuidadora](/blog/como-contratar-una-cuidadora/) te dice qué preguntar y qué dejar por escrito.
 
 ## Turnos disponibles: por horas, 8 o 12 horas, noche y 24 horas
 
@@ -153,10 +189,20 @@ Los cuidadores de adulto mayor en Bogotá que coordinamos son personas independi
 - **[Turnos de noche](/servicios/cuidado-nocturno/)**, con la cuidadora despierta mientras todos duermen.
 - **[Cobertura 24 horas](/servicios/cuidado-24-horas/)**, con relevos coordinados entre personas verificadas.
 
-Las modalidades se combinan, y el horario lo propones tú: lo confirmamos con la cuidadora antes de empezar. Si necesitas una cuidadora de adulto mayor con poco tiempo de aviso, cuéntanos la fecha y te confirmamos la disponibilidad de personal. Coordinamos cuidadoras para adultos mayores en Usaquén, Cedritos, Chicó, Chapinero, Suba, Niza y otros [barrios donde atendemos](/zonas/).
+Las modalidades se combinan y el horario lo propones tú: lo confirmamos con la cuidadora antes de empezar.
+
+¿Necesitas una cuidadora de adulto mayor con poco tiempo de aviso? Cuéntanos la fecha y te confirmamos la disponibilidad de personal.
+
+Coordinamos cuidadoras para adultos mayores en Usaquén, Cedritos, Chicó, Chapinero, Suba, Niza y otros [barrios donde atendemos](/zonas/).
 
 ## Tarifas de referencia del perfil cuidadora
 
-Una cuidadora de adulto mayor en Bogotá cuesta en Sovialis desde $20.000 por hora (mínimo 4 horas), desde $120.000 por un turno de 8 h de día y desde $160.000 por uno de 12 h de día, de lunes a viernes. Las noches, los sábados, los domingos y los festivos tienen su propia tarifa; las encuentras todas en las [tarifas del perfil cuidadora](/precios/).
+Una cuidadora de adulto mayor en Bogotá cuesta en Sovialis desde $160.000 por un turno de 12 h de día, de lunes a viernes. Otras tarifas del perfil:
+
+- Desde $20.000 por hora, con un mínimo de 4 horas.
+- Desde $120.000 por un turno de 8 h de día.
+- Noches, sábados, domingos y festivos: tarifa propia.
+
+Las encuentras todas en las [tarifas del perfil cuidadora](/precios/).
 
 Precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar.

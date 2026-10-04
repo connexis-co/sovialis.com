@@ -39,26 +39,43 @@ faqs:
   - question: "¿Necesito un diagnóstico para contratar el servicio?"
     answer: "No es obligatorio. Si tu familiar tiene un diagnóstico o recomendaciones médicas, compartirlas de forma voluntaria nos ayuda a preparar mejor el cuidado. Si todavía no lo tiene, pero notas olvidos frecuentes o cambios de comportamiento, te sugerimos pedir una cita con su médico; mientras tanto, podemos acompañarlo para que no pase el día solo."
 layout:
-  - _type: media_text
+  - _type: accordion
+    cta_label: Habla con una coordinadora
+    cta_action: whatsapp
     eyebrow: Para quién es
     title: Cuidado según la etapa de la demencia
     highlight: según la etapa
+    subtitle: "El Alzheimer y las otras demencias avanzan distinto en cada persona, y el cuidado tiene que cambiar con ellas, con paciencia y sin quitarle lo que todavía puede hacer."
     image:
       media: nuestro-cuidado
-      alt: "Cuidadora y persona mayor conversan con una taza de té en la sala de su casa"
-    image_side: derecha
+      alt: "Señora mayor con su taza de té cuenta una historia en el balcón mientras su cuidadora la escucha"
+    image_side: izquierda
     tone: claro
-    body: |
-      El Alzheimer y las otras demencias avanzan distinto en cada persona, y el cuidado tiene que cambiar con ellas. Al principio tu familiar necesita sobre todo compañía y alguien que le ayude a sostener su rutina; más adelante, apoyo en casi todo, con paciencia y sin quitarle lo que todavía puede hacer.
-
-      Los cuidadores de adultos mayores con Alzheimer que coordinamos tienen experiencia previa en demencia. No hacen diagnósticos ni cambian tratamientos: acompañan, ordenan el día y avisan a la familia cuando notan algo nuevo.
-    bullets: |
-      Etapa inicial: compañía, recordatorios y actividades que todavía disfruta
-      Etapa intermedia: ayuda en el aseo, el vestido y las comidas, sin perderlo de vista
-      Etapa avanzada: cuidado básico completo, cambios de posición y prevención de caídas
-      Personas con párkinson u otras condiciones neurológicas
-    cta_label: Habla con una coordinadora
-    cta_action: whatsapp
+    items:
+      - icon: sol
+        title: "Etapa inicial: compañía y recordatorios"
+        body: |
+          Tu mamá todavía sale a caminar y cocina, pero olvida si ya almorzó o repite la misma pregunta varias veces en la tarde.
+          La cuidadora la acompaña, le recuerda lo del día y sostiene las actividades que todavía disfruta.
+      - icon: manos
+        title: "Etapa intermedia: ayuda sin perderlo de vista"
+        body: |
+          Necesita ayuda en el aseo, el vestido y las comidas, y ya no conviene que se quede solo.
+          La cuidadora le deja hacer lo que todavía puede, como abotonarse la camisa o servirse el agua, y le ayuda con el resto.
+      - icon: cama
+        title: "Etapa avanzada: cuidado básico completo"
+        body: |
+          Higiene, alimentación, cambios de posición y prevención de caídas.
+          Si pasa mucho tiempo en cama, puede convenir personal con formación de auxiliar.
+      - icon: cerebro
+        title: Párkinson y otras condiciones neurológicas
+        body: |
+          También acompañamos a personas con párkinson u otras condiciones neurológicas, siguiendo las indicaciones de su equipo médico.
+      - icon: verificado
+        title: Experiencia en demencia, sin diagnósticos
+        body: |
+          Los cuidadores de adultos mayores con Alzheimer que coordinamos tienen experiencia previa en demencia.
+          No hacen diagnósticos ni cambian tratamientos: acompañan, ordenan el día y avisan a la familia cuando notan algo nuevo.
 
   - _type: tabs_media
     eyebrow: Qué incluye y qué no
@@ -66,51 +83,81 @@ layout:
     highlight: en casa
     subtitle: Lo que hace la cuidadora en cada turno, acordado con la familia en el plan de cuidado.
     image:
-      media: home-hero
-      alt: "Cuidadora acompaña a una señora mayor en un apartamento luminoso del norte de Bogotá"
+      media: como-funciona-3
+      alt: "Señor mayor con boina riega las plantas del balcón mientras su cuidadora le sostiene una matera"
+    image_side: derecha
     tabs:
       - label: Rutina
         title: Un día predecible
+        image:
+          media: como-funciona-3
+          alt: "Señor mayor con boina riega las plantas del balcón mientras su cuidadora le sostiene una matera"
         body: |
           Una rutina estable reduce la confusión: las mismas horas para levantarse, comer, salir y dormir.
-          - Ayuda en el aseo, el vestido y las comidas, dejando que tu familiar haga lo que todavía puede.
-          - Actividades adaptadas: música que conoce, fotos de la familia, tareas sencillas como doblar ropa o regar las matas.
-          - Caminatas cortas y ratos al aire libre cuando el clima lo permite.
-          - Recordatorio de los medicamentos orales que organiza la familia.
+          - **Cuidado personal:** ayuda en el aseo, el vestido y las comidas, dejando que tu familiar haga lo que todavía puede.
+          - **Actividades adaptadas:** música que conoce, fotos de la familia y tareas sencillas como doblar ropa o regar las matas.
+          - **Aire libre:** caminatas cortas y ratos afuera cuando el clima lo permite.
+          - **Medicamentos orales:** recordatorio de los que organiza la familia.
       - label: Seguridad
         title: Una casa más segura
+        image:
+          media: tab-incluye
+          alt: "Cuidadora camina del brazo de una señora mayor con bastón por el pasillo luminoso de su apartamento"
         body: |
-          - Vigilancia para prevenir caídas y salidas sin compañía.
-          - Revisión con la familia de puertas, estufa, escaleras y objetos peligrosos.
-          - Ruta de aviso acordada por si tu familiar se desorienta o quiere salir.
-          - Sin contención física: nunca se le sujeta ni se le encierra.
+          - **Caídas y salidas:** vigilancia para prevenir caídas y salidas sin compañía.
+          - **Casa revisada:** revisión con la familia de puertas, estufa, escaleras y objetos peligrosos.
+          - **Ruta de aviso:** acordada por si tu familiar se desorienta o quiere salir.
+          - **Sin contención física:** nunca se le sujeta ni se le encierra.
       - label: Comunicación
         title: Hablarle con respeto
+        image:
+          media: home-hero
+          alt: "Cuidadora y señora mayor juegan parqués y se ríen junto a la ventana de un apartamento del norte de Bogotá"
         body: |
-          - Frases cortas, un tema a la vez y contacto visual.
-          - No discute ni lo corrige cuando confunde fechas o personas; redirige con calma.
-          - Lo llama por su nombre y respeta su historia, sus gustos y su forma de vestir.
-          - Le cuenta a la familia cómo estuvo el día en la bitácora.
+          - **Frases cortas:** un tema a la vez y contacto visual.
+          - **Sin discusiones:** no lo corrige cuando confunde fechas o personas; redirige con calma.
+          - **Su nombre y su historia:** lo llama por su nombre y respeta sus gustos y su forma de vestir.
+          - **Bitácora:** le cuenta a la familia cómo estuvo el día.
       - label: Qué no incluye
         title: Lo que no le corresponde
+        image:
+          media: tab-no-incluye
+          alt: "Coordinadora de Sovialis revisa con una hija adulta el plan de cuidado por escrito en la mesa del comedor"
         body: |
-          - Diagnósticos, cambios de medicamentos o decisiones sobre el tratamiento: los toma el médico tratante con tu familiar y la familia.
-          - Inyecciones, sueros, curaciones o sondas: los realiza tu EPS o una IPS habilitada, con la que contratas directamente.
-          - Contención física o encierro, que no están permitidos.
-          - Oficios generales de la casa o cuidado de otras personas.
+          - **Decisiones médicas:** diagnósticos, cambios de medicamentos o decisiones sobre el tratamiento los toma el médico tratante con tu familiar y la familia.
+          - **Atención en salud:** inyecciones, sueros, curaciones o sondas los realiza tu EPS o una IPS habilitada, con la que contratas directamente.
+          - **Contención o encierro:** no están permitidos.
+          - **Oficios y otras personas:** no hace oficios generales de la casa ni cuida a otras personas.
 ---
 
 ## Cómo preparamos a la cuidadora para tu familiar
 
-Antes del primer turno te pedimos que nos cuentes la historia de vida de tu familiar: a qué se dedicó, cómo le dicen en la familia, qué música le gusta, qué lo tranquiliza y qué lo altera. Con eso, y con la rutina diaria que nos describas, preparamos a la cuidadora para que llegue sabiendo con quién va a estar.
+Antes del primer turno te pedimos que nos cuentes la historia de vida de tu familiar:
 
-Para estos servicios presentamos cuidadoras de personas con Alzheimer que ya han acompañado a alguien con demencia. El primer día, alguien de la familia hace la presentación con calma, en un momento del día en que tu familiar suele estar tranquilo. Procuramos que el equipo sea pequeño y estable; si hay un reemplazo, hacemos empalme para que el cambio se note lo menos posible.
+- A qué se dedicó y cómo le dicen en la familia.
+- Qué música le gusta.
+- Qué lo tranquiliza y qué lo altera.
+- Cómo es su rutina diaria.
+
+Con eso preparamos a la cuidadora para que llegue sabiendo con quién va a estar.
+
+## Cuidadoras con experiencia en Alzheimer y un equipo estable
+
+Para estos servicios presentamos cuidadoras de personas con Alzheimer que ya han acompañado a alguien con demencia.
+
+El primer día, alguien de la familia hace la presentación con calma, en un momento del día en que tu familiar suele estar tranquilo.
+
+Procuramos que el equipo sea pequeño y estable. Si hay un reemplazo, hacemos empalme para que el cambio se note lo menos posible.
 
 ## Tardes difíciles, insomnio y deambulación
 
 Muchas personas con demencia se inquietan al final de la tarde: preguntan por su casa aunque estén en ella, quieren salir o se enojan sin motivo aparente. La cuidadora prepara esas horas con buena luz, menos ruido, una actividad tranquila y algo de comer, y evita las discusiones.
 
-De noche pueden aparecer el insomnio y la deambulación. Si tu familiar se levanta y camina por la casa, la cuidadora lo acompaña y lo redirige sin forzarlo; si quiere salir, aplica la ruta de aviso acordada. Cuando la agitación es nueva o muy intensa, avisamos a la familia para que consulte al médico tratante: a veces hay detrás una infección o un dolor que tu familiar no sabe expresar. Si las noches se volvieron difíciles, considera las [noches con cuidadora](/servicios/cuidado-nocturno/), para que alguien esté despierto mientras la familia duerme.
+De noche pueden aparecer el insomnio y la deambulación. Si tu familiar se levanta y camina por la casa, la cuidadora lo acompaña y lo redirige sin forzarlo; si quiere salir, aplica la ruta de aviso acordada.
+
+Cuando la agitación es nueva o muy intensa, avisamos a la familia para que consulte al médico tratante: a veces hay detrás una infección o un dolor que tu familiar no sabe expresar.
+
+Si las noches se volvieron difíciles, considera las [noches con cuidadora](/servicios/cuidado-nocturno/), para que alguien esté despierto mientras la familia duerme.
 
 ## Turnos recomendados según la etapa
 
@@ -126,4 +173,9 @@ Precios de referencia 2026, IVA incluido. El valor final depende del horario, lo
 
 El cuidado de personas mayores con Alzheimer desgasta, y es común que el familiar que más cuida termine agotado. Contar con una cuidadora unas horas o unas noches a la semana te da tiempo para dormir, trabajar o salir un rato sin culpa.
 
-También te ayudamos a preparar la casa y a entender qué esperar en cada etapa. Para el día a día te pueden servir nuestra [guía para cuidar en casa a una persona con Alzheimer](/blog/cuidar-adulto-mayor-con-alzheimer-en-casa/) y estas [actividades adaptadas](/blog/actividades-para-adultos-mayores/). Si no sabes por dónde empezar, cuéntanos tu caso por WhatsApp, sin diagnósticos, y te orientamos.
+También te ayudamos a preparar la casa y a entender qué esperar en cada etapa. Para el día a día te pueden servir:
+
+- Nuestra [guía para cuidar en casa a una persona con Alzheimer](/blog/cuidar-adulto-mayor-con-alzheimer-en-casa/).
+- Estas [actividades adaptadas](/blog/actividades-para-adultos-mayores/).
+
+Si no sabes por dónde empezar, cuéntanos tu caso por WhatsApp, sin diagnósticos, y te orientamos.
