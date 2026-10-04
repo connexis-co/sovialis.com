@@ -70,6 +70,21 @@ script usa `SOVIALIS_AUTOMATION_TOKEN` de `~/.config/sovialis/web-secrets.env` (
 > Después de la primera carga, el panel es la fuente de verdad: lo que se edite allí se sobrescribe si se
 > vuelve a sincronizar la misma entrada desde `content/`.
 
+## Esquema en una instalación existente
+
+El seed solo se aplica en una base vacía. Cuando se agregan bloques o campos en
+`scripts/seed/schema.mjs`, hay que llevarlos a la base (no borra nada):
+
+```bash
+SYNC_URL=https://sovialis.com npm run schema:sync
+```
+
+## Mapa, sitemap e indexación
+
+- `npm run map:build`: regenera `src/data/bogota-map.json` (límites de localidades y avenidas de OpenStreetMap).
+- `npm run sitemap:submit`: envía el sitemap y las URLs a Bing Webmaster (y a Search Console si la service account tiene acceso).
+- IndexNow: la clave está en el plugin SEO y se sirve en `/<clave>.txt`; «Enviar todas las URLs» en el panel → SEO.
+
 ## Despliegue
 
 ```bash
