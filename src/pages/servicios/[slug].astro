@@ -1,8 +1,7 @@
 ---
 /** Landing de servicio: hero dividido con formulario corto, bloques, cuerpo, FAQ, relacionados y cierre. */
 import { getEmDashEntry } from "emdash";
-import { PortableText } from "emdash/ui";
-import Img from "../../components/ui/Img.astro";
+import GuideTabs from "../../components/page/GuideTabs.astro";
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Hero from "../../components/blocks/Hero.astro";
@@ -39,6 +38,8 @@ const heroValue = {
 	secondary_action: "cotizar",
 	badges: highlights.slice(0, 3).join("\n"),
 	show_form: true,
+	image: d.hero_image,
+	image_side: d.hero_image_side,
 };
 ---
 
@@ -55,46 +56,9 @@ const heroValue = {
 	<div class="bg-sand">
 		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
 	</div>
-	<Hero value={heroValue} index={0} context={{ service: name, priceFrom: d.price_from, priceUnit: d.price_unit }} />
-	{
-		d.hero_image && (
-			<div class="container-page -mt-6 mb-4">
-				<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-lift">
-					<Img image={d.hero_image} class="aspect-[16/9] w-full object-cover sm:aspect-[21/8]" sizes="(min-width:1240px) 1160px, 94vw" />
-				</div>
-			</div>
-		)
-	}
+	<Hero value={heroValue} index={0} context={{ service: name, priceFrom: d.price_from, priceUnit: d.price_unit, rating: `services:${d.id}`, ratingLabel: "Califica este servicio" }} />
 	<Blocks blocks={blocks} offset={1} context={{ service: name }} />
-	{
-		d.body?.length > 0 && (
-			<section class="section">
-				<div class="container-page grid gap-12 lg:grid-cols-[1fr_20rem]">
-					<article class="prose-sv max-w-3xl">
-						<PortableText value={d.body} />
-					</article>
-					<aside class="hidden lg:block">
-						<div class="sticky top-28 rounded-card border border-line bg-surface p-6 shadow-soft">
-							<p class="font-display text-xl text-deep">{name}</p>
-							{highlights.length > 0 && (
-								<ul class="mt-4 grid gap-2.5 text-[1rem]">
-									{highlights.map((h) => (
-										<li class="flex gap-2.5">
-											<span class="mt-0.5 text-primary" set:html={icon("check", "size-5")} />
-											{h}
-										</li>
-									))}
-								</ul>
-							)}
-							<button type="button" class="btn btn-primary mt-6 w-full" data-quote data-service={name} data-cta={`servicio:${slug}:lateral`}>
-								Cotizar este servicio
-							</button>
-						</div>
-					</aside>
-				</div>
-			</section>
-		)
-	}
+	{d.body?.length > 0 && <GuideTabs value={d.body} eyebrow="Guía del servicio" title={`Todo sobre ${String(name).toLowerCase()}`} highlight={String(name).toLowerCase()} id={`guia-${slug}`} />}
 	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Dudas sobre ${String(name).toLowerCase()}`, items: d.faqs }} index={50} />}
 	<ServicesGrid value={{ eyebrow: "Otros servicios", title: "También te puede servir", style: "lista-compacta", limit: 6 }} exclude={slug} />
 	{
@@ -102,7 +66,7 @@ const heroValue = {
 			<section class="section-tight bg-mist">
 				<div class="container-page">
 					<p class="eyebrow">Cobertura</p>
-					<h2 class="mt-3 font-display text-h3 text-deep">Prestamos {String(name).toLowerCase()} en el norte de Bogotá</h2>
+					<h2 class="mt-3 font-display text-h3 text-deep">Prestamos {String(name).toLowerCase()} en estas zonas de Bogotá</h2>
 					<ul class="mt-6 flex flex-wrap gap-3">
 						{zones.map((z) => (
 							<li>

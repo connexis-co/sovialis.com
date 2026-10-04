@@ -1,6 +1,7 @@
 ---
-/** Pie redondeado en Azul Tinta con la curva de la S como motivo, NAP, menús editables y nota legal. */
+/** Pie redondeado en Azul Tinta con la S del isotipo como marca de agua, NAP, menús editables y nota legal. */
 import { getMenu } from "emdash";
+import BrandS from "../ui/BrandS.astro";
 import Logo from "../ui/Logo.astro";
 import { icon } from "../../lib/icons";
 import { HUBS, ROUTES } from "../../lib/routes";
@@ -34,9 +35,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer on-dark relative mt-0 overflow-hidden bg-deep text-white">
-	<svg class="pointer-events-none absolute -top-24 -right-40 h-[38rem] w-auto opacity-[0.07]" viewBox="0 0 400 600" aria-hidden="true">
-		<path d="M330 40C240 -10 90 20 80 140c-10 120 240 150 230 280-8 110-160 150-260 110" fill="none" stroke="#8fd8f2" stroke-width="56" stroke-linecap="round" />
-	</svg>
+	<BrandS class="pointer-events-none absolute -top-16 -right-24 h-[34rem] w-auto text-[#8fd8f2] opacity-[0.08] sm:-right-10 lg:h-[40rem]" />
 	<div class="container-page relative pt-16 pb-10 lg:pt-20">
 		<div class="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
 			<div class="max-w-sm">
@@ -137,7 +136,7 @@ const year = new Date().getFullYear();
 		<div class="mt-14 border-t border-white/15 pt-8 text-[0.95rem] text-white/70">
 			<p class="max-w-4xl">{site.footerLegal}</p>
 			<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-				<p>© {year} {site.legalName}{site.nit ? ` · NIT ${site.nit}` : ""}. Imágenes ilustrativas.</p>
+				<p>© {year} {site.legalName || site.name}{site.nit ? ` · NIT ${site.nit}` : ""}. Imágenes ilustrativas.</p>
 				<p>
 					Sitio desarrollado por <a href="https://connexis.co" class="font-semibold text-white hover:underline" rel="noopener">Connexis</a>
 				</p>

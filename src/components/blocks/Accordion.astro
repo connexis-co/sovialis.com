@@ -1,0 +1,189 @@
+---
+/**
+ * Acordeón de contenido: parte un texto largo en secciones plegables con icono (una abierta a la
+ * vez). Con imagen, la foto queda fija a un lado en escritorio. A diferencia de la FAQ, no genera
+ * FAQPage: sirve para «qué incluye», «cómo trabajamos», requisitos, etc.
+ */
+import Img from "../ui/Img.astro";
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const items: any[] = (Array.isArray(v.items) ? v.items : []).filter((it) => it?.title && it?.body);
+if (!items.length) return null;
+const group = `acc-${index}`;
+const hasImage = Boolean(v.image?.src || v.image?.id || v.image?.meta);
+const imageLeft = v.image_side === "izquierda";
+const toneClass = ({ arena: "bg-sand", bruma: "bg-mist" } as Record<string, string>)[v.tone] ?? "";
+const parse = (text: string) => {
+	const lines = String(text ?? "").split("\n").map((l) => l.trim());
+	const out: Array<{ kind: "p" | "ul"; items: string[] }> = [];
+	for (const line of lines) {
+		if (!line) continue;
+		if (line.startsWith("- ")) {
+			const last = out.at(-1);
+			if (last?.kind === "ul") last.items.push(line.slice(2));
+			else out.push({ kind: "ul", items: [line.slice(2)] });
+		} else out.push({ kind: "p", items: [line] });
+	}
+	return out;
+};
+const inline = (t: string) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]!).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+---
+
+<section class:list={["section", toneClass]} data-block="accordion">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<div class:list={["mt-10 grid items-start gap-10 lg:gap-14", hasImage ? (imageLeft ? "lg:grid-cols-[0.9fr_1.1fr]" : "lg:grid-cols-[1.1fr_0.9fr]") : "mx-auto max-w-[52rem]"]}>
+			<div class:list={["acc-list", hasImage && imageLeft && "lg:order-2"]}>
+				{
+					items.map((it, i) => (
+						<details class="acc" name={group} open={i === 0}>
+							<summary>
+								<span class="acc__icon" set:html={icon(it.icon || "check", "size-5")} />
+								<h3 class="acc__title">{it.title}</h3>
+								<span class="acc__chev" set:html={icon("chevron-abajo", "size-5")} aria-hidden="true" />
+							</summary>
+							<div class="acc__body">
+								{parse(it.body).map((b) =>
+									b.kind === "p" ? (
+										<p set:html={inline(b.items[0]!)} />
+									) : (
+										<ul>
+											{b.items.map((li) => (
+												<li>
+													<span class="acc__dot" set:html={icon("check", "size-4")} />
+													<span set:html={inline(li)} />
+												</li>
+											))}
+										</ul>
+									),
+								)}
+							</div>
+						</details>
+					))
+				}
+			</div>
+			{
+				hasImage && (
+					<div class:list={["lg:sticky lg:top-28", imageLeft && "lg:order-1"]}>
+						<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
+							<Img image={v.image} class="aspect-[4/3] w-full object-cover lg:aspect-[4/5]" loading="lazy" sizes="(min-width:1024px) 42vw, 92vw" />
+						</div>
+					</div>
+				)
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.acc {
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		border-radius: 20px;
+		transition:
+			border-color var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out);
+	}
+	.acc + .acc {
+		margin-top: 12px;
+	}
+	.acc[open] {
+		border-color: color-mix(in oklab, var(--sv-primary) 30%, var(--sv-border));
+		box-shadow: var(--sv-shadow-md);
+	}
+	.acc summary {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		padding: 1rem clamp(1rem, 3vw, 1.4rem);
+		cursor: pointer;
+		list-style: none;
+	}
+	.acc summary::-webkit-details-marker {
+		display: none;
+	}
+	.acc__icon {
+		display: grid;
+		flex: none;
+		place-items: center;
+		inline-size: 2.6rem;
+		block-size: 2.6rem;
+		border-radius: 14px;
+		background: color-mix(in oklab, var(--sv-primary) 10%, transparent);
+		color: var(--sv-primary);
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur);
+	}
+	.acc[open] .acc__icon {
+		background: var(--sv-primary);
+		color: #fff;
+	}
+	.acc__title {
+		flex: 1;
+		font-family: var(--sv-font-display);
+		font-size: clamp(1.08rem, 2.2vw, 1.25rem);
+		font-weight: 500;
+		line-height: 1.3;
+		color: var(--sv-deep);
+	}
+	.acc__chev {
+		flex: none;
+		color: var(--sv-text-muted);
+		transition: transform var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.acc[open] .acc__chev {
+		transform: rotate(180deg);
+		color: var(--sv-primary);
+	}
+	.acc__body {
+		display: grid;
+		gap: 0.8rem;
+		padding: 0 clamp(1rem, 3vw, 1.4rem) 1.3rem calc(clamp(1rem, 3vw, 1.4rem) + 3.5rem);
+		font-size: 1.04rem;
+		line-height: 1.65;
+		color: var(--sv-text-muted);
+	}
+	.acc__body :global(strong) {
+		color: var(--sv-deep);
+	}
+	.acc__body ul {
+		display: grid;
+		gap: 0.55rem;
+	}
+	.acc__body li {
+		display: flex;
+		gap: 0.6rem;
+	}
+	.acc__dot {
+		flex: none;
+		margin-top: 0.3rem;
+		color: var(--sv-primary);
+	}
+	@media (max-width: 639px) {
+		.acc__body {
+			padding-inline-start: clamp(1rem, 3vw, 1.4rem);
+		}
+	}
+	@supports (interpolate-size: allow-keywords) {
+		.acc {
+			interpolate-size: allow-keywords;
+		}
+		.acc::details-content {
+			height: 0;
+			overflow: clip;
+			transition:
+				height var(--sv-dur-reveal) var(--sv-ease-out),
+				content-visibility var(--sv-dur-reveal) allow-discrete;
+		}
+		.acc[open]::details-content {
+			height: auto;
+		}
+	}
+</style>

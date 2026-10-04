@@ -1,0 +1,13 @@
+---
+/** Portable Text del sitio: encabezados con ancla y tablas que se vuelven tarjetas en móvil. */
+import { PortableText } from "emdash/ui";
+import PtHeading from "../blog/PtHeading.astro";
+import PtTable from "../pt/PtTable.astro";
+
+interface Props {
+	value: unknown;
+}
+const components = { type: { table: PtTable }, block: { h2: PtHeading, h3: PtHeading } };
+---
+
+<PortableText value={Astro.props.value as never} components={components as never} />

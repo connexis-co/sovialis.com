@@ -1,7 +1,7 @@
 ---
 /** Páginas institucionales y legales (colección Páginas). */
 import { getEmDashEntry } from "emdash";
-import { PortableText } from "emdash/ui";
+import Prose from "../components/ui/Prose.astro";
 import Base from "../layouts/Base.astro";
 import Blocks from "../components/blocks/Blocks.astro";
 import Faq from "../components/blocks/Faq.astro";
@@ -25,14 +25,14 @@ const isLegal = /politica|terminos|cookies/.test(slug);
 ---
 
 <Base title={d.title} description={d.summary} pageType={isLegal ? "webpage" : slug === "contacto" ? "contact" : slug === "nosotros" ? "about" : "webpage"} content={{ collection: "pages", id: d.id, slug }} breadcrumbs={crumbs}>
-	{!startsWithHero && <PageHeader title={d.title} summary={d.summary} crumbs={crumbs} />}
+	{!startsWithHero && <PageHeader title={d.title} summary={d.summary} crumbs={crumbs} eyebrow={isLegal ? "Información legal" : "Sovialis"} actions={!isLegal} />}
 	<Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} />
 	{
 		d.body?.length > 0 && (
 			<section class="section-tight">
 				<div class="container-page max-w-3xl">
 					<div class="prose-sv">
-						<PortableText value={d.body} />
+						<Prose value={d.body} />
 					</div>
 				</div>
 			</section>

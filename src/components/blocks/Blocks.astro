@@ -18,6 +18,7 @@ import CtaBand from "./CtaBand.astro";
 import LeadForm from "./LeadForm.astro";
 import BlogLatest from "./BlogLatest.astro";
 import RichText from "./RichText.astro";
+import Accordion from "./Accordion.astro";
 
 interface Props {
 	blocks: Array<Record<string, any>> | null | undefined;
@@ -69,6 +70,8 @@ const list = Array.isArray(blocks) ? blocks : [];
 				return <BlogLatest value={block} />;
 			case "rich_text":
 				return <RichText value={block} />;
+			case "accordion":
+				return <Accordion value={block} index={index} />;
 			default:
 				return null;
 		}

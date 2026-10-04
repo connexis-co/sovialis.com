@@ -1,7 +1,7 @@
 ---
 /** Página de gracias tras enviar un formulario (noindex). Texto editable en Páginas → «gracias». */
 import { getEmDashEntry } from "emdash";
-import { PortableText } from "emdash/ui";
+import Prose from "../components/ui/Prose.astro";
 import Base from "../layouts/Base.astro";
 import { icon } from "../lib/icons";
 import { getSiteData, waLink } from "../lib/site";
@@ -22,7 +22,7 @@ const d = (entry?.data ?? {}) as Record<string, any>;
 				</a>
 				<a href="/blog/" class="btn btn-outline btn-lg">Leer guías para familias</a>
 			</div>
-			{d.body?.length > 0 && <div class="prose-sv mx-auto mt-12 max-w-2xl text-left"><PortableText value={d.body} /></div>}
+			{d.body?.length > 0 && <div class="prose-sv mx-auto mt-12 max-w-2xl text-left"><Prose value={d.body} /></div>}
 		</div>
 	</section>
 </Base>

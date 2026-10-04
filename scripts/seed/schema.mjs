@@ -11,8 +11,9 @@ const subSelect = (slug, label, options) => ({ slug, label, type: "select", opti
 export const ICONS = [
 	"corazon", "escudo", "reloj", "luna", "sol", "casa", "hospital", "calendario", "usuarios", "usuario",
 	"estrella", "check", "telefono", "whatsapp", "ubicacion", "cerebro", "venda", "manos", "cama", "silla-ruedas",
-	"documento", "chat", "sparkles", "medalla", "familia", "cafe", "pastillas", "brujula",
+	"documento", "chat", "sparkles", "medalla", "familia", "cafe", "pastillas", "brujula", "lista", "verificado", "ayuda", "pulso",
 ];
+const SIDES = ["derecha", "izquierda"];
 export const ACTIONS = ["cotizar", "whatsapp", "enlace", "llamar"];
 
 const eyebrowTitle = [f("eyebrow", "Antetítulo", "string"), f("title", "Título", "string", { required: true }), f("highlight", "Palabras destacadas del título", "string")];
@@ -39,6 +40,7 @@ export const blockTypes = [
 			f("card_text", "Tarjeta flotante: texto", "text"),
 			f("shortcuts_title", "Atajos de servicios: título (vacío = sin atajos)", "string"),
 			f("show_form", "Mostrar formulario corto (landings)", "boolean"),
+			select("image_side", "Imagen a la", SIDES),
 		],
 	},
 	{
@@ -100,8 +102,38 @@ export const blockTypes = [
 		fields: [
 			...eyebrowTitle,
 			f("subtitle", "Subtítulo", "text"),
-			f("image", "Imagen", "image"),
-			f("tabs", "Pestañas", "repeater", { validation: { subFields: [f("label", "Pestaña", "string", { required: true }), f("title", "Título", "string"), f("body", "Texto (viñetas con «- »)", "text")] } }),
+			f("image", "Imagen (por defecto)", "image"),
+			select("image_side", "Imagen a la", ["izquierda", "derecha"]),
+			f("tabs", "Pestañas", "repeater", {
+				validation: {
+					subFields: [
+						f("label", "Pestaña", "string", { required: true }),
+						f("title", "Título", "string"),
+						f("body", "Texto (viñetas con «- »; «**Título:** texto» crea tarjetas)", "text"),
+						f("image", "Imagen de esta pestaña (opcional)", "image"),
+					],
+				},
+			}),
+		],
+	},
+	{
+		slug: "accordion",
+		label: "Acordeón de contenido",
+		fields: [
+			...eyebrowTitle,
+			f("subtitle", "Subtítulo", "text"),
+			f("image", "Imagen (opcional)", "image"),
+			select("image_side", "Imagen a la", SIDES),
+			select("tone", "Fondo", ["claro", "arena", "bruma"]),
+			f("items", "Secciones", "repeater", {
+				validation: {
+					subFields: [
+						subSelect("icon", "Icono", ICONS),
+						f("title", "Título", "string", { required: true }),
+						f("body", "Texto (párrafos; viñetas con «- »)", "text", { required: true }),
+					],
+				},
+			}),
 		],
 	},
 	{
@@ -230,6 +262,7 @@ export const collections = [
 			f("hero_eyebrow", "Antetítulo de la portada", "string"),
 			f("hero_subtitle", "Subtítulo de la portada", "text"),
 			f("hero_image", "Imagen de portada", "image"),
+			select("hero_image_side", "Imagen de portada a la", SIDES),
 			f("highlights", "Puntos clave (uno por línea)", "text"),
 			layout,
 			f("body", "Contenido adicional", "portableText", { searchable: true }),
@@ -258,6 +291,7 @@ export const collections = [
 			f("neighborhoods", "Barrios que cubrimos (separados por coma)", "text", { searchable: true }),
 			f("excerpt", "Resumen", "text"),
 			f("hero_image", "Imagen", "image"),
+			select("hero_image_side", "Imagen de portada a la", SIDES),
 			f("intro", "Introducción", "portableText", { searchable: true }),
 			f("landmarks", "Clínicas y referencias cercanas", "repeater", {
 				validation: { subFields: [f("name", "Nombre", "string", { required: true }), subSelect("kind", "Tipo", ["clinica", "hospital", "parque", "centro-comercial", "otro"]), f("note", "Nota", "string")] },

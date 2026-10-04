@@ -54,18 +54,18 @@ const endpoint = `/_emdash/api/comments/posts/${encodeURIComponent(contentId)}`;
 		<p class="font-display text-xl text-deep">Deja un comentario sobre «{title}»</p>
 		<p class="mt-1 text-[0.95rem] text-muted">Tu correo no se publica. Revisamos los comentarios antes de mostrarlos. Por privacidad, no compartas diagnósticos ni datos de salud.</p>
 		<div class="mt-5 grid gap-4 sm:grid-cols-2">
-			<label class="grid gap-1.5 font-semibold text-deep">
-				Nombre
-				<input name="authorName" required maxlength="100" autocomplete="name" class="field-input" />
-			</label>
-			<label class="grid gap-1.5 font-semibold text-deep">
-				Correo electrónico
-				<input name="authorEmail" type="email" required autocomplete="email" class="field-input" />
-			</label>
-			<label class="grid gap-1.5 font-semibold text-deep sm:col-span-2">
-				Comentario
-				<textarea name="body" required maxlength="5000" rows="4" class="field-input !min-h-28"></textarea>
-			</label>
+			<div class="fl-field">
+				<input id="comment-name" name="authorName" required maxlength="100" autocomplete="name" placeholder=" " />
+				<label for="comment-name">Nombre</label>
+			</div>
+			<div class="fl-field">
+				<input id="comment-email" name="authorEmail" type="email" required autocomplete="email" placeholder=" " />
+				<label for="comment-email">Correo electrónico</label>
+			</div>
+			<div class="fl-field sm:col-span-2">
+				<textarea id="comment-body" name="body" required maxlength="5000" rows="4" placeholder=" "></textarea>
+				<label for="comment-body">Comentario</label>
+			</div>
 		</div>
 		<div class="hp" aria-hidden="true" style="position:absolute;left:-10000px"><label>No completar <input name="website_url" tabindex="-1" autocomplete="off" /></label></div>
 		<button type="submit" class="btn btn-primary mt-5">Publicar comentario</button>

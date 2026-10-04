@@ -5,6 +5,7 @@
  *   variant="modal"  → progresivo en 3 pasos
  *   variant="hero"   → 3 campos visibles (nombre, WhatsApp, zona)
  *   variant="inline" → completo, sin pasos
+ *   variant="bar"    → 3 campos en una fila y envío al lado (barra bajo el hero de las landings)
  */
 import { getPluginSetting } from "emdash";
 import { icon } from "../../lib/icons";
@@ -16,7 +17,7 @@ interface Props {
 	site: SiteData;
 	services: CatalogItem[];
 	zones: CatalogItem[];
-	variant?: "modal" | "hero" | "inline";
+	variant?: "modal" | "hero" | "inline" | "bar";
 	service?: string;
 	zone?: string;
 	submitLabel?: string;
@@ -26,13 +27,14 @@ const { id, site, services, zones, variant = "inline", service = "", zone = "", 
 const consentText = (await getPluginSetting<string>("sovialis-leads", "consentText").catch(() => undefined)) || LEAD_DEFAULTS.consentText;
 const turnstileKey = (await getPluginSetting<string>("sovialis-leads", "turnstileSiteKey").catch(() => undefined)) || "";
 const progressive = variant === "modal";
-const compact = variant === "hero";
+const bar = variant === "bar";
+const compact = variant === "hero" || bar;
 const f = (name: string) => `${id}-${name}`;
 ---
 
 <form
 	id={id}
-	class:list={["quote-form", progressive && "is-progressive"]}
+	class:list={["quote-form", progressive && "is-progressive", bar && "is-bar"]}
 	data-quote-form
 	data-source={source}
 	data-wa-number={site.whatsappNumber}
@@ -44,14 +46,13 @@ const f = (name: string) => `${id}-${name}`;
 		<ul></ul>
 	</div>
 
-	<div class:list={["grid gap-4", !compact && "sm:grid-cols-2"]}>
-		<div class="field" data-step="1">
+	<div class:list={["grid gap-4", !compact && "sm:grid-cols-2", bar && "sm:grid-cols-2 lg:grid-cols-3"]}>
+		<div class="field fl-field" data-step="1">
+			<input id={f("name")} name="name" type="text" autocomplete="name" required maxlength="120" placeholder=" " aria-describedby={`${f("name")}-err`} />
 			<label for={f("name")}>Nombre y apellido</label>
-			<input id={f("name")} name="name" type="text" autocomplete="name" required maxlength="120" aria-describedby={`${f("name")}-err`} />
 			<small data-error="name" id={`${f("name")}-err`} hidden></small>
 		</div>
-		<div class="field" data-step="1">
-			<label for={f("phone")}>Celular (WhatsApp)</label>
+		<div class="field fl-field" data-step="1">
 			<input
 				id={f("phone")}
 				name="phone"
@@ -63,16 +64,17 @@ const f = (name: string) => `${id}-${name}`;
 				placeholder="300 123 4567"
 				aria-describedby={`${f("phone")}-err`}
 			/>
+			<label for={f("phone")}>Celular (WhatsApp)</label>
 			<small data-error="phone" id={`${f("phone")}-err`} hidden></small>
 		</div>
 
 		{
 			!compact && (
-				<div class="field sm:col-span-2" data-step="2">
+				<div class="field fl-field sm:col-span-2" data-step="2">
+					<input id={f("email")} name="email" type="email" autocomplete="email" maxlength="190" placeholder=" " aria-describedby={`${f("email")}-err`} />
 					<label for={f("email")}>
-						Correo electrónico <span class="font-normal text-muted">(opcional)</span>
+						Correo electrónico <span class="opt">(opcional)</span>
 					</label>
-					<input id={f("email")} name="email" type="email" autocomplete="email" maxlength="190" aria-describedby={`${f("email")}-err`} />
 					<small data-error="email" id={`${f("email")}-err`} hidden />
 				</div>
 			)
@@ -80,8 +82,7 @@ const f = (name: string) => `${id}-${name}`;
 
 		{
 			!compact && (
-				<div class="field" data-step="3">
-					<label for={f("service")}>¿Qué servicio buscas?</label>
+				<div class="field fl-field" data-step="3">
 					<select id={f("service")} name="service">
 						<option value="">Aún no lo sé</option>
 						{services.map((s) => (
@@ -90,12 +91,12 @@ const f = (name: string) => `${id}-${name}`;
 							</option>
 						))}
 					</select>
+					<label for={f("service")}>¿Qué servicio buscas?</label>
 				</div>
 			)
 		}
 
-		<div class:list={["field", compact && "!col-span-1"]} data-step={compact ? "1" : "3"}>
-			<label for={f("zone")}>Zona o barrio</label>
+		<div class:list={["field fl-field", compact && "!col-span-1"]} data-step={compact ? "1" : "3"}>
 			<select id={f("zone")} name="zone" aria-describedby={`${f("zone")}-err`}>
 				<option value="">Selecciona tu zona</option>
 				{
@@ -108,42 +109,43 @@ const f = (name: string) => `${id}-${name}`;
 				<option value="Otra zona de Bogotá">Otra zona de Bogotá</option>
 				<option value="Municipio de la Sabana">Municipio de la Sabana</option>
 			</select>
+			<label for={f("zone")}>Zona o barrio</label>
 			<small data-error="zone" id={`${f("zone")}-err`} hidden></small>
 		</div>
 
 		{
 			!compact && (
-				<div class="field" data-step="3">
-					<label for={f("schedule")}>Turno que necesitas</label>
+				<div class="field fl-field" data-step="3">
 					<select id={f("schedule")} name="schedule">
 						<option value="">Selecciona</option>
 						{site.leadSchedules.map((s) => (
 							<option>{s}</option>
 						))}
 					</select>
+					<label for={f("schedule")}>Turno que necesitas</label>
 				</div>
 			)
 		}
 		{
 			!compact && (
-				<div class="field" data-step="3">
-					<label for={f("forWhom")}>¿Para quién es el cuidado?</label>
+				<div class="field fl-field" data-step="3">
 					<select id={f("forWhom")} name="forWhom">
 						<option value="">Selecciona</option>
 						{site.leadRelations.map((s) => (
 							<option>{s}</option>
 						))}
 					</select>
+					<label for={f("forWhom")}>¿Para quién es el cuidado?</label>
 				</div>
 			)
 		}
 		{
 			!compact && (
-				<div class="field sm:col-span-2" data-step="3">
+				<div class="field fl-field sm:col-span-2" data-step="3">
+					<textarea id={f("message")} name="message" rows="3" maxlength="2000" placeholder=" " aria-describedby={`${f("message")}-hint`} />
 					<label for={f("message")}>
-						Cuéntanos brevemente el caso <span class="font-normal text-muted">(opcional)</span>
+						Cuéntanos brevemente el caso <span class="opt">(opcional)</span>
 					</label>
-					<textarea id={f("message")} name="message" rows="3" maxlength="2000" aria-describedby={`${f("message")}-hint`} />
 					<small class="hint" id={`${f("message")}-hint`}>
 						Horarios, días y apoyo que necesita. Por privacidad, evita escribir diagnósticos médicos.
 					</small>
@@ -157,62 +159,45 @@ const f = (name: string) => `${id}-${name}`;
 		<input id={f("website")} name="website" type="text" tabindex="-1" autocomplete="off" />
 	</div>
 
-	<label class="consent" data-step="1">
-		<input type="checkbox" name="consent" value="true" required aria-describedby={`${f("consent")}-err`} />
-		<span>
-			{consentText} <a href="/politica-de-tratamiento-de-datos/" target="_blank" class="underline underline-offset-2">Ver política</a>.
-		</span>
-	</label>
-	<small data-error="consent" id={`${f("consent")}-err`} class="field-error" hidden></small>
+	<div class:list={[bar && "lg:mt-1 lg:flex lg:items-center lg:gap-6"]}>
+		<div class:list={[bar && "lg:flex-1"]}>
+			<label class="consent" data-step="1">
+				<input type="checkbox" name="consent" value="true" required aria-describedby={`${f("consent")}-err`} />
+				<span>
+					{consentText} <a href="/politica-de-tratamiento-de-datos/" target="_blank" class="underline underline-offset-2">Ver política</a>.
+				</span>
+			</label>
+			<small data-error="consent" id={`${f("consent")}-err`} class="field-error" hidden></small>
+		</div>
 
-	{turnstileKey && <div class="cf-turnstile mt-3" data-sitekey={turnstileKey} data-size="flexible" data-appearance="interaction-only" />}
+		{turnstileKey && <div class="cf-turnstile mt-3" data-sitekey={turnstileKey} data-size="flexible" data-appearance="interaction-only" />}
 
-	<button type="submit" class="btn btn-primary btn-lg mt-5 w-full">
-		<span data-submit-label>{submitLabel}</span>
-		<Fragment set:html={icon("flecha-derecha", "size-5")} />
-	</button>
+		<button type="submit" class:list={["btn btn-primary btn-lg mt-5 w-full", bar && "lg:mt-[18px] lg:w-auto lg:flex-none"]}>
+			<span data-submit-label>{submitLabel}</span>
+			<Fragment set:html={icon("flecha-derecha", "size-5")} />
+		</button>
+	</div>
 
-	<p class="mt-3 text-center">
-		<a href={`https://wa.me/${site.whatsappNumber}`} data-contact-whatsapp data-cta={`${source}:formulario-whatsapp`} target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-semibold text-deep underline-offset-4 hover:underline">
-			<Fragment set:html={icon("whatsapp", "size-5 text-[#1a9e4b]")} /> o escríbenos por WhatsApp
-		</a>
-	</p>
+	{
+		!bar && (
+			<p class="mt-3 text-center">
+				<a href={`https://wa.me/${site.whatsappNumber}`} data-contact-whatsapp data-cta={`${source}:formulario-whatsapp`} target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-semibold text-deep underline-offset-4 hover:underline">
+					<Fragment set:html={icon("whatsapp", "size-5 text-[#1a9e4b]")} /> o escríbenos por WhatsApp
+				</a>
+			</p>
+		)
+	}
 	<p class="form-status" data-status role="status" hidden></p>
-	<p class="mt-3 flex items-center justify-center gap-2 text-center text-sm text-muted">
-		<Fragment set:html={icon("escudo", "size-4")} /> Usamos tus datos solo para atender esta solicitud.
-	</p>
+	{
+		!bar && (
+			<p class="mt-3 flex items-center justify-center gap-2 text-center text-sm text-muted">
+				<Fragment set:html={icon("escudo", "size-4")} /> Usamos tus datos solo para atender esta solicitud.
+			</p>
+		)
+	}
 </form>
 
 <style>
-	.quote-form .field > label {
-		display: block;
-		margin-bottom: 6px;
-		font-weight: 650;
-		font-size: 1.04rem;
-		line-height: 1.3;
-		color: var(--sv-deep);
-	}
-	.quote-form .field :is(input, select, textarea) {
-		width: 100%;
-		min-height: 56px;
-		padding: 12px 16px;
-		border: 2px solid color-mix(in oklab, var(--sv-border) 60%, var(--sv-text-muted));
-		border-radius: var(--sv-radius-control);
-		font: inherit;
-		font-size: 1.06rem;
-		background: var(--sv-surface);
-		color: var(--sv-text);
-		transition: border-color var(--sv-dur), box-shadow var(--sv-dur);
-	}
-	.quote-form .field textarea {
-		min-height: 104px;
-		resize: vertical;
-	}
-	.quote-form .field :is(input, select, textarea):focus-visible {
-		outline: 3px solid color-mix(in oklab, var(--sv-primary) 35%, transparent);
-		outline-offset: 1px;
-		border-color: var(--sv-primary);
-	}
 	.quote-form [aria-invalid="true"] {
 		border-color: var(--sv-accent-text) !important;
 	}

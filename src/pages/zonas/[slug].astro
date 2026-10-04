@@ -1,7 +1,7 @@
 ---
 /** Landing de zona: contenido local único, lugares de referencia, servicios, mapa y FAQ. */
 import { getEmDashEntry } from "emdash";
-import { PortableText } from "emdash/ui";
+import Prose from "../../components/ui/Prose.astro";
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Hero from "../../components/blocks/Hero.astro";
@@ -33,10 +33,11 @@ const landmarks: any[] = Array.isArray(d.landmarks) ? d.landmarks : [];
 const kindIcon: Record<string, string> = { clinica: "hospital", hospital: "hospital", parque: "sol", "centro-comercial": "casa", otro: "ubicacion" };
 const heroValue = {
 	variant: "dividido",
-	eyebrow: parent ? `${parent.shortTitle} · Bogotá` : d.kind === "municipio" ? "Sabana Norte" : "Norte de Bogotá",
+	eyebrow: parent ? `${parent.shortTitle} · Bogotá` : d.kind === "municipio" ? "Sabana Norte" : "Bogotá",
 	title: d.title,
 	subtitle: d.excerpt,
 	image: d.hero_image,
+	image_side: d.hero_image_side,
 	primary_label: "Escríbenos por WhatsApp",
 	primary_action: "whatsapp",
 	secondary_label: "Confirmar cobertura",
@@ -60,12 +61,12 @@ const heroValue = {
 	<div class="bg-sand">
 		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
 	</div>
-	<Hero value={heroValue} index={0} context={{ zone: name }} />
+	<Hero value={heroValue} index={0} context={{ zone: name, rating: `zones:${d.id}`, ratingLabel: "Califica nuestro servicio en esta zona" }} />
 	{
 		(d.intro?.length > 0 || landmarks.length > 0) && (
 			<section class="section">
 				<div class="container-page grid gap-12 lg:grid-cols-[1fr_22rem]">
-					<article class="prose-sv max-w-3xl">{d.intro?.length > 0 && <PortableText value={d.intro} />}</article>
+					<article class="prose-sv max-w-3xl">{d.intro?.length > 0 && <Prose value={d.intro} />}</article>
 					{landmarks.length > 0 && (
 						<aside>
 							<div class="rounded-card border border-line bg-surface p-6 shadow-soft lg:sticky lg:top-28">

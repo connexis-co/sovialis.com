@@ -29,7 +29,7 @@ const [first, ...rest] = posts as any[];
 	content={entry ? { collection: "pages", id: d.id, slug: "blog" } : undefined}
 	breadcrumbs={crumbs}
 >
-	<PageHeader title={d.title || "Guías para familias que cuidan a un adulto mayor"} summary={d.summary} crumbs={crumbs} />
+	<PageHeader title={d.title || "Guías para familias que cuidan a un adulto mayor"} summary={d.summary} crumbs={crumbs} eyebrow="Guías para familias" />
 	<section class="section-tight">
 		<div class="container-page">
 			{

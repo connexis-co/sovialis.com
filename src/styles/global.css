@@ -276,6 +276,109 @@
 		border-color: var(--sv-primary);
 	}
 
+	/* Campo con etiqueta flotante (formularios de cotización y comentarios): la etiqueta hace de
+	   placeholder y sube dentro del campo al enfocar, escribir o elegir una opción. */
+	.fl-field {
+		position: relative;
+	}
+	.fl-field :is(input, select, textarea) {
+		width: 100%;
+		min-height: 60px;
+		padding: 26px 16px 8px;
+		border: 1.5px solid color-mix(in oklab, var(--sv-border) 55%, var(--sv-text-muted));
+		border-radius: var(--sv-radius-control);
+		font: inherit;
+		font-size: 1.06rem;
+		line-height: 1.35;
+		background: var(--sv-surface);
+		color: var(--sv-text);
+		transition:
+			border-color var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out),
+			background-color var(--sv-dur) var(--sv-ease-out);
+	}
+	.fl-field select {
+		appearance: none;
+		padding-inline-end: 44px;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b6b7d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 14px center;
+		background-size: 20px;
+		cursor: pointer;
+	}
+	.fl-field textarea {
+		min-height: 112px;
+		padding-top: 30px;
+		resize: vertical;
+	}
+	.fl-field > label {
+		position: absolute;
+		inset-inline: 17px 44px;
+		inset-block-start: 30px;
+		translate: 0 -50%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		font-weight: 500;
+		font-size: 1.06rem;
+		line-height: 1.2;
+		color: var(--sv-text-muted);
+		pointer-events: none;
+		transform-origin: left top;
+		transition:
+			inset-block-start var(--sv-dur) var(--sv-ease-out),
+			translate var(--sv-dur) var(--sv-ease-out),
+			font-size var(--sv-dur) var(--sv-ease-out),
+			color var(--sv-dur) var(--sv-ease-out);
+	}
+	.fl-field > label .opt {
+		font-weight: 400;
+		opacity: 0.8;
+	}
+	.fl-field:has(textarea) > label {
+		inset-block-start: 22px;
+	}
+	/* Estado flotante: con foco, con texto o con una opción elegida. */
+	.fl-field:focus-within > label,
+	.fl-field:has(:is(input, textarea):not(:placeholder-shown)) > label,
+	.fl-field:has(select:not(:has(option[value=""]:checked))) > label {
+		inset-block-start: 9px;
+		translate: 0 0;
+		font-size: 0.8rem;
+		font-weight: 650;
+		letter-spacing: 0.01em;
+		color: var(--sv-primary);
+	}
+	.fl-field:not(:focus-within):has(:is(input, textarea):not(:placeholder-shown)) > label,
+	.fl-field:not(:focus-within):has(select:not(:has(option[value=""]:checked))) > label {
+		color: var(--sv-text-muted);
+	}
+	/* El placeholder de ejemplo solo aparece con la etiqueta arriba; el select vacío no muestra texto. */
+	.fl-field :is(input, textarea)::placeholder {
+		color: transparent;
+		transition: color var(--sv-dur);
+	}
+	.fl-field :is(input, textarea):focus::placeholder {
+		color: color-mix(in oklab, var(--sv-text-muted) 70%, transparent);
+	}
+	.fl-field select:has(option[value=""]:checked):not(:focus) {
+		color: transparent;
+	}
+	.fl-field select option {
+		color: var(--sv-text);
+	}
+	.fl-field :is(input, select, textarea):hover {
+		border-color: color-mix(in oklab, var(--sv-primary) 45%, var(--sv-border));
+	}
+	.fl-field :is(input, select, textarea):focus-visible {
+		outline: none;
+		border-color: var(--sv-primary);
+		box-shadow: 0 0 0 4px color-mix(in oklab, var(--sv-primary) 18%, transparent);
+	}
+	.fl-field:has([aria-invalid="true"]) > label {
+		color: var(--sv-accent-text);
+	}
+
 	/* Tarjeta base */
 	.card {
 		background: var(--sv-surface);
@@ -363,28 +466,101 @@
 		color: var(--sv-deep);
 		font-weight: 700;
 	}
-	.prose-sv table {
+	/* Tablas: en móvil cada fila es una tarjeta «encabezado: valor» (ver PtTable.astro). */
+	.pt-table {
+		margin-block: 1.6em;
+	}
+	.pt-table table {
 		width: 100%;
 		border-collapse: separate;
 		border-spacing: 0;
 		font-size: 1rem;
+		line-height: 1.5;
+		background: var(--sv-surface);
 		border: 1px solid var(--sv-border);
-		border-radius: calc(var(--sv-radius) * 0.7);
+		border-radius: calc(var(--sv-radius) * 0.75);
 		overflow: hidden;
-		display: block;
-		overflow-x: auto;
+		box-shadow: var(--sv-shadow-sm);
 	}
-	.prose-sv th,
-	.prose-sv td {
-		padding: 0.75em 1em;
+	.pt-table :is(th, td) {
+		padding: 0.85em 1.1em;
 		text-align: left;
-		border-bottom: 1px solid var(--sv-border);
 		vertical-align: top;
+		border-bottom: 1px solid var(--sv-border);
 	}
-	.prose-sv th {
-		background: var(--sv-surface-alt);
-		font-weight: 700;
+	.pt-table :is(th, td) p {
+		margin: 0;
+	}
+	.pt-table thead th {
+		background: var(--sv-deep);
+		color: #fff;
+		font-weight: 650;
+		font-size: 0.95rem;
+		letter-spacing: 0.01em;
+	}
+	.pt-table tbody th {
+		font-weight: 650;
 		color: var(--sv-deep);
+	}
+	.pt-table tbody tr:nth-child(even) {
+		background: color-mix(in oklab, var(--sv-surface-alt) 60%, transparent);
+	}
+	.pt-table tbody tr:last-child > * {
+		border-bottom: 0;
+	}
+	@media (max-width: 639px) {
+		.pt-table table,
+		.pt-table tbody,
+		.pt-table tr,
+		.pt-table :is(th, td) {
+			display: block;
+		}
+		.pt-table table {
+			border: 0;
+			background: none;
+			box-shadow: none;
+			overflow: visible;
+		}
+		.pt-table thead {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip-path: inset(50%);
+		}
+		.pt-table tbody {
+			display: grid;
+			gap: 12px;
+		}
+		.pt-table tbody tr {
+			background: var(--sv-surface) !important;
+			border: 1px solid var(--sv-border);
+			border-radius: calc(var(--sv-radius) * 0.75);
+			box-shadow: var(--sv-shadow-sm);
+			overflow: hidden;
+		}
+		.pt-table tbody th {
+			padding: 0.8em 1em;
+			background: var(--sv-surface-alt);
+			font-size: 1.04rem;
+			border-bottom: 1px solid var(--sv-border);
+		}
+		.pt-table tbody td {
+			display: grid;
+			grid-template-columns: minmax(7.5rem, 40%) 1fr;
+			gap: 0.75rem;
+			padding: 0.65em 1em;
+			border-bottom: 1px dashed var(--sv-border);
+		}
+		.pt-table tbody td::before {
+			content: attr(data-label);
+			font-weight: 650;
+			font-size: 0.9rem;
+			color: var(--sv-text-muted);
+		}
+		.pt-table tbody td:last-child {
+			border-bottom: 0;
+		}
 	}
 	.prose-sv img {
 		border-radius: var(--sv-radius);

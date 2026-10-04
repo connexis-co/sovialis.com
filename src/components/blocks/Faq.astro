@@ -1,5 +1,5 @@
 ---
-/** Preguntas frecuentes con <details name> (una abierta a la vez, sin JS). Alimenta el FAQPage del JSON-LD. */
+/** Preguntas frecuentes: título centrado arriba y acordeón <details name> centrado debajo (una abierta a la vez, sin JS). Alimenta el FAQPage del JSON-LD. */
 import SectionHead from "../ui/SectionHead.astro";
 
 interface Props {
@@ -18,16 +18,14 @@ const answerHtml = (text: string) =>
 ---
 
 <section class="section" data-block="faq" id="preguntas-frecuentes">
-	<div class="container-page grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-		<div class="lg:sticky lg:top-28 lg:self-start">
-			<SectionHead eyebrow={v.eyebrow || "Preguntas frecuentes"} title={v.title} highlight={v.highlight} subtitle={v.subtitle} align="left" />
-		</div>
-		<div class="faq-list">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow || "Preguntas frecuentes"} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<div class="faq-list mx-auto mt-10 max-w-[52rem]">
 			{
 				items.map((it, i) => (
 					<details class="faq" name={group} open={i === 0}>
 						<summary>
-							<h3 class="font-display text-[1.25rem] leading-snug font-medium text-deep">{it.question}</h3>
+							<h3 class="font-display text-[1.15rem] leading-snug font-medium text-deep sm:text-[1.25rem]">{it.question}</h3>
 							<span class="faq__toggle" aria-hidden="true" />
 						</summary>
 						<div class="faq__answer prose-sv" set:html={answerHtml(it.answer)} />
@@ -40,14 +38,27 @@ const answerHtml = (text: string) =>
 
 <style>
 	.faq {
-		border-bottom: 1px solid var(--sv-border);
+		padding-inline: clamp(1.1rem, 3vw, 1.6rem);
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		border-radius: 20px;
+		transition:
+			border-color var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out);
+	}
+	.faq + .faq {
+		margin-top: 12px;
+	}
+	.faq[open] {
+		border-color: color-mix(in oklab, var(--sv-primary) 30%, var(--sv-border));
+		box-shadow: var(--sv-shadow-md);
 	}
 	.faq summary {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1.25rem;
-		padding: 1.4rem 0;
+		padding: 1.2rem 0;
 		cursor: pointer;
 		list-style: none;
 	}
@@ -57,8 +68,8 @@ const answerHtml = (text: string) =>
 	.faq__toggle {
 		position: relative;
 		flex: none;
-		width: 2.6rem;
-		height: 2.6rem;
+		width: 2.4rem;
+		height: 2.4rem;
 		border-radius: 50%;
 		border: 1.5px solid var(--sv-deep);
 		transition: background var(--sv-dur), transform var(--sv-dur-reveal) var(--sv-ease-out);
@@ -88,8 +99,13 @@ const answerHtml = (text: string) =>
 		transform: translate(-50%, -50%) rotate(0deg);
 	}
 	.faq__answer {
-		padding: 0 3.5rem 1.6rem 0;
+		padding: 0 0 1.4rem;
 		color: var(--sv-text-muted);
+	}
+	@media (min-width: 640px) {
+		.faq__answer {
+			padding-inline-end: 3.5rem;
+		}
 	}
 	.faq summary:hover h3 {
 		color: var(--sv-primary);

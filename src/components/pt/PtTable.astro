@@ -1,0 +1,58 @@
+---
+/**
+ * Tabla del Portable Text. En escritorio es una tabla normal; en móvil cada fila se vuelve una
+ * tarjeta con «encabezado: valor» (data-label), así no hay scroll horizontal.
+ */
+import { PortableText } from "astro-portabletext";
+
+interface Cell {
+	isHeader?: boolean;
+	content?: unknown[];
+	markDefs?: unknown[];
+}
+interface Props {
+	node: { rows?: Array<{ cells?: Cell[] }>; hasHeaderRow?: boolean };
+}
+const { node } = Astro.props;
+const rows = (node.rows ?? []).map((r) => r.cells ?? []);
+const hasHeader = node.hasHeaderRow !== false && rows[0]?.every((c) => c.isHeader !== false);
+const header = hasHeader ? rows[0]! : [];
+const body = hasHeader ? rows.slice(1) : rows;
+const text = (c: Cell) => (Array.isArray(c.content) ? c.content.map((s: any) => s?.text ?? "").join("") : "");
+const block = (c: Cell) => [{ _type: "block", _key: "c", style: "normal", markDefs: c.markDefs ?? [], children: c.content ?? [] }];
+---
+
+<div class="pt-table">
+	<table>
+		{
+			header.length > 0 && (
+				<thead>
+					<tr>
+						{header.map((c) => (
+							<th scope="col">{text(c)}</th>
+						))}
+					</tr>
+				</thead>
+			)
+		}
+		<tbody>
+			{
+				body.map((cells) => (
+					<tr>
+						{cells.map((c, i) =>
+							i === 0 && hasHeader ? (
+								<th scope="row" data-label={text(header[i] ?? {})}>
+									<PortableText value={block(c) as never} />
+								</th>
+							) : (
+								<td data-label={text(header[i] ?? {})}>
+									<PortableText value={block(c) as never} />
+								</td>
+							),
+						)}
+					</tr>
+				))
+			}
+		</tbody>
+	</table>
+</div>

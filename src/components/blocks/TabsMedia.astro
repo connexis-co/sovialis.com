@@ -1,7 +1,11 @@
 ---
-/** Pestañas tipo píldora sobre la imagen; el texto cambia al lado (inspiración VisitValle «Planea tu visita»). */
+/**
+ * Pestañas tipo píldora sobre la imagen: al cambiar de pestaña cambian el texto y la imagen (cada
+ * pestaña puede tener la suya; si no, usa la del bloque). La imagen puede ir a la izquierda o a la derecha.
+ */
 import Img from "../ui/Img.astro";
 import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
 
 interface Props {
 	value: Record<string, any>;
@@ -11,6 +15,8 @@ const { value: v, index } = Astro.props;
 const tabs: any[] = Array.isArray(v.tabs) ? v.tabs : [];
 if (!tabs.length) return null;
 const id = `tabs-${index}`;
+const imageRight = v.image_side === "derecha";
+const images = tabs.map((t) => t.image ?? v.image ?? null);
 const paragraphs = (text: string) => {
 	const lines = String(text ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
 	return { bullets: lines.filter((l) => l.startsWith("- ")).map((l) => l.slice(2)), paras: lines.filter((l) => !l.startsWith("- ")) };
@@ -20,9 +26,19 @@ const paragraphs = (text: string) => {
 <section class="section bg-sand" data-block="tabs">
 	<div class="container-page">
 		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
-		<div class="mt-12 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16" data-tabs>
-			<div class="relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-				{v.image ? <Img image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[6/5]" loading="lazy" sizes="(min-width:1024px) 50vw, 92vw" /> : <div class="aspect-[6/5] bg-mist" />}
+		<div class:list={["mt-12 grid items-center gap-10 lg:gap-16", imageRight ? "lg:grid-cols-[1fr_1.05fr]" : "lg:grid-cols-[1.05fr_1fr]"]} data-tabs>
+			<div class:list={["relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float", imageRight && "lg:order-2"]}>
+				<div class="tab-media relative aspect-[4/5] sm:aspect-[6/5]" data-tab-media>
+					{
+						images.map((img, i) =>
+							img ? (
+								<Img image={img} class:list={["tab-media__img absolute inset-0 size-full object-cover", i === 0 && "is-active"]} loading="lazy" sizes="(min-width:1024px) 50vw, 92vw" />
+							) : (
+								<div class:list={["tab-media__img absolute inset-0 bg-mist", i === 0 && "is-active"]} />
+							),
+						)
+					}
+				</div>
 				<div class="absolute inset-x-4 bottom-4 flex gap-1 overflow-x-auto rounded-full bg-surface/95 p-1.5 shadow-lift backdrop-blur" role="tablist" aria-label={v.title}>
 					{tabs.map((t, i) => (
 						<button type="button" role="tab" id={`${id}-t${i}`} aria-controls={`${id}-p${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="tab-pill">
@@ -39,8 +55,16 @@ const paragraphs = (text: string) => {
 							<h3 class="font-display text-h2 text-deep">{t.title || t.label}</h3>
 							{paras.map((p) => <p class="mt-4 text-lead text-muted">{p}</p>)}
 							{bullets.length > 0 && (
-								<ul class="prose-sv mt-5 !text-[1.08rem]">
-									{bullets.map((b) => <li set:html={b.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")} />)}
+								<ul class="tab-points mt-6 grid gap-3 sm:grid-cols-2">
+									{bullets.map((b) => {
+										const m = b.match(/^\*\*(.+?):?\*\*:?\s*(.*)$/);
+										return (
+											<li class="tab-point">
+												<span class="tab-point__icon" set:html={icon(/\bno\b/i.test(t.label) ? "cerrar" : "check", "size-4")} />
+												<span>{m ? (<><strong>{m[1]}</strong><span class="block text-muted">{m[2]}</span></>) : <span set:html={b.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")} />}</span>
+											</li>
+										);
+									})}
 								</ul>
 							)}
 						</div>
@@ -69,5 +93,49 @@ const paragraphs = (text: string) => {
 	}
 	.tab-panel:not([hidden]) {
 		animation: sv-fade-up var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.tab-media__img {
+		opacity: 0;
+		transform: scale(1.04);
+		transition:
+			opacity 0.6s var(--sv-ease-out),
+			transform 1.2s var(--sv-ease-out);
+	}
+	.tab-media__img.is-active {
+		opacity: 1;
+		transform: none;
+	}
+	.tab-point {
+		display: flex;
+		gap: 0.75rem;
+		align-items: flex-start;
+		padding: 0.9rem 1rem;
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		border-radius: 16px;
+		font-size: 1rem;
+		line-height: 1.45;
+	}
+	.tab-point strong {
+		display: block;
+		color: var(--sv-deep);
+		font-weight: 650;
+	}
+	.tab-point__icon {
+		display: grid;
+		flex: none;
+		place-items: center;
+		inline-size: 1.75rem;
+		block-size: 1.75rem;
+		margin-top: 1px;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--sv-primary) 12%, transparent);
+		color: var(--sv-primary);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.tab-media__img {
+			transition: none;
+			transform: none;
+		}
 	}
 </style>

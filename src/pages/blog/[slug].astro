@@ -1,12 +1,11 @@
 ---
 /** Guía del blog: migas → H1 → meta → imagen → índice → En resumen → contenido → CTA → FAQ → autor → estrellas → comentarios → relacionados. */
 import { getEmDashCollection, getEmDashEntry } from "emdash";
-import { PortableText } from "emdash/ui";
+import Prose from "../../components/ui/Prose.astro";
 import Img from "../../components/ui/Img.astro";
 import Base from "../../layouts/Base.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Toc from "../../components/blog/Toc.astro";
-import PtHeading from "../../components/blog/PtHeading.astro";
 import RatingWidget from "../../components/blog/RatingWidget.astro";
 import BlogComments from "../../components/blog/BlogComments.astro";
 import AuthorBox from "../../components/blog/AuthorBox.astro";
@@ -42,7 +41,6 @@ const { entries: related } = await getEmDashCollection("posts", {
 	...(category ? { where: { category: category.slug } } : {}),
 }).catch(() => ({ entries: [] as any[] }));
 const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3);
-const ptComponents = { block: { h2: PtHeading, h3: PtHeading } };
 ---
 
 <Base
@@ -111,7 +109,7 @@ const ptComponents = { block: { h2: PtHeading, h3: PtHeading } };
 				}
 				<div class="lg:hidden mb-8"><Toc content={d.content} /></div>
 				<div class="prose-sv">
-					<PortableText value={d.content} components={ptComponents as never} />
+					<Prose value={d.content} />
 				</div>
 				<div class="mt-12"><CtaCard service={d.cta_service} /></div>
 			</div>

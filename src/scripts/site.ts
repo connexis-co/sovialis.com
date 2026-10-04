@@ -179,19 +179,7 @@ for (const input of $$<HTMLInputElement>("[data-zone-search]")) {
 	});
 }
 
-/* ── Barra móvil fija ──────────────────────────────────────────────────────────────────── */
-const bar = $("[data-cta-bar]");
-if (bar) {
-	document.documentElement.classList.add("has-sticky-cta");
-	const sentinel = $("[data-hero-cta]");
-	if (!sentinel || bar.dataset.always) bar.classList.add("is-visible");
-	else new IntersectionObserver(([entry]) => bar.classList.toggle("is-visible", !entry!.isIntersecting)).observe(sentinel);
-	window.visualViewport?.addEventListener("resize", () => {
-		bar.hidden = window.visualViewport!.height < innerHeight * 0.75;
-	});
-}
-
-/* ── Banner de cookies → variable CSS para que FAB y barra no lo tapen ─────────────────── */
+/* ── Banner de cookies → variable CSS para que el botón flotante no lo tape ─────────────────── */
 const cookieBanner = $("#sv-cookies");
 if (cookieBanner) {
 	const set = () =>
@@ -415,7 +403,7 @@ for (const form of $$<HTMLFormElement>("[data-quote-form]")) {
 	}
 }
 
-/* ── Pestañas sobre imagen ─────────────────────────────────────────────────────────────── */
+/* ── Pestañas (texto + imagen por pestaña) ─────────────────────────────────────────────────────────────── */
 for (const tabs of $$("[data-tabs]")) {
 	const buttons = $$<HTMLButtonElement>('[role="tab"]', tabs);
 	const panels = $$<HTMLElement>('[role="tabpanel"]', tabs);
@@ -424,16 +412,23 @@ for (const tabs of $$("[data-tabs]")) {
 			b.setAttribute("aria-selected", String(i === j));
 			b.tabIndex = i === j ? 0 : -1;
 		});
-		panels.forEach((p, j) => (p.hidden = i !== j));
+		panels.forEach((p, j) => {
+			if (i === j) p.removeAttribute("hidden");
+			else if (p.dataset.untilFound !== undefined) p.setAttribute("hidden", "until-found");
+			else p.hidden = true;
+		});
+		$$("[data-tab-media] > *", tabs).forEach((m, j) => m.classList.toggle("is-active", i === j));
 		if (focus) buttons[i]?.focus();
 	};
 	buttons.forEach((b, i) => {
 		b.addEventListener("click", () => select(i));
 		b.addEventListener("keydown", (e) => {
-			if (e.key === "ArrowRight") select((i + 1) % buttons.length, true);
-			if (e.key === "ArrowLeft") select((i - 1 + buttons.length) % buttons.length, true);
+			if (e.key === "ArrowRight" || e.key === "ArrowDown") (e.preventDefault(), select((i + 1) % buttons.length, true));
+			if (e.key === "ArrowLeft" || e.key === "ArrowUp") (e.preventDefault(), select((i - 1 + buttons.length) % buttons.length, true));
 		});
 	});
+	// Búsqueda del navegador (Ctrl+F) dentro de un panel oculto con hidden="until-found": abre su pestaña.
+	panels.forEach((p, i) => p.addEventListener("beforematch", () => select(i)));
 }
 
 /* ── Carruseles con scroll-snap: flechas y barra de progreso ──────────────────────────── */

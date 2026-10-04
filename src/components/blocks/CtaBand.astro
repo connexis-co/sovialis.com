@@ -1,6 +1,7 @@
 ---
-/** Llamado a la acción: oscuro con la curva de la S, claro o con imagen. */
+/** Llamado a la acción: oscuro con la S del isotipo como marca de agua, claro o con imagen. */
 import Img from "../ui/Img.astro";
+import BrandS from "../ui/BrandS.astro";
 import Cta from "../ui/Cta.astro";
 import { getSiteData } from "../../lib/site";
 
@@ -32,10 +33,7 @@ const titleHtml = (() => {
 				</>
 			)}
 			{variant === "oscuro" && (
-				<svg class="pointer-events-none absolute -right-24 -bottom-40 -z-10 h-[34rem] w-auto opacity-20" viewBox="0 0 400 600" aria-hidden="true">
-					<path d="M330 40C240 -10 90 20 80 140c-10 120 240 150 230 280-8 110-160 150-260 110" fill="none" stroke={`url(#cta-grad-${index})`} stroke-width="64" stroke-linecap="round" />
-					<defs><linearGradient id={`cta-grad-${index}`} x1="0" x2="1"><stop offset="0" stop-color="#00A6D6" /><stop offset="1" stop-color="#8fd8f2" /></linearGradient></defs>
-				</svg>
+				<BrandS class="pointer-events-none absolute -right-16 -bottom-24 -z-10 h-[30rem] w-auto text-[#8fd8f2] opacity-[0.14]" />
 			)}
 			<div class="max-w-2xl">
 				{v.eyebrow && <p class="eyebrow">{v.eyebrow}</p>}
