@@ -24,9 +24,8 @@ Esta política explica qué datos personales recolecta Sovialis, para qué los u
 
 ## Responsable del tratamiento y canales
 
-- **Responsable:** SOVIALIS CUIDADO INTEGRAL S.A.S. (en adelante, Sovialis).
-- **NIT:** [por confirmar].
-- **Domicilio:** Bogotá D.C., Colombia. **Dirección:** [por confirmar].
+- **Responsable:** Sovialis.
+- **Domicilio:** Bogotá D.C., Colombia.
 - **Sitio web:** sovialis.com.
 - **Correo de protección de datos y PQRS:** equipo.sovialis@gmail.com.
 - **Otros canales:** el teléfono y el WhatsApp publicados en el pie de página de este sitio.
@@ -130,6 +129,6 @@ Algunos proveedores de mensajería, como WhatsApp, tratan ciertos datos como res
 
 ## Vigencia
 
-Esta política rige desde el [fecha de publicación por confirmar] y está publicada en sovialis.com/politica-de-tratamiento-de-datos/. Las bases de datos permanecen vigentes mientras Sovialis desarrolle su actividad y subsistan las finalidades del tratamiento.
+Esta política rige desde el 4 de octubre de 2026 y está publicada en sovialis.com/politica-de-tratamiento-de-datos/. Las bases de datos permanecen vigentes mientras Sovialis desarrolle su actividad y subsistan las finalidades del tratamiento.
 
 Si hacemos cambios sustanciales, te los informaremos antes de aplicarlos por los canales registrados y en este sitio; si cambia la finalidad del tratamiento, pediremos una nueva autorización. Sovialis adopta un manual interno de políticas y procedimientos para cumplir la ley e inscribirá sus bases de datos en el Registro Nacional de Bases de Datos cuando esté obligada a hacerlo.

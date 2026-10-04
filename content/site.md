@@ -1,17 +1,17 @@
 ---
 slug: general
 title: Ajustes generales
-legal_name: SOVIALIS CUIDADO INTEGRAL S.A.S.
+legal_name: ""
 nit: ""
-phone_display: 300 892 1144
-phone_e164: "+573008921144"
-whatsapp_display: 300 892 1144
+phone_display: 311 759 8641
+phone_e164: "+573117598641"
+whatsapp_display: 311 759 8641
 email: contacto@sovialis.com
 address: ""
 city: Bogotá D.C.
 hours: Lunes a domingo, 7:00 a. m. a 8:00 p. m.
-coverage: Norte de Bogotá y la Sabana
-announcement: Cuidado del adulto mayor en el norte de Bogotá · Respuesta el mismo día
+coverage: Norte, noroccidente y occidente de Bogotá
+announcement: Cuidado del adulto mayor a domicilio en Bogotá · Respuesta el mismo día
 announcement_url: /zonas/
 header_cta: Cotiza en 2 minutos
 sticky_title: ¿Hablamos hoy?

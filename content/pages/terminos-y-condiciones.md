@@ -20,7 +20,7 @@ faqs:
     answer: "El Estatuto del Consumidor, la Ley 1480 de 2011. Puedes presentar tu reclamo directamente a Sovialis por el canal de PQRS y, si no se resuelve, acudir a la Superintendencia de Industria y Comercio. Ninguna condición de estos términos limita los derechos que esa ley te reconoce."
 ---
 
-Estos términos regulan el uso del sitio sovialis.com y resumen las condiciones del servicio de cuidado a domicilio que presta SOVIALIS CUIDADO INTEGRAL S.A.S. (en adelante, Sovialis), NIT [por confirmar], con domicilio en Bogotá D.C. Al usar el sitio o pedir una cotización aceptas estos términos. Las condiciones de cada servicio quedan en la cotización y en el contrato que firmas; si algo de esta página difiere de tu contrato firmado, prevalece el contrato, siempre que no reduzca los derechos que te da la ley.
+Estos términos regulan el uso del sitio sovialis.com y resumen las condiciones del servicio de cuidado a domicilio que presta Sovialis, NIT [por confirmar], con domicilio en Bogotá D.C. Al usar el sitio o pedir una cotización aceptas estos términos. Las condiciones de cada servicio quedan en la cotización y en el contrato que firmas; si algo de esta página difiere de tu contrato firmado, prevalece el contrato, siempre que no reduzca los derechos que te da la ley.
 
 ## Uso del sitio
 
@@ -48,7 +48,7 @@ Si el precio cambia en la renovación anual, te avisamos con al menos 15 días d
 
 ## Pagos, mora y suspensión
 
-Todos los pagos son **anticipados**: antes de cada servicio, o de forma semanal, quincenal o mensual, según el contrato. Se hacen solo a la cuenta a nombre de SOVIALIS CUIDADO INTEGRAL S.A.S.; el dinero entregado directamente al personal no cuenta como pago del servicio. Al cerrar cada periodo se concilian los servicios prestados y, si queda saldo a tu favor, se devuelve en los plazos del contrato.
+Todos los pagos son **anticipados**: antes de cada servicio, o de forma semanal, quincenal o mensual, según el contrato. Se hacen solo a la cuenta de Sovialis que te indicamos por escrito; el dinero entregado directamente al personal no cuenta como pago del servicio. Al cerrar cada periodo se concilian los servicios prestados y, si queda saldo a tu favor, se devuelve en los plazos del contrato.
 
 El pago tardío causa intereses de mora a la tasa máxima legal certificada por la Superintendencia Financiera. Con aviso previo de 24 horas, el servicio puede suspenderse al terminar el servicio en curso, nunca durante él y nunca dejando a la persona cuidada sin un adulto responsable. La cobranza se hace solo por los canales que autorices y en los horarios que permite la Ley 2300 de 2023.
 
@@ -73,7 +73,7 @@ Puedes presentar peticiones, quejas, reclamos y sugerencias por los canales de l
 
 ## Propiedad intelectual
 
-La marca Sovialis, su logotipo, los textos, las guías, el diseño y el código de este sitio pertenecen a SOVIALIS CUIDADO INTEGRAL S.A.S. o se usan con autorización de sus titulares, y están protegidos por la Ley 23 de 1982 sobre derechos de autor y la Decisión 486 de 2000 de la Comunidad Andina. Puedes compartir enlaces y citar fragmentos breves con mención de la fuente; para cualquier otro uso necesitas autorización escrita. Algunas fotografías del sitio son ilustrativas y no muestran a personas reales del equipo ni a familias atendidas.
+La marca Sovialis, su logotipo, los textos, las guías, el diseño y el código de este sitio pertenecen a Sovialis o se usan con autorización de sus titulares, y están protegidos por la Ley 23 de 1982 sobre derechos de autor y la Decisión 486 de 2000 de la Comunidad Andina. Puedes compartir enlaces y citar fragmentos breves con mención de la fuente; para cualquier otro uso necesitas autorización escrita. Algunas fotografías del sitio son ilustrativas y no muestran a personas reales del equipo ni a familias atendidas.
 
 ## Responsabilidad
 
@@ -85,4 +85,4 @@ Nada de lo anterior limita la responsabilidad que la ley le asigna a Sovialis fr
 
 Estos términos y los contratos de servicio se rigen por las leyes de la República de Colombia, en especial el Estatuto del Consumidor (Ley 1480 de 2011). Las diferencias se resuelven primero de forma directa por el canal de PQRS; si no se resuelven, puedes acudir a la Superintendencia de Industria y Comercio o a los jueces competentes de Colombia.
 
-Última actualización: [fecha de publicación por confirmar].
+Última actualización: 4 de octubre de 2026.

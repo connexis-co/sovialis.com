@@ -20,7 +20,7 @@ faqs:
     answer: "Depende de cada cookie. Algunas duran solo la sesión o unos minutos y otras hasta dos años, como la de Google Analytics que distingue visitantes. En la tabla de esta página verás el nombre de cada cookie, su finalidad, su proveedor y su duración aproximada."
 ---
 
-Esta política explica qué cookies y tecnologías parecidas usa sovialis.com, sitio de SOVIALIS CUIDADO INTEGRAL S.A.S. (Sovialis), para qué sirven y cómo puedes aceptarlas o rechazarlas. Complementa nuestra política de [tratamiento de datos](/politica-de-tratamiento-de-datos/).
+Esta política explica qué cookies y tecnologías parecidas usa sovialis.com, sitio de Sovialis, para qué sirven y cómo puedes aceptarlas o rechazarlas. Complementa nuestra política de [tratamiento de datos](/politica-de-tratamiento-de-datos/).
 
 ## Qué son las cookies
 
@@ -73,4 +73,4 @@ Las duraciones son las que informan los proveedores y pueden cambiar. Revisamos 
 
 Rechazar las cookies de medición no afecta ninguna función del sitio: puedes cotizar, leer las guías y escribirnos igual.
 
-Última actualización: [fecha de publicación por confirmar].
+Última actualización: 4 de octubre de 2026.
