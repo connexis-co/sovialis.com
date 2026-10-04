@@ -1,0 +1,29 @@
+---
+/** Tarjeta de llamada a la acción del servicio relacionado con la guía. */
+import { icon } from "../../lib/icons";
+import { formatCOP, getCatalog } from "../../lib/site";
+interface Props {
+	service?: string | null;
+}
+const { service } = Astro.props;
+const { services } = await getCatalog();
+const s = services.find((x) => x.slug === service) ?? services[0];
+if (!s) return null;
+---
+
+<aside class="cta-card on-dark relative overflow-hidden rounded-card p-7 text-white" aria-label="Servicio relacionado">
+	<p class="eyebrow">Sovialis puede ayudarte</p>
+	<p class="mt-3 font-display text-2xl leading-tight">{s.shortTitle}</p>
+	<p class="mt-2 text-white/80">{s.excerpt}</p>
+	{s.priceFrom ? <p class="mt-3 font-semibold text-[#8fd8f2]">Desde {formatCOP(s.priceFrom)} {s.priceUnit}</p> : null}
+	<div class="mt-5 flex flex-wrap gap-3">
+		<a href={s.url} class="btn btn-light btn-sm" data-cta={`guia:servicio-${s.slug}`}>Ver el servicio <Fragment set:html={icon("flecha-derecha", "size-4")} /></a>
+		<button type="button" class="btn btn-outline btn-sm" data-quote data-service={s.shortTitle} data-cta={`guia:cotizar-${s.slug}`}>Cotizar</button>
+	</div>
+</aside>
+
+<style>
+	.cta-card {
+		background: var(--sv-gradient-deep);
+	}
+</style>

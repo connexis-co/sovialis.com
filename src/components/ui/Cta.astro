@@ -1,0 +1,55 @@
+---
+/**
+ * Botón de llamado a la acción según la acción elegida en el CMS:
+ *   cotizar → abre el modal · whatsapp → enlace contextual · llamar → tel: · enlace → URL
+ */
+import { sanitizeHref } from "emdash";
+import { icon } from "../../lib/icons";
+import { telLink, waLink, type SiteData } from "../../lib/site";
+
+interface Props {
+	label?: string | null;
+	action?: string | null;
+	url?: string | null;
+	variant?: "primary" | "whatsapp" | "light" | "outline";
+	size?: "sm" | "md" | "lg";
+	cta: string;
+	site: SiteData;
+	service?: string;
+	zone?: string;
+	waText?: string;
+	class?: string;
+	heroSentinel?: boolean;
+}
+const { label, action, url, variant, size = "lg", cta, site, service, zone, waText, class: className, heroSentinel } = Astro.props;
+if (!label) return null;
+const kind = action || (url ? "enlace" : "cotizar");
+const v = variant ?? (kind === "whatsapp" ? "whatsapp" : kind === "cotizar" ? "primary" : "outline");
+const classes = ["btn", `btn-${v}`, size !== "md" && `btn-${size}`, className];
+const leading = kind === "whatsapp" ? "whatsapp" : kind === "llamar" ? "telefono" : null;
+---
+
+{
+	kind === "cotizar" ? (
+		<button type="button" class:list={classes} data-quote data-cta={cta} data-service={service} data-zone={zone} data-hero-cta={heroSentinel ? "" : undefined}>
+			{label}
+			<Fragment set:html={icon("flecha-derecha", "size-5")} />
+		</button>
+	) : kind === "whatsapp" ? (
+		<a class:list={classes} href={waLink(site, waText)} data-wa data-wa-text={waText} data-cta={cta} target="_blank" rel="noopener" data-hero-cta={heroSentinel ? "" : undefined}>
+			<Fragment set:html={icon("whatsapp", "size-6")} />
+			{label}
+		</a>
+	) : kind === "llamar" ? (
+		<a class:list={classes} href={telLink(site)} data-cta={cta}>
+			<Fragment set:html={icon("telefono", "size-5")} />
+			{label}
+		</a>
+	) : (
+		<a class:list={classes} href={sanitizeHref(url ?? "#")} data-cta={cta}>
+			{leading && <Fragment set:html={icon(leading, "size-5")} />}
+			{label}
+			<Fragment set:html={icon("flecha-derecha", "size-5")} />
+		</a>
+	)
+}

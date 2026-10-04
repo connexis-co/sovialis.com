@@ -1,0 +1,31 @@
+---
+/** Cabecera de página sin hero: migas, H1 y resumen. */
+import Breadcrumbs from "../ui/Breadcrumbs.astro";
+import type { Crumb } from "../../layouts/Base.astro";
+
+interface Props {
+	title: string;
+	summary?: string | null;
+	eyebrow?: string | null;
+	crumbs?: Crumb[];
+}
+const { title, summary, eyebrow, crumbs = [] } = Astro.props;
+---
+
+<section class="page-header relative overflow-hidden">
+	<div class="container-page pt-8 pb-12 lg:pt-12 lg:pb-16">
+		{crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
+		{eyebrow && <p class="eyebrow mt-6">{eyebrow}</p>}
+		<h1 class="mt-4 max-w-4xl font-display text-h1 text-deep">{title}</h1>
+		{summary && <p class="mt-5 max-w-3xl text-lead text-muted">{summary}</p>}
+	</div>
+</section>
+
+<style>
+	.page-header {
+		background:
+			radial-gradient(50% 80% at 100% 0%, var(--sv-surface-alt) 0%, transparent 70%),
+			var(--sv-surface-warm);
+		border-bottom: 1px solid var(--sv-border);
+	}
+</style>

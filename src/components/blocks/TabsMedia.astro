@@ -1,0 +1,73 @@
+---
+/** Pestañas tipo píldora sobre la imagen; el texto cambia al lado (inspiración VisitValle «Planea tu visita»). */
+import { Image } from "emdash/ui";
+import SectionHead from "../ui/SectionHead.astro";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const tabs: any[] = Array.isArray(v.tabs) ? v.tabs : [];
+if (!tabs.length) return null;
+const id = `tabs-${index}`;
+const paragraphs = (text: string) => {
+	const lines = String(text ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
+	return { bullets: lines.filter((l) => l.startsWith("- ")).map((l) => l.slice(2)), paras: lines.filter((l) => !l.startsWith("- ")) };
+};
+---
+
+<section class="section bg-sand" data-block="tabs">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<div class="mt-12 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16" data-tabs>
+			<div class="relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
+				{v.image ? <Image image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[6/5]" loading="lazy" sizes="(min-width:1024px) 50vw, 92vw" /> : <div class="aspect-[6/5] bg-mist" />}
+				<div class="absolute inset-x-4 bottom-4 flex gap-1 overflow-x-auto rounded-full bg-surface/95 p-1.5 shadow-lift backdrop-blur" role="tablist" aria-label={v.title}>
+					{tabs.map((t, i) => (
+						<button type="button" role="tab" id={`${id}-t${i}`} aria-controls={`${id}-p${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="tab-pill">
+							{t.label}
+						</button>
+					))}
+				</div>
+			</div>
+			<div>
+				{tabs.map((t, i) => {
+					const { bullets, paras } = paragraphs(t.body);
+					return (
+						<div role="tabpanel" id={`${id}-p${i}`} aria-labelledby={`${id}-t${i}`} hidden={i !== 0} class="tab-panel">
+							<h3 class="font-display text-h2 text-deep">{t.title || t.label}</h3>
+							{paras.map((p) => <p class="mt-4 text-lead text-muted">{p}</p>)}
+							{bullets.length > 0 && (
+								<ul class="prose-sv mt-5 !text-[1.08rem]">
+									{bullets.map((b) => <li set:html={b.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")} />)}
+								</ul>
+							)}
+						</div>
+					);
+				})}
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.tab-pill {
+		flex: 1 0 auto;
+		padding: 0.7rem 1.1rem;
+		border-radius: 999px;
+		font-weight: 600;
+		font-size: 0.98rem;
+		color: var(--sv-deep);
+		white-space: nowrap;
+		cursor: pointer;
+		transition: background var(--sv-dur), color var(--sv-dur);
+	}
+	.tab-pill[aria-selected="true"] {
+		background: var(--sv-deep);
+		color: #fff;
+	}
+	.tab-panel:not([hidden]) {
+		animation: sv-fade-up var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+</style>

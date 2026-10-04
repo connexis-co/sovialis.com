@@ -1,0 +1,46 @@
+---
+/** Tabla comparativa (p. ej. Sovialis vs. contratar directo vs. hogar geriátrico). */
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+const rows: any[] = Array.isArray(v.rows) ? v.rows : [];
+if (!rows.length) return null;
+const cell = (text: string) => {
+	const t = String(text ?? "").trim();
+	if (/^(sí|si|✓)$/i.test(t)) return icon("check", "size-5 text-success mx-auto");
+	if (/^(no|✕|x)$/i.test(t)) return icon("cerrar", "size-5 text-[#9a3346] mx-auto");
+	return t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]!);
+};
+---
+
+<section class="section bg-mist" data-block="comparison">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<div class="reveal mx-auto mt-12 max-w-5xl overflow-x-auto rounded-card border border-line bg-surface shadow-lift">
+			<table class="w-full min-w-[40rem] border-collapse text-left">
+				<thead>
+					<tr>
+						<th scope="col" class="p-5 text-sm font-bold tracking-wider text-muted uppercase">Aspecto</th>
+						<th scope="col" class="bg-deep p-5 text-center font-display text-lg font-medium text-white">{v.col_a}</th>
+						{v.col_b && <th scope="col" class="p-5 text-center font-display text-lg font-medium text-deep">{v.col_b}</th>}
+						{v.col_c && <th scope="col" class="p-5 text-center font-display text-lg font-medium text-deep">{v.col_c}</th>}
+					</tr>
+				</thead>
+				<tbody>
+					{rows.map((r) => (
+						<tr class="border-t border-line">
+							<th scope="row" class="p-5 font-semibold text-deep">{r.feature}</th>
+							<td class="bg-primary/5 p-5 text-center font-semibold text-deep" set:html={cell(r.a)} />
+							{v.col_b && <td class="p-5 text-center text-muted" set:html={cell(r.b)} />}
+							{v.col_c && <td class="p-5 text-center text-muted" set:html={cell(r.c)} />}
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>

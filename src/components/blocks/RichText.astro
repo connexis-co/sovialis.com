@@ -1,0 +1,15 @@
+---
+/** Texto libre (Portable Text) a ancho de lectura o amplio. */
+import { PortableText } from "emdash/ui";
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+if (!v.body?.length) return null;
+---
+
+<section class="section-tight" data-block="rich-text">
+	<div class:list={["container-page", v.width === "amplio" ? "max-w-5xl" : "max-w-3xl"]}>
+		<div class="prose-sv"><PortableText value={v.body} /></div>
+	</div>
+</section>

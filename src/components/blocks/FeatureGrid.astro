@@ -1,0 +1,92 @@
+---
+/** Beneficios: diseño bento (con foto), cuadrícula o lista; cuatro tonos de fondo. */
+import { Image } from "emdash/ui";
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+const items: any[] = Array.isArray(v.items) ? v.items : [];
+const tone = v.tone || "claro";
+const dark = tone === "oscuro";
+const layout = v.layout || "cuadricula";
+const bg = { claro: "bg-canvas", arena: "bg-sand", bruma: "bg-mist", oscuro: "bg-deep text-white" }[tone as string] ?? "bg-canvas";
+---
+
+<section class:list={["section", bg, dark && "on-dark tone-dark"]} data-block="features">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} dark={dark} align={layout === "bento" ? "left" : "center"} />
+		{
+			layout === "bento" ? (
+				<div class="bento mt-12 grid gap-5 md:grid-cols-6">
+					{v.image && (
+						<div class="reveal relative overflow-hidden rounded-card md:col-span-3 md:row-span-2 min-h-72">
+							<Image image={v.image} class="absolute inset-0 size-full object-cover" loading="lazy" sizes="(min-width:768px) 50vw, 92vw" />
+						</div>
+					)}
+					{items.map((it, i) => (
+						<div class:list={["reveal feature p-7", v.image ? "md:col-span-3" : i === 0 ? "md:col-span-4" : "md:col-span-2", dark ? "feature--dark" : "card"]}>
+							<span class="feature__icon" set:html={icon(it.icon, "size-6")} />
+							<h3 class:list={["mt-4 font-display text-h3", dark ? "text-white" : "text-deep"]}>{it.title}</h3>
+							{it.text && <p class:list={["mt-2", dark ? "text-white/80" : "text-muted"]}>{it.text}</p>}
+						</div>
+					))}
+				</div>
+			) : layout === "lista" ? (
+				<ul class="mx-auto mt-12 grid max-w-4xl gap-5">
+					{items.map((it) => (
+						<li class="reveal flex gap-5">
+							<span class="feature__icon flex-none" set:html={icon(it.icon, "size-6")} />
+							<div>
+								<h3 class:list={["font-display text-h3", dark ? "text-white" : "text-deep"]}>{it.title}</h3>
+								{it.text && <p class:list={["mt-1", dark ? "text-white/80" : "text-muted"]}>{it.text}</p>}
+							</div>
+						</li>
+					))}
+				</ul>
+			) : (
+				<ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+					{items.map((it) => (
+						<li class:list={["reveal feature p-7", dark ? "feature--dark" : "card"]}>
+							<span class="feature__icon" set:html={icon(it.icon, "size-6")} />
+							<h3 class:list={["mt-4 font-display text-h3", dark ? "text-white" : "text-deep"]}>{it.title}</h3>
+							{it.text && <p class:list={["mt-2", dark ? "text-white/80" : "text-muted"]}>{it.text}</p>}
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.tone-dark {
+		background-image: var(--sv-gradient-deep);
+	}
+	.feature {
+		border-radius: var(--sv-radius);
+		transition: transform var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.feature:hover {
+		transform: translateY(calc(-3px * var(--sv-motion)));
+	}
+	.feature--dark {
+		background: rgb(255 255 255 / 0.06);
+		border: 1px solid rgb(255 255 255 / 0.12);
+	}
+	.feature__icon {
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 14px;
+		background: var(--sv-surface-alt);
+		color: var(--sv-primary);
+	}
+	.feature--dark .feature__icon {
+		background: rgb(143 216 242 / 0.14);
+		color: #8fd8f2;
+	}
+</style>

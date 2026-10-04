@@ -1,0 +1,77 @@
+---
+/** Modal de cotización (<dialog> nativo). Se abre desde cualquier elemento con [data-quote]. */
+import QuoteForm from "./QuoteForm.astro";
+import { icon } from "../../lib/icons";
+import type { CatalogItem, SiteData } from "../../lib/site";
+
+interface Props {
+	site: SiteData;
+	services: CatalogItem[];
+	zones: CatalogItem[];
+	service?: string;
+	zone?: string;
+}
+const { site, services, zones, service, zone } = Astro.props;
+---
+
+<dialog id="quote-dialog" class="site-dialog" aria-labelledby="quote-dialog-title">
+	<button type="button" class="dialog-close" data-dialog-close aria-label="Cerrar">
+		<Fragment set:html={icon("cerrar", "size-5")} />
+	</button>
+	<p class="eyebrow">{site.leadEyebrow}</p>
+	<h2 id="quote-dialog-title" class="mt-2 pr-12 font-display text-[1.9rem] leading-tight">{site.leadTitle}</h2>
+	<p class="mt-2 mb-6 text-muted">{site.leadText}</p>
+	<QuoteForm id="quote-form" site={site} services={services} zones={zones} variant="modal" service={service} zone={zone} source="modal" />
+</dialog>
+
+<style>
+	.site-dialog {
+		border: 1px solid var(--sv-border);
+		max-height: calc(100dvh - 32px);
+		width: min(620px, 100% - 32px);
+		margin: auto;
+		padding: 32px;
+		background: var(--sv-surface);
+		color: var(--sv-text);
+		border-radius: var(--sv-radius);
+		overflow: auto;
+		overscroll-behavior: contain;
+		box-shadow: 0 24px 60px -8px #0b2a4e59;
+	}
+	.site-dialog::backdrop {
+		background: #0b2a4e9e;
+		backdrop-filter: blur(5px);
+	}
+	.site-dialog[open] {
+		animation: dialog-in var(--sv-dur) var(--sv-ease-out);
+	}
+	@keyframes dialog-in {
+		from {
+			opacity: 0;
+			transform: translateY(calc(12px * var(--sv-motion))) scale(0.99);
+		}
+	}
+	.dialog-close {
+		position: absolute;
+		inset: 20px 20px auto auto;
+		display: grid;
+		place-items: center;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		border: 1px solid var(--sv-border);
+		background: var(--sv-surface-alt);
+		color: var(--sv-deep);
+		cursor: pointer;
+	}
+	@media (max-width: 767px) {
+		.site-dialog {
+			padding: 24px 20px;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.site-dialog[open] {
+			animation: none;
+		}
+	}
+</style>

@@ -1,0 +1,255 @@
+---
+/**
+ * Portada editable. Diseños:
+ *  - dividido: texto + foto 4:5 con tarjeta de vidrio y atajos de servicios (home, zonas).
+ *  - foto-completa: foto redondeada a lo ancho con tarjeta de texto flotante (inspiración VisitValle).
+ *  - centrado: texto centrado sobre degradado suave (páginas institucionales).
+ * Con «formulario corto» activo muestra la tarjeta de cotización de 3 campos (landings y Ads).
+ * El título es el H1 cuando el bloque es el primero de la página.
+ */
+import { Image } from "emdash/ui";
+import Cta from "../ui/Cta.astro";
+import QuoteForm from "../forms/QuoteForm.astro";
+import { icon } from "../../lib/icons";
+import { ROUTES } from "../../lib/routes";
+import { formatCOP, getCatalog, getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+	context?: { service?: string; zone?: string; priceFrom?: number | null; priceUnit?: string };
+}
+const { value: v, index, context = {} } = Astro.props;
+const [site, catalog] = await Promise.all([getSiteData(), getCatalog()]);
+const variant = v.variant || "dividido";
+const Tag = index === 0 ? "h1" : "h2";
+const badges = String(v.badges ?? "")
+	.split("\n")
+	.map((b) => b.trim())
+	.filter(Boolean);
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+const titleHtml = (() => {
+	const t = String(v.title ?? "");
+	const hl = String(v.highlight ?? "");
+	const i = hl ? t.toLowerCase().indexOf(hl.toLowerCase()) : -1;
+	return i < 0 ? esc(t) : `${esc(t.slice(0, i))}<span class="hl">${esc(t.slice(i, i + hl.length))}</span>${esc(t.slice(i + hl.length))}`;
+})();
+const ctaId = `hero:${index}`;
+const shortcuts = v.shortcuts_title ? catalog.services.slice(0, 7) : [];
+const hasImage = Boolean(v.image?.src || v.image?.id);
+---
+
+{
+	variant === "foto-completa" ? (
+		<section class="px-3 pt-3 sm:px-4" data-block="hero">
+			<div class="hero-full relative isolate overflow-hidden">
+				{hasImage && <Image image={v.image} priority class="absolute inset-0 -z-10 size-full object-cover animate-ken-burns" sizes="100vw" />}
+				<div class="absolute inset-0 -z-10 bg-gradient-to-t from-deep/80 via-deep/25 to-transparent" style="opacity: calc(var(--sv-hero-overlay) + 0.3)" />
+				<div class="container-page flex min-h-[min(88svh,760px)] items-end pt-32 pb-8 sm:pb-12">
+					<div class="hero-card max-w-xl animate-fade-up on-dark p-7 text-white sm:p-9">
+						{v.eyebrow && <p class="eyebrow">{v.eyebrow}</p>}
+						<Tag class="mt-3 font-display text-h1 text-white" set:html={titleHtml} />
+						{v.subtitle && <p class="mt-4 text-lead text-white/85">{v.subtitle}</p>}
+						<div class="mt-7 flex flex-wrap gap-3">
+							<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel service={context.service} zone={context.zone} />
+							<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	) : variant === "centrado" ? (
+		<section class="hero-centered relative overflow-hidden" data-block="hero">
+			<div class="container-page py-[clamp(4rem,9vw,8rem)] text-center">
+				{v.eyebrow && <p class="eyebrow animate-fade-up">{v.eyebrow}</p>}
+				<Tag class="on-light mx-auto mt-4 max-w-4xl font-display text-display text-deep" set:html={titleHtml} />
+				{v.subtitle && <p class="mx-auto mt-5 max-w-2xl text-lead text-muted">{v.subtitle}</p>}
+				<div class="mt-8 flex flex-wrap justify-center gap-3">
+					<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel />
+					<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" />
+				</div>
+				{hasImage && (
+					<div class="mx-auto mt-12 max-w-5xl overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
+						<Image image={v.image} priority class="aspect-[21/9] w-full object-cover" />
+					</div>
+				)}
+			</div>
+		</section>
+	) : (
+		<section class="hero-split relative overflow-hidden" data-block="hero">
+			<div class="container-page grid items-center gap-10 pt-8 pb-[clamp(3rem,6vw,5.5rem)] lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:pt-14">
+				<div class="on-light relative z-[1]">
+					{v.eyebrow && <p class="eyebrow">{v.eyebrow}</p>}
+					<Tag class="mt-4 font-display text-display font-medium text-deep" set:html={titleHtml} />
+					{v.subtitle && <p class="mt-5 max-w-xl text-lead text-muted">{v.subtitle}</p>}
+					{context.priceFrom ? (
+						<p class="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[1.02rem] font-semibold text-deep shadow-soft">
+							<Fragment set:html={icon("check", "size-5 text-success")} />
+							Desde {formatCOP(context.priceFrom)} {context.priceUnit}
+						</p>
+					) : null}
+					<div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+						<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel service={context.service} zone={context.zone} />
+						<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
+					</div>
+					{badges.length > 0 && (
+						<ul class="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[1.02rem] font-semibold text-deep">
+							{badges.map((b) => (
+								<li class="flex items-center gap-2">
+									<span class="grid size-6 place-items-center rounded-full bg-primary/10 text-primary" set:html={icon("check", "size-4")} />
+									{b}
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
+
+				{v.show_form ? (
+					<div class="relative">
+						<div class="rounded-[var(--sv-radius-hero)] border border-line bg-surface p-6 shadow-float sm:p-8" id="cotizar">
+							<p class="eyebrow">Cotiza sin compromiso</p>
+							<p class="mt-2 font-display text-2xl leading-tight text-deep">Recibe el precio para tu caso hoy</p>
+							<div class="mt-5">
+								<QuoteForm id={`hero-form-${index}`} site={site} services={catalog.services} zones={catalog.zones} variant="hero" service={context.service} zone={context.zone} source="hero" submitLabel="Recibir cotización" />
+							</div>
+						</div>
+					</div>
+				) : hasImage ? (
+					<div class="relative mx-auto w-full max-w-[34rem]">
+						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
+							<Image image={v.image} priority class="aspect-[4/5] w-full object-cover" sizes="(min-width:1024px) 46vw, 92vw" />
+						</div>
+						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
+						{(v.card_title || v.card_text) && (
+							<div class="glass-card absolute -bottom-6 left-4 max-w-[19rem] p-5 sm:-left-10">
+								{v.card_title && (
+									<p class="flex items-center gap-2 font-display text-lg leading-tight text-deep">
+										<span class="grid size-9 flex-none place-items-center rounded-full bg-primary text-white" set:html={icon("corazon", "size-5")} />
+										{v.card_title}
+									</p>
+								)}
+								{v.card_text && <p class="mt-2 text-[0.98rem] text-muted">{v.card_text}</p>}
+							</div>
+						)}
+					</div>
+				) : null}
+			</div>
+
+			{shortcuts.length > 0 && (
+				<div class="container-page pb-[clamp(3rem,6vw,5rem)]">
+					<div class="shortcuts rounded-[var(--sv-radius-hero)] border border-line bg-surface p-4 shadow-lift sm:p-6">
+						<p class="px-2 font-display text-xl text-deep">{v.shortcuts_title}</p>
+						<ul class="shortcuts__track mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 lg:grid lg:grid-cols-7 lg:overflow-visible">
+							{shortcuts.map((s) => (
+								<li class="min-w-[11.5rem] snap-start lg:min-w-0">
+									<a href={ROUTES.services(s.slug)} class="shortcut group" data-cta={`home:atajo-${s.slug}`}>
+										<span class="shortcut__icon" set:html={icon(s.icon, "size-6")} />
+										<strong>{s.shortTitle}</strong>
+										{s.priceFrom ? <small>desde {formatCOP(s.priceFrom)}</small> : <small>Ver servicio</small>}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			)}
+		</section>
+	)
+}
+
+<style>
+	.hero-split {
+		background:
+			radial-gradient(60% 70% at 100% 0%, color-mix(in oklab, var(--sv-surface-alt) 90%, transparent) 0%, transparent 70%),
+			linear-gradient(180deg, var(--sv-surface-warm) 0%, var(--sv-bg) 100%);
+	}
+	.hero-centered {
+		background:
+			radial-gradient(50% 60% at 50% 0%, var(--sv-surface-alt) 0%, transparent 75%),
+			var(--sv-surface-warm);
+	}
+	.hero-full {
+		border-radius: var(--sv-radius-hero);
+	}
+	.hero-card {
+		border-radius: var(--sv-radius);
+		background: color-mix(in oklab, var(--sv-deep) 72%, transparent);
+		backdrop-filter: blur(14px) saturate(1.2);
+		-webkit-backdrop-filter: blur(14px) saturate(1.2);
+		border: 1px solid rgb(255 255 255 / 0.14);
+		box-shadow: var(--sv-shadow-lg);
+	}
+	.glass-card {
+		border-radius: var(--sv-radius);
+		background: color-mix(in oklab, var(--sv-surface-warm) 86%, transparent);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgb(255 255 255 / 0.6);
+		box-shadow: var(--sv-shadow-md);
+		animation: sv-fade-up var(--sv-dur-reveal) var(--sv-ease-out) 0.25s both;
+	}
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+			.hero-photo :global(img) {
+				animation: hero-parallax linear both;
+				animation-timeline: view();
+				animation-range: exit 0% exit 100%;
+			}
+		}
+	}
+	@keyframes hero-parallax {
+		to {
+			transform: translateY(calc(16px * var(--sv-motion))) scale(1.03);
+		}
+	}
+	.shortcuts__track {
+		scrollbar-width: none;
+		mask-image: linear-gradient(90deg, #000 85%, transparent);
+	}
+	@media (min-width: 1024px) {
+		.shortcuts__track {
+			mask-image: none;
+		}
+	}
+	.shortcut {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		height: 100%;
+		min-height: 7.5rem;
+		padding: 1rem;
+		border-radius: calc(var(--sv-radius) * 0.75);
+		background: var(--sv-surface-warm);
+		text-decoration: none;
+		border: 1px solid transparent;
+		transition:
+			transform var(--sv-dur) var(--sv-ease-out),
+			border-color var(--sv-dur),
+			background var(--sv-dur);
+	}
+	.shortcut:hover,
+	.shortcut:focus-visible {
+		transform: translateY(calc(-3px * var(--sv-motion)));
+		border-color: color-mix(in oklab, var(--sv-primary) 35%, transparent);
+		background: var(--sv-surface-alt);
+	}
+	.shortcut strong {
+		font-weight: 650;
+		line-height: 1.2;
+		color: var(--sv-deep);
+	}
+	.shortcut small {
+		color: var(--sv-text-muted);
+		font-size: 0.92rem;
+	}
+	.shortcut__icon {
+		display: grid;
+		place-items: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		border-radius: 12px;
+		background: var(--sv-surface);
+		color: var(--sv-primary);
+		margin-bottom: 0.35rem;
+	}
+</style>

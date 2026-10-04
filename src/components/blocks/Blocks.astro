@@ -1,0 +1,76 @@
+---
+/** Renderiza el campo «Secciones» (blocks) de cualquier entrada con los componentes del tema. */
+import Hero from "./Hero.astro";
+import TrustBar from "./TrustBar.astro";
+import ServicesGrid from "./ServicesGrid.astro";
+import CardCarousel from "./CardCarousel.astro";
+import Steps from "./Steps.astro";
+import FeatureGrid from "./FeatureGrid.astro";
+import MediaText from "./MediaText.astro";
+import TabsMedia from "./TabsMedia.astro";
+import Pricing from "./Pricing.astro";
+import ZonesGrid from "./ZonesGrid.astro";
+import Comparison from "./Comparison.astro";
+import Testimonials from "./Testimonials.astro";
+import Stats from "./Stats.astro";
+import Faq from "./Faq.astro";
+import CtaBand from "./CtaBand.astro";
+import LeadForm from "./LeadForm.astro";
+import BlogLatest from "./BlogLatest.astro";
+import RichText from "./RichText.astro";
+
+interface Props {
+	blocks: Array<Record<string, any>> | null | undefined;
+	context?: { service?: string; zone?: string; priceFrom?: number | null; priceUnit?: string; exclude?: string };
+	/** Índice desde el que cuenta el primer bloque (0 = puede ser el H1). */
+	offset?: number;
+}
+const { blocks, context = {}, offset = 0 } = Astro.props;
+const list = Array.isArray(blocks) ? blocks : [];
+---
+
+{
+	list.map((block, i) => {
+		const index = i + offset;
+		switch (block._type) {
+			case "hero":
+				return <Hero value={block} index={index} context={context} />;
+			case "trust_bar":
+				return <TrustBar value={block} />;
+			case "services_grid":
+				return <ServicesGrid value={block} exclude={context.exclude} />;
+			case "card_carousel":
+				return <CardCarousel value={block} />;
+			case "steps":
+				return <Steps value={block} index={index} />;
+			case "feature_grid":
+				return <FeatureGrid value={block} />;
+			case "media_text":
+				return <MediaText value={block} index={index} />;
+			case "tabs_media":
+				return <TabsMedia value={block} index={index} />;
+			case "pricing":
+				return <Pricing value={block} index={index} />;
+			case "zones_grid":
+				return <ZonesGrid value={block} index={index} active={context.zone} />;
+			case "comparison":
+				return <Comparison value={block} />;
+			case "testimonials":
+				return <Testimonials value={block} />;
+			case "stats":
+				return <Stats value={block} />;
+			case "faq":
+				return <Faq value={block as never} index={index} />;
+			case "cta_band":
+				return <CtaBand value={block} index={index} context={context} />;
+			case "lead_form":
+				return <LeadForm value={block} index={index} context={context} />;
+			case "blog_latest":
+				return <BlogLatest value={block} />;
+			case "rich_text":
+				return <RichText value={block} />;
+			default:
+				return null;
+		}
+	})
+}

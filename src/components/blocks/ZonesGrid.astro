@@ -1,0 +1,70 @@
+---
+/** Zonas de cobertura (automático): mapa esquemático + buscador + tarjetas por zona. */
+import SectionHead from "../ui/SectionHead.astro";
+import CoverageMap from "../ui/CoverageMap.astro";
+import { icon } from "../../lib/icons";
+import { ROUTES } from "../../lib/routes";
+import { getCatalog } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+	active?: string;
+}
+const { value: v, index, active } = Astro.props;
+const { zones } = await getCatalog();
+if (!zones.length) return null;
+const listId = `zones-list-${index}`;
+---
+
+<section class="section bg-sand" data-block="zones">
+	<div class="container-page grid items-start gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
+		<div>
+			<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} align="left" />
+			<label class="mt-8 block max-w-md">
+				<span class="mb-2 block font-semibold text-deep">Busca tu barrio o localidad</span>
+				<input type="search" class="field-input" placeholder="Ej.: Cedritos, Chicó, Colina" data-zone-search={listId} autocomplete="off" />
+			</label>
+			<p class="mt-2 text-sm text-muted" aria-live="polite" data-zone-count></p>
+			<ul id={listId} class="mt-6 grid gap-3 sm:grid-cols-2">
+				{
+					zones.map((z) => (
+						<li data-zone-name={`${z.shortTitle} ${z.group} ${z.excerpt}`}>
+							<a href={z.url} class:list={["zone-chip group", z.slug === active && "is-active"]}>
+								<span class="grid size-10 flex-none place-items-center rounded-full bg-mist text-primary" set:html={icon("ubicacion", "size-5")} />
+								<span class="flex-1">
+									<strong class="block text-deep">{z.shortTitle}</strong>
+									{z.group && <span class="text-[0.95rem] text-muted">{z.group}</span>}
+								</span>
+								<Fragment set:html={icon("chevron-derecha", "size-5 text-primary transition group-hover:translate-x-1")} />
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			{v.note && <p class="mt-6 text-muted">{v.note}</p>}
+		</div>
+		<div class="reveal rounded-[var(--sv-radius-hero)] bg-surface p-3 shadow-lift lg:sticky lg:top-28">
+			<CoverageMap zones={zones} active={active} />
+		</div>
+	</div>
+</section>
+
+<style>
+	.zone-chip {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		padding: 0.8rem 1rem;
+		border-radius: var(--sv-radius-control);
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		text-decoration: none;
+		transition: border-color var(--sv-dur), transform var(--sv-dur) var(--sv-ease-out);
+	}
+	.zone-chip:hover,
+	.zone-chip.is-active {
+		border-color: var(--sv-primary);
+		transform: translateY(calc(-2px * var(--sv-motion)));
+	}
+</style>

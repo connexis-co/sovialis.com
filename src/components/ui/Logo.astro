@@ -1,0 +1,23 @@
+---
+/** Logotipo de Sovialis en SVG (sin eslogan en cabecera, según el manual de marca). */
+import positive from "../../assets/brand/sovialis-logotipo-degradado.svg?raw";
+import negative from "../../assets/brand/sovialis-logotipo-negativo.svg?raw";
+
+interface Props {
+	variant?: "positivo" | "negativo";
+	class?: string;
+	label?: string;
+}
+const { variant = "positivo", class: className = "h-9 w-auto", label = "Sovialis" } = Astro.props;
+// Prefijo propio por variante: varias copias del logo en la página no deben compartir ids de degradado.
+const prefix = variant === "negativo" ? "lgn" : "lgp";
+const svg = (variant === "negativo" ? negative : positive)
+	.replace(/<title[^>]*>.*?<\/title>/s, "")
+	.replace(/\saria-labelledby="[^"]*"/, "")
+	.replace(/\sid="([^"]+)"/g, ` id="${prefix}-$1"`)
+	.replace(/url\(#([^)]+)\)/g, `url(#${prefix}-$1)`)
+	.replace(/href="#([^"]+)"/g, `href="#${prefix}-$1"`)
+	.replace("<svg", `<svg class="${className}" role="img" aria-label="${label}"`);
+---
+
+<Fragment set:html={svg} />

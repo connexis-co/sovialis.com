@@ -1,0 +1,141 @@
+---
+/**
+ * Mapa esquemático (SVG, 0 KB de terceros) del norte de Bogotá y la Sabana: cerros orientales,
+ * avenidas principales y un pin por zona, posicionado con la latitud/longitud de cada zona del CMS.
+ */
+import { ROUTES } from "../../lib/routes";
+
+interface Zone {
+	slug: string;
+	parent?: string;
+	shortTitle: string;
+	lat?: number | null;
+	lng?: number | null;
+}
+interface Props {
+	zones: Zone[];
+	active?: string;
+	class?: string;
+}
+const { zones, active, class: className } = Astro.props;
+
+// Ventana geográfica: lat 4.60–4.90, lng −74.15–−73.99 (norte arriba).
+const LAT_MAX = 4.9, LAT_MIN = 4.6, LNG_MIN = -74.15, LNG_MAX = -73.99;
+const W = 480, H = 900;
+const x = (lng: number) => ((lng - LNG_MIN) / (LNG_MAX - LNG_MIN)) * W;
+const y = (lat: number) => ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * H;
+const line = (pts: Array<[number, number]>) => pts.map(([la, ln], i) => `${i ? "L" : "M"}${x(ln).toFixed(1)} ${y(la).toFixed(1)}`).join(" ");
+
+const roads: Array<{ name: string; pts: Array<[number, number]>; label: [number, number] }> = [
+	{ name: "Autopista Norte", pts: [[4.655, -74.062], [4.7, -74.056], [4.76, -74.046], [4.8, -74.042], [4.86, -74.045]], label: [4.775, -74.052] },
+	{ name: "Carrera Séptima", pts: [[4.62, -74.066], [4.66, -74.053], [4.7, -74.035], [4.75, -74.028], [4.8, -74.029]], label: [4.735, -74.024] },
+	{ name: "Av. Boyacá", pts: [[4.62, -74.12], [4.68, -74.112], [4.74, -74.098], [4.76, -74.09]], label: [4.66, -74.128] },
+	{ name: "Calle 80", pts: [[4.665, -74.06], [4.69, -74.09], [4.71, -74.125]], label: [4.703, -74.118] },
+	{ name: "Calle 100", pts: [[4.684, -74.034], [4.687, -74.06], [4.69, -74.075]], label: [4.68, -74.045] },
+	{ name: "Av. Suba", pts: [[4.67, -74.068], [4.71, -74.078], [4.745, -74.09], [4.765, -74.1]], label: [4.74, -74.105] },
+	{ name: "NQS", pts: [[4.62, -74.085], [4.65, -74.078], [4.67, -74.067]], label: [4.632, -74.098] },
+];
+const ridge = line([[4.9, -74.03], [4.84, -74.015], [4.78, -74.012], [4.72, -74.016], [4.66, -74.035], [4.6, -74.05]]);
+const pins = zones.filter((z) => typeof z.lat === "number" && typeof z.lng === "number" && z.lat! < LAT_MAX && z.lat! > LAT_MIN);
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} class:list={["coverage-map", className]} role="img" aria-labelledby="map-title map-desc">
+	<title id="map-title">Mapa de cobertura de Sovialis en el norte de Bogotá</title>
+	<desc id="map-desc">Esquema con las zonas donde prestamos cuidado del adulto mayor: {pins.map((p) => p.shortTitle).join(", ")}.</desc>
+	<defs>
+		<radialGradient id="map-glow" cx="45%" cy="40%" r="70%"><stop offset="0" stop-color="#e4f4fa" /><stop offset="1" stop-color="#fbf8f3" /></radialGradient>
+		<pattern id="map-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#0b2a4e" stroke-opacity=".05" /></pattern>
+	</defs>
+	<rect width={W} height={H} rx="36" fill="url(#map-glow)" />
+	<rect width={W} height={H} rx="36" fill="url(#map-grid)" />
+	<path d={`${ridge} L${W} ${H} L${W} 0 Z`} fill="#0b2a4e" fill-opacity=".07" />
+	<path d={ridge} fill="none" stroke="#0b2a4e" stroke-opacity=".25" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" />
+	<text x={x(-74.008)} y={y(4.73)} class="map-label" transform={`rotate(-80 ${x(-74.008)} ${y(4.73)})`}>Cerros Orientales</text>
+	{
+		roads.map((r) => (
+			<g>
+				<path d={line(r.pts)} fill="none" stroke="#005e9d" stroke-opacity=".28" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+				<text x={x(r.label[1])} y={y(r.label[0])} class="map-road">{r.name}</text>
+			</g>
+		))
+	}
+	{
+		pins.map((p) => {
+			const px = x(p.lng!), py = y(p.lat!);
+			const on = p.slug === active;
+			return (
+				<a href={ROUTES.zones(p.slug, p.parent || null)} class:list={["map-pin", on && "is-active"]} aria-label={p.shortTitle}>
+					<circle cx={px} cy={py} r={on ? 22 : 16} class="map-pin__halo" />
+					<circle cx={px} cy={py} r={on ? 10 : 8} class="map-pin__dot" />
+					<text x={px + 14} y={py + 5} class="map-pin__label">{p.shortTitle}</text>
+				</a>
+			);
+		})
+	}
+</svg>
+
+<style>
+	.coverage-map {
+		width: 100%;
+		height: auto;
+		max-height: 80svh;
+		font-family: var(--sv-font-body);
+	}
+	.map-label {
+		font-size: 15px;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		fill: #0b2a4e;
+		fill-opacity: 0.35;
+	}
+	.map-road {
+		font-size: 13px;
+		fill: #005e9d;
+		fill-opacity: 0.65;
+		font-weight: 600;
+	}
+	.map-pin__halo {
+		fill: #00a6d6;
+		fill-opacity: 0.18;
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+	.map-pin__dot {
+		fill: #005e9d;
+		stroke: #fff;
+		stroke-width: 3;
+	}
+	.map-pin__label {
+		font-size: 15px;
+		font-weight: 700;
+		fill: #0b2a4e;
+		paint-order: stroke;
+		stroke: #fbf8f3;
+		stroke-width: 5px;
+		stroke-linejoin: round;
+	}
+	.map-pin:hover .map-pin__dot,
+	.map-pin:focus-visible .map-pin__dot,
+	.map-pin.is-active .map-pin__dot {
+		fill: #0b2a4e;
+	}
+	.map-pin.is-active .map-pin__halo {
+		animation: pin-pulse 2.4s var(--sv-ease-out) infinite;
+	}
+	@keyframes pin-pulse {
+		0% {
+			transform: scale(0.8);
+			fill-opacity: 0.35;
+		}
+		100% {
+			transform: scale(1.8);
+			fill-opacity: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.map-pin.is-active .map-pin__halo {
+			animation: none;
+		}
+	}
+</style>

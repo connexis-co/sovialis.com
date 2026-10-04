@@ -1,0 +1,27 @@
+---
+/** Cifras destacadas (solo datos reales y verificables). */
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+const items: any[] = Array.isArray(v.items) ? v.items : [];
+if (!items.length) return null;
+---
+
+<section class="section-tight" data-block="stats">
+	<div class="container-page">
+		<dl class="grid grid-cols-2 gap-6 rounded-[var(--sv-radius-hero)] bg-deep p-8 text-white sm:p-10 lg:grid-cols-4" style="background-image: var(--sv-gradient-deep)">
+			{
+				items.map((it) => (
+					<div class="reveal">
+						<dt class="sr-only">{it.label}</dt>
+						<dd>
+							<span class="block font-display text-[clamp(2.2rem,4vw,3.2rem)] leading-none font-medium text-[#8fd8f2]">{it.value}</span>
+							<span class="mt-2 block text-white/80">{it.label}</span>
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</div>
+</section>

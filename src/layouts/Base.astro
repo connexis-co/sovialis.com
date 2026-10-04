@@ -1,0 +1,116 @@
+---
+/**
+ * Layout base: <head> con SEO de EmDash + plugins, cabecera, pie, menú móvil, modal de cotización,
+ * barra fija móvil y scripts globales (todo sin frameworks).
+ */
+import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import { getSiteSettings } from "emdash";
+import "../styles/global.css";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import MobileMenu from "../components/layout/MobileMenu.astro";
+import QuoteDialog from "../components/forms/QuoteDialog.astro";
+import StickyBar from "../components/layout/StickyBar.astro";
+import { getCatalog, getSiteData } from "../lib/site";
+
+export interface Crumb {
+	name: string;
+	url: string;
+}
+
+interface Props {
+	title: string;
+	description?: string | null;
+	image?: string | null;
+	pageType?: string;
+	content?: { collection: string; id: string; slug?: string | null };
+	breadcrumbs?: Crumb[];
+	robots?: string | null;
+	article?: { publishedTime?: string | null; modifiedTime?: string | null; author?: string | null };
+	/** Landing de campaña: cabecera reducida y barra móvil siempre visible. */
+	campaign?: boolean;
+	/** Preseleccionar servicio o zona en el modal de cotización. */
+	quoteService?: string;
+	quoteZone?: string;
+	preloadImage?: string | null;
+}
+
+const {
+	title,
+	description,
+	image,
+	pageType = "website",
+	content,
+	breadcrumbs,
+	robots,
+	article,
+	campaign = false,
+	quoteService,
+	quoteZone,
+	preloadImage,
+} = Astro.props;
+
+const [site, catalog, settings] = await Promise.all([getSiteData(), getCatalog(), getSiteSettings().catch(() => ({}))]);
+const separator = (settings as { seo?: { titleSeparator?: string } }).seo?.titleSeparator?.trim() || "|";
+const fullTitle = title.includes(site.name) ? title : `${title} ${separator} ${site.name}`;
+const origin = Astro.site?.origin ?? Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, origin).toString();
+const imageAbs = image ? new URL(image, origin).toString() : new URL("/og/sovialis-og.jpg", origin).toString();
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: content ? "content" : "custom",
+	pageType,
+	title: fullTitle,
+	pageTitle: title,
+	description: description ?? undefined,
+	canonical,
+	image: imageAbs,
+	content: content ? { collection: content.collection, id: content.id, slug: content.slug ?? null } : undefined,
+	seo: { robots: robots ?? null },
+	siteName: site.name,
+	articleMeta: article,
+	breadcrumbs: breadcrumbs?.map((c) => ({ name: c.name, url: new URL(c.url, origin).toString() })),
+	siteUrl: origin,
+} as Parameters<typeof createPublicPageContext>[0]);
+---
+
+<!doctype html>
+<html lang="es-CO" data-page-type={pageType}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<title>{fullTitle}</title>
+		<meta name="theme-color" content="#0b2a4e" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta property="og:locale" content="es_CO" />
+		<link rel="preload" href="/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin />
+		{preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="alternate" type="application/rss+xml" title="Blog de Sovialis" href="/blog/rss.xml" />
+		<EmDashHead page={pageCtx} />
+	</head>
+	<body class:list={["min-h-dvh bg-canvas text-ink antialiased", campaign && "is-campaign"]}>
+		<EmDashBodyStart page={pageCtx} />
+		<a href="#contenido" class="sr-only z-[100] rounded-btn bg-deep px-5 py-3 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+			Saltar al contenido
+		</a>
+		<Header site={site} services={catalog.services} zones={catalog.zones} campaign={campaign} />
+		<main id="contenido" tabindex="-1" class="outline-none">
+			<slot />
+		</main>
+		<Footer site={site} services={catalog.services} zones={catalog.zones} />
+		<MobileMenu site={site} services={catalog.services} zones={catalog.zones} />
+		<QuoteDialog site={site} services={catalog.services} zones={catalog.zones} service={quoteService} zone={quoteZone} />
+		<StickyBar site={site} always={campaign} />
+		<EmDashBodyEnd page={pageCtx} />
+		<script>
+			import "../scripts/site";
+		</script>
+	</body>
+</html>

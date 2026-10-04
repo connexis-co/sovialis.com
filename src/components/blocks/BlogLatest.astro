@@ -1,0 +1,32 @@
+---
+/** Últimos artículos del blog (opcionalmente de una categoría). */
+import { getEmDashCollection } from "emdash";
+import SectionHead from "../ui/SectionHead.astro";
+import PostCard from "../blog/PostCard.astro";
+import { icon } from "../../lib/icons";
+import { HUBS } from "../../lib/routes";
+
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+const { entries } = await getEmDashCollection("posts", {
+	status: "published",
+	limit: v.limit || 3,
+	orderBy: { published_at: "desc" },
+	...(v.category ? { where: { category: v.category } } : {}),
+}).catch(() => ({ entries: [] as any[] }));
+if (!entries.length) return null;
+---
+
+<section class="section" data-block="blog">
+	<div class="container-page">
+		<div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+			<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} align="left" />
+			<a href={HUBS.blog} class="link-arrow shrink-0">Ver todas las guías <Fragment set:html={icon("flecha-derecha", "size-4")} /></a>
+		</div>
+		<ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{entries.map((e) => <li class="reveal"><PostCard entry={e as any} /></li>)}
+		</ul>
+	</div>
+</section>

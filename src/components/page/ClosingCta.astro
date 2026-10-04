@@ -1,0 +1,28 @@
+---
+/** Cierre estándar de landings: banda oscura con WhatsApp + cotizar. */
+import CtaBand from "../blocks/CtaBand.astro";
+interface Props {
+	title?: string;
+	text?: string;
+	service?: string;
+	zone?: string;
+	index?: number;
+}
+const { title = "¿Hablamos hoy sobre el cuidado de tu familiar?", text = "Cuéntanos el caso por WhatsApp o déjanos tus datos. Te respondemos con una propuesta clara y el precio para tu horario.", service, zone, index = 90 } = Astro.props;
+---
+
+<CtaBand
+	index={index}
+	context={{ service, zone }}
+	value={{
+		variant: "oscuro",
+		eyebrow: "Vínculos que protegen",
+		title,
+		highlight: "tu familiar",
+		text,
+		primary_label: "Escríbenos por WhatsApp",
+		primary_action: "whatsapp",
+		secondary_label: "Prefiero que me llamen",
+		secondary_action: "cotizar",
+	}}
+/>

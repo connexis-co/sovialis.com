@@ -1,0 +1,283 @@
+---
+/** Menú móvil a pantalla completa (<dialog>) con niveles: principal → servicios → zonas. */
+import Logo from "../ui/Logo.astro";
+import { icon } from "../../lib/icons";
+import { HUBS, ROUTES } from "../../lib/routes";
+import { formatCOP, telLink, waLink, type CatalogItem, type SiteData } from "../../lib/site";
+
+interface Props {
+	site: SiteData;
+	services: CatalogItem[];
+	zones: CatalogItem[];
+}
+const { site, services, zones } = Astro.props;
+const links = [
+	{ label: "Precios", href: HUBS.prices, icon: "lista" },
+	{ label: "Cómo funciona", href: "/como-funciona/", icon: "brujula" },
+	{ label: "Guías para familias", href: HUBS.blog, icon: "documento" },
+	{ label: "Nosotros", href: "/nosotros/", icon: "corazon" },
+	{ label: "Trabaja con nosotros", href: "/trabaja-con-nosotros/", icon: "manos" },
+	{ label: "Contacto", href: HUBS.contact, icon: "chat" },
+];
+---
+
+<dialog id="mobile-menu" class="mnav" data-level="main" aria-label="Menú">
+	<section class="mnav__level" data-menu-level="main">
+		<div class="mnav__top">
+			<a href="/" aria-label="Inicio"><Logo class="h-8 w-auto" /></a>
+			<button type="button" class="mnav__icon-btn" data-menu-close aria-label="Cerrar menú">
+				<Fragment set:html={icon("cerrar", "size-6")} />
+			</button>
+		</div>
+		<nav class="mnav__list" aria-label="Menú móvil">
+			<button type="button" data-menu-next="servicios">
+				<span class="mnav__ico" set:html={icon("manos", "size-5")} />
+				<strong>Servicios</strong>
+				<small>{services.length} servicios</small>
+				<Fragment set:html={icon("chevron-derecha", "size-5")} />
+			</button>
+			<button type="button" data-menu-next="zonas">
+				<span class="mnav__ico" set:html={icon("ubicacion", "size-5")} />
+				<strong>Zonas</strong>
+				<small>{zones.length} zonas</small>
+				<Fragment set:html={icon("chevron-derecha", "size-5")} />
+			</button>
+			{
+				links.map((l) => (
+					<a href={l.href}>
+						<span class="mnav__ico" set:html={icon(l.icon, "size-5")} />
+						<strong>{l.label}</strong>
+					</a>
+				))
+			}
+		</nav>
+		<div class="mnav__ctas">
+			<a href={waLink(site)} data-wa data-cta="global:menu-movil" class="btn btn-whatsapp btn-lg w-full" target="_blank" rel="noopener">
+				<Fragment set:html={icon("whatsapp", "size-6")} /> Escríbenos por WhatsApp
+			</a>
+			<button type="button" class="btn btn-outline btn-lg w-full" data-quote data-cta="global:menu-movil-cotizar">Déjanos tus datos</button>
+			<a href={telLink(site)} class="text-center font-semibold text-deep" data-cta="global:menu-movil-llamar">
+				o llama al {site.phoneDisplay}
+			</a>
+		</div>
+	</section>
+
+	<section class="mnav__level" data-menu-level="servicios" hidden>
+		<div class="mnav__top">
+			<button type="button" class="mnav__back" data-menu-back aria-label="Volver al menú">
+				<Fragment set:html={icon("flecha-izquierda", "size-5")} />
+				<span><small>‹ Menú</small><h2 tabindex="-1">Servicios</h2></span>
+			</button>
+			<button type="button" class="mnav__icon-btn" data-menu-close aria-label="Cerrar menú">
+				<Fragment set:html={icon("cerrar", "size-6")} />
+			</button>
+		</div>
+		<div class="mnav__list">
+			{
+				services.map((s) => (
+					<a href={ROUTES.services(s.slug)} class="!min-h-[72px]">
+						<span class="mnav__ico mnav__ico--lg" set:html={icon(s.icon, "size-5")} />
+						<span class="flex flex-col">
+							<strong>{s.shortTitle}</strong>
+							{s.priceFrom ? <span class="text-[0.95rem] text-muted">desde {formatCOP(s.priceFrom)}</span> : null}
+						</span>
+						<Fragment set:html={icon("chevron-derecha", "size-5 ml-auto")} />
+					</a>
+				))
+			}
+		</div>
+		<div class="mnav__ctas">
+			<a href={HUBS.services} class="btn btn-outline btn-lg w-full">Ver todos los servicios</a>
+		</div>
+	</section>
+
+	<section class="mnav__level" data-menu-level="zonas" hidden>
+		<div class="mnav__top">
+			<button type="button" class="mnav__back" data-menu-back aria-label="Volver al menú">
+				<Fragment set:html={icon("flecha-izquierda", "size-5")} />
+				<span><small>‹ Menú</small><h2 tabindex="-1">Zonas</h2></span>
+			</button>
+			<button type="button" class="mnav__icon-btn" data-menu-close aria-label="Cerrar menú">
+				<Fragment set:html={icon("cerrar", "size-6")} />
+			</button>
+		</div>
+		<div class="px-5 pb-2">
+			<label class="block">
+				<span class="sr-only">Buscar barrio o localidad</span>
+				<input type="search" class="field-input" placeholder="Busca tu barrio" data-zone-search="mnav-zonas" autocomplete="off" />
+			</label>
+			<p class="mt-2 text-sm text-muted" aria-live="polite" data-zone-count></p>
+		</div>
+		<ul class="mnav__list" id="mnav-zonas">
+			{
+				zones.map((z) => (
+					<li data-zone-name={`${z.shortTitle} ${z.group} ${z.excerpt}`}>
+						<a href={z.url}>
+							<span class="mnav__ico" set:html={icon("ubicacion", "size-5")} />
+							<span class="flex flex-col">
+								<strong>{z.shortTitle}</strong>
+								{z.group && <span class="text-[0.95rem] text-muted">{z.group}</span>}
+							</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</dialog>
+
+<style>
+	.mnav {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		max-width: none;
+		height: 100dvh;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		overflow: hidden;
+		overscroll-behavior: contain;
+		background: var(--sv-surface-warm);
+		color: var(--sv-text);
+	}
+	.mnav::backdrop {
+		background: #0f162099;
+	}
+	.mnav[open] {
+		animation: mnav-in 0.25s var(--sv-ease-out) both;
+	}
+	@keyframes mnav-in {
+		from {
+			opacity: 0;
+			transform: translateX(calc(20px * var(--sv-motion)));
+		}
+	}
+	.mnav__level {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: auto;
+		overscroll-behavior: contain;
+	}
+	.mnav__level[hidden] {
+		display: none;
+	}
+	.mnav__level:not([hidden]) {
+		animation: mnav-level 0.22s var(--sv-ease-out) both;
+	}
+	@keyframes mnav-level {
+		from {
+			opacity: 0;
+			transform: translateX(calc(16px * var(--sv-motion)));
+		}
+	}
+	.mnav__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 68px;
+		padding-inline: 20px 12px;
+		border-bottom: 1px solid var(--sv-border);
+		position: sticky;
+		top: 0;
+		background: var(--sv-surface-warm);
+		z-index: 1;
+	}
+	.mnav__icon-btn {
+		display: grid;
+		place-items: center;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		border: 1px solid var(--sv-border);
+		background: var(--sv-surface);
+		color: var(--sv-deep);
+	}
+	.mnav__back {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		background: none;
+		border: 0;
+		color: var(--sv-deep);
+		text-align: left;
+	}
+	.mnav__back small {
+		display: block;
+		font-size: 0.85rem;
+		color: var(--sv-text-muted);
+	}
+	.mnav__back h2 {
+		font-size: 1.3rem;
+		line-height: 1.1;
+		outline: none;
+	}
+	.mnav__list {
+		flex: 1;
+		padding-inline: 20px;
+		list-style: none;
+		margin: 0;
+	}
+	.mnav__list :is(a, button) {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		width: 100%;
+		min-height: 60px;
+		padding-block: 8px;
+		border: 0;
+		border-bottom: 1px solid var(--sv-border);
+		background: none;
+		text-align: start;
+		text-decoration: none;
+		cursor: pointer;
+		color: inherit;
+		font: inherit;
+	}
+	.mnav__list strong {
+		font-weight: 650;
+		font-size: 1.15rem;
+		color: var(--sv-deep);
+	}
+	.mnav__list small {
+		margin-inline-start: auto;
+		font-size: 1rem;
+		color: var(--sv-text-muted);
+	}
+	.mnav__ico {
+		display: grid;
+		place-items: center;
+		width: 2.4rem;
+		height: 2.4rem;
+		flex: none;
+		border-radius: 12px;
+		background: var(--sv-surface);
+		color: var(--sv-primary);
+		border: 1px solid var(--sv-border);
+	}
+	.mnav__ico--lg {
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+	.mnav__ctas {
+		display: grid;
+		gap: 12px;
+		padding: 16px 20px calc(24px + env(safe-area-inset-bottom));
+		position: sticky;
+		bottom: 0;
+		background: linear-gradient(to top, var(--sv-surface-warm) 80%, transparent);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.mnav[open],
+		.mnav__level:not([hidden]) {
+			animation: none;
+		}
+	}
+	@media (min-width: 1024px) {
+		.mnav {
+			display: none;
+		}
+	}
+</style>
