@@ -86,6 +86,11 @@ for (const col of collections) {
 				method: "POST",
 				json: { slug, label, type, required, validation: validation ?? null, options, searchable, sortOrder: i },
 			});
+		} else if (field.type !== "blocks" && (existing.label !== field.label || !same(existing.validation ?? null, field.validation ?? null))) {
+			await write(`campo ${col.slug}.${field.slug} actualizado`, `/_emdash/api/schema/collections/${col.slug}/fields/${field.slug}`, {
+				method: "PUT",
+				json: { label: field.label, validation: field.validation ?? null },
+			});
 		} else if (field.type === "blocks") {
 			const wanted = { ...existing.validation, ...field.validation, retiredTypes: existing.validation?.retiredTypes ?? [] };
 			if (!same([...(existing.validation?.allowedTypes ?? [])].sort(), [...(field.validation?.allowedTypes ?? [])].sort())) {
