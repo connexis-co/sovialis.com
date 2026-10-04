@@ -21,6 +21,14 @@ const TRACKING_PARAMS = /^(utm_[a-z]+|gclid|gbraid|wbraid|fbclid|msclkid|_gl)$/;
 const MEDIA_PREFIX = "/_emdash/api/media/file/";
 const HTML_TTL = 600;
 const TEXT_TTL = 3600;
+/**
+ * Stale-while-revalidate: la caché del borde es por centro de datos y el sitio tiene poco tráfico, así
+ * que con un TTL de 10 min casi todas las visitas encontraban la página «fría» (0,5-1,5 s de respuesta).
+ * Ahora la copia se guarda una semana: si tiene más de HTML_TTL se sirve igual al instante y se renueva
+ * en segundo plano (los cambios del panel aparecen en la visita siguiente pasados los 10 min).
+ */
+const STALE_TTL = 7 * 86_400;
+const STORED_AT = "X-Sovialis-Stored";
 const YEAR = 31_536_000;
 /** Archivos públicos sin hash en el nombre (íconos, fuentes, tarjetas OG): una semana en el navegador. */
 const STATIC_FILE = /\.(woff2?|png|jpe?g|webp|avif|svg|ico|webmanifest)$/i;
@@ -33,8 +41,10 @@ function withSecurityHeaders(response: Response): Response {
 
 interface CachePlan {
 	key: Request;
-	/** Segundos en la caché del borde. */
+	/** Segundos que la copia del borde se considera fresca. */
 	ttl: number;
+	/** Segundos que se conserva para servirla vencida mientras se renueva. */
+	stale: number;
 	/** Cache-Control para el navegador. */
 	browser: string;
 }
@@ -47,10 +57,10 @@ function cachePlan(request: Request, url: URL): CachePlan | null {
 	// Medios y archivos con hash: inmutables. Antes recibían la política del HTML (max-age=0) y el
 	// navegador los volvía a validar en cada página.
 	if (url.pathname.startsWith(MEDIA_PREFIX) || url.pathname.startsWith("/_astro/")) {
-		return { key, ttl: YEAR, browser: `public, max-age=${YEAR}, immutable` };
+		return { key, ttl: YEAR, stale: YEAR, browser: `public, max-age=${YEAR}, immutable` };
 	}
 	if (STATIC_FILE.test(url.pathname) && !url.pathname.startsWith("/_emdash")) {
-		return { key, ttl: 86_400, browser: "public, max-age=604800, stale-while-revalidate=86400" };
+		return { key, ttl: 86_400, stale: 86_400, browser: "public, max-age=604800, stale-while-revalidate=86400" };
 	}
 	if (url.pathname.startsWith("/_emdash") || url.pathname.startsWith("/_image")) return null;
 	// Sesiones del panel o de Access: siempre fresco (barra de edición, borradores).
@@ -58,7 +68,21 @@ function cachePlan(request: Request, url: URL): CachePlan | null {
 	const params = [...url.searchParams.keys()];
 	if (params.some((p) => !TRACKING_PARAMS.test(p))) return null;
 	const ttl = /\.(xml|txt)$/.test(url.pathname) ? TEXT_TTL : HTML_TTL;
-	return { key, ttl, browser: `public, max-age=0, s-maxage=${ttl}, must-revalidate` };
+	return { key, ttl, stale: STALE_TTL, browser: `public, max-age=0, s-maxage=${ttl}, must-revalidate` };
+}
+
+/** Genera la respuesta con EmDash y, si es cacheable, la guarda en el borde con su hora. */
+async function renderAndStore(request: Request<unknown, IncomingRequestCfProperties>, env: Env, ctx: ExecutionContext, plan: CachePlan | null, cache: Cache): Promise<Response> {
+	const response = withSecurityHeaders(await handler.fetch!(request, env, ctx));
+	if (plan && response.status === 200 && !response.headers.has("Set-Cookie")) {
+		response.headers.set("Cache-Control", plan.browser);
+		response.headers.set("X-Sovialis-Cache", "MISS");
+		const toStore = response.clone();
+		toStore.headers.set("Cache-Control", `public, max-age=${plan.stale}`);
+		toStore.headers.set(STORED_AT, String(Date.now()));
+		ctx.waitUntil(cache.put(plan.key, toStore));
+	}
+	return response;
 }
 
 export default {
@@ -90,22 +114,19 @@ export default {
 		if (plan) {
 			const hit = await cache.match(plan.key);
 			if (hit) {
+				const storedAt = Number(hit.headers.get(STORED_AT) || 0);
+				const stale = storedAt > 0 && Date.now() - storedAt > plan.ttl * 1000;
+				// Vencida: se entrega igual y se renueva en segundo plano (GET sin cookies de sesión).
+				if (stale) ctx.waitUntil(renderAndStore(request, env, ctx, plan, cache).then((r) => r.body?.cancel()));
 				const res = new Response(hit.body, hit);
-				res.headers.set("X-Sovialis-Cache", "HIT");
+				res.headers.delete(STORED_AT);
+				res.headers.set("X-Sovialis-Cache", stale ? "STALE" : "HIT");
 				res.headers.set("Cache-Control", plan.browser);
 				return res;
 			}
 		}
 
-		const response = withSecurityHeaders(await handler.fetch(request, env, ctx));
-		if (plan && response.status === 200 && !response.headers.has("Set-Cookie")) {
-			response.headers.set("Cache-Control", plan.browser);
-			response.headers.set("X-Sovialis-Cache", "MISS");
-			const toStore = response.clone();
-			toStore.headers.set("Cache-Control", `public, max-age=${plan.ttl}`);
-			ctx.waitUntil(cache.put(plan.key, toStore));
-		}
-		return response;
+		return renderAndStore(request, env, ctx, plan, cache);
 	},
 	scheduled: createScheduledHandler(),
 } satisfies ExportedHandler<Env>;
