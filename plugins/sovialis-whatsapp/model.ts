@@ -85,7 +85,7 @@ export const DEFAULT_SETTINGS: WhatsAppSettings = {
 	desktop: true,
 	animate: true,
 	color: "#25d366",
-	hiddenPaths: ["/politica-de-datos/", "/terminos-y-condiciones/"],
+	hiddenPaths: ["/politica-de-tratamiento-de-datos/", "/terminos-y-condiciones/"],
 	timezone: "America/Bogota",
 	weekdays: [0, 1, 2, 3, 4, 5, 6],
 	startTime: "",

@@ -294,7 +294,7 @@ export function createPlugin() {
 					} while (cursor && leads.length < 10_000);
 					const date = new Date().toISOString().slice(0, 10);
 					return pluginResponse({
-						body: leadsToCsv(leads),
+						body: { kind: "text", value: leadsToCsv(leads) },
 						headers: {
 							"Content-Type": "text/csv; charset=utf-8",
 							"Content-Disposition": `attachment; filename="sovialis-leads-${date}.csv"`,
