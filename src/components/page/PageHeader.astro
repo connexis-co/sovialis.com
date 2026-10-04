@@ -20,8 +20,10 @@ interface Props {
 	actions?: boolean;
 	/** Puntos de confianza bajo los botones. */
 	chips?: string[];
+	/** Anotaciones del modo de edición de EmDash para título y resumen. */
+	edit?: { title?: object; summary?: object };
 }
-const { title, summary, eyebrow, highlight, crumbs = [], actions = false, chips = [] } = Astro.props;
+const { title, summary, eyebrow, highlight, crumbs = [], actions = false, chips = [], edit = {} } = Astro.props;
 const site = actions ? await getSiteData() : null;
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 const titleHtml = (() => {
@@ -38,8 +40,8 @@ const titleHtml = (() => {
 		{crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
 		<div class="max-w-4xl">
 			{eyebrow && <p class="eyebrow mt-7 animate-fade-up">{eyebrow}</p>}
-			<h1 class="mt-4 font-display text-h1 text-deep animate-fade-up" set:html={titleHtml} />
-			{summary && <p class="mt-5 max-w-3xl text-lead text-muted">{summary}</p>}
+			<h1 class="mt-4 font-display text-h1 text-deep animate-fade-up" set:html={titleHtml} {...edit.title} />
+			{summary && <p class="mt-5 max-w-3xl text-lead text-muted" {...edit.summary}>{summary}</p>}
 			{
 				site && (
 					<div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

@@ -27,8 +27,8 @@ const startsWithHero = blocks[0]?._type === "hero";
 	breadcrumbs={crumbs}
 	robots={d.seo?.noIndex ? "noindex,follow" : undefined}
 >
-	{!startsWithHero && <PageHeader title={d.title || "Servicios de cuidado del adulto mayor en casa"} summary={d.summary} crumbs={crumbs} eyebrow="Servicios" actions />}
-	{blocks.length ? <Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} /> : <ServicesGrid value={{ title: "Nuestros servicios" }} />}
-	{d.faqs?.length > 0 && !blocks.some((b) => b._type === "faq") && <Faq value={{ title: "Preguntas frecuentes sobre los servicios", items: d.faqs }} index={99} />}
+	{!startsWithHero && <PageHeader title={d.title || "Servicios de cuidado del adulto mayor en casa"} summary={d.summary} crumbs={crumbs} eyebrow="Servicios" actions edit={{ title: entry?.edit.title, summary: entry?.edit.summary }} />}
+	{blocks.length ? <Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} edit={entry?.edit.layout} /> : <ServicesGrid value={{ title: "Nuestros servicios" }} />}
+	{d.faqs?.length > 0 && !blocks.some((b) => b._type === "faq") && <Faq value={{ title: "Preguntas frecuentes sobre los servicios", items: d.faqs }} index={99} edit={entry?.edit.faqs} />}
 	{!blocks.some((b) => b._type === "cta_band") && <ClosingCta />}
 </Base>

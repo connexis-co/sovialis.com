@@ -62,14 +62,14 @@ const heroValue = {
 	<div class="bg-sand">
 		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
 	</div>
-	<Hero value={heroValue} index={0} context={{ zone: name, rating: `zones:${d.id}`, ratingLabel: "Califica nuestro servicio en esta zona" }} />
+	<Hero value={heroValue} index={0} context={{ zone: name, rating: `zones:${d.id}`, ratingLabel: "Califica nuestro servicio en esta zona" }} edit={{ title: entry.edit.title, subtitle: entry.edit.excerpt, image: entry.edit.hero_image }} />
 	{
 		(d.intro?.length > 0 || landmarks.length > 0) && (
 			<section class="section">
 				<div class="container-page grid gap-12 lg:grid-cols-[1fr_22rem]">
 					<article class="prose-sv max-w-3xl">{d.intro?.length > 0 && <Prose value={d.intro} />}</article>
 					{landmarks.length > 0 && (
-						<aside>
+						<aside {...entry.edit.landmarks}>
 							<div class="rounded-card border border-line bg-surface p-6 shadow-soft lg:sticky lg:top-28">
 								<h2 class="font-display text-xl text-deep">Clínicas y lugares de referencia en {name}</h2>
 								<ul class="mt-4 grid gap-4">
@@ -109,9 +109,9 @@ const heroValue = {
 			</section>
 		)
 	}
-	<Blocks blocks={d.layout} offset={1} context={{ zone: name }} />
+	<Blocks blocks={d.layout} offset={1} context={{ zone: name }} edit={entry.edit.layout} />
 	<ServicesGrid value={{ eyebrow: `Servicios en ${name}`, title: `Cuidado del adulto mayor en ${name}`, highlight: name, mode: "destacados", limit: 6 }} />
 	<ZonesGrid value={{ eyebrow: "Cobertura", title: "Zonas cercanas donde también cuidamos", subtitle: "Confirmamos la cobertura de tu dirección antes de empezar." }} index={60} active={slug} />
-	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Cuidado en ${name}: dudas frecuentes`, items: d.faqs }} index={70} />}
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Cuidado en ${name}: dudas frecuentes`, items: d.faqs }} index={70} edit={entry.edit.faqs} />}
 	<ClosingCta zone={name} title={`¿Buscas cuidado para tu familiar en ${name}?`} />
 </Base>

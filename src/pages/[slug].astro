@@ -25,8 +25,8 @@ const isLegal = /politica|terminos|cookies/.test(slug);
 ---
 
 <Base title={d.title} description={d.summary} pageType={isLegal ? "webpage" : slug === "contacto" ? "contact" : slug === "nosotros" ? "about" : "webpage"} content={{ collection: "pages", id: d.id, slug }} breadcrumbs={crumbs}>
-	{!startsWithHero && <PageHeader title={d.title} summary={d.summary} crumbs={crumbs} eyebrow={isLegal ? "Información legal" : "Sovialis"} actions={!isLegal} />}
-	<Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} />
+	{!startsWithHero && <PageHeader title={d.title} summary={d.summary} crumbs={crumbs} eyebrow={isLegal ? "Información legal" : "Sovialis"} actions={!isLegal} edit={{ title: entry.edit.title, summary: entry.edit.summary }} />}
+	<Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} edit={entry.edit.layout} />
 	{
 		d.body?.length > 0 && (
 			<section class="section-tight">
@@ -38,5 +38,5 @@ const isLegal = /politica|terminos|cookies/.test(slug);
 			</section>
 		)
 	}
-	{!hasFaqBlock && d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} />}
+	{!hasFaqBlock && d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} edit={entry.edit.faqs} />}
 </Base>

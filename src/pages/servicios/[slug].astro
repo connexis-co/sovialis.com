@@ -56,10 +56,10 @@ const heroValue = {
 	<div class="bg-sand">
 		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
 	</div>
-	<Hero value={heroValue} index={0} context={{ service: name, priceFrom: d.price_from, priceUnit: d.price_unit, rating: `services:${d.id}`, ratingLabel: "Califica este servicio" }} />
-	<Blocks blocks={blocks} offset={1} context={{ service: name }} />
-	{d.body?.length > 0 && <GuideTabs value={d.body} eyebrow="Guía del servicio" title={`Todo sobre ${String(name).toLowerCase()}`} highlight={String(name).toLowerCase()} id={`guia-${slug}`} />}
-	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Dudas sobre ${String(name).toLowerCase()}`, items: d.faqs }} index={50} />}
+	<Hero value={heroValue} index={0} context={{ service: name, priceFrom: d.price_from, priceUnit: d.price_unit, rating: `services:${d.id}`, ratingLabel: "Califica este servicio" }} edit={{ eyebrow: entry.edit.hero_eyebrow, title: entry.edit.title, subtitle: d.hero_subtitle ? entry.edit.hero_subtitle : entry.edit.excerpt, image: entry.edit.hero_image }} />
+	<Blocks blocks={blocks} offset={1} context={{ service: name }} edit={entry.edit.layout} />
+	{d.body?.length > 0 && <GuideTabs value={d.body} eyebrow="Guía del servicio" title={`Todo sobre ${String(name).toLowerCase()}`} highlight={String(name).toLowerCase()} id={`guia-${slug}`} edit={entry.edit.body} />}
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Dudas sobre ${String(name).toLowerCase()}`, items: d.faqs }} index={50} edit={entry.edit.faqs} />}
 	<ServicesGrid value={{ eyebrow: "Otros servicios", title: "También te puede servir", style: "lista-compacta", limit: 6 }} exclude={slug} />
 	{
 		zones.length > 0 && (

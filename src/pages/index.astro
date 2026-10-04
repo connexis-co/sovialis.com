@@ -26,8 +26,8 @@ const heroImage = mediaUrl(d.layout?.find((b: any) => b._type === "hero")?.image
 	{
 		entry ? (
 			<>
-				<Blocks blocks={d.layout} />
-				{!hasFaqBlock && d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} />}
+				<Blocks blocks={d.layout} edit={entry.edit.layout} />
+				{!hasFaqBlock && d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} edit={entry.edit.faqs} />}
 			</>
 		) : (
 			<section class="container-page py-24 text-center">

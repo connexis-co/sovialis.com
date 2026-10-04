@@ -2,7 +2,7 @@
 /**
  * Formulario de cotización (un solo módulo para modal, hero de landings y bloque en página).
  * Envía al plugin sovialis-leads; la lógica vive en src/scripts/site.ts (sin frameworks).
- *   variant="modal"  → progresivo: nombre + celular; luego zona, servicio y correo; luego el caso
+ *   variant="modal"  → progresivo: nombre + celular; luego zona, servicio, correo y comentarios
  *   variant="hero"   → 3 campos visibles (nombre, WhatsApp, zona)
  *   variant="inline" → completo, sin pasos
  *   variant="bar"    → 3 campos en una fila y envío al lado (barra bajo el hero de las landings)
@@ -139,19 +139,15 @@ const f = (name: string) => `${id}-${name}`;
 				</div>
 			)
 		}
-		{
-			!compact && (
-				<div class="field fl-field sm:col-span-2" data-step="3">
-					<textarea id={f("message")} name="message" rows="3" maxlength="2000" placeholder="Días, horarios y el apoyo que necesita" aria-describedby={`${f("message")}-hint`} />
-					<label for={f("message")}>
-						Cuéntanos brevemente el caso <span class="opt">(opcional)</span>
-					</label>
-					<small class="hint" id={`${f("message")}-hint`}>
-						Por privacidad, evita escribir diagnósticos médicos.
-					</small>
-				</div>
-			)
-		}
+		<div class:list={["field fl-field", !compact && "sm:col-span-2", bar && "sm:col-span-2 lg:col-span-3"]} data-step={compact ? "1" : progressive ? "2" : "3"}>
+			<textarea id={f("message")} name="message" rows={compact ? 2 : 3} maxlength="2000" placeholder="Días, horarios, el apoyo que necesita o tus recomendaciones" aria-describedby={`${f("message")}-hint`} />
+			<label for={f("message")}>
+				Comentarios o mensaje <span class="opt">(opcional)</span>
+			</label>
+			<small class="hint" id={`${f("message")}-hint`}>
+				Por privacidad, evita escribir diagnósticos médicos.
+			</small>
+		</div>
 	</div>
 
 	<div class="hp" aria-hidden="true">

@@ -307,7 +307,7 @@
 		cursor: pointer;
 	}
 	.fl-field textarea {
-		min-height: 112px;
+		min-height: 96px;
 		padding-top: 30px;
 		resize: vertical;
 	}

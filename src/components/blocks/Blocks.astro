@@ -25,55 +25,47 @@ interface Props {
 	context?: { service?: string; zone?: string; priceFrom?: number | null; priceUnit?: string; exclude?: string };
 	/** Índice desde el que cuenta el primer bloque (0 = puede ser el H1). */
 	offset?: number;
+	/** Anotación del modo de edición de EmDash para el campo «Secciones»: un clic abre su editor. */
+	edit?: object;
 }
-const { blocks, context = {}, offset = 0 } = Astro.props;
+const { blocks, context = {}, offset = 0, edit } = Astro.props;
+const editable = Boolean(edit && Object.keys(edit).length);
 const list = Array.isArray(blocks) ? blocks : [];
+// Cada tipo de bloque con su componente; todos reciben las mismas props (cada uno usa las suyas).
+const COMPONENTS: Record<string, any> = {
+	hero: Hero,
+	trust_bar: TrustBar,
+	services_grid: ServicesGrid,
+	card_carousel: CardCarousel,
+	steps: Steps,
+	feature_grid: FeatureGrid,
+	media_text: MediaText,
+	tabs_media: TabsMedia,
+	pricing: Pricing,
+	zones_grid: ZonesGrid,
+	comparison: Comparison,
+	testimonials: Testimonials,
+	stats: Stats,
+	faq: Faq,
+	cta_band: CtaBand,
+	lead_form: LeadForm,
+	blog_latest: BlogLatest,
+	rich_text: RichText,
+	accordion: Accordion,
+};
 ---
 
 {
 	list.map((block, i) => {
-		const index = i + offset;
-		switch (block._type) {
-			case "hero":
-				return <Hero value={block} index={index} context={context} />;
-			case "trust_bar":
-				return <TrustBar value={block} />;
-			case "services_grid":
-				return <ServicesGrid value={block} exclude={context.exclude} />;
-			case "card_carousel":
-				return <CardCarousel value={block} />;
-			case "steps":
-				return <Steps value={block} index={index} />;
-			case "feature_grid":
-				return <FeatureGrid value={block} />;
-			case "media_text":
-				return <MediaText value={block} index={index} />;
-			case "tabs_media":
-				return <TabsMedia value={block} index={index} />;
-			case "pricing":
-				return <Pricing value={block} index={index} />;
-			case "zones_grid":
-				return <ZonesGrid value={block} index={index} active={context.zone} />;
-			case "comparison":
-				return <Comparison value={block} />;
-			case "testimonials":
-				return <Testimonials value={block} />;
-			case "stats":
-				return <Stats value={block} />;
-			case "faq":
-				return <Faq value={block as never} index={index} />;
-			case "cta_band":
-				return <CtaBand value={block} index={index} context={context} />;
-			case "lead_form":
-				return <LeadForm value={block} index={index} context={context} />;
-			case "blog_latest":
-				return <BlogLatest value={block} />;
-			case "rich_text":
-				return <RichText value={block} />;
-			case "accordion":
-				return <Accordion value={block} index={index} />;
-			default:
-				return null;
-		}
+		const Component = COMPONENTS[block._type];
+		if (!Component) return null;
+		const props = { value: block, index: i + offset, context, exclude: context.exclude, active: context.zone };
+		return editable ? (
+			<div class="contents" {...edit}>
+				<Component {...props} />
+			</div>
+		) : (
+			<Component {...props} />
+		);
 	})
 }

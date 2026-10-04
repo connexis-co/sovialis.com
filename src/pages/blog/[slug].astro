@@ -58,8 +58,8 @@ const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3)
 			<div class="container-page max-w-5xl pt-8 pb-10">
 				<Breadcrumbs items={crumbs} />
 				{category && <p class="eyebrow mt-6">{category.label}</p>}
-				<h1 class="mt-4 font-display text-h1 text-deep">{d.title}</h1>
-				{d.excerpt && <p class="mt-4 max-w-3xl text-lead text-muted">{d.excerpt}</p>}
+				<h1 class="mt-4 font-display text-h1 text-deep" {...entry.edit.title}>{d.title}</h1>
+				{d.excerpt && <p class="mt-4 max-w-3xl text-lead text-muted" {...entry.edit.excerpt}>{d.excerpt}</p>}
 				<p class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.98rem] text-muted">
 					{d.byline?.displayName && (
 						<span class="flex items-center gap-2">
@@ -83,7 +83,7 @@ const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3)
 		{
 			d.featured_image && (
 				<div class="container-page max-w-5xl">
-					<div class="-mt-2 overflow-hidden rounded-[var(--sv-radius-hero)] shadow-lift">
+					<div class="-mt-2 overflow-hidden rounded-[var(--sv-radius-hero)] shadow-lift" {...entry.edit.featured_image}>
 						<Img image={d.featured_image} priority class="aspect-[16/9] w-full object-cover" sizes="(min-width:1100px) 1040px, 94vw" />
 					</div>
 				</div>
@@ -126,7 +126,7 @@ const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3)
 		</div>
 	</article>
 
-	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: "Dudas frecuentes sobre este tema", items: d.faqs }} index={40} />}
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: "Dudas frecuentes sobre este tema", items: d.faqs }} index={40} edit={entry.edit.faqs} />}
 
 	<section class="section-tight">
 		<div class="container-page grid max-w-4xl gap-8">

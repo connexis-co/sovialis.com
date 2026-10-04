@@ -26,8 +26,8 @@ const startsWithHero = blocks[0]?._type === "hero";
 	content={entry ? { collection: "pages", id: d.id, slug: "zonas" } : undefined}
 	breadcrumbs={crumbs}
 >
-	{!startsWithHero && <PageHeader title={d.title || "Cuidado del adulto mayor a domicilio en Bogotá"} summary={d.summary} crumbs={crumbs} eyebrow="Zonas de cobertura" actions />}
-	{blocks.length ? <Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} /> : <ZonesGrid value={{ title: "Zonas donde cuidamos" }} index={1} />}
-	{d.faqs?.length > 0 && <Faq value={{ title: "Preguntas sobre la cobertura", items: d.faqs }} index={99} />}
+	{!startsWithHero && <PageHeader title={d.title || "Cuidado del adulto mayor a domicilio en Bogotá"} summary={d.summary} crumbs={crumbs} eyebrow="Zonas de cobertura" actions edit={{ title: entry?.edit.title, summary: entry?.edit.summary }} />}
+	{blocks.length ? <Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} edit={entry?.edit.layout} /> : <ZonesGrid value={{ title: "Zonas donde cuidamos" }} index={1} />}
+	{d.faqs?.length > 0 && <Faq value={{ title: "Preguntas sobre la cobertura", items: d.faqs }} index={99} edit={entry?.edit.faqs} />}
 	{!blocks.some((b) => b._type === "cta_band") && <ClosingCta />}
 </Base>
