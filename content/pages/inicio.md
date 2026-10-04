@@ -23,7 +23,6 @@ faqs:
 layout:
   - _type: hero
     variant: dividido
-    eyebrow: Vínculos que protegen · Norte de Bogotá
     title: Cuidado del adulto mayor a domicilio en Bogotá
     highlight: a domicilio
     subtitle: "Cuidadoras y personal con formación de auxiliar de enfermería para tu mamá, tu papá o esa persona mayor que quieres: por horas, de día, de noche o 24 horas. Antes de empezar verificamos a cada persona y acordamos contigo un plan de cuidado."

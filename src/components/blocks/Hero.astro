@@ -49,7 +49,8 @@ const landscape = Number(v.image?.width) > 0 && Number(v.image?.height) > 0 ? v.
 const photoAspect = landscape ? "aspect-[3/2] lg:aspect-[5/4]" : "aspect-[4/5] lg:aspect-[5/6]";
 // Puntos clave en una tarjeta de vidrio sobre la foto (servicios), como la tarjeta del inicio.
 const badgesOnPhoto = Boolean(v.badges_on_photo) && badges.length > 0 && !(v.card_title || v.card_text);
-const titleClass = v.title_size === "h1" ? "text-h1" : "text-display";
+// En móvil el título es más compacto para que los botones queden en la primera pantalla.
+const titleClass = v.title_size === "h1" ? "text-[1.9rem] leading-[1.12] sm:text-h1" : "text-[2.05rem] leading-[1.08] sm:text-h1 lg:text-display";
 // Formulario del hero: «barra» (foto + barra horizontal debajo), «tarjeta» (formulario en lugar de la
 // foto) o «boton» (solo el botón Cotizar, que abre la ventana emergente). show_form es el valor heredado.
 const formMode: "barra" | "tarjeta" | "boton" =
