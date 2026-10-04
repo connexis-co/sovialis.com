@@ -29,8 +29,9 @@ layout:
     title: "Precios 2026: cuánto cobra una cuidadora de adulto mayor"
     highlight: cuánto cobra
     subtitle: "Estos son los precios finales del cuidado de adultos mayores en casa en Bogotá: por horas, turnos de día o de noche y 24 horas, con cuidadora o con personal con formación de auxiliar. Te confirmamos el valor por escrito antes de empezar."
-    primary_label: Calcula y cotiza
-    primary_action: cotizar
+    primary_label: Calcula tu presupuesto
+    primary_action: enlace
+    primary_url: "#estimador"
     secondary_label: Escríbenos por WhatsApp
     secondary_action: whatsapp
     badges: |
@@ -38,83 +39,30 @@ layout:
       Sin permanencia mínima
       Cotización por escrito
 
-  - _type: pricing
-    eyebrow: Perfil cuidadora
-    title: Tarifas de la cuidadora, de lunes a viernes
-    highlight: de lunes a viernes
-    subtitle: En cada tarjeta verás también el valor de referencia con personal con formación de auxiliar.
-    note: "Precios de referencia 2026, IVA incluido. Sábados, domingos y festivos tienen recargo. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar."
-    plans:
-      - name: Por horas
-        price: 20000
-        unit: por hora (mínimo 4 h)
-        description: "Visitas desde 4 horas, es decir, desde $80.000. Con formación de auxiliar: desde $25.000 la hora."
-        features: |
-          Compañía, salidas y diligencias
-          Apoyo en una comida o en el baño
-          Recordatorio de medicamentos orales
-        cta_label: Cotizar por horas
-      - name: Turno de 8 h de día
-        price: 120000
-        unit: por turno
-        description: "Mañanas o tardes completas. Con formación de auxiliar: desde $135.000."
-        features: |
-          Higiene, comidas y movilidad
-          Compañía y actividades
-          Bitácora diaria de novedades
-        cta_label: Cotizar 8 h de día
-      - name: Turno de 12 h de día
-        price: 160000
-        unit: por turno
-        description: "Por ejemplo, de 7:00 a. m. a 7:00 p. m. Con formación de auxiliar: desde $180.000."
-        features: |
-          Rutina completa del día
-          Salidas y citas acompañadas
-          Bitácora diaria de novedades
-        cta_label: Cotizar 12 h de día
-      - name: Turno de 8 h de noche
-        price: 140000
-        unit: por turno
-        description: "Cubre la madrugada, por ejemplo de 10:00 p. m. a 6:00 a. m. Con formación de auxiliar: desde $155.000."
-        features: |
-          Cuidadora despierta toda la noche
-          Idas al baño y cambios de pañal
-          Reporte al entregar el turno
-        cta_label: Cotizar 8 h de noche
-      - name: Turno de 12 h de noche
-        price: 190000
-        unit: por turno
-        description: "Por ejemplo, de 7:00 p. m. a 7:00 a. m. Con formación de auxiliar: desde $215.000."
-        features: |
-          Cuidadora despierta toda la noche
-          Prevención de caídas y cambios de posición
-          Reporte al entregar el turno
-        cta_label: Cotizar 12 h de noche
-      - name: 24 horas con relevos
-        price: 300000
-        unit: por día
-        description: "Cobertura continua con relevos coordinados. Con formación de auxiliar: desde $340.000."
-        features: |
-          Día y noche, todos los días del año
-          Relevos entre personas verificadas
-          Reemplazo en el plazo acordado
-        cta_label: Cotizar 24 horas
+  - _type: price_explorer
+    eyebrow: Explorador de precios
+    title: Elige y conoce tu precio al instante
+    highlight: tu precio al instante
+    subtitle: "Selecciona el perfil, la modalidad y los días. El precio que ves es final, con IVA incluido, y puedes cotizarlo o preguntarlo por WhatsApp con un clic."
+    show_table: true
+    table_title: Tabla completa de precios 2026
+    note: "Precios de referencia con IVA incluido para el cuidado del adulto mayor en Bogotá. Sábados, domingos y festivos tienen tarifa propia."
+    anchor: explorador
+
+  - _type: budget_estimator
+    eyebrow: Estimador mensual
+    title: Calcula el presupuesto del mes
+    highlight: presupuesto del mes
+    subtitle: "Marca los días que necesitas cuidado y la modalidad. Te mostramos el valor semanal y mensual aproximado, listo para enviarlo por WhatsApp."
+    anchor: estimador
 
   - _type: rich_text
     width: amplio
     body: |
-      ## Tabla de tarifas por perfil y modalidad
+      ## Cuánto cuesta una cuidadora de adulto mayor en Bogotá
 
-      Una cuidadora de adulto mayor cuesta en Sovialis desde $20.000 por hora y desde $160.000 por un turno de 12 horas de día, de lunes a viernes. Cuánto cobran por cuidar a un adulto mayor depende de tres cosas: quién cuida, cuántas horas y qué días. Esta es la tabla completa de precios de referencia 2026, con IVA incluido:
+      Una cuidadora de adulto mayor cuesta en Sovialis desde $20.000 por hora y desde $160.000 por un turno de 12 horas de día, de lunes a viernes. Cuánto cobran por cuidar a un adulto mayor depende de tres cosas: quién cuida, cuántas horas y qué días. Arriba tienes el explorador y la tabla completa de precios de referencia 2026, con IVA incluido.
 
-      | Modalidad | Cuidadora, lun. a vie. | Cuidadora, sáb., dom. y festivos | Formación de auxiliar, lun. a vie. | Formación de auxiliar, sáb., dom. y festivos |
-      |---|---|---|---|---|
-      | Por hora (mínimo 4 h) | $20.000 | $22.000 | $25.000 | $27.000 |
-      | Turno de 8 h de día | $120.000 | $130.000 | $135.000 | $145.000 |
-      | Turno de 8 h de noche | $140.000 | $150.000 | $155.000 | $165.000 |
-      | Turno de 12 h de día | $160.000 | $170.000 | $180.000 | $190.000 |
-      | Turno de 12 h de noche | $190.000 | $200.000 | $215.000 | $225.000 |
-      | 24 horas con relevos | $300.000 | $320.000 | $340.000 | $360.000 |
 
       El precio del acompañamiento hospitalario y del acompañamiento a citas es el mismo de esta tabla: se cotiza por horas o por turnos, según cuánto tiempo necesites. Si buscabas el precio de una cuidadora interna 24 horas, la referencia es nuestro servicio de 24 horas con relevos. La diferencia entre perfiles está en la experiencia: conoce [qué hace la cuidadora](/servicios/cuidadora-adulto-mayor/) y cuándo conviene el [perfil con formación de auxiliar](/servicios/auxiliar-de-enfermeria/).
 

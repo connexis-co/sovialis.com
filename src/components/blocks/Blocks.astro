@@ -19,6 +19,8 @@ import LeadForm from "./LeadForm.astro";
 import BlogLatest from "./BlogLatest.astro";
 import RichText from "./RichText.astro";
 import Accordion from "./Accordion.astro";
+import PriceExplorer from "./PriceExplorer.astro";
+import BudgetEstimator from "./BudgetEstimator.astro";
 
 interface Props {
 	blocks: Array<Record<string, any>> | null | undefined;
@@ -52,6 +54,8 @@ const COMPONENTS: Record<string, any> = {
 	blog_latest: BlogLatest,
 	rich_text: RichText,
 	accordion: Accordion,
+	price_explorer: PriceExplorer,
+	budget_estimator: BudgetEstimator,
 };
 ---
 

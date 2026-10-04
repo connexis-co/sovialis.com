@@ -136,7 +136,10 @@ const year = new Date().getFullYear();
 		<div class="mt-14 border-t border-white/15 pt-8 text-[0.95rem] text-white/70">
 			<p class="max-w-4xl">{site.footerLegal}</p>
 			<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-				<p>© {year} {site.legalName || site.name}{site.nit ? ` · NIT ${site.nit}` : ""}. Imágenes ilustrativas.</p>
+				<p>
+					© {year} {site.legalName || site.name}{site.nit ? ` · NIT ${site.nit}` : ""}. Imágenes ilustrativas. ·{" "}
+					<a href="/mapa-del-sitio/" class="font-semibold text-white hover:underline">Mapa del sitio</a>
+				</p>
 				<p>
 					Sitio desarrollado por <a href="https://connexis.co" class="font-semibold text-white hover:underline" rel="noopener">Connexis</a>
 				</p>

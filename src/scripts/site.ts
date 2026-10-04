@@ -223,6 +223,8 @@ document.addEventListener("click", (e) => {
 		};
 		setSelect("service", opener.dataset.service);
 		setSelect("zone", opener.dataset.zone);
+		const message = form.elements.namedItem("message") as HTMLTextAreaElement | null;
+		if (message && opener.dataset.message) message.value = opener.dataset.message;
 		syncFilled(form);
 		dialog.showModal();
 		track("open_quote_modal", { cta: opener.dataset.cta ?? "sin-etiqueta" });
@@ -454,6 +456,132 @@ for (const tabs of $$("[data-tabs]")) {
 	});
 	// Búsqueda del navegador (Ctrl+F) dentro de un panel oculto con hidden="until-found": abre su pestaña.
 	panels.forEach((p, i) => p.addEventListener("beforematch", () => select(i)));
+}
+
+/* ── Precios: explorador (perfil × modalidad × días) y estimador mensual ───────────────────── */
+type RateRow = { profile: string; modality: string; price: number; priceWeekend: number };
+type RatesData = { rates: RateRow[]; minHours: number; modalities: Record<string, any>; profiles: Record<string, any>; auxService?: string };
+const cop = (n: number) => `$${Math.round(n).toLocaleString("es-CO").replace(/,/g, ".")}`;
+const checked = (root: Root, sel: string) => $<HTMLInputElement>(`${sel}:checked`, root)?.value ?? "";
+const animateNumber = (el: HTMLElement, to: number) => {
+	const from = Number(el.dataset.value ?? to);
+	el.dataset.value = String(to);
+	if (matchMedia("(prefers-reduced-motion: reduce)").matches || from === to) {
+		el.textContent = cop(to);
+		return;
+	}
+	const t0 = performance.now();
+	const step = (t: number) => {
+		const k = Math.min(1, (t - t0) / 420);
+		el.textContent = cop(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+		if (k < 1) requestAnimationFrame(step);
+	};
+	requestAnimationFrame(step);
+};
+
+for (const root of $$<HTMLElement>("[data-price-explorer]")) {
+	const data = JSON.parse(root.dataset.rates || "{}") as RatesData;
+	const rate = (p: string, m: string) => data.rates.find((r) => r.profile === p && r.modality === m)!;
+	const priceEl = $<HTMLElement>("[data-pe-price]", root)!;
+	const update = () => {
+		const profile = checked(root, '[data-pe="profile"]');
+		const modality = checked(root, '[data-pe="modality"]');
+		const weekend = checked(root, '[data-pe="days"]') === "weekend";
+		const r = rate(profile, modality);
+		const mod = data.modalities[modality];
+		animateNumber(priceEl, weekend ? r.priceWeekend : r.price);
+		$("[data-pe-title]", root)!.textContent = `${data.profiles[profile].short} · ${mod.label}`;
+		$("[data-pe-unit]", root)!.textContent = `${mod.unit} · ${weekend ? "sábados, domingos y festivos" : "lunes a viernes"}`;
+		$("[data-pe-alt]", root)!.textContent = weekend ? `Lunes a viernes: ${cop(r.price)}` : `Sáb., dom. y festivos: ${cop(r.priceWeekend)}`;
+		const min = $<HTMLElement>("[data-pe-min]", root)!;
+		min.hidden = modality !== "por_hora";
+		if (modality === "por_hora") min.textContent = `Visita mínima de ${data.minHours} h: desde ${cop((weekend ? r.priceWeekend : r.price) * data.minHours)}`;
+		const list = $<HTMLElement>("[data-pe-includes]", root)!;
+		list.replaceChildren(
+			...(mod.includes as string[]).map((t) => {
+				const li = document.createElement("li");
+				li.innerHTML = `<span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>`;
+				li.appendChild(document.createTextNode(t));
+				return li;
+			}),
+		);
+		list.classList.remove("pe-bump");
+		void list.offsetWidth;
+		list.classList.add("pe-bump");
+		for (const m of Object.keys(data.modalities)) {
+			const from = $(`[data-pe-from="${m}"]`, root);
+			if (from) from.textContent = `desde ${cop(rate(profile, m).price)}`;
+		}
+		const summary = `${data.profiles[profile].label} · ${mod.label} · ${weekend ? "sábados, domingos y festivos" : "lunes a viernes"} (${cop(weekend ? r.priceWeekend : r.price)} ${mod.unit})`;
+		const quote = $<HTMLElement>("[data-pe-quote]", root)!;
+		quote.dataset.service = profile === "auxiliar" && data.auxService ? data.auxService : mod.serviceName;
+		quote.dataset.message = `Me interesa: ${summary}.`;
+		const wa = $<HTMLAnchorElement>("[data-pe-wa]", root)!;
+		wa.dataset.waText = `Hola, vi los precios en la web. Me interesa: ${summary}. ¿Tienen disponibilidad?`;
+		const number = (window as unknown as { svWhatsApp?: { number: string } }).svWhatsApp?.number;
+		if (number) wa.href = `https://wa.me/${number}?text=${encodeURIComponent(wa.dataset.waText)}`;
+	};
+	root.addEventListener("change", update);
+	update();
+}
+
+for (const root of $$<HTMLElement>("[data-budget]")) {
+	const data = JSON.parse(root.dataset.rates || "{}") as RatesData;
+	const rate = (p: string, m: string) => data.rates.find((r) => r.profile === p && r.modality === m)!;
+	const hoursOut = $<HTMLOutputElement>("[data-bg-hours]", root)!;
+	let hours = data.minHours;
+	const update = () => {
+		const profile = checked(root, '[data-bg="profile"]');
+		const modality = checked(root, '[data-bg="modality"]');
+		const days = $$<HTMLInputElement>('[data-bg="day"]:checked', root).map((d) => Number(d.value));
+		const weekdays = days.filter((d) => d >= 1 && d <= 5).length;
+		const weekend = days.length - weekdays;
+		const perHour = modality === "por_hora";
+		$<HTMLElement>("[data-bg-hours-group]", root)!.hidden = !perHour;
+		hoursOut.textContent = String(hours);
+		const r = rate(profile, modality);
+		const mult = perHour ? hours : 1;
+		const week = weekdays * r.price * mult + weekend * r.priceWeekend * mult;
+		const month = Math.round((week * 52) / 12 / 1000) * 1000;
+		animateNumber($<HTMLElement>("[data-bg-month]", root)!, month);
+		$("[data-bg-week]", root)!.textContent = cop(week);
+		const unit = perHour ? `${hours} h × ` : "";
+		const lines: Array<[string, number]> = [];
+		if (weekdays) lines.push([`${weekdays} ${weekdays === 1 ? "día" : "días"} entre semana · ${unit}${cop(r.price)}`, weekdays * r.price * mult]);
+		if (weekend) lines.push([`${weekend} ${weekend === 1 ? "día" : "días"} de fin de semana · ${unit}${cop(r.priceWeekend)}`, weekend * r.priceWeekend * mult]);
+		if (!lines.length) lines.push(["Elige al menos un día de la semana", 0]);
+		$<HTMLElement>("[data-bg-lines]", root)!.replaceChildren(
+			...lines.map(([label, value]) => {
+				const li = document.createElement("li");
+				const span = document.createElement("span");
+				span.textContent = label;
+				const b = document.createElement("b");
+				b.textContent = value ? `${cop(value)}/sem.` : "";
+				li.appendChild(span);
+				li.appendChild(b);
+				return li;
+			}),
+		);
+		const mod = data.modalities[modality];
+		const dayNames = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+		const order = [1, 2, 3, 4, 5, 6, 0].filter((d) => days.includes(d)).map((d) => dayNames[d]).join(", ");
+		const summary = `${data.profiles[profile]} · ${mod.label}${perHour ? ` de ${hours} h` : ""} · ${order || "sin días"} → ${cop(month)} al mes aprox.`;
+		const wa = $<HTMLAnchorElement>("[data-bg-wa]", root)!;
+		wa.dataset.waText = `Hola, calculé un presupuesto en la web: ${summary} ¿Me ayudan a confirmarlo?`;
+		const number = (window as unknown as { svWhatsApp?: { number: string } }).svWhatsApp?.number;
+		if (number) wa.href = `https://wa.me/${number}?text=${encodeURIComponent(wa.dataset.waText)}`;
+		const quote = $<HTMLElement>("[data-bg-quote]", root)!;
+		quote.dataset.service = mod.serviceName;
+		quote.dataset.message = `Presupuesto calculado en la web: ${summary}`;
+	};
+	root.addEventListener("change", update);
+	for (const b of $$<HTMLButtonElement>("[data-bg-step]", root)) {
+		b.addEventListener("click", () => {
+			hours = Math.min(12, Math.max(data.minHours, hours + Number(b.dataset.bgStep)));
+			update();
+		});
+	}
+	update();
 }
 
 /* ── Carruseles con scroll-snap: flechas y barra de progreso ──────────────────────────── */

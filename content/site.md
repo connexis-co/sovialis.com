@@ -47,4 +47,54 @@ trust:
     text: Precio final con IVA, por escrito antes de empezar
   - icon: calendario
     text: Sin permanencia mínima
+min_hours: 4
+rates:
+  - profile: cuidadora
+    modality: por_hora
+    price: 20000
+    price_weekend: 22000
+  - profile: cuidadora
+    modality: 8h_dia
+    price: 120000
+    price_weekend: 130000
+  - profile: cuidadora
+    modality: 8h_noche
+    price: 140000
+    price_weekend: 150000
+  - profile: cuidadora
+    modality: 12h_dia
+    price: 160000
+    price_weekend: 170000
+  - profile: cuidadora
+    modality: 12h_noche
+    price: 190000
+    price_weekend: 200000
+  - profile: cuidadora
+    modality: 24h
+    price: 300000
+    price_weekend: 320000
+  - profile: auxiliar
+    modality: por_hora
+    price: 25000
+    price_weekend: 27000
+  - profile: auxiliar
+    modality: 8h_dia
+    price: 135000
+    price_weekend: 145000
+  - profile: auxiliar
+    modality: 8h_noche
+    price: 155000
+    price_weekend: 165000
+  - profile: auxiliar
+    modality: 12h_dia
+    price: 180000
+    price_weekend: 190000
+  - profile: auxiliar
+    modality: 12h_noche
+    price: 215000
+    price_weekend: 225000
+  - profile: auxiliar
+    modality: 24h
+    price: 340000
+    price_weekend: 360000
 ---

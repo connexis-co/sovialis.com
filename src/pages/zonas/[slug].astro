@@ -10,6 +10,7 @@ import Faq from "../../components/blocks/Faq.astro";
 import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
 import ZonesGrid from "../../components/blocks/ZonesGrid.astro";
 import ClosingCta from "../../components/page/ClosingCta.astro";
+import ZoneFacts from "../../components/page/ZoneFacts.astro";
 import { icon } from "../../lib/icons";
 import { getCatalog, mediaUrl } from "../../lib/site";
 
@@ -45,8 +46,6 @@ const heroValue = {
 	secondary_label: "Confirmar cobertura",
 	secondary_action: "cotizar",
 	badges: ["Personas verificadas", "Relevos coordinados", "Cobertura confirmada antes de empezar"].join("\n"),
-	card_title: d.neighborhoods ? `Cubrimos ${name}` : undefined,
-	card_text: d.neighborhoods ? String(d.neighborhoods).split(",").slice(0, 6).map((s: string) => s.trim()).join(" · ") : undefined,
 };
 ---
 
@@ -64,6 +63,7 @@ const heroValue = {
 		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
 	</div>
 	<Hero value={heroValue} index={0} context={{ zone: name, rating: `zones:${d.id}`, ratingLabel: "Califica nuestro servicio en esta zona" }} edit={{ title: entry.edit.title, subtitle: entry.edit.excerpt, image: entry.edit.hero_image }} />
+	<ZoneFacts name={name} neighborhoods={d.neighborhoods} landmarks={landmarks} edit={{ neighborhoods: entry.edit.neighborhoods, landmarks: entry.edit.landmarks }} />
 	{
 		(d.intro?.length > 0 || landmarks.length > 0) && (
 			<section class="section">

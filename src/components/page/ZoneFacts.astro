@@ -1,0 +1,179 @@
+---
+/**
+ * Ficha rápida de una zona, justo bajo la portada: barrios que cubrimos, clínicas de referencia,
+ * precio desde (Tarifas de los Ajustes) y respuesta/cobertura. Todo sale de los campos de la zona.
+ */
+import { icon } from "../../lib/icons";
+import { findRate } from "../../lib/rates";
+import { formatCOP, getSiteData } from "../../lib/site";
+
+interface Props {
+	name: string;
+	neighborhoods?: string | null;
+	landmarks?: Array<{ name?: string; kind?: string }>;
+	edit?: { neighborhoods?: object; landmarks?: object };
+}
+const { name, neighborhoods, landmarks = [], edit = {} } = Astro.props;
+const site = await getSiteData();
+const barrios = String(neighborhoods ?? "")
+	.split(",")
+	.map((b) => b.trim())
+	.filter(Boolean);
+const shown = barrios.slice(0, 6);
+const more = barrios.length - shown.length;
+const clinics = landmarks.filter((l) => l?.name && (l.kind === "clinica" || l.kind === "hospital")).slice(0, 3);
+const hourly = findRate(site.rates, "cuidadora", "por_hora");
+const day12 = findRate(site.rates, "cuidadora", "12h_dia");
+---
+
+<section class="zone-facts" aria-label={`Ficha rápida de ${name}`}>
+	<div class="container-page">
+		<div class="zone-facts__grid">
+			{
+				shown.length > 0 && (
+					<div class="zf zf--wide" {...edit.neighborhoods}>
+						<p class="zf__label">
+							<span set:html={icon("ubicacion", "size-4")} /> Barrios que cubrimos
+						</p>
+						<ul class="zf__chips">
+							{shown.map((b) => (
+								<li>{b}</li>
+							))}
+							{more > 0 && <li class="is-more">+{more} más</li>}
+						</ul>
+					</div>
+				)
+			}
+			{
+				clinics.length > 0 && (
+					<div class="zf" {...edit.landmarks}>
+						<p class="zf__label">
+							<span set:html={icon("hospital", "size-4")} /> Clínicas de referencia
+						</p>
+						<ul class="zf__list">
+							{clinics.map((c) => (
+								<li>{c.name}</li>
+							))}
+						</ul>
+					</div>
+				)
+			}
+			<div class="zf">
+				<p class="zf__label">
+					<span set:html={icon("documento", "size-4")} /> Precio desde
+				</p>
+				<p class="zf__big">{formatCOP(hourly.price)}<small> por hora</small></p>
+				<p class="zf__muted">Turno de 12 h de día: {formatCOP(day12.price)}</p>
+			</div>
+			<div class="zf zf--accent">
+				<p class="zf__label">
+					<span set:html={icon("reloj", "size-4")} /> Respuesta el mismo día
+				</p>
+				<p class="zf__muted">Confirmamos la cobertura de tu dirección antes de empezar.</p>
+				<button type="button" class="btn btn-primary btn-sm mt-3" data-quote data-zone={name} data-cta={`zona:${name}:ficha`}>
+					Confirmar cobertura <Fragment set:html={icon("flecha-derecha", "size-4")} />
+				</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.zone-facts {
+		position: relative;
+		z-index: 2;
+		margin-top: calc(clamp(1.5rem, 4vw, 3rem) * -1);
+		padding-bottom: clamp(1rem, 3vw, 2rem);
+	}
+	.zone-facts__grid {
+		display: grid;
+		gap: 0.75rem;
+		padding: 0.75rem;
+		border: 1px solid var(--sv-border);
+		border-radius: var(--sv-radius-hero);
+		background: var(--sv-surface);
+		box-shadow: var(--sv-shadow-lg);
+	}
+	@media (min-width: 640px) {
+		.zone-facts__grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		.zf--wide {
+			grid-column: span 2;
+		}
+	}
+	@media (min-width: 1024px) {
+		.zone-facts__grid {
+			grid-template-columns: 1.5fr 1fr 0.9fr 1fr;
+		}
+		.zf--wide {
+			grid-column: auto;
+		}
+	}
+	.zf {
+		padding: 1rem 1.1rem;
+		border-radius: 18px;
+		background: var(--sv-surface-warm);
+	}
+	.zf--accent {
+		background: color-mix(in oklab, var(--sv-primary) 8%, var(--sv-surface));
+	}
+	.zf__label {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--sv-primary);
+	}
+	.zf__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-top: 0.7rem;
+	}
+	.zf__chips li {
+		padding: 0.3rem 0.7rem;
+		border-radius: 999px;
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		font-size: 0.92rem;
+		font-weight: 600;
+		color: var(--sv-deep);
+	}
+	.zf__chips li.is-more {
+		background: transparent;
+		border-style: dashed;
+		color: var(--sv-text-muted);
+	}
+	.zf__list {
+		display: grid;
+		gap: 0.35rem;
+		margin-top: 0.7rem;
+		font-weight: 600;
+		color: var(--sv-deep);
+		line-height: 1.3;
+	}
+	.zf__big {
+		margin-top: 0.5rem;
+		font-family: var(--sv-font-display);
+		font-size: 1.9rem;
+		font-weight: 600;
+		line-height: 1;
+		color: var(--sv-deep);
+	}
+	.zf__big small {
+		font-family: var(--sv-font-body);
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--sv-text-muted);
+	}
+	.zf__muted {
+		margin-top: 0.45rem;
+		font-size: 0.95rem;
+		color: var(--sv-text-muted);
+		line-height: 1.4;
+	}
+</style>

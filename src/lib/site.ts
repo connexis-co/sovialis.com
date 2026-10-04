@@ -4,6 +4,7 @@
  */
 import { getEmDashCollection, getEmDashEntry, getPluginSetting, getSiteSettings } from "emdash";
 import { DEFAULT_SETTINGS as WA_DEFAULTS, type WhatsAppSettings } from "../../plugins/sovialis-whatsapp/model";
+import { DEFAULT_RATES, normalizeRates, type Rate } from "./rates";
 import { ROUTES } from "./routes";
 
 export interface SiteData {
@@ -36,6 +37,8 @@ export interface SiteData {
 	leadRelations: string[];
 	social: Array<{ name: string; url: string }>;
 	trust: Array<{ icon: string; text: string }>;
+	rates: Rate[];
+	minHours: number;
 }
 
 const FALLBACK: SiteData = {
@@ -69,6 +72,8 @@ const FALLBACK: SiteData = {
 	leadRelations: ["Mi mamá", "Mi papá", "Mis padres", "Un abuelo o abuela", "Otro familiar", "Para mí"],
 	social: [],
 	trust: [],
+	rates: DEFAULT_RATES,
+	minHours: 4,
 };
 
 const lines = (text: unknown) =>
@@ -121,6 +126,8 @@ export async function getSiteData(): Promise<SiteData> {
 		leadRelations: lines(d.lead_relations).length ? lines(d.lead_relations) : FALLBACK.leadRelations,
 		social: Array.isArray(d.social) ? (d.social as SiteData["social"]).filter((x) => x?.url) : [],
 		trust: Array.isArray(d.trust) ? (d.trust as SiteData["trust"]).filter((x) => x?.text) : FALLBACK.trust,
+		rates: normalizeRates(d.rates),
+		minHours: Number(d.min_hours) > 0 ? Number(d.min_hours) : FALLBACK.minHours,
 	};
 	cache = { at: Date.now(), data };
 	return data;

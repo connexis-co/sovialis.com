@@ -38,7 +38,7 @@ const asTabs = sections.length >= 2 && !editing;
 		{(eyebrow || title) && <SectionHead eyebrow={eyebrow} title={title ?? ""} highlight={highlight} />}
 		{
 			!editing && intro.length > 0 && (
-				<div class="prose-sv mx-auto mt-6 max-w-3xl text-center text-lead">
+				<div class:list={["prose-sv max-w-3xl", bare ? "mb-6" : "mx-auto mt-6 text-center text-lead"]}>
 					<Prose value={intro} />
 				</div>
 			)

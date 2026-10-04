@@ -149,6 +149,23 @@ export const blockTypes = [
 		],
 	},
 	{
+		slug: "price_explorer",
+		label: "Explorador de precios (selectores)",
+		fields: [
+			...eyebrowTitle,
+			f("subtitle", "Subtítulo", "text"),
+			f("show_table", "Mostrar la tabla completa de tarifas", "boolean"),
+			f("table_title", "Título de la tabla", "string"),
+			f("note", "Nota bajo el título de la tabla", "text"),
+			f("anchor", "Ancla (id) de la sección", "string"),
+		],
+	},
+	{
+		slug: "budget_estimator",
+		label: "Estimador de presupuesto mensual",
+		fields: [...eyebrowTitle, f("subtitle", "Subtítulo", "text"), f("note", "Nota legal bajo el resultado", "text"), f("anchor", "Ancla (id) de la sección", "string")],
+	},
+	{
 		slug: "pricing",
 		label: "Precios desde",
 		fields: [
@@ -373,6 +390,17 @@ export const collections = [
 			f("lead_relations", "Opciones «para quién» (una por línea)", "text"),
 			f("social", "Redes sociales", "repeater", { validation: { subFields: [f("name", "Red", "string", { required: true }), f("url", "Enlace", "string", { required: true })] } }),
 			f("trust", "Garantías (se repiten en el sitio)", "repeater", { validation: { subFields: [subSelect("icon", "Icono", ICONS), f("text", "Texto", "string", { required: true })] } }),
+			f("rates", "Tarifas públicas (IVA incluido; alimentan precios, explorador y estimador)", "repeater", {
+				validation: {
+					subFields: [
+						subSelect("profile", "Perfil", ["cuidadora", "auxiliar"]),
+						subSelect("modality", "Modalidad", ["por_hora", "8h_dia", "8h_noche", "12h_dia", "12h_noche", "24h"]),
+						f("price", "Lunes a viernes (COP)", "integer", { required: true }),
+						f("price_weekend", "Sábados, domingos y festivos (COP)", "integer", { required: true }),
+					],
+				},
+			}),
+			f("min_hours", "Mínimo de horas por visita (servicio por horas)", "integer"),
 		],
 	},
 ];
