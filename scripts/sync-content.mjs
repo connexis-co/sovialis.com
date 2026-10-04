@@ -10,6 +10,7 @@
  *
  * Producción lee SOVIALIS_AUTOMATION_TOKEN de ~/.config/sovialis/web-secrets.env (nunca del repo).
  */
+import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
@@ -146,14 +147,18 @@ async function uploadMedia(mediaKey, alt) {
 		console.warn(`  ⚠ imagen «${mediaKey}» no existe todavía (${file}); se omite`);
 		return null;
 	}
+	const bytes = await readFile(path);
+	const hash = createHash("sha1").update(bytes).digest("hex");
 	let item = mediaCache[mediaKey];
+	// Si el archivo cambió (misma clave, imagen nueva), se vuelve a subir.
+	if (item && item.sha1 && item.sha1 !== hash) item = undefined;
+	if (item && !item.sha1) item.sha1 = hash;
 	if (!item) {
-		const bytes = await readFile(path);
 		const form = new FormData();
 		form.set("file", new Blob([bytes], { type: file.endsWith(".webp") ? "image/webp" : file.endsWith(".png") ? "image/png" : "image/jpeg" }), `sovialis-${file}`);
 		form.set("deduplicate", "true");
 		const res = await api("/_emdash/api/media", { method: "POST", form });
-		item = res.item;
+		item = { ...res.item, sha1: hash };
 		mediaCache[mediaKey] = item;
 		await writeFile(cacheFile, JSON.stringify(mediaCache, null, 2));
 		console.log(`  ↑ ${mediaKey} → ${item.id}`);

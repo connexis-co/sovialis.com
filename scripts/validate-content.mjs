@@ -96,7 +96,7 @@ for (const [col, entries] of Object.entries(all)) {
 		}
 		for (const re of BANNED_ANYWHERE) if (re.test(text)) err(f, `expresión prohibida o de IA: ${re}`);
 		if (e.slug === "trabaja-con-nosotros") for (const re of BANNED_RECRUITING) if (re.test(text)) err(f, `vocabulario laboral prohibido: ${re}`);
-		if (/\+?57\s?3\d{2}\s?\d{3}\s?\d{4}|300 892 1144|wa\.me/.test(text)) err(f, "no escribas teléfonos ni enlaces de WhatsApp en el contenido");
+		if (/\+?57\s?3\d{2}\s?\d{3}\s?\d{4}|311 759 8641|300 892 1144|wa\.me/.test(text)) err(f, "no escribas teléfonos ni enlaces de WhatsApp en el contenido");
 
 		const checkImage = (img, where) => {
 			if (!img) return;

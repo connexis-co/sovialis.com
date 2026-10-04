@@ -25,7 +25,9 @@
     "sitemap:submit": "node scripts/submit-sitemaps.mjs",
     "prepare": "husky",
     "deploy:secrets": "node scripts/deploy.mjs --secrets",
-    "content:validate": "node scripts/validate-content.mjs"
+    "content:validate": "node scripts/validate-content.mjs",
+    "schema:sync": "node scripts/sync-schema.mjs",
+    "map:build": "node scripts/build-map.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.3.3",

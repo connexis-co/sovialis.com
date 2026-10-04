@@ -26,6 +26,7 @@ export interface PageLayoutHeroV1Block {
   "card_text"?: string | null;
   "shortcuts_title"?: string | null;
   "show_form"?: boolean | null;
+  "image_side"?: "derecha" | "izquierda" | null;
 }
 
 export type PageLayoutHeroBlock = PageLayoutHeroV1Block;
@@ -34,7 +35,7 @@ export interface PageLayoutTrustBarV1Block {
   _type: "trust_bar";
   _version: 1;
   _key: string;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "text": string }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "text": string }[] | null;
 }
 
 export type PageLayoutTrustBarBlock = PageLayoutTrustBarV1Block;
@@ -75,7 +76,7 @@ export interface PageLayoutStepsV1Block {
   "title": string;
   "highlight"?: string | null;
   "subtitle"?: string | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
   "cta_label"?: string | null;
   "cta_action"?: "cotizar" | "whatsapp" | "enlace" | "llamar" | null;
   "cta_url"?: string | null;
@@ -94,7 +95,7 @@ export interface PageLayoutFeatureGridV1Block {
   "layout"?: "bento" | "cuadricula" | "lista" | null;
   "tone"?: "claro" | "arena" | "bruma" | "oscuro" | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
 }
 
 export type PageLayoutFeatureGridBlock = PageLayoutFeatureGridV1Block;
@@ -127,10 +128,27 @@ export interface PageLayoutTabsMediaV1Block {
   "highlight"?: string | null;
   "subtitle"?: string | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "tabs"?: { "label": string; "title"?: string | null; "body"?: string | null }[] | null;
+  "image_side"?: "izquierda" | "derecha" | null;
+  "tabs"?: { "label": string; "title"?: string | null; "body"?: string | null; "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null }[] | null;
 }
 
 export type PageLayoutTabsMediaBlock = PageLayoutTabsMediaV1Block;
+
+export interface PageLayoutAccordionV1Block {
+  _type: "accordion";
+  _version: 1;
+  _key: string;
+  "eyebrow"?: string | null;
+  "title": string;
+  "highlight"?: string | null;
+  "subtitle"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "image_side"?: "derecha" | "izquierda" | null;
+  "tone"?: "claro" | "arena" | "bruma" | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "body": string }[] | null;
+}
+
+export type PageLayoutAccordionBlock = PageLayoutAccordionV1Block;
 
 export interface PageLayoutPricingV1Block {
   _type: "pricing";
@@ -267,7 +285,7 @@ export interface PageLayoutRichTextV1Block {
 
 export type PageLayoutRichTextBlock = PageLayoutRichTextV1Block;
 
-export type PageLayoutBlock = PageLayoutHeroBlock | PageLayoutTrustBarBlock | PageLayoutServicesGridBlock | PageLayoutCardCarouselBlock | PageLayoutStepsBlock | PageLayoutFeatureGridBlock | PageLayoutMediaTextBlock | PageLayoutTabsMediaBlock | PageLayoutPricingBlock | PageLayoutZonesGridBlock | PageLayoutComparisonBlock | PageLayoutTestimonialsBlock | PageLayoutStatsBlock | PageLayoutFaqBlock | PageLayoutCtaBandBlock | PageLayoutLeadFormBlock | PageLayoutBlogLatestBlock | PageLayoutRichTextBlock;
+export type PageLayoutBlock = PageLayoutHeroBlock | PageLayoutTrustBarBlock | PageLayoutServicesGridBlock | PageLayoutCardCarouselBlock | PageLayoutStepsBlock | PageLayoutFeatureGridBlock | PageLayoutMediaTextBlock | PageLayoutTabsMediaBlock | PageLayoutAccordionBlock | PageLayoutPricingBlock | PageLayoutZonesGridBlock | PageLayoutComparisonBlock | PageLayoutTestimonialsBlock | PageLayoutStatsBlock | PageLayoutFaqBlock | PageLayoutCtaBandBlock | PageLayoutLeadFormBlock | PageLayoutBlogLatestBlock | PageLayoutRichTextBlock;
 
 export interface Page {
   id: string;
@@ -308,6 +326,7 @@ export interface ServiceLayoutHeroV1Block {
   "card_text"?: string | null;
   "shortcuts_title"?: string | null;
   "show_form"?: boolean | null;
+  "image_side"?: "derecha" | "izquierda" | null;
 }
 
 export type ServiceLayoutHeroBlock = ServiceLayoutHeroV1Block;
@@ -316,7 +335,7 @@ export interface ServiceLayoutTrustBarV1Block {
   _type: "trust_bar";
   _version: 1;
   _key: string;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "text": string }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "text": string }[] | null;
 }
 
 export type ServiceLayoutTrustBarBlock = ServiceLayoutTrustBarV1Block;
@@ -357,7 +376,7 @@ export interface ServiceLayoutStepsV1Block {
   "title": string;
   "highlight"?: string | null;
   "subtitle"?: string | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
   "cta_label"?: string | null;
   "cta_action"?: "cotizar" | "whatsapp" | "enlace" | "llamar" | null;
   "cta_url"?: string | null;
@@ -376,7 +395,7 @@ export interface ServiceLayoutFeatureGridV1Block {
   "layout"?: "bento" | "cuadricula" | "lista" | null;
   "tone"?: "claro" | "arena" | "bruma" | "oscuro" | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
 }
 
 export type ServiceLayoutFeatureGridBlock = ServiceLayoutFeatureGridV1Block;
@@ -409,10 +428,27 @@ export interface ServiceLayoutTabsMediaV1Block {
   "highlight"?: string | null;
   "subtitle"?: string | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "tabs"?: { "label": string; "title"?: string | null; "body"?: string | null }[] | null;
+  "image_side"?: "izquierda" | "derecha" | null;
+  "tabs"?: { "label": string; "title"?: string | null; "body"?: string | null; "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null }[] | null;
 }
 
 export type ServiceLayoutTabsMediaBlock = ServiceLayoutTabsMediaV1Block;
+
+export interface ServiceLayoutAccordionV1Block {
+  _type: "accordion";
+  _version: 1;
+  _key: string;
+  "eyebrow"?: string | null;
+  "title": string;
+  "highlight"?: string | null;
+  "subtitle"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "image_side"?: "derecha" | "izquierda" | null;
+  "tone"?: "claro" | "arena" | "bruma" | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "body": string }[] | null;
+}
+
+export type ServiceLayoutAccordionBlock = ServiceLayoutAccordionV1Block;
 
 export interface ServiceLayoutPricingV1Block {
   _type: "pricing";
@@ -549,7 +585,7 @@ export interface ServiceLayoutRichTextV1Block {
 
 export type ServiceLayoutRichTextBlock = ServiceLayoutRichTextV1Block;
 
-export type ServiceLayoutBlock = ServiceLayoutHeroBlock | ServiceLayoutTrustBarBlock | ServiceLayoutServicesGridBlock | ServiceLayoutCardCarouselBlock | ServiceLayoutStepsBlock | ServiceLayoutFeatureGridBlock | ServiceLayoutMediaTextBlock | ServiceLayoutTabsMediaBlock | ServiceLayoutPricingBlock | ServiceLayoutZonesGridBlock | ServiceLayoutComparisonBlock | ServiceLayoutTestimonialsBlock | ServiceLayoutStatsBlock | ServiceLayoutFaqBlock | ServiceLayoutCtaBandBlock | ServiceLayoutLeadFormBlock | ServiceLayoutBlogLatestBlock | ServiceLayoutRichTextBlock;
+export type ServiceLayoutBlock = ServiceLayoutHeroBlock | ServiceLayoutTrustBarBlock | ServiceLayoutServicesGridBlock | ServiceLayoutCardCarouselBlock | ServiceLayoutStepsBlock | ServiceLayoutFeatureGridBlock | ServiceLayoutMediaTextBlock | ServiceLayoutTabsMediaBlock | ServiceLayoutAccordionBlock | ServiceLayoutPricingBlock | ServiceLayoutZonesGridBlock | ServiceLayoutComparisonBlock | ServiceLayoutTestimonialsBlock | ServiceLayoutStatsBlock | ServiceLayoutFaqBlock | ServiceLayoutCtaBandBlock | ServiceLayoutLeadFormBlock | ServiceLayoutBlogLatestBlock | ServiceLayoutRichTextBlock;
 
 export interface Service {
   id: string;
@@ -566,6 +602,7 @@ export interface Service {
   hero_subtitle?: string;
   hero_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   highlights?: string;
+  hero_image_side?: "derecha" | "izquierda";
   layout?: ServiceLayoutBlock[];
   body?: PortableTextBlock[];
   faqs?: { "question": string; "answer": string }[];
@@ -602,6 +639,7 @@ export interface ZoneLayoutHeroV1Block {
   "card_text"?: string | null;
   "shortcuts_title"?: string | null;
   "show_form"?: boolean | null;
+  "image_side"?: "derecha" | "izquierda" | null;
 }
 
 export type ZoneLayoutHeroBlock = ZoneLayoutHeroV1Block;
@@ -610,7 +648,7 @@ export interface ZoneLayoutTrustBarV1Block {
   _type: "trust_bar";
   _version: 1;
   _key: string;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "text": string }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "text": string }[] | null;
 }
 
 export type ZoneLayoutTrustBarBlock = ZoneLayoutTrustBarV1Block;
@@ -651,7 +689,7 @@ export interface ZoneLayoutStepsV1Block {
   "title": string;
   "highlight"?: string | null;
   "subtitle"?: string | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
   "cta_label"?: string | null;
   "cta_action"?: "cotizar" | "whatsapp" | "enlace" | "llamar" | null;
   "cta_url"?: string | null;
@@ -670,7 +708,7 @@ export interface ZoneLayoutFeatureGridV1Block {
   "layout"?: "bento" | "cuadricula" | "lista" | null;
   "tone"?: "claro" | "arena" | "bruma" | "oscuro" | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "title": string; "text"?: string | null }[] | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "text"?: string | null }[] | null;
 }
 
 export type ZoneLayoutFeatureGridBlock = ZoneLayoutFeatureGridV1Block;
@@ -703,10 +741,27 @@ export interface ZoneLayoutTabsMediaV1Block {
   "highlight"?: string | null;
   "subtitle"?: string | null;
   "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
-  "tabs"?: { "label": string; "title"?: string | null; "body"?: string | null }[] | null;
+  "image_side"?: "izquierda" | "derecha" | null;
+  "tabs"?: { "label": string; "title"?: string | null; "body"?: string | null; "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null }[] | null;
 }
 
 export type ZoneLayoutTabsMediaBlock = ZoneLayoutTabsMediaV1Block;
+
+export interface ZoneLayoutAccordionV1Block {
+  _type: "accordion";
+  _version: 1;
+  _key: string;
+  "eyebrow"?: string | null;
+  "title": string;
+  "highlight"?: string | null;
+  "subtitle"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+  "image_side"?: "derecha" | "izquierda" | null;
+  "tone"?: "claro" | "arena" | "bruma" | null;
+  "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "body": string }[] | null;
+}
+
+export type ZoneLayoutAccordionBlock = ZoneLayoutAccordionV1Block;
 
 export interface ZoneLayoutPricingV1Block {
   _type: "pricing";
@@ -843,7 +898,7 @@ export interface ZoneLayoutRichTextV1Block {
 
 export type ZoneLayoutRichTextBlock = ZoneLayoutRichTextV1Block;
 
-export type ZoneLayoutBlock = ZoneLayoutHeroBlock | ZoneLayoutTrustBarBlock | ZoneLayoutServicesGridBlock | ZoneLayoutCardCarouselBlock | ZoneLayoutStepsBlock | ZoneLayoutFeatureGridBlock | ZoneLayoutMediaTextBlock | ZoneLayoutTabsMediaBlock | ZoneLayoutPricingBlock | ZoneLayoutZonesGridBlock | ZoneLayoutComparisonBlock | ZoneLayoutTestimonialsBlock | ZoneLayoutStatsBlock | ZoneLayoutFaqBlock | ZoneLayoutCtaBandBlock | ZoneLayoutLeadFormBlock | ZoneLayoutBlogLatestBlock | ZoneLayoutRichTextBlock;
+export type ZoneLayoutBlock = ZoneLayoutHeroBlock | ZoneLayoutTrustBarBlock | ZoneLayoutServicesGridBlock | ZoneLayoutCardCarouselBlock | ZoneLayoutStepsBlock | ZoneLayoutFeatureGridBlock | ZoneLayoutMediaTextBlock | ZoneLayoutTabsMediaBlock | ZoneLayoutAccordionBlock | ZoneLayoutPricingBlock | ZoneLayoutZonesGridBlock | ZoneLayoutComparisonBlock | ZoneLayoutTestimonialsBlock | ZoneLayoutStatsBlock | ZoneLayoutFaqBlock | ZoneLayoutCtaBandBlock | ZoneLayoutLeadFormBlock | ZoneLayoutBlogLatestBlock | ZoneLayoutRichTextBlock;
 
 export interface Zone {
   id: string;
@@ -858,6 +913,7 @@ export interface Zone {
   excerpt?: string;
   hero_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   intro?: PortableTextBlock[];
+  hero_image_side?: "derecha" | "izquierda";
   landmarks?: { "name": string; "kind"?: "clinica" | "hospital" | "parque" | "centro-comercial" | "otro" | null; "note"?: string | null }[];
   layout?: ZoneLayoutBlock[];
   faqs?: { "question": string; "answer": string }[];
