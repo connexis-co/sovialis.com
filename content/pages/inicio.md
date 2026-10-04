@@ -2,7 +2,7 @@
 slug: inicio
 status: published
 title: Cuidado del adulto mayor a domicilio en Bogotá
-summary: "Cuidado del adulto mayor a domicilio en Bogotá: cuidadoras y personal verificado por horas, de día, de noche o 24 horas en el norte de la ciudad."
+summary: "Cuidado del adulto mayor a domicilio en Bogotá: cuidadoras y personal verificado por horas, de día, de noche o 24 horas en el norte de la ciudad y sectores cercanos."
 seo:
   title: Cuidado del adulto mayor a domicilio en Bogotá | Sovialis
   description: "Cuidado del adulto mayor a domicilio en Bogotá: cuidadoras verificadas por horas, de día, de noche o 24 h en el norte. Cotiza hoy por WhatsApp."
@@ -13,7 +13,7 @@ faqs:
   - question: ¿Sovialis presta servicios de enfermería o procedimientos médicos?
     answer: "No. Sovialis no es una IPS y su personal no aplica inyecciones ni insulina, no hace curaciones ni maneja sondas u oxígeno. Si tu familiar necesita alguno de esos procedimientos, te orientamos para pedirlo a tu EPS o a una IPS habilitada, con la que contratas directamente. Quien lo cuida sí puede acompañarlo durante esa atención."
   - question: ¿En qué zonas de Bogotá atienden?
-    answer: "Atendemos principalmente el norte y el noroccidente de Bogotá: Usaquén, Chapinero, Suba y sus barrios, como Cedritos, El Chicó o Niza. Como la disponibilidad cambia según el sector y el horario, confirmamos la cobertura de tu dirección al cotizar, antes de que pagues."
+    answer: "Atendemos principalmente el norte y el noroccidente de Bogotá: Usaquén, Chapinero, Suba y sus barrios, como Cedritos, El Chicó o Niza. También llegamos al occidente cercano, en Teusaquillo, Barrios Unidos, Engativá y Fontibón. Como la disponibilidad cambia según el sector y el horario, confirmamos la cobertura de tu dirección al cotizar, antes de que pagues."
   - question: ¿Cómo se paga el servicio?
     answer: "Por anticipado: antes de cada servicio o de forma semanal, quincenal o mensual, según tu contrato. El pago se hace solo a la cuenta de Sovialis; el dinero que le entregues directamente a la persona que cuida no cuenta como pago del servicio."
   - question: ¿Qué pasa si la persona que cuida no puede llegar?
@@ -74,7 +74,7 @@ layout:
     body: |
       Sovialis es una empresa de Bogotá que presta cuidado no sanitario a domicilio para personas mayores, con cuidadoras y personal con formación de auxiliar de enfermería. Como agencia de cuidado de personas mayores, verificamos a cada persona antes de presentarla, acordamos contigo lo que tu familiar necesita y coordinamos el servicio día a día.
 
-      Puedes contar con una [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/) para la compañía, la higiene y las comidas, o con [personal con formación de auxiliar](/servicios/auxiliar-de-enfermeria/) si prefieres que quien cuida tenga formación técnica y registro en el ReTHUS. Antes de firmar te explicamos [cómo funciona el servicio](/como-funciona/) y confirmamos que tu dirección esté en nuestras [zonas de cobertura en el norte de Bogotá](/zonas/).
+      Puedes contar con una [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/) para la compañía, la higiene y las comidas, o con [personal con formación de auxiliar](/servicios/auxiliar-de-enfermeria/) si prefieres que quien cuida tenga formación técnica y registro en el ReTHUS. Antes de firmar te explicamos [cómo funciona el servicio](/como-funciona/) y confirmamos que tu dirección esté en nuestras [zonas de cobertura en el norte de Bogotá](/zonas/) o en los sectores cercanos que atendemos.
     bullets: |
       Un plan de cuidado escrito, acordado con tu familia
       Relevos coordinados cuando quien cuida no puede llegar
@@ -133,8 +133,8 @@ layout:
         title: Seguimiento con la familia
         text: Actualizamos el plan cuando cambian sus rutinas o lo que necesita.
       - icon: ubicacion
-        title: Cobertura en el norte
-        text: Usaquén, Chapinero, Suba y sus barrios.
+        title: Cobertura en el norte y alrededores
+        text: Usaquén, Chapinero, Suba, Teusaquillo, Barrios Unidos, Engativá, Fontibón y sus barrios.
       - icon: documento
         title: Condiciones claras
         text: Cancelaciones y reemplazos por escrito. Puedes terminar cuando quieras, con el preaviso pactado.
@@ -177,7 +177,7 @@ layout:
     eyebrow: Cobertura
     title: Cobertura en el norte de Bogotá
     highlight: norte de Bogotá
-    subtitle: Coordinamos cuidadores de adultos mayores a domicilio en el norte y el noroccidente de la ciudad. Busca tu barrio o tu localidad.
+    subtitle: Coordinamos cuidadores de adultos mayores a domicilio en el norte, el noroccidente y el occidente cercano de la ciudad. Busca tu barrio o tu localidad.
     note: "¿No ves tu barrio? Escríbenos por WhatsApp y confirmamos la cobertura de tu dirección."
 
   - _type: cta_band

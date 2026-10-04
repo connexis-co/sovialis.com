@@ -62,14 +62,14 @@ layout:
         text: Atendemos en el horario que aparece junto al formulario. Lo que nos escribas fuera de él lo respondemos en cuanto abramos.
       - icon: ubicacion
         title: Cobertura
-        text: Norte y noroccidente de Bogotá. Confirmamos la cobertura de tu dirección antes de cotizar.
+        text: Norte, noroccidente y occidente cercano de Bogotá. Confirmamos la cobertura de tu dirección antes de cotizar.
 
   - _type: rich_text
     width: lectura
     body: |
       ## Dirección y zonas de servicio
 
-      No necesitas desplazarte: la cotización, el contrato y el seguimiento se hacen por WhatsApp, por teléfono o por correo, y el cuidado se presta en tu casa. Atendemos principalmente Usaquén, Chapinero, Suba y sus barrios. Revisa las [zonas de servicio](/zonas/) y, si no ves tu barrio, escríbenos. Antes de hacerlo también puedes [consultar las tarifas](/precios/) de referencia.
+      No necesitas desplazarte: la cotización, el contrato y el seguimiento se hacen por WhatsApp, por teléfono o por correo, y el cuidado se presta en tu casa. Atendemos principalmente Usaquén, Chapinero, Suba y sus barrios, y también Teusaquillo, Barrios Unidos, Engativá y Fontibón. Revisa las [zonas de servicio](/zonas/) y, si no ves tu barrio, escríbenos. Antes de hacerlo también puedes [consultar las tarifas](/precios/) de referencia.
 
       Si quieres saber [qué pasa después de escribirnos](/como-funciona/), te lo contamos paso a paso: cotización con precio final, plan de cuidado y presentación de la persona verificada.
 

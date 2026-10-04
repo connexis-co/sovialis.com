@@ -72,8 +72,8 @@ layout:
         title: Citas a primera hora
         text: Para un control temprano en la Santa Fe o en la Reina Sofía, la cuidadora llega con margen para alistar a tu familiar sin afán.
       - icon: ubicacion
-        title: Toberín y la Calle 170
-        text: En el norte de la localidad, LaCardio y el Hospital Simón Bolívar son las referencias más cercanas. Confirmamos la hora de llegada al cotizar.
+        title: El norte de la localidad
+        text: Hacia el norte de Usaquén, LaCardio y el Hospital Simón Bolívar son las referencias más cercanas. Confirmamos la hora de llegada al cotizar.
   - _type: comparison
     eyebrow: Antes de decidir
     title: ¿Hogar geriátrico en Usaquén o cuidado en casa?
@@ -102,15 +102,15 @@ layout:
         b: Depende de cada hogar
 faqs:
   - question: ¿Atienden en Santa Ana, La Calleja y el Country?
-    answer: Sí. Santa Ana, La Calleja y el Country hacen parte de nuestra cobertura en Usaquén, igual que Bella Suiza, San Patricio y Santa Bárbara. Al cotizar nos das la dirección y el horario que necesitas, y te confirmamos si hay una persona disponible para llegar a tiempo. Si la casa queda en una calle con pendiente o en un conjunto con portería, cuéntanos para planear la llegada.
+    answer: Sí. Santa Ana, La Calleja y el Country hacen parte de nuestra cobertura en Usaquén, igual que Bella Suiza y San Patricio. Al cotizar nos das la dirección y el horario que necesitas, y te confirmamos si hay una persona disponible para llegar a tiempo. Si la casa queda en una calle con pendiente o en un conjunto con portería, cuéntanos para planear la llegada.
   - question: ¿Pueden acompañar a mi familiar a la Fundación Santa Fe o a la Clínica Reina Sofía?
     answer: Sí. Acompañamos citas, exámenes y hospitalizaciones en la Fundación Santa Fe, la Clínica Reina Sofía y las demás clínicas de Usaquén, de día o de noche, siempre bajo las normas de acompañantes de cada institución. La cuidadora ayuda con el traslado, la espera y las indicaciones del equipo médico. Sovialis no tiene vínculo con estas instituciones.
   - question: ¿La cuidadora puede acompañar a mi familiar al mercado de pulgas de Usaquén?
     answer: Sí, como salida acompañada, si tu familiar camina con seguridad. Elegimos la hora con menos gente, por lo general temprano, hacemos pausas en la plaza y dejamos previsto el regreso en taxi si se cansa. Conviene llevar saco y paraguas, porque en Bogotá el tiempo cambia rápido. Ten en cuenta que los domingos y festivos tienen recargo.
   - question: ¿Cómo manejan las casas con escaleras o pendientes cerca de los cerros?
     answer: Antes de empezar revisamos contigo los puntos de riesgo, como escaleras, desniveles en la entrada, andenes empinados y baños sin barras. La cuidadora asiste a tu familiar en cada desplazamiento dentro y fuera de la casa. Si hace falta, te sugerimos adaptaciones sencillas, como pasamanos, barras en la ducha o luz nocturna, y organizamos la rutina para reducir subidas y bajadas.
-  - question: ¿Cubren Toberín y los barrios cercanos a la Calle 170?
-    answer: Sí, también atendemos Toberín y los sectores cercanos a la Calle 170, en el norte de Usaquén. Desde allí, LaCardio y el Hospital Simón Bolívar son las instituciones de referencia más cercanas para citas u hospitalizaciones. Consulta tu dirección al cotizar y te confirmamos la disponibilidad de personal para tu horario antes de enviarte el valor.
+  - question: ¿Cómo llega la cuidadora a Santa Ana o al sector fundacional un domingo de ciclovía?
+    answer: Los domingos y festivos la Séptima tiene ciclovía de 7:00 a. m. a 2:00 p. m., así que fijamos la llegada por la Novena o por las calles que suben desde la Autopista, con unos minutos de margen. Si el turno empieza temprano, te confirmamos la hora por escrito el día anterior. Ten en cuenta que los domingos y festivos tienen recargo.
 ---
 
 El **cuidado del adulto mayor en Usaquén** empieza por conocer la localidad: casas antiguas alrededor de la plaza fundacional, calles que suben hacia los cerros en Santa Ana y edificios con portería entre la Calle 116 y la 127. En Sovialis coordinamos cuidadoras independientes y personas con formación de auxiliar de enfermería, todas verificadas, que acompañan a tu familiar en su casa por horas, en turnos de día o de noche, o las 24 horas.
@@ -123,7 +123,7 @@ En Usaquén la logística pesa. La Séptima se congestiona en las horas pico y l
 
 ## Barrios de Usaquén donde atendemos
 
-Atendemos en el sector fundacional, Santa Ana, La Calleja, Country Club, Bella Suiza, San Patricio, Santa Bárbara y Toberín, hacia la Calle 170. Para una cuidadora en Usaquén, el barrio cambia la logística: no es lo mismo llegar a una casa en pendiente en Santa Ana que a un edificio con portería en Bella Suiza.
+Atendemos en el sector fundacional, Santa Ana, La Calleja, Country Club, Bella Suiza y San Patricio. [Santa Bárbara](/zonas/santa-barbara/), alrededor de Unicentro, y Toberín, en el sector de la [Calle 170](/zonas/calle-170/), tienen su propia página. Para una cuidadora en Usaquén, el barrio cambia la logística: no es lo mismo llegar a una casa en pendiente en Santa Ana que a un edificio con portería en Bella Suiza.
 
 Si tu familiar vive alrededor de las calles 140 y 147, mira la página de [Cedritos](/zonas/cedritos/). Al sur de la Calle 100, en la localidad de Chapinero, queda [El Chicó](/zonas/chico/). En el mapa de [zonas de cobertura](/zonas/) están todos los barrios; si no ves el tuyo, escríbenos y confirmamos la cobertura de tu dirección antes de cotizar.
 

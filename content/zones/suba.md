@@ -106,8 +106,8 @@ faqs:
     answer: En la mayoría de los casos, sí. Para direcciones alejadas de la Avenida Suba o de la Avenida Boyacá confirmamos los tiempos de llegada y cómo se harían los reemplazos antes de cotizar, para no prometerte un horario que no podamos cumplir. Si la dirección queda fuera de la cobertura, te lo decimos de una vez.
   - question: ¿Acompañan terapias o citas en la Clínica Juan N. Corpas?
     answer: Sí. Acompañamos el traslado, la espera y la consulta o la terapia en la Clínica Juan N. Corpas, con el transporte que disponga la familia. La cuidadora anota las indicaciones del profesional para que las tengas por escrito y, si dejan ejercicios para la casa, ayuda a tu familiar a recordarlos, sin reemplazar al terapeuta.
-  - question: ¿La cobertura incluye Mazurén, Colina Campestre y San José de Bavaria?
-    answer: Sí, esos sectores hacen parte de nuestra cobertura en Suba, tanto en casas como en conjuntos cerrados. La Clínica La Colina, sobre la Avenida Boyacá con Calle 167, es una referencia cercana para citas u hospitalizaciones. Consulta tu dirección al cotizar y te confirmamos la disponibilidad de personal en tu horario.
+  - question: ¿La cuidadora puede llevar a mi familiar al Parque Mirador de los Nevados?
+    answer: Sí, como salida acompañada, si tu familiar camina con seguridad. El parque queda a pocas cuadras de la plaza fundacional de Suba; elegimos un recorrido corto, con pausas y bancas para descansar, y una mañana despejada para que pueda ver los nevados. Llevamos abrigo y paraguas, porque en Bogotá el clima cambia rápido, y dejamos previsto el regreso en taxi.
 ---
 
 El **cuidado del adulto mayor en Suba** depende mucho de la dirección. La localidad es grande y mezcla conjuntos cerrados de casas y edificios, casas de dos y tres pisos con escaleras internas y sectores en ladera, como Colina Campestre. Por eso, antes de cotizar confirmamos cuánto tarda en llegar la persona y cómo se organizan los relevos. Sovialis coordina cuidadoras y personas con formación de auxiliar de enfermería, seleccionadas tras verificar referencias y antecedentes, que acompañan a tu familiar por horas, en turnos o las 24 horas.
@@ -122,7 +122,7 @@ Con el visto bueno de la familia acordamos un plan de cuidado por escrito: horar
 
 Atendemos sobre todo en el oriente de la localidad: Pasadena, Puente Largo, La Alhambra, Batán, Prado Veraniego, Mazurén, Colina Campestre y San José de Bavaria, además de otros sectores de Suba según la disponibilidad de personal. Si buscas cuidado del adulto mayor en Pasadena o en Puente Largo, estás dentro de nuestra zona principal; para direcciones más al occidente, revisamos tiempos de llegada antes de cotizar.
 
-Los barrios alrededor del Humedal de Córdoba tienen su propia página: [Niza](/zonas/niza/). Al otro lado de la Autopista Norte está [Usaquén](/zonas/usaquen/). Revisa el mapa en [zonas de cobertura](/zonas/) o escríbenos la dirección para confirmar la cobertura.
+Los barrios alrededor del Humedal de Córdoba tienen su propia página: [Niza](/zonas/niza/). También la tienen [Colina Campestre](/zonas/colina-campestre/), con Mazurén e Iberia, y Britalia y Villa del Prado, en el sector de la [Calle 170](/zonas/calle-170/). Al otro lado de la Autopista Norte está [Usaquén](/zonas/usaquen/). Revisa el mapa en [zonas de cobertura](/zonas/) o escríbenos la dirección para confirmar la cobertura.
 
 ## Servicios disponibles en Suba
 

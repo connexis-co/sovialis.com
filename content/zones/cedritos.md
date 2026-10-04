@@ -18,7 +18,7 @@ hero_image:
 landmarks:
   - name: Clínica Reina Sofía
     kind: clinica
-    note: "Avenida Calle 127 # 20-78, al sur de Cedritos por la Avenida 19."
+    note: "Avenida Calle 127 # 20-78, a pocas cuadras de Cedritos por la Avenida 19."
   - name: LaCardio (Fundación Cardioinfantil)
     kind: hospital
     note: "Calle 163A # 13B-60, al norte de Cedritos."

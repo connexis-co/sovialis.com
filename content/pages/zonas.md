@@ -1,19 +1,19 @@
 ---
 slug: zonas
 status: published
-title: Zonas de cobertura en el norte de Bogotá
-summary: Cuidado del adulto mayor en el norte de Bogotá. Atendemos Usaquén, Chapinero y Suba, con barrios como Cedritos, el Chicó y Niza. Busca tu barrio, mira las clínicas cercanas y confirma tu dirección.
+title: Zonas de cobertura en el norte, noroccidente y occidente cercano de Bogotá
+summary: Cuidado del adulto mayor en el norte de Bogotá y sus alrededores. Atendemos Usaquén, Chapinero y Suba, con barrios como Cedritos, el Chicó y Niza, y también Teusaquillo, Barrios Unidos, Engativá y Fontibón. Busca tu barrio, mira las clínicas cercanas y confirma tu dirección.
 seo:
   title: Cuidado del adulto mayor en el norte de Bogotá | Sovialis
-  description: "Cuidado del adulto mayor en el norte de Bogotá: Usaquén, Chapinero, Suba, Cedritos, el Chicó y Niza. Confirma la cobertura de tu dirección por WhatsApp."
+  description: "Cuidado del adulto mayor en el norte de Bogotá y sectores cercanos: Usaquén, Chapinero, Suba, Teusaquillo, Engativá y Fontibón. Confirma tu dirección."
 focus_keyword: cuidado adulto mayor norte de bogotá
 layout:
   - _type: hero
     variant: dividido
     eyebrow: Cuidado del adulto mayor en el norte de Bogotá
-    title: Zonas de cobertura en el norte de Bogotá
-    highlight: norte de Bogotá
-    subtitle: Coordinamos cuidadoras y personal con formación de auxiliar de enfermería en Usaquén, Chapinero y Suba. Busca tu barrio, mira las clínicas cercanas y confirma la cobertura de tu dirección antes de cotizar.
+    title: Zonas de cobertura en el norte, noroccidente y occidente cercano de Bogotá
+    highlight: norte
+    subtitle: Coordinamos cuidadoras y personal con formación de auxiliar de enfermería en Usaquén, Chapinero y Suba, y también en Teusaquillo, Barrios Unidos, Engativá y Fontibón. Busca tu barrio, mira las clínicas cercanas y confirma la cobertura de tu dirección antes de cotizar.
     image:
       media: zona-norte
       alt: Calles arboladas y edificios residenciales del norte de Bogotá con los cerros orientales al fondo
@@ -22,21 +22,23 @@ layout:
     secondary_label: Escríbenos por WhatsApp
     secondary_action: whatsapp
     badges: |
-      Usaquén, Chapinero y Suba
+      Norte, noroccidente y occidente cercano
       Sin recargo por desplazamiento dentro de la cobertura
       Reemplazo en el plazo acordado
   - _type: rich_text
     width: lectura
     body: |
-      En Sovialis concentramos el **cuidado del adulto mayor en el norte de Bogotá**. Coordinamos cuidadoras independientes y personal con formación de auxiliar, todas personas verificadas, que acompañan a tu familiar en su casa por horas, en turnos de día o de noche, o las 24 horas.
+      En Sovialis concentramos el **cuidado del adulto mayor en el norte de Bogotá** y en los sectores vecinos del noroccidente y el occidente cercano. Coordinamos cuidadoras independientes y personal con formación de auxiliar, todas personas verificadas, que acompañan a tu familiar en su casa por horas, en turnos de día o de noche, o las 24 horas.
 
-      Atendemos en [Usaquén](/zonas/usaquen/) y [Cedritos](/zonas/cedritos/); en [Chapinero](/zonas/chapinero/) y [El Chicó](/zonas/chico/), y en [Suba](/zonas/suba/) y [Niza](/zonas/niza/), además de otros barrios del norte y el noroccidente según la disponibilidad de personal. Si buscas una cuidadora en la zona norte o cuidado de personas mayores cerca de ti, empieza por tu barrio: cada página explica cómo trabajamos allí, qué clínicas quedan cerca y cómo es la vivienda típica. No es lo mismo cuidar en una casa de dos pisos en Niza que en un apartamento con ascensor en el Chicó.
+      En el norte atendemos [Usaquén](/zonas/usaquen/), con [Cedritos](/zonas/cedritos/), [Santa Bárbara](/zonas/santa-barbara/) y el sector de la [Calle 170](/zonas/calle-170/); [Chapinero](/zonas/chapinero/) y [El Chicó](/zonas/chico/), y [Suba](/zonas/suba/), con [Niza](/zonas/niza/) y [Colina Campestre](/zonas/colina-campestre/). Más cerca del centro y hacia el occidente también llegamos a [Teusaquillo](/zonas/teusaquillo/), [Barrios Unidos](/zonas/barrios-unidos/), [Engativá](/zonas/engativa/) y [Fontibón](/zonas/fontibon/), con barrios como Galerías, Polo Club, Normandía o Modelia.
+
+      Si buscas una cuidadora en la zona norte o cuidado de personas mayores cerca de ti, empieza por tu barrio: cada página explica cómo trabajamos allí, qué clínicas quedan cerca y cómo es la vivienda típica. No es lo mismo cuidar en una casa de dos pisos en Niza o en Normandía que en un apartamento con ascensor en el Chicó.
   - _type: zones_grid
     eyebrow: Mapa de cobertura
     title: Localidades y barrios donde atendemos
     highlight: donde atendemos
     subtitle: Busca tu barrio o ubícalo en el mapa. Cada zona tiene su página con los barrios que cubrimos, las clínicas de referencia y las preguntas frecuentes de las familias.
-    note: ¿No ves tu barrio? Escríbenos la dirección. Según la disponibilidad de personal, también atendemos otros sectores del norte, el noroccidente y algunos municipios de la Sabana.
+    note: ¿No ves tu barrio? Escríbenos la dirección. Según la disponibilidad de personal, también atendemos otros sectores del norte, el noroccidente, el occidente cercano y algunos municipios de la Sabana.
   - _type: feature_grid
     eyebrow: Antes de cotizar
     title: Cómo confirmamos la cobertura de tu dirección
@@ -65,7 +67,7 @@ layout:
         text: Si alguien no puede asistir, hacemos el reemplazo en el plazo acordado y sin cobro del tiempo no prestado.
   - _type: media_text
     eyebrow: Citas y hospitalizaciones
-    title: Clínicas y hospitales de referencia en el norte de Bogotá
+    title: Clínicas y hospitales de referencia en el norte de Bogotá y sus alrededores
     highlight: Clínicas y hospitales
     tone: claro
     image_side: derecha
@@ -73,7 +75,7 @@ layout:
       media: servicio-hospitalario
       alt: Acompañante sentada junto a la cama de una persona mayor en una habitación de clínica
     body: |
-      Acompañamos a tu familiar en citas, exámenes y hospitalizaciones en las instituciones de referencia del norte, de día o de noche, según las normas de acompañantes de cada una. La cuidadora ayuda con el traslado, la espera y las indicaciones para la familia. Conoce cómo funciona el [acompañamiento en clínicas del norte](/servicios/acompanamiento-hospitalario/).
+      Acompañamos a tu familiar en citas, exámenes y hospitalizaciones en las instituciones de referencia de cada zona, de día o de noche, según las normas de acompañantes de cada una. La cuidadora ayuda con el traslado, la espera y las indicaciones para la familia. Conoce cómo funciona el [acompañamiento en clínicas del norte](/servicios/acompanamiento-hospitalario/).
 
       Sovialis no tiene vínculo con estas instituciones: la atención médica la da su equipo de salud y nosotros acompañamos.
     bullets: |
@@ -82,6 +84,9 @@ layout:
       Hospital Universitario San Ignacio y Clínica de Marly, en Chapinero
       Clínica del Country, junto al Chicó
       Fundación Clínica Shaio, Clínica La Colina y Clínica Juan N. Corpas, en Suba
+      Clínica Palermo y Hospital Universitario Nacional, en Teusaquillo
+      Méderi Hospital Universitario Barrios Unidos y Clínica Los Nogales, junto a La Castellana
+      Clínica Universitaria Colombia, en Ciudad Salitre, cerca de Engativá y Fontibón
   - _type: media_text
     eyebrow: Antes de decidir
     title: ¿Hogar geriátrico en el norte o cuidado en casa?
@@ -104,13 +109,13 @@ layout:
     eyebrow: En toda la cobertura
     title: Servicios de cuidado en casa
     highlight: en casa
-    subtitle: Los mismos servicios y las mismas tarifas de referencia en Usaquén, Chapinero y Suba.
+    subtitle: Los mismos servicios y las mismas tarifas de referencia en todas las zonas de cobertura.
     mode: destacados
     limit: 6
     style: tarjetas-foto
   - _type: cta_band
     variant: imagen
-    eyebrow: Cobertura en el norte de Bogotá
+    eyebrow: Norte, noroccidente y occidente cercano
     title: Consulta la cobertura de tu dirección
     highlight: tu dirección
     text: Escríbenos el barrio y el horario que necesitas. Te confirmamos si hay personal disponible y te enviamos la cotización por escrito.
@@ -131,5 +136,5 @@ faqs:
   - question: ¿Pueden llegar a conjuntos con portería que exigen registro previo?
     answer: Sí. Danos con anticipación los datos que pide la administración y registramos a la persona que cuidará a tu familiar para que su ingreso sea ágil. Si hay relevos, registramos también a quien cubre el turno siguiente. Así evitamos demoras en la portería, sobre todo en los turnos que empiezan muy temprano o en la noche.
   - question: ¿Por qué se enfocan en el norte de Bogotá?
-    answer: Concentrar el servicio en el norte y el noroccidente nos permite llegar más rápido, organizar reemplazos con agilidad y contar con personal que conoce las clínicas de la zona, como la Fundación Santa Fe, la Clínica del Country o la Shaio. Preferimos atender bien un territorio que conocemos a prometer cobertura en toda la ciudad.
+    answer: El norte de Bogotá es nuestra zona principal, y también atendemos los sectores vecinos del noroccidente y el occidente cercano, como Teusaquillo, Barrios Unidos, Engativá y Fontibón. Trabajar en zonas definidas nos permite llegar a tiempo, organizar reemplazos con agilidad y conocer las clínicas de cada sector. Preferimos atender bien un territorio que conocemos a prometer cobertura en toda la ciudad.
 ---
