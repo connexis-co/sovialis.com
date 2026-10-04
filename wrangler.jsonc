@@ -26,10 +26,16 @@
     {
       "binding": "MEDIA",
       "bucket_name": "sovialis-web-media"
+    },
+    // Sesiones de Astro/EmDash en R2 (1 M escrituras/mes gratis; KV solo admite 1.000 al día).
+    // Se llama SESSION a propósito: el adaptador de Cloudflare inyecta env.SESSION como almacén de
+    // sesiones. El bucket expira objetos a los 30 días (regla «expirar-sesiones»).
+    {
+      "binding": "SESSION",
+      "bucket_name": "sovialis-web-sessions"
     }
   ],
   "kv_namespaces": [
-    { "binding": "SESSION", "id": "dae5053ae0e34c90955aa5784c99530d" },
     { "binding": "CACHE", "id": "9eef230f0b144e8d88bde3d200062e02" }
   ],
   // Correo saliente de Cloudflare (Email Routing / Email Service). Con Email Routing solo entrega a

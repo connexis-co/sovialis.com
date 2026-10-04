@@ -39,6 +39,12 @@ if (isLocal) {
 
 async function api(path, { method = "GET", json } = {}) {
 	const res = await fetch(BASE + path, { method, headers: { ...headers, ...(json ? { "Content-Type": "application/json" } : {}) }, body: json ? JSON.stringify(json) : undefined });
+	// Reutiliza la sesión de la primera respuesta: una sola sesión por ejecución.
+	for (const c of res.headers.getSetCookie?.() ?? []) {
+		const jar = new Map((headers.Cookie ?? "").split("; ").filter(Boolean).map((x) => [x.split("=")[0], x]));
+		jar.set(c.split("=")[0], c.split(";")[0]);
+		headers.Cookie = [...jar.values()].join("; ");
+	}
 	const body = await res.json().catch(() => ({}));
 	if (res.status === 404) return null;
 	if (!res.ok || body?.success === false) throw new Error(`${method} ${path} → ${res.status} ${JSON.stringify(body?.error ?? body).slice(0, 500)}`);

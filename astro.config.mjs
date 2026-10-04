@@ -5,7 +5,7 @@ import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { d1, r2 } from "@emdash-cms/cloudflare";
-import { defineConfig } from "astro/config";
+import { defineConfig, sessionDrivers } from "astro/config";
 import emdash from "emdash/astro";
 
 const site = process.env.SITE_URL || "https://sovialis.com";
@@ -51,6 +51,9 @@ function trimAdminLocales(keep = ["es-419", "es-ES", "en"], fallback = "es-419")
 export default defineConfig({
 	site,
 	output: "server",
+	// Sesiones en R2 en vez de KV: el plan gratuito de KV solo admite 1.000 escrituras al día y cada
+	// inicio de sesión del panel o de la automatización escribe una.
+	session: { driver: sessionDrivers.cloudflareR2Binding({ binding: "SESSION" }) },
 	trailingSlash: "ignore",
 	adapter: cloudflare({ imageService: "passthrough" }),
 	integrations: [

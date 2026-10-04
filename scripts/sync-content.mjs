@@ -55,6 +55,13 @@ async function api(path, { method = "GET", json, form } = {}) {
 		body: json ? JSON.stringify(json) : form,
 		signal: AbortSignal.timeout(120_000),
 	});
+	// Reutiliza la sesión que abre la primera llamada (si no, cada petición crearía una sesión nueva).
+	const setCookies = res.headers.getSetCookie?.() ?? [];
+	if (setCookies.length) {
+		const jar = new Map((headers.Cookie ?? "").split("; ").filter(Boolean).map((c) => [c.split("=")[0], c]));
+		for (const c of setCookies) jar.set(c.split("=")[0], c.split(";")[0]);
+		headers.Cookie = [...jar.values()].join("; ");
+	}
 	const text = await res.text();
 	let body;
 	try {
