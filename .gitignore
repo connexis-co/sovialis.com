@@ -42,7 +42,7 @@ npm-debug.log*
 # Sovialis
 .dev.vars*
 !.dev.vars.example
-graphify-out/cache/
+graphify-out/
 scripts/.cache/
 public/_generated/
 *.local.json
