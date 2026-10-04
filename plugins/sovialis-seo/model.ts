@@ -34,6 +34,8 @@ export interface BusinessSettings {
 export interface SeoSettings {
 	business: BusinessSettings;
 	ratingsInSchema: boolean;
+	/** Además de Service, marca cada servicio como Product (schema.org: «cualquier producto o servicio ofrecido»): precio desde, disponibilidad y estrellas reales en Google. */
+	productSchema: boolean;
 	ratingsMinVotes: number;
 	llmsIntro: string;
 	llmsNotes: string;
@@ -79,6 +81,7 @@ export const DEFAULT_SEO: SeoSettings = {
 		verified: false,
 	},
 	ratingsInSchema: true,
+	productSchema: true,
 	ratingsMinVotes: 3,
 	llmsIntro:
 		"Sovialis es una empresa de Bogotá (Colombia) que presta cuidado no sanitario a domicilio para personas mayores: cuidadoras y personal con formación de auxiliar de enfermería, por horas, en turnos de día o de noche y 24 horas con relevos, además de acompañamiento a citas médicas y en clínica. Atiende principalmente el norte y el noroccidente de Bogotá. No es una IPS: no presta servicios de salud ni procedimientos (inyecciones, insulina, curaciones, sondas, oxígeno); para eso orienta a las familias hacia su EPS o una IPS habilitada.",
@@ -135,6 +138,7 @@ export function validateSeo(input: unknown): SeoSettings {
 	return {
 		business,
 		ratingsInSchema: v.ratingsInSchema !== false,
+		productSchema: v.productSchema !== false,
 		ratingsMinVotes: Number.isInteger(min) && min >= 1 && min <= 100 ? min : 3,
 		llmsIntro: text(v.llmsIntro, 3000, "Introducción de llms.txt"),
 		llmsNotes: text(v.llmsNotes, 6000, "Datos clave de llms.txt"),

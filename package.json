@@ -27,7 +27,8 @@
     "deploy:secrets": "node scripts/deploy.mjs --secrets",
     "content:validate": "node scripts/validate-content.mjs",
     "schema:sync": "node scripts/sync-schema.mjs",
-    "map:build": "node scripts/build-map.mjs"
+    "map:build": "node scripts/build-map.mjs",
+    "og:build": "node scripts/build-og.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.3.3",
@@ -54,6 +55,7 @@
     "@cloudflare/workers-types": "5.20261002.1",
     "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.2.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "husky": "^9.1.7",

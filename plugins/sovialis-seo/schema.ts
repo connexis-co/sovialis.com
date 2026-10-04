@@ -20,7 +20,12 @@ export interface GraphInput {
 	author?: { name: string; slug: string; bio?: string | null; isTeam: boolean } | null;
 	rating?: { average: number; count: number } | null;
 	items?: Array<{ name: string; url: string }>;
+	/** Emitir también un nodo Product para cada servicio. */
+	product?: boolean;
 }
+
+/** URL pública de una imagen de EmDash guardada en la entrada (archivo en R2). */
+const mediaFile = (origin: string, img: any) => (img?.meta?.storageKey ? `${origin}/_emdash/api/media/file/${img.meta.storageKey}` : undefined);
 
 const abs = (origin: string, path: string | null | undefined) => (path ? new URL(path, origin).toString() : undefined);
 
@@ -158,8 +163,11 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 	}
 
 	const aggregateRating = input.rating
-		? { "@type": "AggregateRating", ratingValue: input.rating.average, ratingCount: input.rating.count, bestRating: 5, worstRating: 1 }
+		? { "@type": "AggregateRating", ratingValue: Math.round(input.rating.average * 10) / 10, ratingCount: input.rating.count, bestRating: 5, worstRating: 1 }
 		: undefined;
+	// Foto real primero (Google prefiere fotos sin texto) y la tarjeta OG de la página como segunda.
+	const images = [mediaFile(origin, data?.hero_image ?? data?.featured_image), input.image ?? undefined].filter(Boolean) as string[];
+	const priceValidUntil = `${new Date().getFullYear()}-12-31`;
 
 	if (input.collection === "services" && data) {
 		const price = typeof data.price_from === "number" ? data.price_from : null;
@@ -170,7 +178,7 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 			serviceType: data.service_type || data.short_title || data.title,
 			description: input.description,
 			url,
-			image: input.image ?? undefined,
+			image: images,
 			provider: { "@id": LB },
 			areaServed: b.areaServed.map((name) => ({ "@type": "Place", name })),
 			audience: { "@type": "PeopleAudience", audienceType: "Familias de personas mayores" },
@@ -187,12 +195,48 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 							valueAddedTaxIncluded: true,
 						},
 						availability: "https://schema.org/InStock",
-						url: `${origin}/precios/`,
+						priceValidUntil,
+						url,
+						seller: { "@id": ORG },
 					}
 				: undefined,
 			aggregateRating,
 		});
 		webPage.mainEntity = { "@id": `${url}#service` };
+		// schema.org define Product como «cualquier producto o servicio ofrecido»: con precio, disponibilidad
+		// y valoraciones reales de los visitantes, Google puede mostrar el resultado enriquecido.
+		if (input.product && price) {
+			graph.push({
+				"@type": "Product",
+				"@id": `${url}#product`,
+				name: data.title || data.short_title,
+				description: input.description,
+				image: images,
+				url,
+				sku: new URL(url).pathname.split("/").filter(Boolean).pop(),
+				category: "Cuidado del adulto mayor a domicilio",
+				brand: { "@type": "Brand", name: b.name },
+				isRelatedTo: { "@id": `${url}#service` },
+				offers: {
+					"@type": "Offer",
+					url,
+					priceCurrency: "COP",
+					price,
+					priceValidUntil,
+					availability: "https://schema.org/InStock",
+					seller: { "@id": ORG },
+					priceSpecification: {
+						"@type": "UnitPriceSpecification",
+						price,
+						priceCurrency: "COP",
+						unitText: data.price_unit || undefined,
+						valueAddedTaxIncluded: true,
+					},
+					areaServed: { "@type": "City", name: "Bogotá" },
+				},
+				aggregateRating,
+			});
+		}
 	}
 
 	if (input.collection === "zones" && data) {
@@ -228,7 +272,7 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 			"@id": `${url}#article`,
 			headline: input.title,
 			description: input.description,
-			image: input.image ?? undefined,
+			image: images,
 			url,
 			datePublished: input.published ?? undefined,
 			dateModified: input.modified ?? input.published ?? undefined,

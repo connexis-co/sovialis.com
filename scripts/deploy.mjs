@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Compila y despliega el Worker de producción.
- *   node scripts/deploy.mjs            # build + deploy
+ *   node scripts/deploy.mjs            # tarjetas OG + build + deploy
  *   node scripts/deploy.mjs --secrets  # además sube los secretos desde ~/.config/sovialis/web-secrets.env
  * Credenciales de Cloudflare: ~/.config/sovialis/cloudflare.env (fuera del repo).
  */
@@ -26,6 +26,12 @@ Object.assign(process.env, loadEnv(join(homedir(), ".config/sovialis/cloudflare.
 if (!process.env.CLOUDFLARE_API_TOKEN) throw new Error("Falta CLOUDFLARE_API_TOKEN (~/.config/sovialis/cloudflare.env).");
 
 run("npm run seed:build");
+// Tarjetas OG con el título, el precio y la foto actuales del panel. Si falla (sin red), se usan las anteriores.
+try {
+	run("node scripts/build-og.mjs");
+} catch {
+	console.warn("⚠ No se regeneraron las tarjetas OG; se publican las existentes.");
+}
 rmSync(join(root, "dist"), { recursive: true, force: true });
 run("npx astro build");
 // El adaptador copia .dev.vars al build: jamás debe subirse a producción.

@@ -1,7 +1,7 @@
 ---
 /**
  * Layout base: <head> con SEO de EmDash + plugins, cabecera, pie, menú móvil, modal de cotización,
- * barra fija móvil y scripts globales (todo sin frameworks).
+ * tarjeta Open Graph por página y scripts globales (todo sin frameworks).
  */
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
@@ -55,7 +55,16 @@ const separator = (settings as { seo?: { titleSeparator?: string } }).seo?.title
 const fullTitle = title.includes(site.name) ? title : `${title} ${separator} ${site.name}`;
 const origin = Astro.site?.origin ?? Astro.url.origin;
 const canonical = new URL(Astro.url.pathname, origin).toString();
-const imageAbs = image ? new URL(image, origin).toString() : new URL("/og/sovialis-og.jpg", origin).toString();
+// Tarjeta OG generada en el despliegue (scripts/build-og.mjs): servicios, zonas y guías tienen la suya
+// (con precio «desde» en servicios); el resto usa la general. Sin manifiesto, la imagen de la página.
+type OgCard = { src: string; alt: string; width: number; height: number };
+const ogManifest = (Object.values(import.meta.glob<{ default: Record<string, OgCard> }>("../data/og-manifest.json", { eager: true }))[0]?.default ?? {}) as Record<string, OgCard>;
+const ogCard = (content?.slug && content.collection !== "pages" ? ogManifest[`${content.collection}/${content.slug}`] : undefined) ?? ogManifest["pages/default"];
+const imageAbs = ogCard
+	? new URL(ogCard.src, origin).toString()
+	: image
+		? new URL(image, origin).toString()
+		: new URL("/og/sovialis-og.jpg", origin).toString();
 
 const pageCtx = createPublicPageContext({
 	Astro,
@@ -93,6 +102,17 @@ const pageCtx = createPublicPageContext({
 		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="alternate" type="application/rss+xml" title="Blog de Sovialis" href="/blog/rss.xml" />
 		<EmDashHead page={pageCtx} />
+		{
+			ogCard && (
+				<>
+					<meta property="og:image:type" content="image/jpeg" />
+					<meta property="og:image:width" content={String(ogCard.width)} />
+					<meta property="og:image:height" content={String(ogCard.height)} />
+					<meta property="og:image:alt" content={ogCard.alt} />
+					<meta name="twitter:image:alt" content={ogCard.alt} />
+				</>
+			)
+		}
 	</head>
 	<body class:list={["min-h-dvh bg-canvas text-ink antialiased", campaign && "is-campaign"]}>
 		<EmDashBodyStart page={pageCtx} />

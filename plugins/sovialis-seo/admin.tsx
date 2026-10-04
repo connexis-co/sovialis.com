@@ -68,7 +68,11 @@ function BusinessTab({ s, set }: { s: SeoSettings; set: (s: SeoSettings) => void
 			<h2 style={{ marginTop: 18 }}>Valoraciones del blog</h2>
 			<label className="check">
 				<input type="checkbox" checked={s.ratingsInSchema} onChange={(e) => set({ ...s, ratingsInSchema: e.target.checked })} />
-				Incluir el promedio de estrellas (aggregateRating) en el BlogPosting
+				Incluir el promedio real de estrellas (aggregateRating) en servicios, zonas y guías
+			</label>
+			<label className="check">
+				<input type="checkbox" checked={s.productSchema} onChange={(e) => set({ ...s, productSchema: e.target.checked })} />
+				Marcar cada servicio también como Product (precio desde, disponible y estrellas en Google)
 			</label>
 			<label style={{ maxWidth: 260, marginTop: 10 }}>
 				Mínimo de votos para publicarlo

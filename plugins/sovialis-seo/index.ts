@@ -87,6 +87,7 @@ export function createPlugin() {
 					author,
 					rating,
 					items,
+					product: settings.productSchema,
 				});
 				return [{ kind: "jsonld", id: "primary", graph }];
 			},
