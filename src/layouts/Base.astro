@@ -11,7 +11,6 @@ import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import MobileMenu from "../components/layout/MobileMenu.astro";
 import QuoteDialog from "../components/forms/QuoteDialog.astro";
-import StickyBar from "../components/layout/StickyBar.astro";
 import { getCatalog, getSiteData } from "../lib/site";
 
 export interface Crumb {
@@ -107,7 +106,6 @@ const pageCtx = createPublicPageContext({
 		<Footer site={site} services={catalog.services} zones={catalog.zones} />
 		<MobileMenu site={site} services={catalog.services} zones={catalog.zones} />
 		<QuoteDialog site={site} services={catalog.services} zones={catalog.zones} service={quoteService} zone={quoteZone} />
-		<StickyBar site={site} always={campaign} />
 		<EmDashBodyEnd page={pageCtx} />
 		<script>
 			import "../scripts/site";

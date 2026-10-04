@@ -1,7 +1,7 @@
 ---
 /**
  * Cabecera fija: barra superior opcional, logotipo, navegación con mega menús nativos (<details name>),
- * teléfono, WhatsApp y botón de cotización. En móvil: WhatsApp + «Menú». Landings de campaña: versión reducida.
+ * teléfono, WhatsApp y botón de cotización. En móvil: llamar + «Menú» (WhatsApp va en el botón flotante). Landings de campaña: versión reducida.
  */
 import Logo from "../ui/Logo.astro";
 import { icon } from "../../lib/icons";
@@ -174,12 +174,24 @@ const announcementRest = announcementTail.length ? ` · ${announcementTail.join(
 				data-cta="global:header-whatsapp"
 				target="_blank"
 				rel="noopener"
-				class="btn btn-whatsapp btn-sm !min-h-12 !px-3.5 sm:!px-4"
+				class="btn btn-whatsapp btn-sm hidden !min-h-12 !px-4 lg:inline-flex"
 				aria-label="Escríbenos por WhatsApp"
 			>
 				<Fragment set:html={icon("whatsapp", "size-6")} />
-				<span class="hidden sm:inline xl:inline lg:hidden">WhatsApp</span>
+				<span class="hidden xl:inline">WhatsApp</span>
 			</a>
+			{
+				!campaign && (
+					<a
+						href={telLink(site)}
+						class="grid size-11 place-items-center rounded-full border border-line text-primary transition-colors hover:border-primary lg:hidden"
+						data-cta="global:header-llamar-movil"
+						aria-label={`Llamar a Sovialis al ${site.phoneDisplay}`}
+					>
+						<Fragment set:html={icon("telefono", "size-5")} />
+					</a>
+				)
+			}
 			{
 				!campaign && (
 					<button type="button" class="btn btn-primary btn-sm hidden whitespace-nowrap lg:inline-flex" data-quote data-cta="global:header-cotizar">
@@ -191,7 +203,7 @@ const announcementRest = announcementTail.length ? ` · ${announcementTail.join(
 				!campaign && (
 					<button
 						type="button"
-						class="btn btn-outline btn-sm !min-h-12 lg:hidden"
+						class="btn btn-outline btn-sm !min-h-11 lg:hidden"
 						data-menu-open
 						aria-haspopup="dialog"
 						aria-expanded="false"

@@ -39,6 +39,12 @@ export interface WhatsAppSettings {
 	desktop: boolean;
 	animate: boolean;
 	color: string;
+	iconColor: string;
+	waveColor: string;
+	labelBg: string;
+	labelColor: string;
+	size: number;
+	mobileSize: number;
 	hiddenPaths: string[];
 	timezone: string;
 	weekdays: number[];
@@ -70,7 +76,7 @@ export interface ResolvedWhatsApp {
 
 export const DEFAULT_SETTINGS: WhatsAppSettings = {
 	enabled: true,
-	number: "573008921144",
+	number: "573117598641",
 	message: "Hola, quiero información sobre {titulo}. Lo vi en {url}",
 	label: "Escríbenos por WhatsApp",
 	labelMode: "intro",
@@ -81,10 +87,16 @@ export const DEFAULT_SETTINGS: WhatsAppSettings = {
 	y: 24,
 	showAfterScroll: 300,
 	delay: 0,
-	mobile: false,
+	mobile: true,
 	desktop: true,
 	animate: true,
 	color: "#25d366",
+	iconColor: "#ffffff",
+	waveColor: "#25d366",
+	labelBg: "#0b2a4e",
+	labelColor: "#ffffff",
+	size: 60,
+	mobileSize: 52,
 	hiddenPaths: ["/politica-de-tratamiento-de-datos/", "/terminos-y-condiciones/"],
 	timezone: "America/Bogota",
 	weekdays: [0, 1, 2, 3, 4, 5, 6],
@@ -145,6 +157,12 @@ export function validateSettings(input: unknown): WhatsAppSettings {
 		desktop: bool(v.desktop, d.desktop),
 		animate: bool(v.animate, d.animate),
 		color: boundedText(v.color, "Color", 7) || d.color,
+		iconColor: boundedText(v.iconColor, "Color del ícono", 7) || d.iconColor,
+		waveColor: boundedText(v.waveColor, "Color de las ondas", 7) || d.waveColor,
+		labelBg: boundedText(v.labelBg, "Fondo de la etiqueta", 7) || d.labelBg,
+		labelColor: boundedText(v.labelColor, "Texto de la etiqueta", 7) || d.labelColor,
+		size: integer(v.size ?? d.size, "Tamaño en escritorio", 44, 80),
+		mobileSize: integer(v.mobileSize ?? d.mobileSize, "Tamaño en móvil", 40, 72),
 		hiddenPaths: strings(v.hiddenPaths, "Rutas ocultas"),
 		timezone: boundedText(v.timezone, "Zona horaria", 60) || d.timezone,
 		weekdays: Array.isArray(v.weekdays) ? [...new Set(v.weekdays.map((x) => integer(x, "Días", 0, 6)))] : d.weekdays,
@@ -155,7 +173,9 @@ export function validateSettings(input: unknown): WhatsAppSettings {
 		rules: [],
 	};
 	if (!settings.number) throw new Error("El número general de WhatsApp es obligatorio.");
-	if (!/^#[a-f0-9]{6}$/i.test(settings.color)) throw new Error("Color hexadecimal inválido (#RRGGBB).");
+	for (const key of ["color", "iconColor", "waveColor", "labelBg", "labelColor"] as const) {
+		if (!/^#[a-f0-9]{6}$/i.test(settings[key])) throw new Error("Usa colores hexadecimales (#RRGGBB).");
+	}
 	try {
 		new Intl.DateTimeFormat("en", { timeZone: settings.timezone });
 	} catch {

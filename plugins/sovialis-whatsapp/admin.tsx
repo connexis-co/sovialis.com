@@ -23,14 +23,70 @@ function Multiple({ label, items, value, onChange }: { label: string; items: Cho
 	);
 }
 
+const WA_PATH =
+	"M16.04 3C8.86 3 3.03 8.82 3.03 16c0 2.3.6 4.53 1.74 6.5L3 29l6.68-1.75A12.94 12.94 0 0 0 16.04 29C23.2 29 29 23.18 29 16S23.2 3 16.04 3Zm5.83 15.66c-.32-.16-1.89-.93-2.18-1.04-.3-.1-.5-.16-.72.16-.21.32-.82 1.04-1 1.25-.19.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59a9.6 9.6 0 0 1-1.78-2.2c-.19-.32-.02-.5.14-.66.14-.14.32-.37.48-.56.16-.18.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.72-1.73-.98-2.37-.26-.62-.52-.54-.72-.55h-.61c-.21 0-.56.08-.85.4-.3.32-1.12 1.09-1.12 2.66 0 1.57 1.14 3.08 1.3 3.3.16.2 2.25 3.43 5.45 4.81.76.33 1.36.53 1.82.67.77.25 1.46.21 2.01.13.61-.09 1.89-.77 2.15-1.52.27-.75.27-1.39.19-1.52-.08-.13-.29-.21-.61-.37Z";
+
 function Preview({ config }: { config: WhatsAppSettings }) {
+	const size = config.size;
 	return (
-		<div style={{ position: "relative", height: 120, borderRadius: 12, background: "linear-gradient(135deg,#e4f4fa,#fbf8f3)", overflow: "hidden" }}>
-			<div style={{ position: "absolute", bottom: Math.min(config.y, 60), [config.position]: Math.min(config.x, 60), display: "flex", alignItems: "center", gap: 12, flexDirection: config.position === "left" ? "row-reverse" : "row" }}>
+		<div style={{ position: "relative", height: 150, borderRadius: 12, background: "linear-gradient(135deg,#e4f4fa,#fbf8f3)", overflow: "hidden" }}>
+			<style>{`@keyframes sv-prev-wave{0%{transform:scale(1)}15%{opacity:1}100%{opacity:0;transform:scale(2.5)}}`}</style>
+			<div style={{ position: "absolute", bottom: 40, [config.position]: 60, display: "flex", alignItems: "center", flexDirection: config.position === "left" ? "row-reverse" : "row" }}>
 				{config.labelMode !== "never" && (
-					<span style={{ background: "#0f1a2a", color: "#fff", padding: "10px 18px", borderRadius: 999, fontWeight: 600, fontSize: 15 }}>{config.label}</span>
+					<span
+						style={{
+							position: "relative",
+							zIndex: 1,
+							background: config.labelBg,
+							color: config.labelColor,
+							height: size - 10,
+							display: "flex",
+							alignItems: "center",
+							padding: config.position === "left" ? `0 22px 0 ${size / 2 + 8}px` : `0 ${size / 2 + 8}px 0 22px`,
+							margin: config.position === "left" ? `0 0 0 ${-size / 2}px` : `0 ${-size / 2}px 0 0`,
+							borderRadius: 999,
+							fontWeight: 600,
+							fontSize: 15,
+							whiteSpace: "nowrap",
+						}}
+					>
+						{config.label}
+					</span>
 				)}
-				<span style={{ width: 60, height: 60, borderRadius: "50%", background: config.color, boxShadow: `0 0 0 10px ${config.color}2e`, display: "grid", placeItems: "center", color: "#fff", fontWeight: 700 }}>WA</span>
+				{config.animate &&
+					[1, 1.3].map((delay) => (
+						<span
+							key={delay}
+							style={{
+								position: "absolute",
+								[config.position]: 0,
+								width: size,
+								height: size,
+								borderRadius: "50%",
+								background: config.waveColor,
+								opacity: 0,
+								animation: `sv-prev-wave 1.7s ease ${delay}s infinite`,
+							}}
+						/>
+					))}
+				<span
+					style={{
+						position: "relative",
+						zIndex: 2,
+						width: size,
+						height: size,
+						borderRadius: "50%",
+						background: config.color,
+						color: config.iconColor,
+						display: "grid",
+						placeItems: "center",
+						boxShadow: "0 8px 22px rgba(0,0,0,.18)",
+					}}
+				>
+					<svg viewBox="0 0 32 32" width={size * 0.54} height={size * 0.54} fill="currentColor" aria-hidden="true">
+						<path d={WA_PATH} />
+					</svg>
+				</span>
 			</div>
 		</div>
 	);
@@ -77,7 +133,7 @@ function WhatsAppAdmin() {
 							["enabled", "Mostrar botón flotante"],
 							["mobile", "En móvil"],
 							["desktop", "En escritorio"],
-							["animate", "Halo animado"],
+							["animate", "Ondas animadas"],
 							["labelOnMobile", "Etiqueta también en móvil"],
 						] as const
 					).map(([key, label]) => (
@@ -91,7 +147,7 @@ function WhatsAppAdmin() {
 					<label>
 						Número (con indicativo)
 						<input value={config.number} placeholder="573001234567" onChange={(e) => update("number", e.target.value)} />
-						<small>Sin espacios ni «+». Ej.: 573008921144.</small>
+						<small>Sin espacios ni «+». Ej.: 573117598641.</small>
 					</label>
 					<label>
 						Texto de la etiqueta
@@ -113,15 +169,27 @@ function WhatsAppAdmin() {
 							<option value="left">Izquierda</option>
 						</select>
 					</label>
-					<label>
-						Color del botón
-						<input type="color" value={config.color} onChange={(e) => update("color", e.target.value)} />
-					</label>
+					{(
+						[
+							["color", "Color del botón"],
+							["iconColor", "Color del ícono"],
+							["waveColor", "Color de las ondas"],
+							["labelBg", "Fondo de la etiqueta"],
+							["labelColor", "Texto de la etiqueta"],
+						] as const
+					).map(([key, label]) => (
+						<label key={key}>
+							{label}
+							<input type="color" value={config[key]} onChange={(e) => update(key, e.target.value)} />
+						</label>
+					))}
 					{(
 						[
 							["showAfterScroll", "Aparece tras bajar (px)", 5000],
 							["delay", "Espera antes de aparecer (s)", 120],
 							["labelSeconds", "Segundos de la etiqueta (modo intro)", 60],
+							["size", "Tamaño en escritorio (px)", 80],
+							["mobileSize", "Tamaño en móvil (px)", 72],
 							["x", "Separación lateral (px)", 300],
 							["y", "Separación inferior (px)", 500],
 						] as const
