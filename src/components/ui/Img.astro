@@ -2,17 +2,10 @@
 /**
  * Imagen de la biblioteca de medios de EmDash servida directamente desde R2 (los archivos ya se suben
  * optimizados en WebP). Con PUBLIC_CF_IMAGES=on genera srcset con las transformaciones de Cloudflare
- * (/cdn-cgi/image) cuando estén activas en la zona.
+ * (/cdn-cgi/image) cuando estén activas en la zona (ver src/lib/images.ts).
  */
-interface ImageValue {
-	src?: string;
-	url?: string;
-	alt?: string;
-	width?: number;
-	height?: number;
-	meta?: { storageKey?: string };
-	storageKey?: string;
-}
+import { IMAGE_WIDTHS, imageSources, type ImageValue } from "../../lib/images";
+
 interface Props {
 	image: ImageValue | string | null | undefined;
 	alt?: string;
@@ -22,31 +15,20 @@ interface Props {
 	loading?: "lazy" | "eager";
 	widths?: number[];
 }
-const { image, alt, class: className, sizes = "100vw", priority = false, loading, widths = [480, 768, 1080, 1440, 1920] } = Astro.props;
-if (!image) return null;
-const value: ImageValue = typeof image === "string" ? { src: image } : image;
-const key = value.meta?.storageKey ?? value.storageKey;
-const src = value.src || value.url || (key ? `/_emdash/api/media/file/${key}` : "");
-if (!src) return null;
-const transforms = import.meta.env.PUBLIC_CF_IMAGES === "on" && src.startsWith("/");
-const max = value.width ?? 1920;
-const srcset = transforms
-	? widths
-			.filter((w) => w <= max)
-			.map((w) => `/cdn-cgi/image/width=${w},format=auto,quality=78${src} ${w}w`)
-			.join(", ")
-	: undefined;
+const { image, alt, class: className, sizes = "100vw", priority = false, loading, widths = IMAGE_WIDTHS } = Astro.props;
+const img = imageSources(image, widths);
+if (!img) return null;
 ---
 
 <img
-	src={src}
-	srcset={srcset}
-	sizes={srcset ? sizes : undefined}
-	alt={alt ?? value.alt ?? ""}
-	width={value.width}
-	height={value.height}
+	src={img.src}
+	srcset={img.srcset}
+	sizes={img.srcset ? sizes : undefined}
+	alt={alt ?? img.alt ?? ""}
+	width={img.width}
+	height={img.height}
 	class={className}
 	loading={priority ? "eager" : (loading ?? "lazy")}
-	decoding={priority ? "sync" : "async"}
+	decoding={priority ? "auto" : "async"}
 	fetchpriority={priority ? "high" : undefined}
 />

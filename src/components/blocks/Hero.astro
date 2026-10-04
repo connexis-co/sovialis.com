@@ -14,6 +14,7 @@ import StarRating from "../ui/StarRating.astro";
 import BrandS from "../ui/BrandS.astro";
 import { icon } from "../../lib/icons";
 import { HUBS, ROUTES } from "../../lib/routes";
+import { HERO_SIZES, heroFormMode, heroHasImage, heroMediaKind } from "../../lib/images";
 import { formatCOP, getCatalog, getSiteData } from "../../lib/site";
 
 interface Props {
@@ -40,7 +41,7 @@ const titleHtml = (() => {
 })();
 const ctaId = `hero:${index}`;
 const shortcuts = v.shortcuts_title ? catalog.services : [];
-const hasImage = Boolean(v.image?.src || v.image?.id);
+const hasImage = heroHasImage(v);
 const imageLeft = v.image_side === "izquierda";
 // Recorte según la proporción real de la foto: las horizontales (servicios, 3:2) no se recortan en móvil
 // y quedan 4:3 en escritorio; las verticales (inicio, 4:5) van cuadradas en móvil y 5:6 en escritorio.
@@ -53,16 +54,15 @@ const badgesOnPhoto = Boolean(v.badges_on_photo) && badges.length > 0 && !(v.car
 const titleClass = v.title_size === "h1" ? "text-[1.9rem] leading-[1.12] sm:text-h1" : "text-[2.05rem] leading-[1.08] sm:text-h1 lg:text-display";
 // Formulario del hero: «barra» (foto + barra horizontal debajo), «tarjeta» (formulario en lugar de la
 // foto) o «boton» (solo el botón Cotizar, que abre la ventana emergente). show_form es el valor heredado.
-const formMode: "barra" | "tarjeta" | "boton" =
-	v.form_mode === "barra" || v.form_mode === "tarjeta" || v.form_mode === "boton" ? v.form_mode : v.show_form ? (hasImage ? "barra" : "tarjeta") : "boton";
-const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) ? "form" : hasImage ? "photo" : null;
+const formMode = heroFormMode(v);
+const mediaKind = heroMediaKind(v);
 ---
 
 {
 	variant === "foto-completa" ? (
 		<section class="px-3 pt-3 sm:px-4" data-block="hero">
 			<div class="hero-full relative isolate overflow-hidden">
-				{hasImage && <Img image={v.image} priority class="absolute inset-0 -z-10 size-full object-cover animate-ken-burns" sizes="100vw" />}
+				{hasImage && <Img image={v.image} priority class="absolute inset-0 -z-10 size-full object-cover animate-ken-burns" sizes={HERO_SIZES.full} />}
 				<div class="absolute inset-0 -z-10 bg-gradient-to-t from-deep/80 via-deep/25 to-transparent" style="opacity: calc(var(--sv-hero-overlay) + 0.3)" />
 				<div class="container-page flex min-h-[min(88svh,760px)] items-end pt-32 pb-8 sm:pb-12">
 					<div class="hero-card max-w-xl animate-fade-up on-dark p-7 text-white sm:p-9">
@@ -101,7 +101,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 				)}
 				{hasImage && (
 					<div class="mx-auto mt-12 max-w-5xl overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-						<Img image={v.image} priority class="aspect-[21/9] w-full object-cover" />
+						<Img image={v.image} priority class="aspect-[21/9] w-full object-cover" sizes={HERO_SIZES.centered} />
 					</div>
 				)}
 			</div>
@@ -153,7 +153,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 				) : mediaKind === "photo" ? (
 					<div class:list={["hero-media relative mx-auto w-full", landscape ? "max-w-[44rem]" : "max-w-[36rem]"]}>
 						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float" {...edit.image}>
-							<Img image={v.image} priority class:list={["w-full object-cover", photoAspect]} sizes="(min-width:1024px) 46vw, 92vw" />
+							<Img image={v.image} priority class:list={["w-full object-cover", photoAspect]} sizes={HERO_SIZES.split} />
 						</div>
 						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
 						{badgesOnPhoto && (

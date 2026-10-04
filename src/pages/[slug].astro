@@ -7,6 +7,7 @@ import Blocks from "../components/blocks/Blocks.astro";
 import Faq from "../components/blocks/Faq.astro";
 import PageHeader from "../components/page/PageHeader.astro";
 import { HOME_SLUG } from "../lib/routes";
+import { heroPreload } from "../lib/images";
 
 const { slug } = Astro.params;
 if (!slug || slug === HOME_SLUG) return Astro.redirect("/", 301);
@@ -24,7 +25,7 @@ const crumbs = [
 const isLegal = /politica|terminos|cookies/.test(slug);
 ---
 
-<Base title={d.title} description={d.summary} pageType={isLegal ? "webpage" : slug === "contacto" ? "contact" : slug === "nosotros" ? "about" : "webpage"} content={{ collection: "pages", id: d.id, slug }} breadcrumbs={crumbs}>
+<Base title={d.title} description={d.summary} preloadImage={startsWithHero ? heroPreload(blocks[0]) : null} pageType={isLegal ? "webpage" : slug === "contacto" ? "contact" : slug === "nosotros" ? "about" : "webpage"} content={{ collection: "pages", id: d.id, slug }} breadcrumbs={crumbs}>
 	{!startsWithHero && <PageHeader title={d.title} summary={d.summary} crumbs={crumbs} eyebrow={isLegal ? "Información legal" : "Sovialis"} actions={!isLegal} edit={{ title: entry.edit.title, summary: entry.edit.summary }} />}
 	<Blocks blocks={blocks} offset={startsWithHero ? 0 : 1} edit={entry.edit.layout} />
 	{

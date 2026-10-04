@@ -55,6 +55,9 @@ export default defineConfig({
 	// inicio de sesión del panel o de la automatización escribe una.
 	session: { driver: sessionDrivers.cloudflareR2Binding({ binding: "SESSION" }) },
 	trailingSlash: "ignore",
+	// CSS en línea: el HTML trae sus estilos y la página pinta sin esperar dos archivos más (en móvil,
+	// ~1 ida y vuelta menos antes de mostrar la foto principal). El HTML se sirve comprimido desde el borde.
+	build: { inlineStylesheets: "always" },
 	adapter: cloudflare({ imageService: "passthrough" }),
 	integrations: [
 		react(),
@@ -81,7 +84,6 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss(), trimAdminLocales()],
 	},
-	build: { inlineStylesheets: "auto" },
 	devToolbar: { enabled: false },
 	server: { port: Number(process.env.PORT) || 4321 },
 });

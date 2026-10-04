@@ -12,6 +12,7 @@ import Footer from "../components/layout/Footer.astro";
 import MobileMenu from "../components/layout/MobileMenu.astro";
 import QuoteDialog from "../components/forms/QuoteDialog.astro";
 import { getCatalog, getSiteData } from "../lib/site";
+import type { heroPreload } from "../lib/images";
 
 export interface Crumb {
 	name: string;
@@ -32,7 +33,8 @@ interface Props {
 	/** Preseleccionar servicio o zona en el modal de cotización. */
 	quoteService?: string;
 	quoteZone?: string;
-	preloadImage?: string | null;
+	/** Foto de portada (LCP): se precarga con el mismo srcset/sizes que la etiqueta img. */
+	preloadImage?: ReturnType<typeof heroPreload>;
 }
 
 const {
@@ -95,11 +97,33 @@ const pageCtx = createPublicPageContext({
 		<meta property="og:locale" content="es_CO" />
 		<link rel="preload" href="/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin />
-		{preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+		{
+			preloadImage && (
+				<link rel="preload" as="image" href={preloadImage.src} imagesrcset={preloadImage.srcset} imagesizes={preloadImage.srcset ? preloadImage.sizes : undefined} fetchpriority="high" />
+			)
+		}
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="icon" href="/favicon.ico" sizes="32x32" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="manifest" href="/site.webmanifest" />
+		{/* Navegación casi instantánea: precarga la página de un enlace al pasar el cursor o tocarlo. */}
+		<script type="speculationrules" is:inline>
+			{
+				"prefetch": [
+					{
+						"source": "document",
+						"where": {
+							"and": [
+								{ "href_matches": "/*" },
+								{ "not": { "href_matches": ["/_emdash/*", "/*.xml", "/*.txt"] } },
+								{ "not": { "selector_matches": "[rel~=nofollow], [target=_blank], [download], [data-no-prefetch]" } }
+							]
+						},
+						"eagerness": "moderate"
+					}
+				]
+			}
+		</script>
 		<link rel="alternate" type="application/rss+xml" title="Blog de Sovialis" href="/blog/rss.xml" />
 		<EmDashHead page={pageCtx} />
 		{

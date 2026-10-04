@@ -1,0 +1,5 @@
+# Cabeceras de los archivos que se sirven directo desde los assets del Worker (ver wrangler.jsonc).
+# El adaptador de Astro agrega la regla inmutable de /_astro/* al compilar.
+# Fuentes: si se reemplaza una, se publica con un nombre nuevo (la caché es de un año).
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

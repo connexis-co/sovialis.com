@@ -3,7 +3,8 @@
  * Genera src/data/bogota-map.json: límites reales de las localidades urbanas de Bogotá y sus
  * avenidas principales, simplificados y proyectados a SVG (norte arriba, escala real en ambos ejes).
  *
- *   node scripts/build-map.mjs
+ *   node scripts/build-map.mjs                  # descarga y compacta
+ *   node scripts/build-map.mjs --solo-compactar # solo compacta el JSON actual (sin red)
  *
  * Fuente: OpenStreetMap (© colaboradores de OpenStreetMap, ODbL) vía Nominatim y Overpass.
  * Solo hace falta volver a ejecutarlo si cambian la ventana del mapa o las avenidas.
@@ -12,6 +13,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ROOT } from "./lib/content.mjs";
+import { compactMap } from "./lib/map-compact.mjs";
 
 const UA = "sovialis-web-map-builder/1.0 (contacto@sovialis.com)";
 // Ventana del mapa (grados). Norte y occidente cercano completos; el resto de la ciudad queda recortado.
@@ -128,6 +130,15 @@ async function roads() {
 	}).filter((r) => r.count);
 }
 
+const target = join(ROOT, "src/data/bogota-map.json");
+if (process.argv.includes("--solo-compactar")) {
+	const before = await readFile(target, "utf8");
+	const after = JSON.stringify(compactMap(JSON.parse(before)));
+	await writeFile(target, after);
+	console.log(`OK: ${before.length} → ${after.length} bytes`);
+	process.exit(0);
+}
+
 const cacheFile = join(ROOT, "scripts/.cache/map-localidades.json");
 const cached = existsSync(cacheFile) ? JSON.parse(await readFile(cacheFile, "utf8")) : null;
 const out = { source: "© colaboradores de OpenStreetMap (ODbL)", box: BOX, width: W, height: H, kmPx: W / ((BOX.east - BOX.west) * KM_PER_DEG_LNG), localidades: [], roads: [] };
@@ -143,5 +154,5 @@ else {
 }
 out.roads = (await roads()).map(({ count, ...r }) => r);
 await mkdir(join(ROOT, "src/data"), { recursive: true });
-await writeFile(join(ROOT, "src/data/bogota-map.json"), JSON.stringify(out));
+await writeFile(target, JSON.stringify(compactMap(out)));
 console.log(`OK: ${out.localidades.length} localidades, ${out.roads.length} avenidas, ${W}×${H}`);

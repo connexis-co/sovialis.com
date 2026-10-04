@@ -9,7 +9,9 @@
   "preview_urls": false,
   "assets": {
     "binding": "ASSETS",
-    "run_worker_first": true
+    // El Worker atiende todo (redirecciones, caché, EmDash) salvo los archivos estáticos con hash y
+    // las fuentes, que se sirven directo desde la red de assets con las cabeceras de public/_headers.
+    "run_worker_first": ["/*", "!/_astro/*", "!/fonts/*"]
   },
   "routes": [
     { "pattern": "sovialis.com", "custom_domain": true },

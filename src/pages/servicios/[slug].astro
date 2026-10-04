@@ -11,6 +11,7 @@ import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
 import ClosingCta from "../../components/page/ClosingCta.astro";
 import { icon } from "../../lib/icons";
 import { getCatalog, mediaUrl } from "../../lib/site";
+import { heroPreload } from "../../lib/images";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/servicios/", 301);
@@ -46,6 +47,7 @@ const heroValue = {
 ---
 
 <Base
+	preloadImage={heroPreload(heroValue)}
 	title={d.seo?.title || d.title}
 	description={d.seo?.description || d.excerpt}
 	image={mediaUrl(d.hero_image)}

@@ -21,6 +21,9 @@ const TRACKING_PARAMS = /^(utm_[a-z]+|gclid|gbraid|wbraid|fbclid|msclkid|_gl)$/;
 const MEDIA_PREFIX = "/_emdash/api/media/file/";
 const HTML_TTL = 600;
 const TEXT_TTL = 3600;
+const YEAR = 31_536_000;
+/** Archivos públicos sin hash en el nombre (íconos, fuentes, tarjetas OG): una semana en el navegador. */
+const STATIC_FILE = /\.(woff2?|png|jpe?g|webp|avif|svg|ico|webmanifest)$/i;
 
 function withSecurityHeaders(response: Response): Response {
 	const res = new Response(response.body, response);
@@ -28,20 +31,34 @@ function withSecurityHeaders(response: Response): Response {
 	return res;
 }
 
-/** Decide si la petición se puede servir desde la caché del borde y con qué clave y TTL. */
-function cachePlan(request: Request, url: URL): { key: Request; ttl: number; immutable: boolean } | null {
+interface CachePlan {
+	key: Request;
+	/** Segundos en la caché del borde. */
+	ttl: number;
+	/** Cache-Control para el navegador. */
+	browser: string;
+}
+
+/** Decide si la petición se puede servir desde la caché del borde, con qué clave y qué cabeceras. */
+function cachePlan(request: Request, url: URL): CachePlan | null {
 	if (request.method !== "GET") return null;
 	const cookie = request.headers.get("Cookie") ?? "";
-	if (url.pathname.startsWith(MEDIA_PREFIX)) {
-		return { key: new Request(`${url.origin}${url.pathname}`), ttl: 31_536_000, immutable: true };
+	const key = new Request(`${url.origin}${url.pathname}`);
+	// Medios y archivos con hash: inmutables. Antes recibían la política del HTML (max-age=0) y el
+	// navegador los volvía a validar en cada página.
+	if (url.pathname.startsWith(MEDIA_PREFIX) || url.pathname.startsWith("/_astro/")) {
+		return { key, ttl: YEAR, browser: `public, max-age=${YEAR}, immutable` };
+	}
+	if (STATIC_FILE.test(url.pathname) && !url.pathname.startsWith("/_emdash")) {
+		return { key, ttl: 86_400, browser: "public, max-age=604800, stale-while-revalidate=86400" };
 	}
 	if (url.pathname.startsWith("/_emdash") || url.pathname.startsWith("/_image")) return null;
 	// Sesiones del panel o de Access: siempre fresco (barra de edición, borradores).
 	if (/CF_Authorization|astro-session|emdash/i.test(cookie)) return null;
 	const params = [...url.searchParams.keys()];
 	if (params.some((p) => !TRACKING_PARAMS.test(p))) return null;
-	const isText = /\.(xml|txt)$/.test(url.pathname);
-	return { key: new Request(`${url.origin}${url.pathname}`), ttl: isText ? TEXT_TTL : HTML_TTL, immutable: false };
+	const ttl = /\.(xml|txt)$/.test(url.pathname) ? TEXT_TTL : HTML_TTL;
+	return { key, ttl, browser: `public, max-age=0, s-maxage=${ttl}, must-revalidate` };
 }
 
 export default {
@@ -75,18 +92,14 @@ export default {
 			if (hit) {
 				const res = new Response(hit.body, hit);
 				res.headers.set("X-Sovialis-Cache", "HIT");
-				if (!plan.immutable) res.headers.set("Cache-Control", `public, max-age=0, s-maxage=${plan.ttl}, must-revalidate`);
+				res.headers.set("Cache-Control", plan.browser);
 				return res;
 			}
 		}
 
 		const response = withSecurityHeaders(await handler.fetch(request, env, ctx));
 		if (plan && response.status === 200 && !response.headers.has("Set-Cookie")) {
-			const browserTtl = plan.immutable ? plan.ttl : 0;
-			response.headers.set(
-				"Cache-Control",
-				plan.immutable ? `public, max-age=${browserTtl}, immutable` : `public, max-age=0, s-maxage=${plan.ttl}, must-revalidate`,
-			);
+			response.headers.set("Cache-Control", plan.browser);
 			response.headers.set("X-Sovialis-Cache", "MISS");
 			const toStore = response.clone();
 			toStore.headers.set("Cache-Control", `public, max-age=${plan.ttl}`);

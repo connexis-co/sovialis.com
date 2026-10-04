@@ -10,6 +10,7 @@ import { escapeHtml, isAdminPath } from "../_shared/text";
 
 export interface AnalyticsSettings {
 	gtmId: string;
+	gtmDelay: boolean;
 	ga4Id: string;
 	ga4Direct: boolean;
 	clarityId: string;
@@ -22,6 +23,9 @@ export interface AnalyticsSettings {
 
 export const ANALYTICS_DEFAULTS: AnalyticsSettings = {
 	gtmId: "GTM-N2PGLVR3",
+	// GTM + GA4 pesan ≈ 300 KB de JavaScript: se cargan tras el evento load (o con la primera
+	// interacción) para no competir con la foto principal ni con el CSS en móviles.
+	gtmDelay: true,
 	ga4Id: "G-H7LD9WF7GG",
 	// GA4 ya va dentro del contenedor de GTM: cargarlo también directo lo duplica (≈ 176 KB y page_view doble).
 	ga4Direct: false,
@@ -59,6 +63,12 @@ export function createPlugin() {
 		admin: {
 			settingsSchema: {
 				gtmId: { type: "string", label: "ID de Google Tag Manager", description: "Formato GTM-XXXXXXX. Vacío desactiva GTM.", default: ANALYTICS_DEFAULTS.gtmId },
+				gtmDelay: {
+					type: "boolean",
+					label: "Cargar GTM después de la página (recomendado)",
+					description: "Carga GTM cuando la página termina de cargar o con la primera interacción. Mejora la velocidad en móviles; los eventos anteriores quedan en cola y se envían igual.",
+					default: ANALYTICS_DEFAULTS.gtmDelay,
+				},
 				ga4Id: { type: "string", label: "ID de medición GA4", description: "Formato G-XXXXXXXXXX.", default: ANALYTICS_DEFAULTS.ga4Id },
 				ga4Direct: {
 					type: "boolean",
@@ -107,7 +117,10 @@ export function createPlugin() {
 						kind: "inline-script",
 						placement: "head",
 						key: "sv-gtm",
-						code: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtm}');`,
+						code: s.gtmDelay
+							? // Diferido: tras load + tiempo libre del navegador, o con la primera interacción (lo que ocurra antes).
+								`(function(w,d,i){var done,ev=['pointerdown','keydown','touchstart','scroll','mousemove'];function go(){if(done)return;done=1;ev.forEach(function(e){w.removeEventListener(e,go,{passive:true})});w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j)}ev.forEach(function(e){w.addEventListener(e,go,{passive:true})});function idle(){w.requestIdleCallback?w.requestIdleCallback(go,{timeout:2500}):setTimeout(go,1200)}d.readyState==='complete'?idle():w.addEventListener('load',idle)})(window,document,'${gtm}');`
+							: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtm}');`,
 					});
 					fragments.push({
 						kind: "html",
