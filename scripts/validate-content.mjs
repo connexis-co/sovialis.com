@@ -7,6 +7,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { CONTENT, ROOT, loadAll, plainText, urlOf } from "./lib/content.mjs";
+import { ICONS as SCHEMA_ICONS, blockTypes } from "./seed/schema.mjs";
 
 const only = process.argv[2];
 const all = await loadAll(only);
@@ -17,8 +18,9 @@ const media = new Set(
 	JSON.parse(await readFile(join(CONTENT, "media/manifest.json"), "utf8").catch(() => "{}")).keys ?? [],
 );
 
-const ICONS = new Set("corazon escudo reloj luna sol casa hospital calendario usuarios usuario estrella check telefono whatsapp ubicacion cerebro venda manos cama silla-ruedas documento chat sparkles medalla familia cafe pastillas brujula".split(" "));
-const BLOCKS = new Set("hero trust_bar services_grid card_carousel steps feature_grid media_text tabs_media pricing zones_grid comparison testimonials stats faq cta_band lead_form blog_latest rich_text".split(" "));
+// Iconos y tipos de bloque salen del esquema (scripts/seed/schema.mjs) para no desincronizarse.
+const ICONS = new Set(SCHEMA_ICONS);
+const BLOCKS = new Set(blockTypes.map((b) => b.slug));
 const BANNED_TRANSACTIONAL = [
 	/enfermeras? a domicilio/i, /servicios? de enfermer[ií]a/i, /enfermer[ií]a domiciliaria/i, /home care/i, /inyectolog/i,
 	/inyecci[oó]n/i, /insulina/i, /sueros?\b/i, /curaciones/i, /\bsondas?\b/i, /ox[ií]geno/i, /toma de muestras/i, /signos vitales/i,
@@ -112,6 +114,8 @@ for (const [col, entries] of Object.entries(all)) {
 			for (const list of [b.items, b.steps, b.tabs, b.plans].filter(Array.isArray)) list.forEach((it, j) => {
 				if (it.icon && !ICONS.has(it.icon)) err(f, `bloque ${i + 1} elemento ${j + 1}: icono «${it.icon}» no permitido`);
 				checkImage(it.image, `bloque ${i + 1} elemento ${j + 1}`);
+				// Estos campos son texto plano: un enlace Markdown se vería como «[texto](/url)».
+				if (/\]\(\//.test(`${it.text ?? ""}\n${it.body ?? ""}`)) warn(f, `bloque ${i + 1} (${b._type}) elemento ${j + 1}: los enlaces Markdown no se pintan aquí; muévelos al cuerpo o a un bloque de texto`);
 			});
 		});
 		if (d.icon && !ICONS.has(d.icon)) err(f, `icono «${d.icon}» no permitido`);

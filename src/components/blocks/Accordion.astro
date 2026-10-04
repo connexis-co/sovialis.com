@@ -5,8 +5,10 @@
  * FAQPage: sirve para «qué incluye», «cómo trabajamos», requisitos, etc.
  */
 import Img from "../ui/Img.astro";
+import Cta from "../ui/Cta.astro";
 import SectionHead from "../ui/SectionHead.astro";
 import { icon } from "../../lib/icons";
+import { getSiteData } from "../../lib/site";
 
 interface Props {
 	value: Record<string, any>;
@@ -16,6 +18,7 @@ const { value: v, index } = Astro.props;
 const items: any[] = (Array.isArray(v.items) ? v.items : []).filter((it) => it?.title && it?.body);
 if (!items.length) return null;
 const group = `acc-${index}`;
+const site = v.cta_label ? await getSiteData() : null;
 const hasImage = Boolean(v.image?.src || v.image?.id || v.image?.meta);
 const imageLeft = v.image_side === "izquierda";
 const toneClass = ({ arena: "bg-sand", bruma: "bg-mist" } as Record<string, string>)[v.tone] ?? "";
@@ -67,6 +70,11 @@ const inline = (t: string) => t.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "
 						</details>
 					))
 				}
+				{site && (
+					<div class="mt-6">
+						<Cta label={v.cta_label} action={v.cta_action || "cotizar"} url={v.cta_url} cta={`acordeon:${index}`} site={site} />
+					</div>
+				)}
 			</div>
 			{
 				hasImage && (

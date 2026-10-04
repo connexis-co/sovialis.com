@@ -94,14 +94,14 @@ const paragraphs = (text: string) => {
 	.tab-panel:not([hidden]) {
 		animation: sv-fade-up var(--sv-dur-reveal) var(--sv-ease-out);
 	}
-	.tab-media__img {
+	.tab-media :global(.tab-media__img) {
 		opacity: 0;
 		transform: scale(1.04);
 		transition:
 			opacity 0.6s var(--sv-ease-out),
 			transform 1.2s var(--sv-ease-out);
 	}
-	.tab-media__img.is-active {
+	.tab-media :global(.tab-media__img.is-active) {
 		opacity: 1;
 		transform: none;
 	}
@@ -133,7 +133,7 @@ const paragraphs = (text: string) => {
 		color: var(--sv-primary);
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.tab-media__img {
+		.tab-media :global(.tab-media__img) {
 			transition: none;
 			transform: none;
 		}

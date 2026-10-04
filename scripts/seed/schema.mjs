@@ -135,6 +135,7 @@ export const blockTypes = [
 					],
 				},
 			}),
+			...cta("cta", "Botón (opcional)"),
 		],
 	},
 	{
