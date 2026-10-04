@@ -59,21 +59,33 @@ layout:
       - icon: usuario
         title: Camina y conversa, pero no debe estar solo
         text: Cuidadora por horas o en turnos de día, para compañía, comidas y salidas.
+        url: /servicios/cuidadora-adulto-mayor/
+        link_label: Ver el servicio
       - icon: cama
         title: Pasa el día en cama o salió del hospital
         text: Personal con formación de auxiliar de enfermería, en turnos de 12 o 24 horas.
+        url: /servicios/auxiliar-de-enfermeria/
+        link_label: Ver el servicio
       - icon: luna
         title: Se levanta varias veces en la noche
         text: Turnos de noche de 8 o 12 horas, con la cuidadora despierta.
+        url: /servicios/cuidado-nocturno/
+        link_label: Ver el servicio
       - icon: casa
         title: No puede quedarse solo en ningún momento
         text: Cuidado 24 horas con relevos coordinados entre personas verificadas.
+        url: /servicios/cuidado-24-horas/
+        link_label: Ver el servicio
       - icon: hospital
         title: Está hospitalizado o tiene citas seguidas
         text: Acompañamiento en la clínica, o a consultas y exámenes, por horas o por turnos.
+        url: /servicios/acompanamiento-hospitalario/
+        link_label: Ver el servicio
       - icon: cerebro
         title: Tiene Alzheimer u otra demencia
         text: Cuidadoras con experiencia en demencia y un equipo pequeño y estable.
+        url: /servicios/cuidado-alzheimer-demencia/
+        link_label: Ver el servicio
 
   - _type: rich_text
     width: lectura

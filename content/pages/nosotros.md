@@ -27,7 +27,7 @@ layout:
     subtitle: Somos una empresa bogotana que coordina el cuidado de personas mayores en casa, con personas verificadas y un plan acordado con cada familia.
     image:
       media: nosotros-equipo
-      alt: Dos coordinadoras de Sovialis revisan la agenda semanal de servicios en una oficina luminosa de Bogotá
+      alt: "Imagen ilustrativa: dos coordinadoras revisan una agenda semanal de servicios en una oficina luminosa"
     primary_label: Conversa con la coordinación
     primary_action: whatsapp
     secondary_label: Cómo trabajamos
