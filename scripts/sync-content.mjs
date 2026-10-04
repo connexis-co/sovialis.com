@@ -17,6 +17,7 @@ import { join } from "node:path";
 import { markdownToPortableText } from "emdash/client";
 import { CONTENT, ROOT, loadCollection, splitFrontmatter } from "./lib/content.mjs";
 import { blockTypes, collections } from "./seed/schema.mjs";
+import { bylines as seedBylines, categories } from "../content/structure.mjs";
 
 const BASE = (process.env.SYNC_URL || "http://localhost:4321").replace(/\/$/, "");
 const [onlyCollection, onlySlug] = process.argv.slice(2);
@@ -285,6 +286,26 @@ async function upsert(collection, slug, data, extras = {}) {
 	}
 	return id;
 }
+
+/* ── Estructura que el seed automático no crea en producción: categorías y autores ─────── */
+async function ensureStructure() {
+	const current = await api("/_emdash/api/taxonomies/category/terms").catch(() => ({ terms: [] }));
+	const have = new Set((current?.terms ?? current?.items ?? []).map((t) => t.slug));
+	for (const c of categories) {
+		if (have.has(c.slug)) continue;
+		await api("/_emdash/api/taxonomies/category/terms", { method: "POST", json: { slug: c.slug, label: c.label, description: c.description } });
+		console.log(`  + categoría ${c.slug}`);
+	}
+	const res = await api("/_emdash/api/admin/bylines?limit=50").catch(() => ({ items: [] }));
+	const existing = new Set((res?.items ?? []).map((b) => b.slug));
+	for (const b of seedBylines) {
+		if (existing.has(b.slug)) continue;
+		await api("/_emdash/api/admin/bylines", { method: "POST", json: { slug: b.slug, displayName: b.displayName, bio: b.bio ?? null, isGuest: false } });
+		console.log(`  + autor ${b.slug}`);
+	}
+	bylineId = null;
+}
+if (!onlySlug) await ensureStructure();
 
 const ORDER = ["services", "zones", "posts", "pages"];
 const BODY = { pages: "body", services: "body", zones: "intro", posts: "content" };
