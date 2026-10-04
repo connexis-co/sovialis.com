@@ -25,20 +25,27 @@ const links = [
 	{ label: "Guías", href: HUBS.blog },
 	{ label: "Nosotros", href: "/nosotros/" },
 ];
+// En móvil solo se muestra la primera parte del anuncio (antes de « · ») para que quepa en una línea.
+const [announcementHead, ...announcementTail] = site.announcement.split(" · ");
+const announcementRest = announcementTail.length ? ` · ${announcementTail.join(" · ")}` : "";
 ---
 
 {
 	site.announcement && !campaign && (
 		<div class="bg-deep text-white">
-			<div class="container-page flex min-h-10 items-center justify-center gap-3 py-2 text-center text-[0.95rem] sm:justify-between">
+			<div class="container-page flex min-h-10 items-center justify-center gap-3 py-2 text-center text-[0.875rem] sm:justify-between sm:text-[0.95rem]">
 				<p class="flex items-center gap-2">
 					<Fragment set:html={icon("escudo", "size-4 text-[#8fd8f2]")} />
 					{site.announcementUrl ? (
 						<a href={site.announcementUrl} class="underline-offset-4 hover:underline">
-							{site.announcement}
+							{announcementHead}
+							<span class="hidden md:inline">{announcementRest}</span>
 						</a>
 					) : (
-						site.announcement
+						<span>
+							{announcementHead}
+							<span class="hidden md:inline">{announcementRest}</span>
+						</span>
 					)}
 				</p>
 				<p class="hidden items-center gap-4 sm:flex">
