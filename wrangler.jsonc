@@ -5,7 +5,7 @@
   "account_id": "104bb1d9de543f588ab0537c9d381516",
   "compatibility_date": "2026-10-02",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": true,
+  "workers_dev": false,
   "preview_urls": false,
   "assets": {
     "binding": "ASSETS",
