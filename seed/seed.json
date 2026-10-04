@@ -128,6 +128,29 @@
 							"slug": "show_form",
 							"label": "Mostrar formulario corto (landings)",
 							"type": "boolean"
+						},
+						{
+							"slug": "form_mode",
+							"label": "Formulario en la cabecera",
+							"type": "select",
+							"validation": {
+								"options": [
+									"barra",
+									"tarjeta",
+									"boton"
+								]
+							}
+						},
+						{
+							"slug": "image_side",
+							"label": "Imagen a la",
+							"type": "select",
+							"validation": {
+								"options": [
+									"derecha",
+									"izquierda"
+								]
+							}
 						}
 					]
 				}
@@ -179,7 +202,11 @@
 											"familia",
 											"cafe",
 											"pastillas",
-											"brujula"
+											"brujula",
+											"lista",
+											"verificado",
+											"ayuda",
+											"pulso"
 										]
 									},
 									{
@@ -395,7 +422,11 @@
 											"familia",
 											"cafe",
 											"pastillas",
-											"brujula"
+											"brujula",
+											"lista",
+											"verificado",
+											"ayuda",
+											"pulso"
 										]
 									},
 									{
@@ -536,7 +567,11 @@
 											"familia",
 											"cafe",
 											"pastillas",
-											"brujula"
+											"brujula",
+											"lista",
+											"verificado",
+											"ayuda",
+											"pulso"
 										]
 									},
 									{
@@ -678,8 +713,19 @@
 						},
 						{
 							"slug": "image",
-							"label": "Imagen",
+							"label": "Imagen (por defecto)",
 							"type": "image"
+						},
+						{
+							"slug": "image_side",
+							"label": "Imagen a la",
+							"type": "select",
+							"validation": {
+								"options": [
+									"izquierda",
+									"derecha"
+								]
+							}
 						},
 						{
 							"slug": "tabs",
@@ -700,11 +746,160 @@
 									},
 									{
 										"slug": "body",
-										"label": "Texto (viñetas con «- »)",
+										"label": "Texto (viñetas con «- »; «**Título:** texto» crea tarjetas)",
 										"type": "text"
+									},
+									{
+										"slug": "image",
+										"label": "Imagen de esta pestaña (opcional)",
+										"type": "image"
 									}
 								]
 							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "accordion",
+			"label": "Acordeón de contenido",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "eyebrow",
+							"label": "Antetítulo",
+							"type": "string"
+						},
+						{
+							"slug": "title",
+							"label": "Título",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "highlight",
+							"label": "Palabras destacadas del título",
+							"type": "string"
+						},
+						{
+							"slug": "subtitle",
+							"label": "Subtítulo",
+							"type": "text"
+						},
+						{
+							"slug": "image",
+							"label": "Imagen (opcional)",
+							"type": "image"
+						},
+						{
+							"slug": "image_side",
+							"label": "Imagen a la",
+							"type": "select",
+							"validation": {
+								"options": [
+									"derecha",
+									"izquierda"
+								]
+							}
+						},
+						{
+							"slug": "tone",
+							"label": "Fondo",
+							"type": "select",
+							"validation": {
+								"options": [
+									"claro",
+									"arena",
+									"bruma"
+								]
+							}
+						},
+						{
+							"slug": "items",
+							"label": "Secciones",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icono",
+										"type": "select",
+										"options": [
+											"corazon",
+											"escudo",
+											"reloj",
+											"luna",
+											"sol",
+											"casa",
+											"hospital",
+											"calendario",
+											"usuarios",
+											"usuario",
+											"estrella",
+											"check",
+											"telefono",
+											"whatsapp",
+											"ubicacion",
+											"cerebro",
+											"venda",
+											"manos",
+											"cama",
+											"silla-ruedas",
+											"documento",
+											"chat",
+											"sparkles",
+											"medalla",
+											"familia",
+											"cafe",
+											"pastillas",
+											"brujula",
+											"lista",
+											"verificado",
+											"ayuda",
+											"pulso"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Título",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "body",
+										"label": "Texto (párrafos; viñetas con «- »)",
+										"type": "text",
+										"required": true
+									}
+								]
+							}
+						},
+						{
+							"slug": "cta_label",
+							"label": "Botón (opcional): texto",
+							"type": "string"
+						},
+						{
+							"slug": "cta_action",
+							"label": "Botón (opcional): acción",
+							"type": "select",
+							"validation": {
+								"options": [
+									"cotizar",
+									"whatsapp",
+									"enlace",
+									"llamar"
+								]
+							}
+						},
+						{
+							"slug": "cta_url",
+							"label": "Botón (opcional): enlace (si la acción es «enlace»)",
+							"type": "string"
 						}
 					]
 				}
@@ -1312,6 +1507,7 @@
 							"feature_grid",
 							"media_text",
 							"tabs_media",
+							"accordion",
 							"pricing",
 							"zones_grid",
 							"comparison",
@@ -1438,7 +1634,11 @@
 							"familia",
 							"cafe",
 							"pastillas",
-							"brujula"
+							"brujula",
+							"lista",
+							"verificado",
+							"ayuda",
+							"pulso"
 						]
 					}
 				},
@@ -1474,6 +1674,29 @@
 					"type": "image"
 				},
 				{
+					"slug": "hero_image_side",
+					"label": "Imagen de portada a la",
+					"type": "select",
+					"validation": {
+						"options": [
+							"derecha",
+							"izquierda"
+						]
+					}
+				},
+				{
+					"slug": "hero_form",
+					"label": "Formulario en la cabecera (por defecto solo botón con ventana emergente; barra bajo la foto o tarjeta en lugar de la foto)",
+					"type": "select",
+					"validation": {
+						"options": [
+							"boton",
+							"barra",
+							"tarjeta"
+						]
+					}
+				},
+				{
 					"slug": "highlights",
 					"label": "Puntos clave (uno por línea)",
 					"type": "text"
@@ -1492,6 +1715,7 @@
 							"feature_grid",
 							"media_text",
 							"tabs_media",
+							"accordion",
 							"pricing",
 							"zones_grid",
 							"comparison",
@@ -1629,6 +1853,17 @@
 					"type": "image"
 				},
 				{
+					"slug": "hero_image_side",
+					"label": "Imagen de portada a la",
+					"type": "select",
+					"validation": {
+						"options": [
+							"derecha",
+							"izquierda"
+						]
+					}
+				},
+				{
 					"slug": "intro",
 					"label": "Introducción",
 					"type": "portableText",
@@ -1680,6 +1915,7 @@
 							"feature_grid",
 							"media_text",
 							"tabs_media",
+							"accordion",
 							"pricing",
 							"zones_grid",
 							"comparison",
@@ -2010,7 +2246,11 @@
 									"familia",
 									"cafe",
 									"pastillas",
-									"brujula"
+									"brujula",
+									"lista",
+									"verificado",
+									"ayuda",
+									"pulso"
 								]
 							},
 							{

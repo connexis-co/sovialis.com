@@ -26,6 +26,7 @@ export interface PageLayoutHeroV1Block {
   "card_text"?: string | null;
   "shortcuts_title"?: string | null;
   "show_form"?: boolean | null;
+  "form_mode"?: "barra" | "tarjeta" | "boton" | null;
   "image_side"?: "derecha" | "izquierda" | null;
 }
 
@@ -146,6 +147,9 @@ export interface PageLayoutAccordionV1Block {
   "image_side"?: "derecha" | "izquierda" | null;
   "tone"?: "claro" | "arena" | "bruma" | null;
   "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "body": string }[] | null;
+  "cta_label"?: string | null;
+  "cta_action"?: "cotizar" | "whatsapp" | "enlace" | "llamar" | null;
+  "cta_url"?: string | null;
 }
 
 export type PageLayoutAccordionBlock = PageLayoutAccordionV1Block;
@@ -326,6 +330,7 @@ export interface ServiceLayoutHeroV1Block {
   "card_text"?: string | null;
   "shortcuts_title"?: string | null;
   "show_form"?: boolean | null;
+  "form_mode"?: "barra" | "tarjeta" | "boton" | null;
   "image_side"?: "derecha" | "izquierda" | null;
 }
 
@@ -446,6 +451,9 @@ export interface ServiceLayoutAccordionV1Block {
   "image_side"?: "derecha" | "izquierda" | null;
   "tone"?: "claro" | "arena" | "bruma" | null;
   "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "body": string }[] | null;
+  "cta_label"?: string | null;
+  "cta_action"?: "cotizar" | "whatsapp" | "enlace" | "llamar" | null;
+  "cta_url"?: string | null;
 }
 
 export type ServiceLayoutAccordionBlock = ServiceLayoutAccordionV1Block;
@@ -594,7 +602,7 @@ export interface Service {
   title: string;
   short_title?: string;
   menu_group?: "turno" | "necesidad";
-  icon?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula";
+  icon?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso";
   excerpt?: string;
   price_from?: number;
   price_unit?: string;
@@ -604,6 +612,7 @@ export interface Service {
   highlights?: string;
   hero_image_side?: "derecha" | "izquierda";
   layout?: ServiceLayoutBlock[];
+  hero_form?: "boton" | "barra" | "tarjeta";
   body?: PortableTextBlock[];
   faqs?: { "question": string; "answer": string }[];
   service_type?: string;
@@ -639,6 +648,7 @@ export interface ZoneLayoutHeroV1Block {
   "card_text"?: string | null;
   "shortcuts_title"?: string | null;
   "show_form"?: boolean | null;
+  "form_mode"?: "barra" | "tarjeta" | "boton" | null;
   "image_side"?: "derecha" | "izquierda" | null;
 }
 
@@ -759,6 +769,9 @@ export interface ZoneLayoutAccordionV1Block {
   "image_side"?: "derecha" | "izquierda" | null;
   "tone"?: "claro" | "arena" | "bruma" | null;
   "items"?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "title": string; "body": string }[] | null;
+  "cta_label"?: string | null;
+  "cta_action"?: "cotizar" | "whatsapp" | "enlace" | "llamar" | null;
+  "cta_url"?: string | null;
 }
 
 export type ZoneLayoutAccordionBlock = ZoneLayoutAccordionV1Block;
@@ -978,7 +991,7 @@ export interface Site {
   lead_schedules?: string;
   lead_relations?: string;
   social?: { "name": string; "url": string }[];
-  trust?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | null; "text": string }[];
+  trust?: { "icon"?: "corazon" | "escudo" | "reloj" | "luna" | "sol" | "casa" | "hospital" | "calendario" | "usuarios" | "usuario" | "estrella" | "check" | "telefono" | "whatsapp" | "ubicacion" | "cerebro" | "venda" | "manos" | "cama" | "silla-ruedas" | "documento" | "chat" | "sparkles" | "medalla" | "familia" | "cafe" | "pastillas" | "brujula" | "lista" | "verificado" | "ayuda" | "pulso" | null; "text": string }[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
