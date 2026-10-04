@@ -2,7 +2,7 @@
 /**
  * Formulario de cotización (un solo módulo para modal, hero de landings y bloque en página).
  * Envía al plugin sovialis-leads; la lógica vive en src/scripts/site.ts (sin frameworks).
- *   variant="modal"  → progresivo en 3 pasos
+ *   variant="modal"  → progresivo: nombre + celular; luego zona, servicio y correo; luego el caso
  *   variant="hero"   → 3 campos visibles (nombre, WhatsApp, zona)
  *   variant="inline" → completo, sin pasos
  *   variant="bar"    → 3 campos en una fila y envío al lado (barra bajo el hero de las landings)
@@ -46,9 +46,9 @@ const f = (name: string) => `${id}-${name}`;
 		<ul></ul>
 	</div>
 
-	<div class:list={["grid gap-4", !compact && "sm:grid-cols-2", bar && "sm:grid-cols-2 lg:grid-cols-3"]}>
+	<div class:list={["grid gap-3.5", !compact && "sm:grid-cols-2", bar && "sm:grid-cols-2 lg:grid-cols-3"]}>
 		<div class="field fl-field" data-step="1">
-			<input id={f("name")} name="name" type="text" autocomplete="name" required maxlength="120" placeholder=" " aria-describedby={`${f("name")}-err`} />
+			<input id={f("name")} name="name" type="text" autocomplete="name" required maxlength="120" placeholder="Tu nombre completo" aria-describedby={`${f("name")}-err`} />
 			<label for={f("name")}>Nombre y apellido</label>
 			<small data-error="name" id={`${f("name")}-err`} hidden></small>
 		</div>
@@ -68,35 +68,7 @@ const f = (name: string) => `${id}-${name}`;
 			<small data-error="phone" id={`${f("phone")}-err`} hidden></small>
 		</div>
 
-		{
-			!compact && (
-				<div class="field fl-field sm:col-span-2" data-step="2">
-					<input id={f("email")} name="email" type="email" autocomplete="email" maxlength="190" placeholder=" " aria-describedby={`${f("email")}-err`} />
-					<label for={f("email")}>
-						Correo electrónico <span class="opt">(opcional)</span>
-					</label>
-					<small data-error="email" id={`${f("email")}-err`} hidden />
-				</div>
-			)
-		}
-
-		{
-			!compact && (
-				<div class="field fl-field" data-step="3">
-					<select id={f("service")} name="service">
-						<option value="">Aún no lo sé</option>
-						{services.map((s) => (
-							<option value={s.shortTitle} selected={s.slug === service || s.shortTitle === service}>
-								{s.shortTitle}
-							</option>
-						))}
-					</select>
-					<label for={f("service")}>¿Qué servicio buscas?</label>
-				</div>
-			)
-		}
-
-		<div class:list={["field fl-field", compact && "!col-span-1"]} data-step={compact ? "1" : "3"}>
+		<div class:list={["field fl-field", compact && "!col-span-1"]} data-step={compact ? "1" : "2"}>
 			<select id={f("zone")} name="zone" aria-describedby={`${f("zone")}-err`}>
 				<option value="">Selecciona tu zona</option>
 				{
@@ -115,6 +87,34 @@ const f = (name: string) => `${id}-${name}`;
 
 		{
 			!compact && (
+				<div class="field fl-field" data-step="2">
+					<select id={f("service")} name="service">
+						<option value="">Aún no lo sé</option>
+						{services.map((s) => (
+							<option value={s.shortTitle} selected={s.slug === service || s.shortTitle === service}>
+								{s.shortTitle}
+							</option>
+						))}
+					</select>
+					<label for={f("service")}>¿Qué servicio buscas?</label>
+				</div>
+			)
+		}
+
+		{
+			!compact && (
+				<div class="field fl-field sm:col-span-2" data-step="2">
+					<input id={f("email")} name="email" type="email" autocomplete="email" maxlength="190" placeholder="nombre@correo.com" aria-describedby={`${f("email")}-err`} />
+					<label for={f("email")}>
+						Correo electrónico <span class="opt">(opcional)</span>
+					</label>
+					<small data-error="email" id={`${f("email")}-err`} hidden />
+				</div>
+			)
+		}
+
+		{
+			!compact && !progressive && (
 				<div class="field fl-field" data-step="3">
 					<select id={f("schedule")} name="schedule">
 						<option value="">Selecciona</option>
@@ -127,7 +127,7 @@ const f = (name: string) => `${id}-${name}`;
 			)
 		}
 		{
-			!compact && (
+			!compact && !progressive && (
 				<div class="field fl-field" data-step="3">
 					<select id={f("forWhom")} name="forWhom">
 						<option value="">Selecciona</option>
@@ -142,12 +142,12 @@ const f = (name: string) => `${id}-${name}`;
 		{
 			!compact && (
 				<div class="field fl-field sm:col-span-2" data-step="3">
-					<textarea id={f("message")} name="message" rows="3" maxlength="2000" placeholder=" " aria-describedby={`${f("message")}-hint`} />
+					<textarea id={f("message")} name="message" rows="3" maxlength="2000" placeholder="Días, horarios y el apoyo que necesita" aria-describedby={`${f("message")}-hint`} />
 					<label for={f("message")}>
 						Cuéntanos brevemente el caso <span class="opt">(opcional)</span>
 					</label>
 					<small class="hint" id={`${f("message")}-hint`}>
-						Horarios, días y apoyo que necesita. Por privacidad, evita escribir diagnósticos médicos.
+						Por privacidad, evita escribir diagnósticos médicos.
 					</small>
 				</div>
 			)

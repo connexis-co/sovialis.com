@@ -179,6 +179,21 @@ for (const input of $$<HTMLInputElement>("[data-zone-search]")) {
 	});
 }
 
+/* ── Campos con etiqueta flotante: data-filled (también selects y valores prellenados) ─── */
+const syncFilled = (root: Root = document) =>
+	$$<HTMLElement>(".fl-field", root).forEach((w) => {
+		const c = $<HTMLInputElement>("input, select, textarea", w);
+		w.toggleAttribute("data-filled", Boolean(c?.value));
+	});
+for (const type of ["input", "change"]) {
+	document.addEventListener(type, (e) => {
+		const w = (e.target as HTMLElement).closest?.<HTMLElement>(".fl-field");
+		if (w) syncFilled(w.parentElement ?? document);
+	});
+}
+syncFilled();
+addEventListener("pageshow", () => syncFilled());
+
 /* ── Banner de cookies → variable CSS para que el botón flotante no lo tape ─────────────────── */
 const cookieBanner = $("#sv-cookies");
 if (cookieBanner) {
@@ -208,6 +223,7 @@ document.addEventListener("click", (e) => {
 		};
 		setSelect("service", opener.dataset.service);
 		setSelect("zone", opener.dataset.zone);
+		syncFilled(form);
 		dialog.showModal();
 		track("open_quote_modal", { cta: opener.dataset.cta ?? "sin-etiqueta" });
 	}
@@ -239,25 +255,27 @@ for (const form of $$<HTMLFormElement>("[data-quote-form]")) {
 	};
 	const steps = $$<HTMLElement>("[data-step]", form);
 	let reached = 1;
+	// Paso 1: nombre + celular. Paso 2 (al completarlos): zona, servicio y correo. Paso 3: el caso.
+	// Solo avanza con lo que escribe la persona; un servicio o zona prellenados no destapan el resto.
 	const progress = () => {
 		if (!form.classList.contains("is-progressive")) return;
-		const s1 = val("name").length >= 2 && val("phone").replace(/\D/g, "").length >= 7;
+		const s1 = val("name").length >= 2 && val("phone").replace(/\D/g, "").length >= 10;
 		let n = 1;
-		if (s1 || val("email")) n = 2;
-		if ((n >= 2 && /^\S+@\S+\.\S+$/.test(val("email"))) || val("service") || val("zone") || val("message") || (n >= 2 && form.dataset.touched3)) n = 3;
+		if (s1) n = 2;
+		if (n >= 2 && (form.dataset.zoneTouched || /^\S+@\S+\.\S+$/.test(val("email")))) n = 3;
 		reached = Math.max(reached, n);
 		steps.forEach((s) => s.classList.toggle("is-visible", Number(s.dataset.step) <= reached));
 	};
-	form.addEventListener("input", progress);
-	form.addEventListener("change", progress);
-	el("email")?.addEventListener("blur", () => {
-		form.dataset.touched3 = "1";
+	el("zone")?.addEventListener("change", () => {
+		form.dataset.zoneTouched = "1";
 		progress();
 	});
+	form.addEventListener("input", progress);
+	form.addEventListener("change", progress);
 	progress();
 	if (form.classList.contains("is-progressive")) {
 		el("phone")?.addEventListener("blur", () => {
-			if (reached < 2 && val("phone")) {
+			if (reached < 2 && val("name").length >= 2 && val("phone").replace(/\D/g, "").length >= 7) {
 				reached = 2;
 				progress();
 			}

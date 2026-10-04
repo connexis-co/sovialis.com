@@ -340,18 +340,14 @@
 	}
 	/* Estado flotante: con foco, con texto o con una opción elegida. */
 	.fl-field:focus-within > label,
-	.fl-field:has(:is(input, textarea):not(:placeholder-shown)) > label,
-	.fl-field:has(select:not(:has(option[value=""]:checked))) > label {
+	.fl-field[data-filled] > label,
+	.fl-field:has(:is(input, textarea):not(:placeholder-shown)) > label {
 		inset-block-start: 9px;
 		translate: 0 0;
 		font-size: 0.8rem;
 		font-weight: 650;
 		letter-spacing: 0.01em;
-		color: var(--sv-primary);
-	}
-	.fl-field:not(:focus-within):has(:is(input, textarea):not(:placeholder-shown)) > label,
-	.fl-field:not(:focus-within):has(select:not(:has(option[value=""]:checked))) > label {
-		color: var(--sv-text-muted);
+		color: var(--sv-deep);
 	}
 	/* El placeholder de ejemplo solo aparece con la etiqueta arriba; el select vacío no muestra texto. */
 	.fl-field :is(input, textarea)::placeholder {
@@ -361,7 +357,7 @@
 	.fl-field :is(input, textarea):focus::placeholder {
 		color: color-mix(in oklab, var(--sv-text-muted) 70%, transparent);
 	}
-	.fl-field select:has(option[value=""]:checked):not(:focus) {
+	.fl-field:not([data-filled]) select:not(:focus) {
 		color: transparent;
 	}
 	.fl-field select option {
@@ -370,10 +366,13 @@
 	.fl-field :is(input, select, textarea):hover {
 		border-color: color-mix(in oklab, var(--sv-primary) 45%, var(--sv-border));
 	}
+	.fl-field :is(input, select, textarea):focus,
 	.fl-field :is(input, select, textarea):focus-visible {
 		outline: none;
-		border-color: var(--sv-primary);
-		box-shadow: 0 0 0 4px color-mix(in oklab, var(--sv-primary) 18%, transparent);
+		border-color: var(--sv-deep);
+		box-shadow:
+			inset 0 0 0 1px var(--sv-deep),
+			0 0 0 3px color-mix(in oklab, var(--sv-secondary) 45%, transparent);
 	}
 	.fl-field:has([aria-invalid="true"]) > label {
 		color: var(--sv-accent-text);

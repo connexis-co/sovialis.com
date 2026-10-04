@@ -21,7 +21,7 @@ const summary = count ? `${fmt(average)} de 5 · ${count} ${count === 1 ? "valor
 const filled = Math.round(average);
 ---
 
-<div class:list={["star-inline", className]} data-rating={target}>
+<div class:list={["star-inline", className]} data-rating={target} id="calificar">
 	<div class="star-inline__stars" role="group" aria-label={`${label}: elige de 1 a 5 estrellas`}>
 		{
 			Array.from({ length: 5 }, (_, i) => (
@@ -39,6 +39,7 @@ const filled = Math.round(average);
 
 <style>
 	.star-inline {
+		scroll-margin-top: calc(var(--sv-header-h) + 24px);
 		display: inline-flex;
 		flex-wrap: wrap;
 		align-items: center;
