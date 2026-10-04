@@ -45,7 +45,10 @@ const imageLeft = v.image_side === "izquierda";
 // Recorte según la proporción real de la foto: las horizontales (servicios, 3:2) no se recortan en móvil
 // y quedan 4:3 en escritorio; las verticales (inicio, 4:5) van cuadradas en móvil y 5:6 en escritorio.
 const landscape = Number(v.image?.width) > 0 && Number(v.image?.height) > 0 ? v.image.width / v.image.height >= 1.2 : true;
-const photoAspect = landscape ? "aspect-[3/2] lg:aspect-[4/3]" : "aspect-square lg:aspect-[5/6]";
+const photoAspect = landscape ? "aspect-[3/2] lg:aspect-[5/4]" : "aspect-square lg:aspect-[5/6]";
+// Puntos clave en una tarjeta de vidrio sobre la foto (servicios), como la tarjeta del inicio.
+const badgesOnPhoto = Boolean(v.badges_on_photo) && badges.length > 0 && !(v.card_title || v.card_text);
+const titleClass = v.title_size === "h1" ? "text-h1" : "text-display";
 // Formulario del hero: «barra» (foto + barra horizontal debajo), «tarjeta» (formulario en lugar de la
 // foto) o «boton» (solo el botón Cotizar, que abre la ventana emergente). show_form es el valor heredado.
 const formMode: "barra" | "tarjeta" | "boton" =
@@ -102,10 +105,10 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 		</section>
 	) : (
 		<section class="hero-split relative overflow-hidden" data-block="hero">
-			<div class:list={["hero-grid container-page pt-8 pb-[clamp(3rem,6vw,5.5rem)] lg:pt-14", imageLeft && "is-image-left", mediaKind === "form" && "is-form", !mediaKind && "is-text"]}>
+			<div class:list={["hero-grid container-page pt-8 pb-[clamp(3rem,6vw,5.5rem)] lg:pt-14", imageLeft && "is-image-left", mediaKind === "form" && "is-form", !mediaKind && "is-text", mediaKind === "photo" && landscape && "is-wide-media"]}>
 				<div class="hero-head on-light relative z-[1]">
 					{v.eyebrow && <p class="eyebrow" {...edit.eyebrow}>{v.eyebrow}</p>}
-					<Tag class="mt-4 font-display text-display font-medium text-deep" set:html={titleHtml} {...edit.title} />
+					<Tag class:list={["mt-4 font-display font-medium text-deep", titleClass]} set:html={titleHtml} {...edit.title} />
 				</div>
 
 				<div class="hero-body on-light relative z-[1]">
@@ -122,7 +125,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 						<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
 					</div>
 					{badges.length > 0 && (
-						<ul class="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[1.02rem] font-semibold text-deep">
+						<ul class:list={["mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[1.02rem] font-semibold text-deep", badgesOnPhoto && "sm:hidden"]}>
 							{badges.map((b) => (
 								<li class="flex items-center gap-2">
 									<span class="grid size-6 place-items-center rounded-full bg-primary/10 text-primary" set:html={icon("check", "size-4")} />
@@ -144,11 +147,23 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 						</div>
 					</div>
 				) : mediaKind === "photo" ? (
-					<div class="hero-media relative mx-auto w-full max-w-[36rem]">
+					<div class:list={["hero-media relative mx-auto w-full", landscape ? "max-w-[44rem]" : "max-w-[36rem]"]}>
 						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float" {...edit.image}>
 							<Img image={v.image} priority class:list={["w-full object-cover", photoAspect]} sizes="(min-width:1024px) 46vw, 92vw" />
 						</div>
 						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
+						{badgesOnPhoto && (
+							<div class:list={["glass-card absolute -bottom-7 hidden max-w-[21rem] p-5 sm:block", imageLeft ? "right-4 sm:-right-8" : "left-4 sm:-left-10"]}>
+								<ul class="grid gap-2.5 text-[0.98rem] font-semibold text-deep">
+									{badges.map((b) => (
+										<li class="flex items-start gap-2.5">
+											<span class="mt-0.5 grid size-6 flex-none place-items-center rounded-full bg-primary text-white" set:html={icon("check", "size-3.5")} />
+											{b}
+										</li>
+									))}
+								</ul>
+							</div>
+						)}
 						{(v.card_title || v.card_text) && (
 							<div class="glass-card absolute -bottom-6 left-4 hidden max-w-[19rem] p-5 sm:block sm:-left-10">
 								{v.card_title && (
@@ -230,6 +245,12 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 		.hero-grid.is-image-left {
 			grid-template-columns: 0.92fr 1.08fr;
 			grid-template-areas: "media head" "media body";
+		}
+		.hero-grid.is-wide-media {
+			grid-template-columns: 0.95fr 1.05fr;
+		}
+		.hero-grid.is-wide-media.is-image-left {
+			grid-template-columns: 1.05fr 0.95fr;
 		}
 		.hero-grid.is-text {
 			grid-template-columns: minmax(0, 52rem);

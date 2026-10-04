@@ -265,7 +265,7 @@ export const collections = [
 			f("hero_subtitle", "Subtítulo de la portada", "text"),
 			f("hero_image", "Imagen de portada", "image"),
 			select("hero_image_side", "Imagen de portada a la", SIDES),
-			select("hero_form", "Formulario en la cabecera (barra bajo la foto, tarjeta en lugar de la foto o solo botón)", ["barra", "tarjeta", "boton"]),
+			select("hero_form", "Formulario en la cabecera (por defecto solo botón con ventana emergente; barra bajo la foto o tarjeta en lugar de la foto)", ["boton", "barra", "tarjeta"]),
 			f("highlights", "Puntos clave (uno por línea)", "text"),
 			layout,
 			f("body", "Contenido adicional", "portableText", { searchable: true }),

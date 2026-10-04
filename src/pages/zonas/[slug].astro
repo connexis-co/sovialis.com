@@ -39,6 +39,7 @@ const heroValue = {
 	// Respaldo mientras una zona nueva no tiene foto propia: la de su zona padre o una genérica.
 	image: d.hero_image ?? parent?.image ?? services.find((s) => s.slug === "cuidado-por-horas")?.image,
 	image_side: d.hero_image_side,
+	title_size: "h1",
 	primary_label: "Escríbenos por WhatsApp",
 	primary_action: "whatsapp",
 	secondary_label: "Confirmar cobertura",
