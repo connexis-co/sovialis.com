@@ -13,7 +13,7 @@ import QuoteForm from "../forms/QuoteForm.astro";
 import StarRating from "../ui/StarRating.astro";
 import BrandS from "../ui/BrandS.astro";
 import { icon } from "../../lib/icons";
-import { ROUTES } from "../../lib/routes";
+import { HUBS, ROUTES } from "../../lib/routes";
 import { formatCOP, getCatalog, getSiteData } from "../../lib/site";
 
 interface Props {
@@ -45,7 +45,8 @@ const imageLeft = v.image_side === "izquierda";
 // Recorte según la proporción real de la foto: las horizontales (servicios, 3:2) no se recortan en móvil
 // y quedan 4:3 en escritorio; las verticales (inicio, 4:5) van cuadradas en móvil y 5:6 en escritorio.
 const landscape = Number(v.image?.width) > 0 && Number(v.image?.height) > 0 ? v.image.width / v.image.height >= 1.2 : true;
-const photoAspect = landscape ? "aspect-[16/9] lg:aspect-[5/4]" : "aspect-[16/9] object-[50%_22%] lg:aspect-[5/6] lg:object-center";
+// En móvil la foto va completa, en su proporción real (sin recortes); en escritorio, el encuadre de la columna.
+const photoAspect = landscape ? "aspect-[3/2] lg:aspect-[5/4]" : "aspect-[4/5] lg:aspect-[5/6]";
 // Puntos clave en una tarjeta de vidrio sobre la foto (servicios), como la tarjeta del inicio.
 const badgesOnPhoto = Boolean(v.badges_on_photo) && badges.length > 0 && !(v.card_title || v.card_text);
 const titleClass = v.title_size === "h1" ? "text-h1" : "text-display";
@@ -196,19 +197,48 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 
 			{shortcuts.length > 0 && (
 				<div class="container-page pb-[clamp(3rem,6vw,5rem)]">
-					<div class="shortcuts rounded-[var(--sv-radius-hero)] border border-line bg-surface p-4 shadow-lift sm:p-6">
-						<p class="px-2 font-display text-xl text-deep">{v.shortcuts_title}</p>
-						<ul class="shortcuts__track mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 lg:grid lg:grid-cols-5 lg:overflow-visible xl:grid-cols-9">
+					<div class="shortcuts rounded-[var(--sv-radius-hero)] border border-line bg-surface p-5 shadow-lift sm:p-7" data-carousel>
+						<div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+							<div>
+								<p class="font-display text-[1.45rem] leading-tight text-deep">{v.shortcuts_title}</p>
+								<p class="mt-1 text-[0.98rem] text-muted">Elige el servicio y conoce el precio desde. Te ayudamos a decidir.</p>
+							</div>
+							<a href={HUBS.services} class="link-arrow hidden lg:inline-flex">
+								Ver todos los servicios <Fragment set:html={icon("flecha-derecha", "size-4")} />
+							</a>
+						</div>
+						<ul class="shortcuts__track -mx-5 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-1 sm:-mx-7 sm:px-7 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-3 lg:overflow-visible lg:px-0" data-carousel-track>
 							{shortcuts.map((s) => (
-								<li class="min-w-[11.5rem] snap-start lg:min-w-0">
+								<li class="w-[64%] flex-none snap-start sm:w-[40%] lg:w-auto">
 									<a href={ROUTES.services(s.slug)} class="shortcut group" data-cta={`home:atajo-${s.slug}`}>
 										<span class="shortcut__icon" set:html={icon(s.icon, "size-6")} />
-										<strong>{s.shortTitle}</strong>
-										{s.priceFrom ? <small>desde {formatCOP(s.priceFrom)}</small> : <small>Ver servicio</small>}
+										<span class="shortcut__text">
+											<strong>{s.shortTitle}</strong>
+											{s.priceFrom ? (
+												<small>
+													desde <b>{formatCOP(s.priceFrom)}</b>
+												</small>
+											) : (
+												<small>Ver servicio</small>
+											)}
+										</span>
+										<span class="shortcut__go" set:html={icon("chevron-derecha", "size-5")} aria-hidden="true" />
 									</a>
 								</li>
 							))}
 						</ul>
+						<div class="mt-4 flex items-center gap-3 lg:hidden">
+							<div class="h-1.5 flex-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+								<div class="h-full origin-left rounded-full bg-primary transition-transform duration-300" data-carousel-progress style="transform: scaleX(var(--progress, 0.2))" />
+							</div>
+							<span class="text-[0.85rem] font-semibold text-muted">Desliza para ver más</span>
+							<button type="button" class="shortcuts__nav" data-carousel-prev aria-label="Servicio anterior">
+								<Fragment set:html={icon("flecha-izquierda", "size-4")} />
+							</button>
+							<button type="button" class="shortcuts__nav" data-carousel-next aria-label="Servicio siguiente">
+								<Fragment set:html={icon("flecha-derecha", "size-4")} />
+							</button>
+						</div>
 					</div>
 				</div>
 			)}
@@ -218,8 +248,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 
 <style>
 	/* Móvil: título → imagen → texto y botones (la foto sube junto al título). Escritorio: dos columnas. */
-	/* Móvil: título → foto (16:9, máx. ~30 % de la pantalla) → botones → texto, para que el botón
-	   principal quede en la primera pantalla. Escritorio: dos columnas. */
+	/* Móvil: título → foto completa → botones → texto. Escritorio: dos columnas. */
 	.hero-grid {
 		display: grid;
 		gap: 1.5rem;
@@ -234,11 +263,7 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 	.hero-actions {
 		grid-area: actions;
 	}
-	@media (max-width: 1023px) {
-		.hero-media :global(.hero-photo img) {
-			max-height: 32svh;
-		}
-	}
+
 	.hero-head {
 		grid-area: head;
 	}
@@ -331,54 +356,109 @@ const mediaKind = formMode === "tarjeta" || (formMode === "barra" && !hasImage) 
 	}
 	.shortcuts__track {
 		scrollbar-width: none;
-		mask-image: linear-gradient(90deg, #000 85%, transparent);
+		scroll-padding-inline: 1.25rem;
 	}
-	@media (min-width: 1024px) {
-		.shortcuts__track {
-			mask-image: none;
-		}
+	.shortcuts__track::-webkit-scrollbar {
+		display: none;
 	}
 	.shortcut {
 		display: flex;
 		flex-direction: column;
-		gap: 0.35rem;
+		align-items: flex-start;
+		gap: 0.75rem;
 		height: 100%;
-		min-height: 7.5rem;
-		padding: 1rem;
-		border-radius: calc(var(--sv-radius) * 0.75);
+		padding: 1rem 1.05rem;
+		border-radius: 18px;
 		background: var(--sv-surface-warm);
+		border: 1px solid color-mix(in oklab, var(--sv-border) 70%, transparent);
 		text-decoration: none;
-		border: 1px solid transparent;
 		transition:
 			transform var(--sv-dur) var(--sv-ease-out),
-			border-color var(--sv-dur),
-			background var(--sv-dur);
+			border-color var(--sv-dur) var(--sv-ease-out),
+			background var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out);
+	}
+	@media (min-width: 1024px) {
+		.shortcut {
+			flex-direction: row;
+			align-items: center;
+			gap: 0.9rem;
+			padding: 0.95rem 1rem;
+		}
 	}
 	.shortcut:hover,
 	.shortcut:focus-visible {
-		transform: translateY(calc(-3px * var(--sv-motion)));
-		border-color: color-mix(in oklab, var(--sv-primary) 35%, transparent);
-		background: var(--sv-surface-alt);
+		transform: translateY(calc(-2px * var(--sv-motion)));
+		border-color: color-mix(in oklab, var(--sv-primary) 40%, transparent);
+		background: var(--sv-surface);
+		box-shadow: var(--sv-shadow-md);
+	}
+	.shortcut__text {
+		display: grid;
+		gap: 0.2rem;
+		flex: 1;
+		min-width: 0;
 	}
 	.shortcut strong {
 		font-weight: 650;
-		line-height: 1.2;
+		font-size: 1.04rem;
+		line-height: 1.25;
 		color: var(--sv-deep);
-		hyphens: auto;
-		overflow-wrap: break-word;
+		hyphens: manual;
+		overflow-wrap: normal;
 	}
 	.shortcut small {
 		color: var(--sv-text-muted);
 		font-size: 0.92rem;
 	}
-	.shortcut__icon {
+	.shortcut small b {
+		color: var(--sv-deep);
+		font-weight: 650;
+	}
+	.shortcut__go {
+		display: none;
+		color: var(--sv-text-muted);
+		transition:
+			transform var(--sv-dur) var(--sv-ease-out),
+			color var(--sv-dur);
+	}
+	@media (min-width: 1024px) {
+		.shortcut__go {
+			display: block;
+		}
+	}
+	.shortcut:hover .shortcut__go {
+		color: var(--sv-primary);
+		transform: translateX(3px);
+	}
+	.shortcuts__nav {
 		display: grid;
 		place-items: center;
-		width: 2.6rem;
-		height: 2.6rem;
-		border-radius: 12px;
+		inline-size: 2.5rem;
+		block-size: 2.5rem;
+		border-radius: 50%;
+		border: 1px solid var(--sv-border);
 		background: var(--sv-surface);
+		color: var(--sv-deep);
+	}
+	.shortcuts__nav:active {
+		transform: scale(0.95);
+	}
+	.shortcut__icon {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--sv-primary) 11%, transparent);
 		color: var(--sv-primary);
-		margin-bottom: 0.35rem;
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur);
+	}
+	.shortcut:hover .shortcut__icon {
+		background: var(--sv-primary);
+		color: #fff;
 	}
 </style>

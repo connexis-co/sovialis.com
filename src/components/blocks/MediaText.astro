@@ -44,7 +44,7 @@ const left = v.image_side === "izquierda";
 			v.image && (
 				<div class:list={["reveal relative", left && "lg:order-1"]}>
 					<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
-						<Img image={v.image} class="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]" loading="lazy" sizes="(min-width:1024px) 45vw, 92vw" />
+						<Img image={v.image} class="aspect-[3/2] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]" loading="lazy" sizes="(min-width:1024px) 45vw, 92vw" />
 					</div>
 					<BrandS class:list={["absolute -bottom-10 z-0 hidden h-36 w-auto text-secondary opacity-25 lg:block", left ? "-right-8" : "-left-8"]} />
 				</div>
