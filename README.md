@@ -94,6 +94,10 @@ npm run deploy
 Genera el seed, compila y publica con `wrangler deploy`. `npm run deploy:secrets` además sube los secretos
 desde `~/.config/sovialis/web-secrets.env` (`EMDASH_ENCRYPTION_KEY`, `SOVIALIS_AUTOMATION_TOKEN`).
 
+El despliegue activa `PUBLIC_CF_IMAGES=on`: las fotos salen con `srcset` por `/cdn-cgi/image` (AVIF/WebP al
+tamaño de la pantalla). Requiere Images → Transformations activo en la zona (plan gratuito: 5.000
+transformaciones únicas al mes). En local no se activa.
+
 El plan gratuito de Workers admite 3 MB comprimidos: el plugin `trimAdminLocales` de `astro.config.mjs`
 deja solo los idiomas es/en del panel para que el bundle quede en ~2,6 MB.
 

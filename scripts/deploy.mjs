@@ -25,6 +25,9 @@ const loadEnv = (file) => {
 Object.assign(process.env, loadEnv(join(homedir(), ".config/sovialis/cloudflare.env")));
 if (!process.env.CLOUDFLARE_API_TOKEN) throw new Error("Falta CLOUDFLARE_API_TOKEN (~/.config/sovialis/cloudflare.env).");
 
+// Transformaciones de imagen de Cloudflare (activadas en la zona el 4-oct-2026): srcset con
+// /cdn-cgi/image en AVIF/WebP. Solo en producción: en local no existe /cdn-cgi/image.
+process.env.PUBLIC_CF_IMAGES ??= "on";
 run("npm run seed:build");
 // Tarjetas OG con el título, el precio y la foto actuales del panel. Si falla (sin red), se usan las anteriores.
 try {
