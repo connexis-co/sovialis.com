@@ -56,7 +56,7 @@ Esta tabla resume las referencias de mercado en Bogotá:
 
 *Fuente: tarifas publicadas en los sitios web de agencias de cuidado y enfermería de Bogotá (2025 y 2026) y [El Tiempo, 16 de mayo de 2025](https://www.eltiempo.com/salud/esto-cuesta-contratar-una-enfermera-profesional-y-una-auxiliar-de-enfermeria-para-cuidar-a-un-paciente-en-casa-3454483). Son rangos de referencia, no tarifas oficiales.*
 
-Hay dos detalles que esta tabla no muestra. El primero: muchas ofertas de «enfermera a domicilio» son, en realidad, turnos de auxiliar o de cuidadora, así que compara siempre el perfil y no solo el nombre. El segundo: en Colombia la enfermería a domicilio es un servicio de salud y solo puede prestarla una IPS habilitada o una enfermera profesional inscrita como independiente.
+Hay dos detalles que esta tabla no muestra. El primero: muchas ofertas de «enfermera a domicilio» son, en realidad, turnos de auxiliar o de cuidadora, así que compara siempre el perfil y no solo el nombre. El segundo: en Colombia la enfermería a domicilio es un servicio de salud y solo puede prestarla un prestador inscrito en el REPS, como una IPS o una enfermera profesional independiente.
 
 ## Enfermera profesional, auxiliar de enfermería o cuidadora: qué estás pagando
 
@@ -85,11 +85,12 @@ Antes de pagar de forma particular, revisa estas tres cosas:
 ¿Y el precio de curaciones a domicilio o de una inyección? Varía mucho según el procedimiento, el insumo y el horario. Como referencia, una IPS de Bogotá anuncia visitas de enfermería profesional desde unos $80.000 la hora (mayo de 2026) y en los portales de citas aparecen visitas con valores muy dispersos. Para una inyección puntual, revisa [cómo pedir una inyección a domicilio](/blog/inyectologia-a-domicilio-bogota/) con tu EPS o con una IPS.
 
 > **Lo que Sovialis no hace**
+>
 > Sovialis es una empresa de Bogotá que presta cuidado no sanitario a domicilio para personas mayores, con cuidadoras y personal con formación de auxiliar de enfermería. No es una IPS: no aplica inyecciones ni insulina, no hace curaciones ni maneja sondas, sueros u oxígeno. Esos procedimientos los hace tu EPS o una IPS habilitada, con la que contratas directamente.
 
 ## Turnos de cuidado: referencias por hora, 12 horas y 24 horas
 
-Buena parte de las búsquedas sobre cuánto cobra una enfermera por cuidar a un adulto mayor vienen de familias que, en realidad, necesitan a alguien que acompañe, ayude con el baño y las comidas y esté pendiente de las pastillas. Para eso existen los turnos de cuidado.
+Cuando una familia pregunta cuánto cobra una enfermera por cuidar a un adulto mayor, muchas veces lo que necesita es alguien que acompañe, ayude con el baño y las comidas y esté pendiente de las pastillas. Para eso existen los turnos de cuidado, que cuestan menos que un turno de enfermería.
 
 ### Por horas y turnos cortos
 
@@ -105,7 +106,7 @@ Cuando alguien pregunta cuánto cobra una enfermera particular por hora, casi si
 
 ### Turnos de 12 y 24 horas
 
-El turno de 12 horas es el más común en Bogotá: de 7:00 a. m. a 7:00 p. m., o de 7:00 p. m. a 7:00 a. m. para las noches. El de 24 horas, o cuidado interno, es para personas que no pueden quedarse solas en ningún momento.
+El turno de 12 horas es el formato que más ofrecen las agencias de Bogotá: de 7:00 a. m. a 7:00 p. m., o de 7:00 p. m. a 7:00 a. m. para las noches. Por eso, cuando alguien pregunta cuánto cobra una enfermera por 12 horas, la respuesta de la tabla inicial es la más útil: entre $200.000 y $300.000 con enfermera profesional. El turno de 24 horas, o cuidado interno, es para personas que no pueden quedarse solas en ningún momento.
 
 Haz la cuenta mensual antes de decidir. Un mes de turnos de 12 horas de lunes a viernes son unos 22 turnos:
 
@@ -141,7 +142,7 @@ Si contratas a través de una empresa, pregunta cómo está cubierta la segurida
 
 ### Qué pasa si la persona no llega
 
-Pregunta en qué plazo envían a alguien más y si te cobran el tiempo en que no hubo servicio. En Sovialis acordamos un plazo de reemplazo y no cobramos el tiempo no prestado.
+Pregunta en qué plazo envían a alguien más y si te cobran el tiempo en que no hubo servicio. En Sovialis, si la persona no puede llegar, coordinamos un reemplazo en el plazo acordado y sin cobro del tiempo no prestado.
 
 ### Seguimiento del servicio
 
@@ -171,4 +172,5 @@ Necesita **enfermería** si hay una herida que curar, medicamentos inyectables, 
 Muchas familias combinan las dos cosas: la EPS o una IPS hace el procedimiento a su hora y una cuidadora acompaña el resto del día. Si lo tuyo es cuidado y compañía, escríbenos por WhatsApp y cuéntanos qué necesita tu familiar, sin diagnósticos: te decimos qué perfil y qué turno encajan y te enviamos el precio final por escrito.
 
 > **Fuentes**
+>
 > Tarifas publicadas por agencias de cuidado y enfermería de Bogotá (2025 y 2026) · [El Tiempo, 16 de mayo de 2025](https://www.eltiempo.com/salud/esto-cuesta-contratar-una-enfermera-profesional-y-una-auxiliar-de-enfermeria-para-cuidar-a-un-paciente-en-casa-3454483) · Ministerio de Salud, [Resolución 2765 de 2025](https://minsalud.gov.co/Normatividad_Nuevo/Resoluci%C3%B3n%20No%202765%20de%202025.pdf) · [REPS](https://prestadores.minsalud.gov.co/habilitacion/) · Salario mínimo 2026: Decreto 1469 de 2025 y Decreto 0159 de 2026. Esta guía es informativa y no reemplaza la valoración de un profesional de la salud.

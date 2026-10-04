@@ -7,7 +7,7 @@ menu_group: turno
 icon: casa
 seo:
   title: "Cuidado 24 horas y cuidadora interna en Bogotá | Sovialis"
-  description: "¿Buscas cuidadora interna? Cubrimos las 24 horas con relevos coordinados entre personas verificadas, festivos incluidos, en el norte de Bogotá. Desde $300.000/día."
+  description: "¿Buscas cuidadora interna? Cubrimos las 24 horas con relevos de personas verificadas, festivos incluidos, en el norte de Bogotá. Desde $300.000 por día."
 focus_keyword: cuidadora interna
 excerpt: "Cobertura de día y de noche con relevos coordinados entre personas verificadas, en lugar de una sola cuidadora interna. Incluye fines de semana y festivos."
 price_from: 300000
@@ -16,7 +16,7 @@ hero_eyebrow: "Cobertura continua · 24 h"
 hero_subtitle: "Si buscas una cuidadora interna, te proponemos cobertura 24 horas con relevos coordinados entre personas verificadas: tu familiar nunca se queda solo y siempre lo cuida alguien descansado."
 hero_image:
   media: servicio-24-horas
-  alt: "Cuidadora comparte el desayuno con una señora mayor en la cocina de su casa durante la rutina de la mañana"
+  alt: "Cuidadora comparte el desayuno con una persona mayor en su casa durante la rutina de la mañana"
 highlights: |
   Compañía de día y de noche, todos los días del año
   Relevos coordinados entre personas verificadas
@@ -64,7 +64,7 @@ layout:
     eyebrow: Diferencias
     title: "Cuidado 24 horas con relevos o cuidadora interna: diferencias"
     highlight: diferencias
-    subtitle: Muchas familias piensan primero en una persona que viva en la casa. Así se compara con la cobertura por relevos que coordinamos.
+    subtitle: Lo primero que muchas familias imaginan son cuidadoras internas para personas mayores, que vivan en la casa. Así se compara esa opción con la cobertura por relevos que coordinamos.
     col_a: Relevos coordinados
     col_b: Una sola cuidadora interna
     rows:
@@ -123,7 +123,7 @@ Una cuidadora interna es una persona que vive en la casa y cuida a tu familiar c
 
 Cada persona del equipo publica su disponibilidad y acepta los turnos que puede cubrir; con eso armamos la cobertura y te contamos de antemano quiénes participan. Aquí te explicamos en detalle [cómo coordinamos los relevos](/como-funciona/). Si tu familiar tiene alta dependencia, parte de los turnos, o todos, pueden quedar a cargo de [personal con formación de auxiliar](/servicios/auxiliar-de-enfermeria/).
 
-Si estabas buscando una persona interna para cuidar a tu papá o a tu mamá, lo más probable es que te preocupen tres cosas: que nunca esté solo, que quien lo cuide sea de confianza y que la familia no quede atada a una sola persona. Con una cuidadora interna 24 horas, todo depende de ella: si se enferma o viaja, la familia vuelve a empezar. Con relevos, el cuidado de tu familiar no se detiene.
+Si estabas buscando una persona interna para cuidar a tu papá o a tu mamá, seguramente te preocupan tres cosas: que nunca esté solo, que quien lo cuide sea de confianza y que la familia no quede atada a una sola persona. Con una interna, todo depende de ella: si se enferma o viaja, la familia vuelve a empezar. Si estás comparando empresas de cuidadoras internas, pregunta qué pasa en esos casos, quién verifica los antecedentes y quién responde por el contrato.
 
 ## Tarifas de referencia del servicio 24 horas
 

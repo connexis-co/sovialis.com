@@ -7,7 +7,7 @@ menu_group: turno
 icon: reloj
 seo:
   title: Cuidadora por horas para adultos mayores en Bogotá
-  description: "Cuidadora por horas para tu familiar en el norte de Bogotá: compañía, apoyo y salidas desde 4 horas por visita, sueltas o fijas. Desde $20.000 la hora. Cotiza hoy."
+  description: "Cuidadora por horas para tu familiar en el norte de Bogotá: compañía, apoyo y salidas desde 4 horas por visita. Desde $20.000 la hora. Cotiza hoy."
 focus_keyword: cuidadora por horas
 excerpt: "Compañía y apoyo por horas o por días sueltos, desde 4 horas por visita: para que la familia trabaje, haga diligencias o descanse con tranquilidad."
 price_from: 20000
@@ -16,7 +16,7 @@ hero_eyebrow: "Por horas · desde 4 h"
 hero_subtitle: "Una cuidadora por horas acompaña a tu familiar mientras trabajas, haces diligencias o descansas: visitas desde 4 horas, sueltas o fijas, en el norte de Bogotá."
 hero_image:
   media: servicio-por-horas
-  alt: "Cuidadora por horas acompaña a una señora mayor en un paseo corto por el barrio en la tarde"
+  alt: "Cuidadora por horas acompaña a una persona mayor en un paseo corto por el barrio en la tarde"
 highlights: |
   Compañía, conversación y actividades que disfruta
   Caminatas cortas y salidas a diligencias cercanas
@@ -45,13 +45,13 @@ layout:
     highlight: por horas
     image:
       media: nuestro-cuidado
-      alt: "Cuidadora por horas comparte una taza de té y una lectura con una señora mayor en su casa"
+      alt: "Cuidadora por horas comparte una taza de té y una lectura con una persona mayor en su casa"
     image_side: izquierda
     tone: claro
     body: |
       El cuidado por horas sirve cuando tu familiar se las arregla bien buena parte del día, pero hay momentos en que no debería estar solo: la tarde en que tú trabajas, la mañana del baño o el día en que tienes que hacer vueltas lejos de la casa.
 
-      Una cuidadora de adulto mayor por horas llega a la hora acordada, se queda mínimo 4 horas y se va cuando alguien de la familia vuelve. No tienes que comprometerte con turnos largos ni con todos los días de la semana.
+      Una cuidadora de adulto mayor por horas llega a la hora acordada, se queda mínimo 4 horas y se va cuando alguien de la familia vuelve. No tienes que comprometerte con turnos largos ni con todos los días de la semana. Es la forma más flexible de conseguir compañía para personas mayores que viven solas o una acompañante a domicilio para las tardes.
     bullets: |
       Familias que trabajan y necesitan cubrir una parte del día
       Personas mayores que viven solas y necesitan compañía unas horas
@@ -109,7 +109,7 @@ layout:
 
 Cada visita del cuidado de adulto mayor por horas dura mínimo 4 horas. Es el tiempo que permite organizar el desplazamiento de la cuidadora y dedicarle a tu familiar un rato sin afanes. Puedes programar visitas sueltas, como una tarde puntual, o fijas, por ejemplo martes y jueves de 2:00 a 6:00 p. m.
 
-Para programar, cuéntanos los días, la hora de llegada y la dirección. Te confirmamos la disponibilidad de personal y te enviamos la cotización por escrito. Si las visitas son fijas, procuramos que vaya la misma cuidadora o un grupo pequeño que ya conozca la rutina. Conoce el [perfil de la cuidadora](/servicios/cuidadora-adulto-mayor/) y cómo la verificamos antes de presentártela.
+Para programar, cuéntanos los días, la hora de llegada y la dirección. Te confirmamos la disponibilidad de personal y te enviamos la cotización por escrito. Si las visitas son fijas, procuramos que los cuidadores por horas sean siempre los mismos, para que tu familiar los reconozca. Conoce el [perfil de la cuidadora](/servicios/cuidadora-adulto-mayor/) y cómo la verificamos antes de presentártela.
 
 Las horas también sirven para salir de la casa. Si lo que necesitas es que alguien lleve a tu familiar a un control médico, espere con él y lo regrese, mira el [acompañamiento a citas médicas](/servicios/acompanamiento-citas-medicas/), que funciona con la misma tarifa por hora.
 

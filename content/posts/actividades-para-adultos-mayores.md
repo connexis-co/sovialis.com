@@ -52,7 +52,7 @@ Una actividad lúdica para adultos no tiene por qué ser infantil. Evita materia
 
 ## Actividades físicas suaves
 
-Moverse un poco cada día mantiene la fuerza para levantarse, caminar y bañarse sin ayuda. Estas ocho ideas no reemplazan una rutina de ejercicio; buscan sumar movimiento a la vida diaria.
+Moverse un poco cada día mantiene la fuerza para levantarse, caminar y bañarse sin ayuda. Estas ideas suman movimiento a la vida diaria.
 
 | # | Actividad | Cómo adaptarla |
 |---|---|---|
@@ -69,7 +69,7 @@ Para trabajar fuerza y equilibrio con series y repeticiones, revisa nuestra [rut
 
 ## Actividades para la mente
 
-Leer, conversar, resolver y aprender mantienen la atención y dan tema de conversación. Elige según lo que disfrutaba antes, no según lo que «debería» ejercitar.
+Leer, resolver y aprender mantienen la atención y dan tema de conversación. Elige según lo que disfrutaba antes.
 
 | # | Actividad | Cómo adaptarla |
 |---|---|---|
@@ -84,7 +84,7 @@ Leer, conversar, resolver y aprender mantienen la atención y dan tema de conver
 
 ## Actividades creativas y manuales
 
-Hacer algo con las manos da una sensación de logro que se ve: un tejido, un plato servido, una pintura colgada en la sala.
+Hacer algo con las manos deja un logro visible: un tejido, un plato servido, una pintura en la sala.
 
 | # | Actividad | Cómo adaptarla |
 |---|---|---|
@@ -99,7 +99,7 @@ Hacer algo con las manos da una sensación de logro que se ve: un tejido, un pla
 
 ## Actividades sociales y con la familia
 
-La soledad pesa tanto como la falta de movimiento. Las actividades con adultos mayores que más se disfrutan suelen ser las que se comparten.
+Estar con otros también cuenta. Las actividades con adultos mayores que más se disfrutan suelen ser las que se comparten.
 
 | # | Actividad | Cómo adaptarla |
 |---|---|---|
@@ -114,7 +114,7 @@ La soledad pesa tanto como la falta de movimiento. Las actividades con adultos m
 
 ## Actividades para adultos mayores en Bogotá: parques, IDRD, Centros Día y bibliotecas
 
-En Bogotá hay oferta gratuita o con descuento para personas mayores: actividad física del IDRD en parques, la Recreovía en Casa, el Pasaporte Vital, los Centros Día de la Secretaría de Integración Social y los clubes de persona mayor de BibloRed. Cada programa tiene requisitos de edad e inscripción, así que conviene confirmarlos antes de ir.
+En Bogotá hay actividades recreativas para adultos mayores gratuitas o con descuento: actividad física del IDRD en parques, la Recreovía en Casa, el Pasaporte Vital, los Centros Día de la Secretaría de Integración Social y los clubes de persona mayor de BibloRed. Cada programa tiene requisitos de edad e inscripción, así que conviene confirmarlos antes de ir.
 
 | Programa | Para quién | Qué ofrece | Cómo acceder |
 |---|---|---|---|
@@ -127,11 +127,11 @@ En Bogotá hay oferta gratuita o con descuento para personas mayores: actividad 
 
 Algunos planes del norte que no requieren inscripción: caminar despacio por el Parque El Virrey o el Parque de la 93 entre semana, recorrer el mercado de pulgas de Usaquén un domingo, o pasar la mañana en la Biblioteca Pública Julio Mario Santo Domingo, sobre la Calle 170. Los domingos y festivos, la Ciclovía funciona de 7:00 a. m. a 2:00 p. m.; caminar un tramo corto de la Séptima sin carros es un paseo distinto.
 
-Si tu familiar tiene 62 años o más, la Ley 1171 de 2007 prevé descuentos en espectáculos y entrada gratuita a museos públicos, aunque los limita a quienes están en los niveles más bajos del Sisbén. Lo explicamos en la guía de [leyes y derechos del adulto mayor](/blog/leyes-y-derechos-del-adulto-mayor/).
+Desde los 62 años, la Ley 1171 de 2007 prevé descuentos en espectáculos y entrada gratuita a museos públicos para personas en los niveles más bajos del Sisbén; lo explicamos en la guía de [leyes y derechos del adulto mayor](/blog/leyes-y-derechos-del-adulto-mayor/).
 
 ## Actividades para personas con movilidad reducida
 
-Una movilidad reducida cambia la forma de la actividad, no las ganas de hacerla. Estas ocho ideas funcionan sentado en una silla de ruedas, en un sillón o, varias de ellas, en la cama.
+Una movilidad reducida cambia la forma de la actividad, no las ganas de hacerla. Estas ideas funcionan en silla de ruedas, en un sillón o, varias, en la cama.
 
 | # | Actividad | Cómo adaptarla |
 |---|---|---|
@@ -148,7 +148,7 @@ Si tu familiar tiene Alzheimer u otra demencia, las [actividades en demencia](/b
 
 ## Cómo armar una semana de actividades
 
-Una semana de actividades funciona mejor si alterna movimiento, mente, manos y vida social, con momentos de descanso. No hace falta llenar cada hora: dos o tres actividades cortas al día dan estructura sin agotar. Este es un ejemplo para una persona que camina con apoyo.
+Una semana de actividades funciona mejor si alterna movimiento, mente, manos y vida social, con momentos de descanso. No hace falta llenar cada hora: dos o tres actividades cortas al día dan estructura sin agotar, y ninguna actividad para el adulto mayor tiene que durar horas para valer la pena. Este es un ejemplo para una persona que camina con apoyo.
 
 | Día | Mañana | Tarde |
 |---|---|---|

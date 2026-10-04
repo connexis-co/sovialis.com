@@ -60,7 +60,7 @@ La Corte Constitucional lo explica de forma parecida en la [sentencia T-319 de 2
 
 ## Qué puede hacer cada perfil: enfermera, auxiliar y cuidadora (tabla)
 
-En Colombia hay tres perfiles que se suelen confundir. Cambian la formación, el registro que deben tener y, sobre todo, lo que pueden hacer en tu casa.
+En Colombia hay tres perfiles que se suelen confundir. La diferencia entre auxiliar de enfermería y enfermera, y entre ambas y una cuidadora, está en la formación, en el registro que deben tener y, sobre todo, en lo que pueden hacer en tu casa.
 
 | | Enfermera profesional | Auxiliar de enfermería | Cuidadora |
 |---|---|---|---|
@@ -99,14 +99,14 @@ En Colombia no hay un título obligatorio para ser cuidadora. La [guía del Mini
 
 ## Cuándo sí necesitas enfermería a domicilio y cómo pedirla
 
-Necesitas enfermería cuando hay un procedimiento que solo puede hacer personal de salud. Los casos más frecuentes en personas mayores son:
+Necesitas un enfermero o una enfermera a domicilio cuando hay un procedimiento que solo puede hacer personal de salud. Los casos más frecuentes en personas mayores son:
 
 - Medicamentos inyectables o intravenosos, incluida la insulina cuando nadie de la familia fue entrenado para aplicarla.
 - Curaciones de heridas quirúrgicas, úlceras por presión o pie diabético.
 - Paso o cambio de sondas, cuidado de traqueostomías o aspiración de secreciones.
 - Ajustes de oxígeno, toma de muestras de laboratorio o valoración clínica frecuente.
 
-El camino para pedirla:
+El camino para pedir enfermería a domicilio en Bogotá:
 
 1. **Consigue la orden médica.** El médico tratante debe indicar el procedimiento, la frecuencia y, si aplica, que el manejo sea en casa.
 2. **Pídela primero a tu EPS o a tu prepagada.** La atención domiciliaria está dentro del Plan de Beneficios en Salud cuando el médico la considera pertinente; la [Resolución 2765 de 2025](https://minsalud.gov.co/Normatividad_Nuevo/Resoluci%C3%B3n%20No%202765%20de%202025.pdf) la mantiene para 2026. Te explicamos el trámite en la guía de [atención domiciliaria por EPS](/blog/eps-cuidador-en-casa/).
@@ -129,6 +129,7 @@ Basta con cuidado cuando tu familiar no necesita procedimientos, pero sí apoyo 
 En esos casos, una [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/) cubre las rutinas y la compañía. Si la dependencia es alta (persona en cama, movilización difícil, varias enfermedades crónicas), conviene el cuidado por [personal con formación de auxiliar de enfermería](/servicios/auxiliar-de-enfermeria/), que tiene más práctica en cambios de posición, baño en cama y prevención de lesiones de piel.
 
 > **Lo que Sovialis hace y lo que no**
+>
 > Sovialis es una empresa de Bogotá que presta cuidado no sanitario a domicilio para personas mayores, con cuidadoras y personal con formación de auxiliar de enfermería. No es una IPS: su personal no aplica inyecciones, no hace curaciones ni maneja sondas, sueros u oxígeno, aunque tenga la formación. Esos procedimientos los hace tu EPS o una IPS habilitada, con la que contratas directamente, y nosotros ajustamos los horarios del cuidado para que coincidan.
 
 ## Casos típicos: postoperatorio, Alzheimer, persona encamada y acompañamiento
@@ -146,7 +147,7 @@ Las primeras semanas después de una cirugía de cadera o de rodilla suelen mezc
 
 ### Alzheimer y otras demencias
 
-Una persona con demencia rara vez necesita enfermería todo el día. Necesita rutinas, paciencia, un entorno seguro y alguien que conozca sus horarios. La enfermería entra solo si hay un procedimiento puntual. Para este caso, Sovialis tiene [cuidado para personas con Alzheimer y demencia](/servicios/cuidado-alzheimer-demencia/).
+Una persona con demencia rara vez necesita enfermería todo el día. Necesita rutinas estables, paciencia, un entorno seguro y alguien que la conozca: qué la calma, qué la angustia, a qué hora suele inquietarse. La enfermería entra solo si hay un procedimiento puntual; el resto es cuidado, organizado alrededor de lo que todavía disfruta hacer.
 
 ### Persona encamada
 
@@ -179,4 +180,5 @@ La cuidadora no tiene registro oficial, así que su verificación es otra: ident
 Si después de leer esto concluyes que tu familiar necesita compañía y ayuda con sus rutinas, y no procedimientos, escríbenos por WhatsApp y cuéntanos el caso, sin diagnósticos: te recomendamos el perfil y el horario que encajan, y te damos el precio final por escrito.
 
 > **Fuentes**
+>
 > Corte Constitucional, [sentencia T-319 de 2025](https://www.corteconstitucional.gov.co/relatoria/2025/t-319-25.htm) · Ministerio de Salud, [Resolución 2765 de 2025](https://minsalud.gov.co/Normatividad_Nuevo/Resoluci%C3%B3n%20No%202765%20de%202025.pdf) y [guía de estándares para servicios de atención a personas mayores (2019)](https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/PS/guia-aplicacion-estandares-criterios-centros-servicios-atencion-integral-personas-mayores.pdf) · [Resolución 3100 de 2019](https://cancilleria.gov.co/normograma/compilacion/docs/resolucion_minsaludps_3100_2019.htm) · [REPS](https://prestadores.minsalud.gov.co/habilitacion/) · [ReTHUS](https://web.sispro.gov.co/THS/Cliente/ConsultasPublicas/ConsultaPublicaDeTHxIdentificacion.aspx). Esta guía es informativa y no reemplaza la valoración de un profesional de la salud.

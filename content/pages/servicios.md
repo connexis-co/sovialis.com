@@ -5,7 +5,7 @@ title: Servicios de cuidado para adultos mayores
 summary: "Nuestros servicios para adultos mayores se eligen por quién cuida, en qué horario y para qué necesidad: cuidadora o personal con formación de auxiliar, por horas, de noche, 24 horas, en la clínica o en casa."
 seo:
   title: "Servicios de cuidado para adultos mayores en casa | Sovialis"
-  description: "Cuidado según el perfil, el horario y la necesidad de tu familiar: cuidadora, auxiliar, por horas, noche, 24 h, clínica, postoperatorio y demencia. Cotiza hoy."
+  description: "Elige el cuidado por perfil, horario y necesidad: cuidadora, auxiliar, por horas, noche, 24 h, clínica, postoperatorio o demencia, en Bogotá. Cotiza hoy."
 focus_keyword: servicios para adultos mayores
 faqs:
   - question: "¿Qué modalidades de servicio ofrece Sovialis?"

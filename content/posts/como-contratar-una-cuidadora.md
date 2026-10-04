@@ -39,9 +39,9 @@ tags:
 published_at: 2026-09-24
 ---
 
-Para contratar una cuidadora para tu papá o tu mamá sigue cinco pasos en este orden: define cuánta ayuda necesita, decide dónde buscar, entrevista con preguntas concretas, verifica identidad, referencias y antecedentes, y empieza con un plan de cuidado escrito y un primer turno de empalme. Saber cómo contratar una cuidadora con método te ahorra semanas de pruebas y, sobre todo, protege a tu familiar.
+Para contratar una cuidadora para tu papá o tu mamá, sigue cinco pasos en este orden: define cuánta ayuda necesita, decide dónde buscar, entrevista con preguntas concretas, verifica identidad, referencias y antecedentes, y empieza con un plan de cuidado escrito y un primer turno de empalme. Saber cómo contratar una cuidadora con método te ahorra semanas de pruebas y, sobre todo, protege a tu familiar.
 
-Esta guía sirve tanto si vas a contratar directamente como si prefieres hacerlo con una empresa. Al final encontrarás las señales que indican que algo no va bien y cómo pedir un cambio sin que tu familiar quede desprotegido.
+Esta guía sirve tanto si vas a contratar directamente como si prefieres hacerlo con una [empresa que coordine cuidadoras verificadas](/servicios/cuidadora-adulto-mayor/). Al final encontrarás las señales que indican que algo no va bien y cómo pedir un cambio sin que tu familiar quede desprotegido.
 
 ## Antes de buscar: define cuánta ayuda necesita tu familiar
 
@@ -177,4 +177,8 @@ Si contrataste con una empresa, cuéntale a la coordinación qué pasó, con hec
 
 Protege primero a tu familiar: que no vuelva a quedarse a solas con esa persona. Documenta lo que viste (fotos, fechas, testigos), pide valoración médica por urgencias o con tu EPS si hay lesiones, y denúncialo ante la Policía (Línea 123) o la Fiscalía. Si el maltrato viene de alguien de la familia, acude también a una Comisaría de Familia. La [Ley 1850 de 2017](http://www.secretariasenado.gov.co/senado/basedoc/ley_1850_2017.html) refuerza la protección de las personas mayores y penaliza el maltrato por abandono.
 
-Si prefieres no hacer este proceso solo, Sovialis coordina [cuidadoras verificadas en Bogotá](/servicios/cuidadora-adulto-mayor/) para el norte de la ciudad. Escríbenos por WhatsApp, cuéntanos qué necesita tu familiar, sin diagnósticos, y te ayudamos a elegir perfil y horario.
+Si prefieres no hacer este proceso solo, Sovialis coordina [cuidadoras verificadas en Bogotá](/servicios/cuidadora-adulto-mayor/) para el norte de la ciudad y confirma la cobertura de tu dirección. Escríbenos por WhatsApp, cuéntanos qué necesita tu familiar, sin diagnósticos, y te ayudamos a elegir perfil y horario.
+
+> **Fuentes**
+>
+> [Ley 1480 de 2011](http://www.secretariasenado.gov.co/senado/basedoc/ley_1480_2011.html) (Estatuto del Consumidor) · [Ley 1581 de 2012](http://www.secretariasenado.gov.co/senado/basedoc/ley_1581_2012.html) (protección de datos) · [Ley 1850 de 2017](http://www.secretariasenado.gov.co/senado/basedoc/ley_1850_2017.html) · Ministerio de Salud, [guía de estándares para servicios de atención a personas mayores (2019)](https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/DE/PS/guia-aplicacion-estandares-criterios-centros-servicios-atencion-integral-personas-mayores.pdf) · Consultas oficiales de antecedentes de la Policía Nacional, la Procuraduría y la Contraloría · [ReTHUS](https://web.sispro.gov.co/THS/Cliente/ConsultasPublicas/ConsultaPublicaDeTHxIdentificacion.aspx). Esta guía es informativa; si vas a contratar directamente, confirma tus obligaciones con un abogado laboral.

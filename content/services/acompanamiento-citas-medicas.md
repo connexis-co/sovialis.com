@@ -7,7 +7,7 @@ menu_group: necesidad
 icon: calendario
 seo:
   title: Servicio de acompañamiento a citas médicas en Bogotá
-  description: "Acompañamiento a citas médicas en Bogotá: una persona verificada lleva a tu familiar a consultas o exámenes, anota las indicaciones y lo regresa a casa. Desde 4 h."
+  description: "Acompañamiento a citas médicas en Bogotá: una persona verificada lleva a tu familiar a consultas o exámenes, anota indicaciones y lo regresa. Desde 4 h."
 focus_keyword: servicio de acompañamiento a citas médicas
 excerpt: "Una persona verificada acompaña a tu familiar a consultas, exámenes o terapias, anota las indicaciones y lo regresa a casa. Por horas, desde 4 horas por servicio."
 price_from: 20000
@@ -16,7 +16,7 @@ hero_eyebrow: "Citas, exámenes y terapias"
 hero_subtitle: "Nuestro servicio de acompañamiento a citas médicas lleva a tu familiar a consultas, exámenes o terapias, espera con él, anota las indicaciones y lo regresa a casa. Se programa por horas, desde 4 horas."
 hero_image:
   media: servicio-citas
-  alt: "Acompañante y señora mayor esperan su turno en la sala de espera moderna de un consultorio en Bogotá"
+  alt: "Acompañante y persona mayor esperan su turno en la sala de espera moderna de un consultorio en Bogotá"
 highlights: |
   Recogida en casa y regreso con el transporte que dispongas
   Compañía en trámites, salas de espera y consulta
@@ -37,7 +37,7 @@ faqs:
   - question: "¿Me envían un reporte de lo que dijo el médico?"
     answer: "Sí. Al terminar te enviamos por WhatsApp o correo las indicaciones, los exámenes pendientes y las próximas citas que anotó la acompañante. Es un registro fiel de lo que se dijo, sin interpretarlo clínicamente: si algo no queda claro, lo mejor es llamar al consultorio o preguntarlo en el próximo control. Las órdenes y fórmulas que entreguen vuelven a casa con tu familiar."
   - question: "¿Pueden acompañar a mi familiar a reclamar medicamentos o resultados?"
-    answer: "Sí, lo acompañan en el trámite en la farmacia, el laboratorio o la sede de la EPS. Si quieres que la acompañante lo haga sola, sin tu familiar, la EPS o la farmacia suele pedir una autorización firmada y los documentos del paciente. Ella no paga con dinero propio: los copagos los cubre la familia por el medio que acuerden."
+    answer: "Sí, lo acompañan en el trámite en la farmacia, el laboratorio o la sede de la EPS. Si quieres que la acompañante lo haga sola, sin tu familiar, la EPS o la farmacia suele pedir una autorización firmada y los documentos de tu familiar. Ella no paga con dinero propio: los copagos los cubre la familia por el medio que acuerden."
 layout:
   - _type: media_text
     eyebrow: Para quién es
@@ -45,13 +45,13 @@ layout:
     highlight: a la cita
     image:
       media: servicio-por-horas
-      alt: "Acompañante camina junto a un señor mayor por una calle arborizada del norte de Bogotá en la tarde"
+      alt: "Acompañante camina junto a una persona mayor por una calle del norte de Bogotá en la tarde"
     image_side: izquierda
     tone: claro
     body: |
       Una cita médica en Bogotá rara vez dura lo que dice la orden. Hay que salir con tiempo por la Autopista Norte o la Séptima, hacer fila en admisiones, esperar el turno y, a veces, subir a otro piso para un examen. Para una persona mayor que se cansa o se desorienta, ir sola no es buena idea, y para la familia sacar tiempo del trabajo cada vez tampoco es fácil.
 
-      El acompañamiento a citas médicas resuelve ese hueco: una persona verificada va con tu familiar de principio a fin y te cuenta lo que dijo el médico.
+      Nuestro servicio de acompañamiento para adultos mayores resuelve ese hueco: una persona verificada va con tu familiar de principio a fin y te cuenta lo que dijo el médico.
     bullets: |
       Consultas de control con especialistas
       Exámenes de laboratorio o de imágenes, incluso con sedación
@@ -129,7 +129,7 @@ Al salir, la acompañante regresa con tu familiar en el transporte que dispusist
 
 Si quieres que se quede unas horas más en casa, se suman como [cuidado por horas](/servicios/cuidado-por-horas/). Este acompañamiento para adultos mayores en Bogotá funciona desde el norte y el noroccidente de la ciudad; aquí puedes ver las [clínicas del norte de Bogotá](/zonas/) y los barrios que cubrimos.
 
-Si estás comparando empresas de acompañamiento de personas mayores, haz tres preguntas antes de decidir: si verifican identidad, referencias y antecedentes de quien va a acompañar; si te envían un reporte escrito después de cada cita, y si el precio que te dan ya incluye impuestos.
+Si estás comparando empresas de acompañamiento a personas mayores, haz tres preguntas antes de decidir: si verifican identidad, referencias y antecedentes de quien va a acompañar; si te envían un reporte escrito después de cada cita, y si el precio que te dan ya incluye impuestos.
 
 ## Tarifa por horas
 

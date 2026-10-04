@@ -7,9 +7,9 @@ menu_group: turno
 icon: corazon
 seo:
   title: "Cuidadora de adulto mayor en Bogotá, verificada | Sovialis"
-  description: "Cuidadora de adulto mayor verificada para tu papá o tu mamá: compañía, higiene, comidas, movilidad y medicamentos. Turno de 12 h desde $160.000. Cotiza hoy."
+  description: "Cuidadora de adulto mayor verificada para tu papá o mamá: compañía, higiene, comidas, movilidad y medicamentos. Turno de 12 h desde $160.000. Cotiza hoy."
 focus_keyword: cuidador de adulto mayor
-excerpt: "Una persona verificada acompaña a tu familiar en casa: compañía, higiene, comidas, movilidad y recordatorio de medicamentos, por horas o en turnos de día, de noche o 24 horas."
+excerpt: "Una persona verificada acompaña a tu familiar en casa: compañía, higiene, comidas, movilidad y medicamentos, por horas o en turnos de día, de noche o 24 horas."
 price_from: 160000
 price_unit: por turno de 12 h de día
 hero_eyebrow: "Perfil · Cuidadora"
@@ -29,13 +29,13 @@ faqs:
   - question: "¿Qué verificaciones hacen antes de presentar una cuidadora?"
     answer: "Verificamos su identidad, sus referencias, sus antecedentes, su formación y su afiliación a seguridad social, y dejamos constancia de cada consulta. Antes del primer turno te compartimos su perfil y el resultado de esas verificaciones, para que sepas quién va a entrar a tu casa y por qué la elegimos para tu familiar."
   - question: "¿La cuidadora puede darle los medicamentos a mi familiar?"
-    answer: "Puede recordarle los horarios y ayudarle a tomar los medicamentos orales que la familia deja organizados por dosis, por ejemplo en un pastillero semanal. No administra inyectables ni insulina, no cambia dosis y no decide si se toma o no un medicamento. Si tu familiar se niega o notas un efecto extraño, la cuidadora lo anota y avisa a la familia."
+    answer: "Puede recordarle los horarios y ayudarle a tomar los medicamentos orales que la familia deja organizados por dosis, por ejemplo en un pastillero semanal. No administra inyectables ni insulina, ni cambia dosis. Si tu familiar se niega a tomarlos o nota algo extraño, la cuidadora lo anota y avisa a la familia."
   - question: "¿Qué pasa si nadie llega a recibir a mi familiar al terminar el turno?"
     answer: "La cuidadora no lo deja solo: se queda hasta 2 horas adicionales, que se cobran, mientras llega un adulto responsable. Por eso pedimos siempre un contacto y un plan de contingencia: quién recibe, a qué hora y a quién llamar si hay un retraso, como un trancón en la Autopista Norte."
   - question: "¿Puede la misma cuidadora acompañar a mi familiar todos los días?"
     answer: "Procuramos continuidad con un grupo pequeño de cuidadoras que ya conocen la rutina de tu familiar. Como cada una define su propia disponibilidad, en coberturas largas o de varios días a la semana se alternan dos o más personas. Quien llega recibe el plan de cuidado y la bitácora, y sabe desde el primer día cómo le gusta el café a tu mamá."
   - question: "¿Qué tareas de higiene personal hace la cuidadora?"
-    answer: "Asiste a tu familiar en el baño o la ducha, el cambio de pañal o el uso del sanitario, el vestido, la higiene oral y el cuidado básico de la piel, como aplicar la crema que usa a diario. Lo hace respetando su intimidad y sus preferencias: le pregunta, le explica cada paso y le deja hacer solo todo lo que todavía puede hacer."
+    answer: "Asiste a tu familiar en el baño o la ducha, el cambio de pañal o el uso del sanitario, el vestido, la higiene oral y el cuidado básico de la piel, como aplicar la crema que usa a diario. Lo hace respetando su intimidad y sus preferencias, y le deja hacer solo lo que todavía puede."
   - question: "¿La cuidadora prepara las comidas de mi familiar?"
     answer: "Sí. Prepara alimentos sencillos o los que indique la familia, le ayuda a comer si lo necesita y está pendiente de que tome suficiente líquido durante el turno. Si el médico indicó una dieta, por ejemplo baja en sal, la sigue. No cocina para el resto del hogar."
   - question: "¿Puedo pedir cambio de cuidadora?"
@@ -69,17 +69,17 @@ layout:
     subtitle: Las tareas se acuerdan contigo en el plan de cuidado antes del primer turno.
     image:
       media: nuestro-cuidado
-      alt: "Cuidadora lee junto a una señora mayor que toma té en la sala de su casa"
+      alt: "Cuidadora lee junto a una persona mayor que toma té en la sala de su casa"
     tabs:
       - label: Qué incluye
         title: Lo que hace durante el turno
         body: |
-          - **Higiene y confort:** ayuda en la ducha o el aseo, el vestido, el cambio de pañal o el uso del sanitario, la higiene oral y el cuidado básico de la piel.
-          - **Comidas:** prepara alimentos sencillos o los que indique la familia, le ayuda a comer y está pendiente de que tome líquido.
-          - **Medicamentos orales:** le recuerda los horarios y le ayuda a tomar los que la familia deja organizados por dosis.
-          - **Movilidad y seguridad:** traslados de la cama a la silla o al sillón, caminatas cortas y un entorno ordenado para prevenir caídas.
-          - **Compañía:** conversación, lectura, juegos de mesa, paseos y salidas a citas o diligencias.
-          - **Bitácora:** anota cada día las novedades, lo que comió y cómo pasó el turno.
+          - **Higiene:** ducha o aseo, vestido, cambio de pañal, uso del sanitario y cuidado básico de la piel.
+          - **Comidas:** alimentos sencillos o los que indique la familia, ayuda para comer e hidratación.
+          - **Medicamentos orales:** recordatorio de horarios y ayuda con los que la familia deja organizados por dosis.
+          - **Movilidad:** traslados de la cama a la silla, caminatas cortas y un entorno ordenado para prevenir caídas.
+          - **Compañía:** conversación, lectura, juegos de mesa y salidas a citas o diligencias.
+          - **Bitácora:** novedades del día, lo que comió y cómo pasó el turno.
       - label: Qué no incluye
         title: Lo que no le corresponde
         body: |
@@ -98,9 +98,6 @@ layout:
     col_b: Formación de auxiliar
     rows:
       - feature: Compañía, higiene, comidas y movilidad
-        a: Sí
-        b: Sí
-      - feature: Recordatorio de medicamentos orales
         a: Sí
         b: Sí
       - feature: Práctica con personas encamadas o recién salidas del hospital
@@ -123,16 +120,16 @@ layout:
     items:
       - icon: chat
         title: Nos cuentas el caso
-        text: Por WhatsApp o en una llamada nos cuentas la rutina de tu familiar, el horario que necesitas y la dirección. Sin diagnósticos ni papeles.
+        text: Por WhatsApp o en una llamada, la rutina de tu familiar, el horario y la dirección. Sin diagnósticos ni papeles.
       - icon: documento
         title: Acordamos el plan de cuidado
-        text: Definimos tareas, horarios, contactos y qué hacer ante una urgencia. Recibes la cotización por escrito antes de decidir.
+        text: Tareas, horarios, contactos y qué hacer ante una urgencia. La cotización te llega por escrito.
       - icon: usuario
         title: Te presentamos a la cuidadora
-        text: Te compartimos su perfil y las verificaciones hechas. El primer día conoce la casa y la rutina con alguien de la familia.
+        text: Recibes su perfil y las verificaciones hechas. El primer día conoce la casa con alguien de la familia.
       - icon: corazon
         title: Seguimiento contigo
-        text: Después de los primeros turnos hablamos contigo para ajustar el plan. Si algo no funciona, buscamos otra persona verificada.
+        text: Tras los primeros turnos ajustamos el plan contigo. Si algo no funciona, buscamos otra persona verificada.
     cta_label: Pide una cuidadora
     cta_action: whatsapp
 ---

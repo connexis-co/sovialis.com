@@ -40,11 +40,13 @@ tags:
 published_at: 2026-10-02
 ---
 
-La EPS no está obligada, como regla general, a dar un cuidador de adulto mayor en casa: el cuidado le corresponde primero a la familia. Lo que sí debe prestar es **atención domiciliaria en salud** (consultas, enfermería, terapias) cuando el médico tratante la ordena. Y la Corte Constitucional ha obligado a las EPS a asumir el **cuidador por EPS de forma excepcional**, cuando hay certeza médica de que la persona lo necesita y la familia no puede cuidarla.
+La EPS no está obligada, como regla general, a dar un cuidador de adulto mayor en casa: el cuidado le corresponde primero a la familia. Lo que sí debe prestar es **atención domiciliaria en salud** (consultas, enfermería, terapias) cuando el médico tratante la ordena. Y la Corte Constitucional ha ordenado, de forma excepcional, un **cuidador por EPS** cuando hay certeza médica de que la persona lo necesita y la familia no puede cuidarla.
 
-Esa diferencia entre atención domiciliaria y cuidador explica la mayoría de las negativas que reciben las familias. En esta guía verás qué cubre cada servicio, qué ha dicho la Corte, cómo pedir la atención en casa paso a paso, cuándo procede la tutela y qué hacer mientras llega la respuesta.
+Esa diferencia entre atención domiciliaria y cuidador explica muchas de las negativas que reciben las familias. En esta guía verás qué cubre cada servicio, qué ha dicho la Corte, cómo pedir la atención en casa paso a paso, cuándo procede la tutela y qué hacer mientras llega la respuesta.
 
 ## Respuesta rápida: atención domiciliaria sí; cuidador, solo en casos excepcionales
+
+Tu EPS debe llevar a la casa los servicios de salud que el médico ordene, pero el cuidado diario (bañar, alimentar, acompañar) sigue siendo, por regla general, tarea de la familia. Solo cuando hay certeza médica y la familia no puede asumirlo, la EPS puede quedar obligada a aportar un cuidador, en todo o en parte.
 
 La Corte Constitucional resumió las diferencias en la [sentencia T-319 de 2025](https://www.corteconstitucional.gov.co/relatoria/2025/t-319-25.htm), del 25 de julio de 2025:
 
@@ -159,4 +161,5 @@ Entre la cita, la orden, la valoración y una eventual tutela pueden pasar seman
 Si tienes dudas sobre qué perfil pedirle a la EPS, revisa la guía [¿enfermera o cuidadora?](/blog/enfermera-o-cuidadora-a-domicilio/). Para conocer el marco legal completo, lee sobre los [derechos de las personas mayores](/blog/leyes-y-derechos-del-adulto-mayor/). Y si necesitas cubrir las horas críticas mientras tanto, consulta las [tarifas privadas](/precios/) de Sovialis: precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar.
 
 > **Fuentes**
+>
 > Corte Constitucional, [sentencia T-319 de 2025](https://www.corteconstitucional.gov.co/relatoria/2025/t-319-25.htm) y [sentencia SU-508 de 2020](https://www.corteconstitucional.gov.co/relatoria/2020/SU508-20.htm) · Ministerio de Salud, [Resolución 2765 de 2025](https://minsalud.gov.co/Normatividad_Nuevo/Resoluci%C3%B3n%20No%202765%20de%202025.pdf) · [Decreto 2591 de 1991](http://www.secretariasenado.gov.co/senado/basedoc/decreto_2591_1991.html) · Compensar, [atención domiciliaria](https://corporativo.compensar.com/salud/atencion-domiciliaria) · EPS Sura, guía de acceso a atención domiciliaria. Esta guía es informativa y no constituye asesoría legal ni médica.

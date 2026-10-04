@@ -7,7 +7,7 @@ menu_group: necesidad
 icon: hospital
 seo:
   title: "Acompañamiento hospitalario en Bogotá, de día y de noche"
-  description: "Acompañamiento hospitalario en Bogotá: turnos de día o de noche para que tu familiar no esté solo en la clínica, con apoyo en comidas e higiene. Cotiza hoy."
+  description: "Acompañamiento hospitalario en Bogotá: turnos de día o de noche para que tu familiar no esté solo en la clínica, con apoyo en comida e higiene. Cotiza hoy."
 focus_keyword: acompañamiento hospitalario
 excerpt: "Una persona verificada acompaña a tu familiar en la clínica, de día o de noche: compañía, apoyo en comidas e higiene y aviso oportuno al personal de salud."
 price_from: 160000
@@ -16,7 +16,7 @@ hero_eyebrow: "En la clínica · día o noche"
 hero_subtitle: "El acompañamiento hospitalario de Sovialis pone a una persona verificada junto a tu familiar en la clínica, de día o de noche: compañía, apoyo en comidas e higiene si la institución lo permite y aviso oportuno al personal de salud."
 hero_image:
   media: servicio-hospitalario
-  alt: "Cuidadora hospitalaria sentada junto a la cama de una señora mayor en una habitación de clínica en Bogotá"
+  alt: "Cuidadora hospitalaria sentada junto a la cama de una persona mayor en una habitación de clínica en Bogotá"
 highlights: |
   Turnos de 12 horas de día o de noche en la clínica
   Compañía y apoyo en comidas e higiene básica
@@ -45,7 +45,7 @@ layout:
     highlight: dentro de la clínica
     image:
       media: servicio-citas
-      alt: "Acompañante y señora mayor conversan en la sala de espera moderna de una clínica del norte de Bogotá"
+      alt: "Acompañante y persona mayor conversan en la sala de espera moderna de una clínica del norte de Bogotá"
     image_side: izquierda
     tone: claro
     body: |
@@ -91,7 +91,7 @@ layout:
 
 ## Turnos de día, de noche y relevos con la familia
 
-El acompañamiento hospitalario se organiza en turnos de 12 horas de día o de noche, o por horas cuando solo necesitas cubrir una franja, con un mínimo de 4 horas. Puedes combinarlo con la familia: ustedes acompañan de día y la cuidadora toma la noche, o al revés. Cada turno termina con un reporte corto de cómo estuvo tu familiar.
+El servicio de acompañamiento en hospitales se organiza en turnos de 12 horas de día o de noche, o por horas cuando solo necesitas cubrir una franja, con un mínimo de 4 horas. Puedes combinarlo con la familia: ustedes acompañan de día y la cuidadora toma la noche, o al revés. Cada turno termina con un reporte corto de cómo estuvo tu familiar.
 
 Para el acompañamiento nocturno en hospitales verificamos antes las normas de la institución: algunas permiten un solo acompañante en la noche y otras piden registrarlo con anticipación. Un acompañante nocturno descansado hace la diferencia cuando la hospitalización se alarga. Si tu familiar vuelve a casa y sigue necesitando apoyo de noche, pasamos a [turnos de noche](/servicios/cuidado-nocturno/) en el hogar.
 
@@ -103,7 +103,7 @@ Podemos acompañar a tu familiar en cualquier clínica u hospital del norte de B
 - **Chapinero:** Clínica del Country y Clínica de Marly.
 - **Suba:** Fundación Clínica Shaio y Clínica La Colina.
 
-Las mencionamos solo como referencia: Sovialis no tiene vínculo con estas instituciones, y cada una define sus reglas para acompañantes. Encuentras más detalle de las [clínicas de Usaquén](/zonas/usaquen/) y de las [clínicas de Suba](/zonas/suba/) en nuestras páginas de zona. Si la clínica queda en otro sector, confirmamos la disponibilidad de personal según la ubicación y el horario.
+Las mencionamos solo como referencia: Sovialis no tiene vínculo con estas instituciones, y cada una define sus reglas para acompañantes. Encuentras más detalle de las [clínicas de Usaquén](/zonas/usaquen/) y de las [clínicas de Suba](/zonas/suba/) en nuestras páginas de zona. Si la clínica queda en otro sector, confirmamos la disponibilidad de personal según la ubicación y el horario. Y si estás comparando empresas de acompañamiento hospitalario, pregunta si verifican a quien va a estar con tu familiar y si conocen las reglas de la institución antes del primer turno.
 
 ## Del hospital a la casa: continuidad del cuidado
 

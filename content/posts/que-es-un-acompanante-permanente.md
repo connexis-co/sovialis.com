@@ -59,7 +59,7 @@ Fuera de la hospitalización, muchas IPS piden que la persona mayor llegue con u
 
 ## Qué pacientes lo requieren y quién lo decide
 
-No existe una norma nacional única que diga qué pacientes necesitan acompañante permanente. Cada clínica u hospital lo define en sus protocolos. Como ejemplo, el Hospital Universitario San Ignacio explicó en 2022 en [Canal Institucional](https://www.husi.org.co/en/el-husi-hoy/husi-en-los-medios/-/asset_publisher/rMVQOyye5rdo/content/quien-tiene-derecho-a-tener-un-acompanante-durante-la-hospitalizacion-) que suelen tener derecho a acompañante los mayores de 70 años, los pacientes con riesgo de caída o de fuga, quienes tienen limitaciones para las actividades básicas, los menores de edad y quienes el médico tratante indique.
+No existe una norma nacional única que diga qué pacientes necesitan acompañante permanente. Cada clínica u hospital lo define en sus protocolos. Como ejemplo, una [nota de Canal Institucional publicada por el Hospital Universitario San Ignacio](https://www.husi.org.co/en/el-husi-hoy/husi-en-los-medios/-/asset_publisher/rMVQOyye5rdo/content/quien-tiene-derecho-a-tener-un-acompanante-durante-la-hospitalizacion-) en 2022 explica que suelen tener derecho a acompañante los mayores de 70 años, los pacientes con riesgo de caída o de fuga, quienes tienen limitaciones para las actividades básicas, los menores de edad y quienes el médico tratante indique.
 
 Las situaciones más frecuentes en personas mayores son:
 
@@ -80,13 +80,13 @@ Habla con el área de trabajo social de la clínica y con tu EPS. En un caso con
 
 | Sí hace | No hace |
 |---|---|
-| Acompaña, conversa y orienta (qué día es, dónde está, por qué está ahí) | Administrar medicamentos, ni siquiera los que la familia trae de la casa |
-| Ayuda a comer, si el equipo lo autoriza | Manipular sueros, bombas de infusión, sondas u oxígeno |
-| Apoya la higiene básica cuando la clínica lo permite | Levantar o movilizar al paciente sin autorización |
-| Vigila que no intente levantarse solo y llama a enfermería | Tomar decisiones médicas o firmar consentimientos por el paciente |
-| Avisa de inmediato cualquier cambio: confusión, dolor, sangrado, un suero que se sale | Cambiar la posición de la cama o los equipos por su cuenta |
-| Cuida las gafas, los audífonos y la prótesis dental | Dar información médica a otros familiares sin autorización |
-| Anota lo que dicen los médicos y lo comparte con la familia | Reemplazar al personal de enfermería |
+| Acompaña, conversa y orienta (qué día es, dónde está, por qué está ahí) | No administra medicamentos, ni siquiera los que la familia trae de la casa |
+| Ayuda a comer, si el equipo lo autoriza | No manipula sueros, bombas de infusión, sondas ni oxígeno |
+| Apoya la higiene básica cuando la clínica lo permite | No levanta ni moviliza al paciente sin autorización |
+| Vigila que no intente levantarse solo y llama a enfermería | No toma decisiones médicas ni firma consentimientos por el paciente |
+| Avisa de inmediato cualquier cambio: confusión, dolor, sangrado, un suero que se sale | No cambia por su cuenta la posición de la cama ni la de los equipos |
+| Cuida las gafas, los audífonos y la prótesis dental | No da información médica a otros familiares sin autorización |
+| Anota lo que dicen los médicos y lo comparte con la familia | No reemplaza al personal de enfermería |
 
 ### En la clínica
 
@@ -118,6 +118,21 @@ Cada institución fija sus reglas. La Clínica del Country, por ejemplo, indica 
 - **Cuaderno de relevos:** anota lo que dijeron los médicos, cómo comió y durmió tu familiar, los exámenes pendientes y las dudas para la ronda de la mañana.
 - **Descanso real:** nadie debería hacer dos noches seguidas. Quien cuida de noche necesita dormir al día siguiente.
 
+### Cómo ayudar a prevenir una caída de noche
+
+La mayoría de los intentos de levantarse ocurren porque la persona quiere ir al baño, tiene sed o no sabe dónde está. Algunas medidas sencillas, siempre de acuerdo con enfermería:
+
+- Pide que el timbre de llamado quede al alcance de su mano y enséñale a usarlo.
+- Deja las gafas y los audífonos cerca, para que vea y oiga si se despierta.
+- Pregunta si la cama puede quedar en la posición más baja y con las barandas que indique el equipo.
+- Mantén una luz tenue encendida y el camino al baño despejado.
+- Ofrécele ir al baño antes de dormir y cada vez que se despierte, y acompáñalo si el equipo lo autoriza.
+- Si notas que está más confundido que en la tarde, que habla de cosas que no están o que intenta quitarse el suero, avisa de inmediato a enfermería.
+
+### Antes del alta
+
+El día del alta también requiere a alguien atento. Pide que te expliquen la fórmula y los cuidados en casa, las señales de alarma para volver a urgencias y las citas de control. Anótalo todo y, si puedes, confirma por escrito quién lo cuidará las primeras noches en casa.
+
 Si al salir de la clínica tu familiar sigue necesitando compañía nocturna en casa, Sovialis tiene [turnos de noche](/servicios/cuidado-nocturno/) para el regreso al hogar.
 
 ## ¿Familia o acompañante contratado?
@@ -146,7 +161,8 @@ Un esquema que funciona bien: la familia acompaña de día, cuando están los m�
 | Sábado | Nieta | Hija |
 | Domingo | Hijo | Acompañante contratado |
 
-En Sovialis podemos acompañar a tu familiar en clínicas del norte de Bogotá, como la Fundación Santa Fe, la Clínica del Country, la Clínica Reina Sofía o la Fundación Cardioinfantil, siempre según las normas de cada institución (Sovialis no tiene vínculo con ellas). Precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar. Si te pidieron acompañante permanente, escríbenos por WhatsApp con el nombre de la clínica y el horario que necesitas cubrir.
+En Sovialis podemos acompañar a tu familiar en clínicas del [norte de Bogotá](/zonas/), como la Fundación Santa Fe, la Clínica del Country, la Clínica Reina Sofía o la Fundación Cardioinfantil, siempre según las normas de cada institución (Sovialis no tiene vínculo con ellas). Precios de referencia 2026, IVA incluido. El valor final depende del horario, los días y las necesidades de tu familiar; te lo confirmamos por escrito antes de empezar. Si te pidieron acompañante permanente, escríbenos por WhatsApp con el nombre de la clínica y el horario que necesitas cubrir.
 
 > **Fuentes**
+>
 > Hospital Universitario San Ignacio, [¿Quién tiene derecho a tener un acompañante durante la hospitalización?](https://www.husi.org.co/en/el-husi-hoy/husi-en-los-medios/-/asset_publisher/rMVQOyye5rdo/content/quien-tiene-derecho-a-tener-un-acompanante-durante-la-hospitalizacion-) (2022) · Clínica del Country, [acompañamiento y visitas](https://www.clinicadelcountry.com/paciente-y-familia/acompanamiento-y-visitas) · Corte Constitucional, [sentencia T-077 de 2024](https://www.corteconstitucional.gov.co/relatoria/2024/t-077-24.htm). Esta guía es informativa y no reemplaza las indicaciones del equipo de salud.

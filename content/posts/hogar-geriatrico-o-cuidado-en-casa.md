@@ -11,7 +11,7 @@ featured_image:
   media: blog-hogar-geriatrico-o-cuidado-en-casa
   alt: "Señora mayor y su hija conversan en la sala de su casa en Bogotá mientras revisan opciones de cuidado"
 key_takeaways: |
-  En Bogotá, un hogar geriátrico cuesta de cerca de $1.200.000 al mes para una persona independiente hasta $4.000.000 a $6.500.000 cuando hay alta dependencia, según rangos publicados en 2026.
+  En Bogotá, la tarifa publicada más baja de un hogar geriátrico arranca en unos $2.400.000 al mes, y con alta dependencia las referencias de mercado llegan a $4.000.000 a $6.500.000 (2026).
   El cuidado en casa sale más barato cuando tu familiar necesita pocas horas de apoyo: tres visitas de 4 horas a la semana con Sovialis cuestan desde $1.040.000 al mes.
   Para cuidado continuo de 24 horas, un hogar suele ser más económico, porque reparte el personal entre varios residentes; en casa ese nivel empieza alrededor de $9.160.000 al mes.
   La Ley 1315 de 2009 exige a los hogares autorización de la Secretaría de Salud, personal suficiente y nunca una sola persona a cargo en la noche.
@@ -38,7 +38,7 @@ tags:
 published_at: 2026-09-27
 ---
 
-Los precios de un hogar geriátrico en Bogotá van, según rangos publicados por directorios del sector en 2026, de cerca de **$1.200.000 al mes** para una persona independiente en habitación compartida a **$4.000.000 o $6.500.000** cuando hay alta dependencia. El cuidado en casa cuesta menos si tu familiar necesita pocas horas de apoyo, y más si necesita a alguien las 24 horas, porque en un hogar el personal se comparte entre varios residentes.
+Los precios de un hogar geriátrico en Bogotá arrancan en unos **$2.400.000 al mes**, según la tarifa publicada más baja entre los 31 hogares de la ciudad que reúne un directorio del sector (septiembre de 2026), y suben con el nivel de dependencia: con alta dependencia, las referencias de mercado van de **$4.000.000 a $6.500.000**. El cuidado en casa cuesta menos si tu familiar necesita pocas horas de apoyo, y más si necesita a alguien las 24 horas, porque en un hogar el personal se comparte entre varios residentes.
 
 El dinero es solo una parte de la decisión. También cuentan el nivel de dependencia, si hay demencia, cuánto puede apoyar la familia y, sobre todo, lo que quiere la persona mayor. Un hogar geriátrico, también llamado geriátrico, hogar para adultos mayores o ancianato, es una institución que ofrece alojamiento, alimentación y cuidado permanente o temporal. La [Ley 1315 de 2009](http://www.secretariasenado.gov.co/senado/basedoc/ley_1315_2009.html) los llama centros de protección social. Ninguna de las dos opciones es mejor en abstracto: aquí te ayudamos a compararlas con datos.
 
@@ -56,15 +56,16 @@ Un resumen rápido:
 
 ## Cuánto cuesta un hogar geriátrico en Bogotá frente al cuidado en casa
 
-Casi ningún hogar publica su tarifa: la mayoría cotiza caso por caso según la dependencia, el tipo de habitación y los servicios. Estos son rangos de referencia para Bogotá:
+Muchos hogares no publican su tarifa: cotizan caso por caso según la dependencia, el tipo de habitación y los servicios. Estas son las referencias disponibles:
 
-| Nivel de dependencia | Mensualidad de referencia en un hogar geriátrico |
+| Referencia | Mensualidad |
 |---|---|
-| Independiente (compañía y seguridad) | $1.200.000 a $2.500.000 |
-| Dependencia moderada | $2.500.000 a $4.000.000 |
-| Alta dependencia o con enfermería | $4.000.000 a $6.500.000 |
+| Tarifa publicada más baja en Bogotá (31 hogares) | Desde $2.400.000 |
+| Persona independiente (compañía y seguridad), referencia nacional | $1.200.000 a $2.500.000 |
+| Dependencia moderada, referencia nacional | $2.500.000 a $4.000.000 |
+| Alta dependencia o con enfermería, referencia nacional | $4.000.000 a $6.500.000 |
 
-*Fuente: rangos de referencia publicados por un directorio de hogares geriátricos de Colombia (junio de 2026). No son tarifas oficiales; pide siempre la cotización por escrito.*
+*Fuente: directorio de hogares geriátricos de Colombia, tarifas publicadas por cada hogar en su sitio web (junio y septiembre de 2026). No son tarifas oficiales; pide siempre la cotización por escrito.*
 
 Y esto cuesta el cuidado en casa con Sovialis, calculado sobre tarifas «desde» de 2026:
 
@@ -167,4 +168,5 @@ En la práctica:
 Si tu familiar quiere seguir en casa, Sovialis presta [cuidado del adulto mayor a domicilio en Bogotá](/) por horas, por turnos o 24 horas, con [cobertura en el norte de Bogotá](/zonas/). Escríbenos por WhatsApp, cuéntanos qué necesita, sin diagnósticos, y te enviamos una cotización por escrito para comparar con la del hogar.
 
 > **Fuentes**
-> [Ley 1315 de 2009](http://www.secretariasenado.gov.co/senado/basedoc/ley_1315_2009.html) · [Ley 1996 de 2019](http://www.secretariasenado.gov.co/senado/basedoc/ley_1996_2019.html) · [Ley 2055 de 2020](http://www.secretariasenado.gov.co/senado/basedoc/ley_2055_2020.html) · Secretaría Distrital de Integración Social, [servicios gratuitos para personas mayores](https://www.integracionsocial.gov.co/index.php/noticias/101-noticias-vejez/6490-conozca-los-servicios-gratuitos-de-integracion-social-para-personas-mayores-de-60-anos) · Rangos de mensualidad publicados por un directorio de hogares geriátricos (junio de 2026). Esta guía es informativa y no reemplaza la valoración de un profesional de la salud.
+>
+> [Ley 1315 de 2009](http://www.secretariasenado.gov.co/senado/basedoc/ley_1315_2009.html) · [Ley 1996 de 2019](http://www.secretariasenado.gov.co/senado/basedoc/ley_1996_2019.html) · [Ley 2055 de 2020](http://www.secretariasenado.gov.co/senado/basedoc/ley_2055_2020.html) · Secretaría Distrital de Integración Social, [servicios gratuitos para personas mayores](https://www.integracionsocial.gov.co/index.php/noticias/101-noticias-vejez/6490-conozca-los-servicios-gratuitos-de-integracion-social-para-personas-mayores-de-60-anos) · Tarifas y rangos de mensualidad publicados por un directorio de hogares geriátricos de Colombia (junio y septiembre de 2026). Esta guía es informativa y no reemplaza la valoración de un profesional de la salud.

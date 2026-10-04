@@ -40,7 +40,7 @@ faqs:
     answer: "Sigue la dieta que indiquen al alta, porque algunas cirugías, sobre todo las de abdomen, tienen restricciones. En general ayudan beber suficiente agua, incluir proteína en cada comida (huevo, pollo, pescado, fríjoles o lentejas) y comer frutas y verduras con fibra para prevenir el estreñimiento que causan algunos analgésicos. Si tu familiar tiene diabetes, enfermedad renal o restricción de líquidos, pide indicaciones específicas."
 ---
 
-El cuidado postoperatorio es el conjunto de cuidados que necesita una persona desde que sale de la clínica hasta que recupera su rutina: seguir las indicaciones del alta, proteger la herida, tomar los medicamentos a tiempo, moverse sin riesgo de caídas y reconocer a tiempo las señales de alarma. En una persona mayor, las primeras semanas pesan más: el dolor, los analgésicos y el cansancio aumentan el riesgo de caídas, de confusión y de que una complicación pase inadvertida.
+El cuidado postoperatorio es el apoyo que necesita una persona desde que sale de la clínica hasta que recupera su rutina: seguir las indicaciones del alta, proteger la herida, tomar los medicamentos a la hora formulada, moverse sin riesgo de caídas y reconocer a tiempo las señales de alarma. En una persona mayor, las primeras semanas pesan más: el dolor, los analgésicos y el cansancio aumentan el riesgo de caídas, de confusión y de que una complicación pase inadvertida.
 
 Esta guía ordena lo que la familia puede hacer en casa, lo que le corresponde al personal de salud y cuándo vale la pena sumar ayuda. Si tu mamá sale de la Clínica del Country con una prótesis de cadera o tu papá vuelve de la Fundación Santa Fe después de una cirugía de vesícula, el orden es el mismo: primero entender el alta y después organizar la casa. Si ya sabes que no vas a poder cubrir todos los turnos, en Sovialis coordinamos [cuidado postoperatorio en casa en Bogotá](/servicios/cuidado-postoperatorio/) desde el día del alta.
 
@@ -71,7 +71,7 @@ Las primeras 72 horas en casa son las de mayor vigilancia. La anestesia y los an
 | Agua, ropa cómoda que abra adelante y pañitos húmedos | Atender la higiene sin moverse de más |
 | Termómetro | Detectar la fiebre a tiempo |
 
-Durante estas 72 horas, la persona no debería pasar la noche sola. Muchas familias se turnan el primer fin de semana y el martes descubren que no dan abasto. Si es tu caso, planea desde ya quién cubre las noches de la primera semana.
+Durante estas 72 horas, la persona no debería pasar la noche sola. Si la familia piensa turnarse, arma el cuadro de toda la primera semana y no solo del fin de semana: el cansancio llega cuando se juntan las noches en vela con los días de trabajo.
 
 ## Cuidados según la cirugía: cadera, rodilla y abdomen
 

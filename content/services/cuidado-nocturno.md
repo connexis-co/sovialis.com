@@ -7,7 +7,7 @@ menu_group: turno
 icon: luna
 seo:
   title: "Cuidado nocturno de personas mayores en Bogotá | Sovialis"
-  description: "Cuidadora de noche para tu familiar en el norte de Bogotá: turnos de 8 y 12 h despierta, con idas al baño, cambios de pañal y prevención de caídas. Cotiza hoy."
+  description: "Cuidadora de noche para tu familiar en el norte de Bogotá: turnos de 8 y 12 h despierta, idas al baño, cambios de pañal y prevención de caídas. Cotiza hoy."
 focus_keyword: cuidado nocturno de personas mayores
 excerpt: "Una cuidadora despierta acompaña a tu familiar durante la noche: idas al baño, cambios de pañal, prevención de caídas y calma si se desorienta. Turnos de 8 o 12 h."
 price_from: 190000
@@ -16,7 +16,7 @@ hero_eyebrow: "Turno de noche · 8 o 12 h"
 hero_subtitle: "El cuidado nocturno de personas mayores evita que tu familiar pase la noche solo: una cuidadora despierta lo acompaña al baño, lo cambia de posición y le da calma si se desorienta, mientras la familia descansa."
 hero_image:
   media: servicio-nocturno
-  alt: "Cuidadora de noche acompaña a un señor mayor en una habitación en penumbra iluminada por una lámpara cálida"
+  alt: "Cuidadora de noche acompaña a una persona mayor en una habitación en penumbra iluminada por una lámpara cálida"
 highlights: |
   Cuidadora despierta toda la noche, cerca de la habitación
   Idas al baño, cambios de pañal y de ropa de cama
@@ -45,7 +45,7 @@ layout:
     highlight: en la noche
     image:
       media: cta-familia
-      alt: "Hija adulta abraza a su madre mayor en casa, tranquila porque las noches están cubiertas"
+      alt: "Hija adulta abraza a su madre mayor en casa, con la tranquilidad de una noche bien acompañada"
     image_side: derecha
     tone: claro
     body: |
@@ -128,7 +128,7 @@ layout:
 
 Un turno nocturno de 12 horas suele ir de 7:00 p. m. a 7:00 a. m. y cubre desde la comida hasta el desayuno: la cuidadora ayuda a tu familiar a alistarse para dormir y lo deja listo para empezar el día. El turno de 8 horas cubre el tramo más difícil, por ejemplo de 10:00 p. m. a 6:00 a. m., cuando alguien de la familia alcanza a acostarlo y a levantarlo.
 
-Puedes pedir noches sueltas, como las de la semana en que la familia viaja, o fijas, por ejemplo de domingo a jueves. Si buscas una cuidadora de adulto mayor para el turno de noche de forma permanente, procuramos que sean siempre las mismas dos o tres personas, para que tu familiar reconozca quién lo acompaña. Las cuidadoras nocturnas que coordinamos pasan por la misma verificación que las de día; aquí puedes ver [qué hace una cuidadora](/servicios/cuidadora-adulto-mayor/) en cualquier turno. Y si tu papá prefiere que lo acompañe un cuidador nocturno hombre, dínoslo al cotizar y buscamos esa disponibilidad.
+Puedes pedir noches sueltas, como las de la semana en que la familia viaja, o fijas, por ejemplo de domingo a jueves. Si buscas una cuidadora de adulto mayor para el turno de noche de forma permanente, procuramos que sea siempre un grupo pequeño de personas, para que tu familiar reconozca quién lo acompaña. Las cuidadoras nocturnas que coordinamos pasan por la misma verificación que las de día; aquí puedes ver [qué hace una cuidadora](/servicios/cuidadora-adulto-mayor/) en cualquier turno. Y si tu papá prefiere que lo acompañe un cuidador nocturno hombre, dínoslo al cotizar y buscamos esa disponibilidad.
 
 Si tu familiar ya no puede quedarse solo ni de día ni de noche, el paso siguiente es el [cuidado 24 horas con relevos](/servicios/cuidado-24-horas/). Cubrimos noches en Usaquén, Cedritos, Chicó, Chapinero, Suba, Niza y el resto de nuestras [zonas de cobertura](/zonas/); confirmamos la cobertura de tu dirección al cotizar.
 

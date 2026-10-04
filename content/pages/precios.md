@@ -105,7 +105,7 @@ layout:
     body: |
       ## Tabla de tarifas por perfil y modalidad
 
-      Una cuidadora de adulto mayor cuesta en Sovialis desde $20.000 por hora y desde $160.000 por un turno de 12 horas de día, de lunes a viernes. Lo que cobran por cuidar a un adulto mayor depende de tres cosas: quién cuida, cuántas horas y qué días. Esta es la tabla completa de precios de referencia 2026, con IVA incluido:
+      Una cuidadora de adulto mayor cuesta en Sovialis desde $20.000 por hora y desde $160.000 por un turno de 12 horas de día, de lunes a viernes. Cuánto cobran por cuidar a un adulto mayor depende de tres cosas: quién cuida, cuántas horas y qué días. Esta es la tabla completa de precios de referencia 2026, con IVA incluido:
 
       | Modalidad | Cuidadora, lun. a vie. | Cuidadora, sáb., dom. y festivos | Formación de auxiliar, lun. a vie. | Formación de auxiliar, sáb., dom. y festivos |
       |---|---|---|---|---|
@@ -168,7 +168,7 @@ layout:
     items:
       - icon: chat
         title: Cuéntanos qué necesitas
-        text: Por WhatsApp o en el formulario, días, horario, dirección y si prefieres cuidadora o formación de auxiliar. No pedimos diagnósticos.
+        text: "Por WhatsApp o en el formulario: días, horario, dirección y si prefieres cuidadora o formación de auxiliar. No pedimos diagnósticos."
       - icon: calendario
         title: Calculamos con el calendario real
         text: Contamos los días entre semana y los sábados, domingos y festivos de tu periodo, cada uno con su tarifa.

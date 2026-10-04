@@ -7,7 +7,7 @@ menu_group: necesidad
 icon: silla-ruedas
 seo:
   title: "Cuidado postoperatorio en casa en Bogotá | Sovialis"
-  description: "Cuidado postoperatorio en casa en Bogotá: una cuidadora apoya a tu familiar después de la cirugía con movilidad segura, higiene, comidas y compañía. Cotiza hoy."
+  description: "Cuidado postoperatorio en casa en Bogotá: una cuidadora apoya a tu familiar tras la cirugía con movilidad segura, higiene, comidas y compañía. Cotiza hoy."
 focus_keyword: cuidado postoperatorio en casa
 excerpt: "Apoyo en los primeros días después de una cirugía: movilidad segura, higiene, comidas y compañía, según las indicaciones médicas y lo que te diga tu EPS."
 price_from: 160000
@@ -45,7 +45,7 @@ layout:
     highlight: cadera, rodilla o abdomen
     image:
       media: servicio-auxiliar
-      alt: "Persona con formación de auxiliar ayuda a una señora mayor a caminar con andador en su casa después de una cirugía"
+      alt: "Persona con formación de auxiliar ayuda a una persona mayor a caminar con andador en su casa después de una cirugía"
     image_side: izquierda
     tone: claro
     body: |

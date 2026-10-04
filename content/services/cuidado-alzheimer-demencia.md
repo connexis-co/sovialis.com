@@ -72,7 +72,7 @@ layout:
       - label: Rutina
         title: Un día predecible
         body: |
-          La rutina es la mejor aliada contra la confusión: las mismas horas para levantarse, comer, salir y dormir.
+          Una rutina estable reduce la confusión: las mismas horas para levantarse, comer, salir y dormir.
           - Ayuda en el aseo, el vestido y las comidas, dejando que tu familiar haga lo que todavía puede.
           - Actividades adaptadas: música que conoce, fotos de la familia, tareas sencillas como doblar ropa o regar las matas.
           - Caminatas cortas y ratos al aire libre cuando el clima lo permite.

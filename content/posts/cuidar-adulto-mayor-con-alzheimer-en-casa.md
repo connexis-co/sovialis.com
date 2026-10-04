@@ -6,7 +6,7 @@ seo:
   title: "Cuidados de un adulto mayor con Alzheimer en casa | Sovialis"
   description: "Cuidados de un adulto mayor con Alzheimer en casa: etapas, rutina y seguridad, agitación e insomnio, actividades y cuándo pensar en un hogar especializado."
 focus_keyword: cuidados de un adulto mayor con alzheimer
-excerpt: "Guía práctica para familias en Bogotá: etapas de la demencia, rutina y seguridad en casa, agitación e insomnio, actividades que funcionan y relevos para quien cuida."
+excerpt: "Guía para familias en Bogotá: etapas de la demencia, rutina y seguridad en casa, agitación e insomnio, actividades que funcionan y relevos para quien cuida."
 featured_image:
   media: blog-cuidar-adulto-mayor-con-alzheimer-en-casa
   alt: "Señor mayor con Alzheimer mira un álbum de fotos familiares junto a su cuidadora en la sala de su casa en Bogotá"
@@ -40,7 +40,7 @@ faqs:
 
 Los cuidados de un adulto mayor con Alzheimer en casa se apoyan en tres cosas: una rutina predecible, una casa segura y una forma de hablarle que no lo ponga a prueba. No hay una receta única, porque cada persona vive la demencia a su manera y la enfermedad cambia con los años, pero sí hay prácticas que funcionan y errores que se pueden evitar.
 
-El Alzheimer es la forma más común de demencia: según la [Organización Mundial de la Salud](https://www.who.int/es/news-room/fact-sheets/detail/dementia), explica entre el 60 % y el 70 % de los casos. La OMS calcula que en 2021 vivían con demencia 57 millones de personas en el mundo y que cada año se registran casi diez millones de casos nuevos. Detrás de cada cifra hay una familia que reorganiza su vida, y casi siempre una mujer que asume la mayor parte del cuidado.
+El Alzheimer es la forma más común de demencia: según la [Organización Mundial de la Salud](https://www.who.int/es/news-room/fact-sheets/detail/dementia), explica entre el 60 % y el 70 % de los casos. La OMS calcula que en 2021 vivían con demencia 57 millones de personas en el mundo y que cada año se registran casi diez millones de casos nuevos.
 
 > **Antes de empezar**
 >
@@ -179,7 +179,7 @@ Señales de alerta en ti o en quien cuida:
 
 Algunas salidas concretas:
 
-- **Turnos en la familia** por escrito, con días fijos para cada hermano, también para quienes viven lejos y pueden pagar parte del apoyo.
+- **Turnos en la familia** por escrito, con días fijos para cada hermano; quien vive lejos puede aportar pagando parte del apoyo.
 - **Relevos contratados:** unas horas a la semana, las noches o los fines de semana.
 - **Servicios del Distrito:** en Bogotá, las [Manzanas del Cuidado](https://manzanasdelcuidado.gov.co/donde-encontrarlas/) ofrecen servicios gratuitos para personas cuidadoras, como orientación, formación y espacios de respiro.
 - **Derechos de quien cuida:** si tu familiar tiene certificado de discapacidad, la [Ley 2297 de 2023](http://www.secretariasenado.gov.co/senado/basedoc/ley_2297_2023.html) prevé, entre otras medidas, flexibilidad horaria acordada con el empleador para el cuidador familiar que trabaja.
@@ -188,7 +188,7 @@ Algunas salidas concretas:
 
 Conviene considerar un hogar especializado cuando el cuidado en casa ya no es seguro, cuando hay agresividad o deambulación que la familia no logra manejar, o cuando quienes cuidan están agotados aun con apoyo. Es una decisión que se toma con el equipo médico y, en la medida de lo posible, con la propia persona.
 
-Antes de dar el paso, revisa si hay un punto intermedio. Muchas familias sostienen el cuidado en casa varios años más con un refuerzo nocturno, con un turno de 24 horas o combinando días de la familia con días de una cuidadora. Para comparar costos, ventajas y límites de cada opción, revisa [hogar o casa: cómo decidir](/blog/hogar-geriatrico-o-cuidado-en-casa/).
+Antes de dar el paso, revisa si hay un punto intermedio: a veces un refuerzo nocturno, un turno de 24 horas o una combinación de días de la familia y días de una cuidadora permiten seguir en casa con seguridad. Para comparar costos, ventajas y límites de cada opción, revisa [hogar o casa: cómo decidir](/blog/hogar-geriatrico-o-cuidado-en-casa/).
 
 Si deciden visitar hogares para adultos mayores con Alzheimer o una casa de reposo, verifica lo que exige la [Ley 1315 de 2009](http://www.secretariasenado.gov.co/senado/basedoc/ley_1315_2009.html):
 

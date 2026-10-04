@@ -2,7 +2,7 @@
 slug: auxiliar-de-enfermeria
 status: published
 title: Personal con formación de auxiliar de enfermería, a domicilio en Bogotá
-short_title: Formación de auxiliar
+short_title: Auxiliar de enfermería
 menu_group: turno
 icon: medalla
 seo:
@@ -13,10 +13,10 @@ excerpt: "Cuidado básico en casa por personal con formación de auxiliar y regi
 price_from: 180000
 price_unit: por turno de 12 h de día
 hero_eyebrow: "Perfil · Formación de auxiliar"
-hero_subtitle: "Cuando tu familiar tiene alta dependencia, un auxiliar de enfermería a domicilio aporta práctica en movilización segura, baño en cama y prevención de lesiones de piel. En Sovialis hace cuidado básico, no procedimientos de salud."
+hero_subtitle: "Cuando tu familiar tiene alta dependencia, una persona con formación de auxiliar aporta práctica en movilización segura, baño en cama y prevención de lesiones de piel. En Sovialis hace cuidado básico, no procedimientos de salud."
 hero_image:
   media: servicio-auxiliar
-  alt: "Persona con formación de auxiliar ayuda a una señora mayor a caminar con andador dentro de su casa"
+  alt: "Persona con formación de auxiliar ayuda a una persona mayor a caminar con andador dentro de su casa"
 highlights: |
   Movilización segura de la cama a la silla o al baño
   Baño en cama, higiene y cambios de posición
@@ -126,13 +126,13 @@ layout:
 
 Un auxiliar de enfermería a domicilio contratado a través de Sovialis no aplica inyecciones ni insulina, no pone sueros, no hace curaciones, no maneja sondas, ostomías ni oxígeno y no toma decisiones médicas, aunque su formación lo contemple. La razón es sencilla: Sovialis no es una IPS habilitada, y esa atención solo la puede prestar una institución de salud inscrita en el REPS del Ministerio de Salud.
 
-Eso no deja a tu familiar desatendido. La persona de turno está presente cuando llega el personal de la IPS, le cuenta cómo pasó la noche y sigue con el cuidado básico. Para ver con ejemplos [qué puede hacer cada perfil](/blog/enfermera-o-cuidadora-a-domicilio/), tenemos una guía aparte.
+Eso no deja a tu familiar desatendido: la persona de turno está presente cuando llega el personal de la IPS, le cuenta cómo pasó la noche y sigue con el cuidado básico. Te explicamos con ejemplos [qué puede hacer cada perfil](/blog/enfermera-o-cuidadora-a-domicilio/) en una guía aparte.
 
 ## Formación y registro ReTHUS verificados
 
 El ReTHUS es el Registro Único Nacional del Talento Humano en Salud. Antes de presentarte a alguien de este perfil verificamos que esté inscrito, además de su identidad, sus referencias, sus antecedentes y su afiliación a seguridad social. Con su autorización te compartimos los datos para que también lo consultes tú en el portal del Ministerio de Salud.
 
-Más allá del título, nos fijamos en su recorrido con personas mayores. Un auxiliar en cuidado de adultos mayores que ya ha movilizado a alguien después de una cirugía de cadera, o que ha acompañado a una persona con demencia avanzada, llega al primer turno sabiendo qué hacer.
+Más allá del título, nos fijamos en su recorrido con personas mayores: un auxiliar de adulto mayor que ya movilizó a alguien después de una cirugía de cadera llega al primer turno sabiendo qué hacer.
 
 ## Turnos de día, de noche y 24 horas
 
@@ -143,7 +143,7 @@ El perfil auxiliar está disponible en las mismas modalidades que la cuidadora:
 - Cobertura 24 horas con relevos coordinados entre personas verificadas.
 - Acompañamiento en la clínica durante una hospitalización.
 
-Los perfiles se pueden combinar: personal con formación de auxiliar las primeras semanas del [cuidado después de una cirugía](/servicios/cuidado-postoperatorio/) y una cuidadora cuando tu familiar recupera autonomía. También cubrimos el [acompañamiento durante una hospitalización](/servicios/acompanamiento-hospitalario/) y seguimos en casa después del alta. Las auxiliares a domicilio que coordinamos atienden en el norte y el noroccidente de Bogotá; confirmamos la cobertura de tu dirección al cotizar.
+Los perfiles se pueden combinar: personal con formación de auxiliar las primeras semanas del [cuidado después de una cirugía](/servicios/cuidado-postoperatorio/) y una cuidadora cuando tu familiar recupera autonomía. También cubrimos el [acompañamiento durante una hospitalización](/servicios/acompanamiento-hospitalario/) y seguimos en casa después del alta. Las auxiliares a domicilio que coordinamos atienden en el norte y el noroccidente de Bogotá.
 
 ## Tarifas de referencia del perfil auxiliar
 

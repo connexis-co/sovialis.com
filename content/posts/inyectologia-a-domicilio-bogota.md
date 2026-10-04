@@ -108,6 +108,10 @@ El [Plan de Beneficios en Salud 2026](https://www.minsalud.gov.co/Normatividad_N
 
 Si la dosis no puede esperar y es de noche, la ruta segura es la línea de tu EPS o de tu prepagada, o el servicio de urgencias. Si una droguería anuncia inyectología las 24 horas, aplican las mismas reglas: fórmula médica y nada intravenoso. Cuando el horario de la dosis es fijo, por ejemplo cada 12 horas durante una semana, acuerda el plan completo con el prestador desde el primer día para no improvisar a medianoche.
 
+### Cuando el tratamiento es diario y largo
+
+Si el tratamiento es diario y va para largo, como la insulina o algunos anticoagulantes, depender de una visita para cada dosis es difícil de sostener. Pregunta al médico tratante si tu familiar o alguien de la casa puede aprender a aplicarla: el equipo de salud enseña la técnica, la rotación de los sitios y el manejo de las agujas usadas, y revisa que se haga bien antes de dejarlo en manos de la familia. Pregunta también si tu EPS tiene un programa de educación para personas con diabetes u otras enfermedades crónicas. Si nadie en la casa puede hacerlo con seguridad, por problemas de visión, temblor o memoria, pide que la aplicación quede a cargo de un prestador habilitado y que la frecuencia de las visitas quede por escrito.
+
 ## Cómo verificar a la IPS antes de abrir la puerta
 
 Antes de recibir a alguien para una inyección en casa, verifica tres cosas: que la IPS aparezca en el REPS con la modalidad domiciliaria, que la persona que llega esté inscrita en el ReTHUS y que traiga material sellado y un recipiente para los residuos. Las dos consultas son públicas y gratuitas.
@@ -120,6 +124,10 @@ Antes de recibir a alguien para una inyección en casa, verifica tres cosas: que
 6. Al terminar, pide que se lleve las agujas en el recipiente rígido y que deje constancia de la aplicación.
 
 Desconfía si te dicen que la orden médica «no hace falta», si ofrecen sueros o «vitaminas» intravenosas como paquete de bienestar, si no dan el nombre de la IPS o si cobran por adelantado sin factura. Y si tu familiar vive sola, procura que alguien de confianza esté presente durante la visita.
+
+### Después de la aplicación: qué observar
+
+Un poco de dolor o un leve enrojecimiento en el sitio de la inyección son frecuentes y suelen pasar pronto. Llama al 123 de inmediato si en los minutos u horas siguientes aparecen ronchas en el cuerpo, hinchazón de labios, lengua o párpados, dificultad para respirar o mareo intenso, porque pueden ser señales de una reacción alérgica grave. Consulta con el prestador o con la EPS si el enrojecimiento crece, la zona se pone caliente y dura, sale pus o aparece fiebre en los días siguientes. Anota la fecha, la hora y el sitio de cada aplicación: si el tratamiento dura varios días, ese registro ayuda a rotar el sitio y a responder las preguntas del médico.
 
 ## ¿Y el resto del día? Cuidado y compañía en casa
 
