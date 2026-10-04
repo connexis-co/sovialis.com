@@ -67,7 +67,7 @@ export const DEFAULT_SEO: SeoSettings = {
 		lng: -74.0466,
 		openingHours: "Mo-Su 07:00-20:00",
 		priceRange: "$$",
-		areaServed: ["Bogotá", "Usaquén", "Cedritos", "Chapinero", "El Chicó", "Suba", "Niza", "Chía"],
+		areaServed: ["Bogotá", "Usaquén", "Santa Bárbara", "Cedritos", "Calle 170", "Chapinero", "El Chicó", "Suba", "Niza", "Colina Campestre", "Teusaquillo", "Barrios Unidos", "Engativá", "Fontibón"],
 		knowsAbout: [
 			"Cuidado del adulto mayor a domicilio",
 			"Cuidadoras de adulto mayor",

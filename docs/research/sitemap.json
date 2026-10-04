@@ -5,9 +5,9 @@
   "trailingSlashNotes": "Astro trailingSlash:'always' (EmDash 1.1.0 lo soporta: resolveContentRoutePath añade la barra a sitemap, menús y hreflang solo con 'always'; con 'ignore' los emite sin barra). Astro redirige /ruta → /ruta/ (301) en páginas SSR. Canonical, sitemap y enlaces internos siempre con barra; archivos (.txt, .xml) y /_emdash/* sin cambios. Host canónico sin www.",
   "parentNote": "parent = padre lógico para migas y BreadcrumbList; en zonas no coincide con el prefijo de la URL (todas viven en /zonas/{slug}/).",
   "counts": {
-    "pages": 71,
-    "v1": 47,
-    "v2": 24,
+    "pages": 72,
+    "v1": 54,
+    "v2": 18,
     "faqs": 338
   },
   "pages": [
@@ -2604,7 +2604,7 @@
         }
       ],
       "cta": "Consulta disponibilidad en Santa Bárbara",
-      "priority": "v2",
+      "priority": "v1",
       "menu": "main",
       "canonical": "https://sovialis.com/zonas/santa-barbara/",
       "indexable": true,
@@ -2716,7 +2716,7 @@
         }
       ],
       "cta": "Consulta disponibilidad en Colina Campestre",
-      "priority": "v2",
+      "priority": "v1",
       "menu": "main",
       "canonical": "https://sovialis.com/zonas/colina-campestre/",
       "indexable": true,
@@ -2827,7 +2827,7 @@
         }
       ],
       "cta": "Consulta disponibilidad en Calle 170",
-      "priority": "v2",
+      "priority": "v1",
       "menu": "main",
       "canonical": "https://sovialis.com/zonas/calle-170/",
       "indexable": true,
@@ -2946,7 +2946,7 @@
         }
       ],
       "cta": "Consulta disponibilidad en Teusaquillo",
-      "priority": "v2",
+      "priority": "v1",
       "menu": "main",
       "canonical": "https://sovialis.com/zonas/teusaquillo/",
       "indexable": true,
@@ -3062,7 +3062,7 @@
         }
       ],
       "cta": "Consulta disponibilidad en Barrios Unidos",
-      "priority": "v2",
+      "priority": "v1",
       "menu": "main",
       "canonical": "https://sovialis.com/zonas/barrios-unidos/",
       "indexable": true,
@@ -3085,122 +3085,6 @@
         "vivienda": "Casas de dos pisos, muchas con local comercial en el primer piso, y edificios de apartamentos.",
         "recursos": "Parque de Los Novios (El Lago) y parques de barrio.",
         "vias": "Avenida 68, Calle 80, Autopista Norte y Avenida Suba."
-      },
-      "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
-    },
-    {
-      "url": "/zonas/salitre-y-modelia/",
-      "parent": "/zonas/",
-      "type": "zona",
-      "title": "Cuidado del adulto mayor en Salitre y Modelia | Sovialis",
-      "metaDescription": "Cuidadoras en Ciudad Salitre, Modelia, Normandía y Hayuelos: turnos de día o noche, 24 h y acompañamiento en la Clínica Universitaria Colombia.",
-      "h1": "Cuidado del adulto mayor a domicilio en Salitre y Modelia",
-      "primaryKeyword": "cuidado adulto mayor salitre",
-      "primaryVolume": 0,
-      "secondaryKeywords": [
-        "cuidadora salitre",
-        "cuidadora de adulto mayor salitre",
-        "cuidado de ancianos en salitre",
-        "cuidado adulto mayor ciudad salitre",
-        "cuidado adulto mayor modelia",
-        "cuidado adulto mayor normandía",
-        "hogares geriátricos en modelia bogotá",
-        "hogar geriatrico modelia"
-      ],
-      "intent": "transaccional local",
-      "h2": [
-        "Cómo trabajamos en Salitre y Modelia",
-        "Barrios de Salitre y Modelia donde atendemos",
-        "Clínicas y hospitales de referencia cerca de Salitre y Modelia",
-        "Vivienda y seguridad en casa en Salitre y Modelia",
-        "Servicios disponibles en Salitre y Modelia",
-        "¿Hogar geriátrico en Salitre y Modelia o cuidado en casa?",
-        "Preguntas frecuentes sobre el cuidado en Salitre y Modelia"
-      ],
-      "faqs": [
-        {
-          "q": "¿Atienden en Ciudad Salitre, Modelia y Normandía?",
-          "a_brief": "Sí, en conjuntos y casas de esos barrios; confirmamos tu dirección al cotizar."
-        },
-        {
-          "q": "¿Pueden acompañar a mi familiar en la Clínica Universitaria Colombia?",
-          "a_brief": "Sí, en citas, exámenes y hospitalizaciones, de día o de noche, según las normas de acompañantes de la clínica."
-        },
-        {
-          "q": "¿Pueden acompañar a mi familiar que llega en avión al aeropuerto El Dorado?",
-          "a_brief": "Sí, como acompañamiento por horas: lo esperamos a la salida, lo acompañamos en el traslado a casa y avisamos a la familia."
-        },
-        {
-          "q": "¿La cuidadora puede llevar a mi familiar a su grupo de actividad física del parque?",
-          "a_brief": "Sí. Si participa en grupos de actividad física del barrio o del Distrito, lo acompañamos y cuidamos su hidratación y descanso."
-        },
-        {
-          "q": "¿Atienden también en Hayuelos y otros barrios de Fontibón?",
-          "a_brief": "Atendemos Hayuelos y sectores cercanos a la Avenida La Esperanza según la disponibilidad de personal; confírmanos la dirección."
-        }
-      ],
-      "schema": [
-        "WebPage",
-        "Service",
-        "Place",
-        "BreadcrumbList",
-        "FAQPage"
-      ],
-      "internalLinks": [
-        {
-          "url": "/zonas/",
-          "anchor": "zonas de cobertura"
-        },
-        {
-          "url": "/zonas/teusaquillo/",
-          "anchor": "Teusaquillo"
-        },
-        {
-          "url": "/servicios/cuidadora-adulto-mayor/",
-          "anchor": "cuidadora de adulto mayor"
-        },
-        {
-          "url": "/servicios/cuidado-nocturno/",
-          "anchor": "turnos de noche"
-        },
-        {
-          "url": "/servicios/acompanamiento-hospitalario/",
-          "anchor": "acompañamiento en la Clínica Universitaria Colombia"
-        },
-        {
-          "url": "/servicios/acompanamiento-citas-medicas/",
-          "anchor": "acompañamiento a citas"
-        },
-        {
-          "url": "/precios/",
-          "anchor": "tarifas"
-        },
-        {
-          "url": "/blog/hogar-geriatrico-o-cuidado-en-casa/",
-          "anchor": "comparar con un hogar geriátrico"
-        }
-      ],
-      "cta": "Consulta disponibilidad en Salitre",
-      "priority": "v2",
-      "menu": "main",
-      "canonical": "https://sovialis.com/zonas/salitre-y-modelia/",
-      "indexable": true,
-      "keywordGroupVolume": 60,
-      "primaryVolumeNote": "Sin volumen medible (<10) en Keyword Planner para «cuidado/cuidadora + Salitre». Demanda proxy de la zona: «hogares geriátricos en modelia bogotá» 30 · «hogar geriatrico modelia» 30 · «hogares geriatricos modelia» 20.",
-      "toponyms": [
-        "Ciudad Salitre",
-        "Modelia",
-        "Normandía",
-        "Hayuelos"
-      ],
-      "localContent": {
-        "clinicasReferencia": [
-          "la Clínica Universitaria Colombia",
-          "las clínicas de la red de tu EPS"
-        ],
-        "vivienda": "Conjuntos de apartamentos en Ciudad Salitre; casas de dos pisos en Modelia y Normandía.",
-        "recursos": "Zonas verdes de los conjuntos; parques de barrio; cercanía al aeropuerto El Dorado.",
-        "vias": "Avenida La Esperanza, Avenida 68, Avenida Boyacá y Calle 26."
       },
       "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
     },
@@ -3316,6 +3200,58 @@
         "vias": "Autopista Norte, Carrera Séptima (vía a Chía) y Variante Chía–Cajicá."
       },
       "notes": "Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones»."
+    },
+    {
+      "url": "/zonas/engativa/",
+      "parent": "/zonas/",
+      "type": "zona",
+      "title": "Cuidado del adulto mayor a domicilio en Engativá",
+      "metaDescription": "Cuidado del adulto mayor en Engativá: cuidadoras en Normandía, Villa Luz, Santa Cecilia y Boyacá Real, por horas, de día, de noche o 24 h. Cotiza hoy.",
+      "h1": "Cuidado del adulto mayor a domicilio en Engativá",
+      "primaryKeyword": "cuidado adulto mayor engativá",
+      "primaryVolume": null,
+      "secondaryKeywords": [],
+      "intent": "transaccional",
+      "h2": [],
+      "faqs": [],
+      "schema": [
+        "Service",
+        "WebPage",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "internalLinks": [],
+      "cta": "Escríbenos por WhatsApp",
+      "priority": "v1",
+      "menu": "zonas",
+      "canonical": "/zonas/engativa/",
+      "indexable": true
+    },
+    {
+      "url": "/zonas/fontibon/",
+      "parent": "/zonas/",
+      "type": "zona",
+      "title": "Cuidado del adulto mayor a domicilio en Fontibón",
+      "metaDescription": "Cuidado del adulto mayor en Fontibón: cuidadoras en Modelia, Hayuelos y Ciudad Salitre, por horas, de día, de noche o 24 h. Cotiza hoy por WhatsApp.",
+      "h1": "Cuidado del adulto mayor a domicilio en Fontibón",
+      "primaryKeyword": "cuidado adulto mayor fontibón",
+      "primaryVolume": null,
+      "secondaryKeywords": [],
+      "intent": "transaccional",
+      "h2": [],
+      "faqs": [],
+      "schema": [
+        "Service",
+        "WebPage",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "internalLinks": [],
+      "cta": "Escríbenos por WhatsApp",
+      "priority": "v1",
+      "menu": "zonas",
+      "canonical": "/zonas/fontibon/",
+      "indexable": true
     },
     {
       "url": "/blog/",
