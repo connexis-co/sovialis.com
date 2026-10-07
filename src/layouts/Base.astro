@@ -54,7 +54,10 @@ const {
 
 const [site, catalog, settings] = await Promise.all([getSiteData(), getCatalog(), getSiteSettings().catch(() => ({}))]);
 const separator = (settings as { seo?: { titleSeparator?: string } }).seo?.titleSeparator?.trim() || "|";
-const fullTitle = title.includes(site.name) ? title : `${title} ${separator} ${site.name}`;
+// Google corta los títulos hacia los 60 caracteres: si el título ya es largo, sin el « | Sovialis » final
+// (la marca sigue en og:site_name y en el JSON-LD).
+const withBrand = `${title} ${separator} ${site.name}`;
+const fullTitle = title.includes(site.name) || withBrand.length > 62 ? title : withBrand;
 const origin = Astro.site?.origin ?? Astro.url.origin;
 const canonical = new URL(Astro.url.pathname, origin).toString();
 // Tarjeta OG generada en el despliegue (scripts/build-og.mjs): servicios, zonas y guías tienen la suya

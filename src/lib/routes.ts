@@ -10,7 +10,8 @@ export const ROUTES = {
 	/** Zonas planas (/zonas/cedritos/); la jerarquía localidad → barrio vive en migas y menús. */
 	zones: (slug: string, _parent?: string | null) => `/zonas/${slug}/`,
 	posts: (slug: string) => `/blog/${slug}/`,
-	category: (slug: string) => `/blog/categoria/${slug}/`,
+	// Las categorías del blog no tienen URL propia: son filtros dentro de /blog/ (#tema-<slug>).
+	// Las antiguas /blog/categoria/<slug>/ responden 410 para que Google las retire.
 	author: (slug: string) => `/autores/${slug}/`,
 } as const;
 

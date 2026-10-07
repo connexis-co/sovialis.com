@@ -23,10 +23,10 @@ if (!entry) return Astro.rewrite("/404/");
 if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
 const d = entry.data as Record<string, any>;
 const category = d.terms?.category?.[0];
+// Sin la categoría en las migas: los temas no tienen página propia (filtran dentro de /blog/).
 const crumbs = [
 	{ name: "Inicio", url: "/" },
 	{ name: "Guías", url: "/blog/" },
-	...(category ? [{ name: category.label, url: ROUTES.category(category.slug) }] : []),
 	{ name: d.title, url: `/blog/${slug}/` },
 ];
 const fmt = (v: unknown) => (v ? new Date(v as string).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Bogota" }) : "");
@@ -34,13 +34,16 @@ const published = d.publishedAt ? new Date(d.publishedAt) : null;
 const updated = d.updatedAt ? new Date(d.updatedAt) : published;
 const takeaways = String(d.key_takeaways ?? "").split("\n").map((l) => l.trim().replace(/^[-•]\s*/, "")).filter(Boolean);
 const minutes = d.reading_minutes || Math.max(3, Math.round(JSON.stringify(d.content ?? "").split(/\s+/).length / 230));
-const { entries: related } = await getEmDashCollection("posts", {
-	status: "published",
-	limit: 4,
-	orderBy: { published_at: "desc" },
-	...(category ? { where: { category: category.slug } } : {}),
-}).catch(() => ({ entries: [] as any[] }));
-const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3);
+// Relacionadas: primero las del mismo tema y, si no alcanzan, las más recientes (más enlaces entre guías).
+const [{ entries: sameTopic }, { entries: latest }] = await Promise.all([
+	category
+		? getEmDashCollection("posts", { status: "published", limit: 4, orderBy: { published_at: "desc" }, where: { category: category.slug } }).catch(() => ({ entries: [] as any[] }))
+		: Promise.resolve({ entries: [] as any[] }),
+	getEmDashCollection("posts", { status: "published", limit: 6, orderBy: { published_at: "desc" } }).catch(() => ({ entries: [] as any[] })),
+]);
+const relatedPosts = [...(sameTopic as any[]), ...(latest as any[])]
+	.filter((p, i, all) => p.id !== slug && p.slug !== slug && all.findIndex((x) => x.id === p.id) === i)
+	.slice(0, 3);
 ---
 
 <Base
@@ -57,7 +60,13 @@ const relatedPosts = (related as any[]).filter((p) => p.id !== slug).slice(0, 3)
 		<header class="bg-sand">
 			<div class="container-page max-w-5xl pt-8 pb-10">
 				<Breadcrumbs items={crumbs} />
-				{category && <p class="eyebrow mt-6">{category.label}</p>}
+				{
+					category && (
+						<p class="eyebrow mt-6">
+							<a href={`/blog/#tema-${category.slug}`} class="hover:underline">{category.label}</a>
+						</p>
+					)
+				}
 				<h1 class="mt-4 font-display text-h1 text-deep" {...entry.edit.title}>{d.title}</h1>
 				{d.excerpt && <p class="mt-4 max-w-3xl text-lead text-muted" {...entry.edit.excerpt}>{d.excerpt}</p>}
 				<p class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.98rem] text-muted">

@@ -2,7 +2,7 @@
  * Funciones que usan las rutas del tema (sitemap.xml, sitemaps/*.xml, llms.txt, llms-full.txt,
  * robots.txt, clave de IndexNow) con los ajustes del plugin y el contenido publicado.
  */
-import { getEmDashCollection, getPluginSetting, getSiteSettings, getTaxonomyTerms } from "emdash";
+import { getEmDashCollection, getPluginSetting, getSiteSettings } from "emdash";
 import { ROUTES, urlFor } from "../../src/lib/routes";
 import { buildRobots, withDefaults, type SeoSettings } from "./model";
 import { collectFaqs } from "./schema";
@@ -86,7 +86,10 @@ export async function sitemapFor(name: SitemapName, origin: string): Promise<{ x
 		items.push({ loc: `${origin}${path}`, lastmod: iso(d?.updatedAt ?? d?.publishedAt), images: d ? imagesOf(origin, d) : [] });
 	};
 	if (name === "paginas") {
-		for (const e of await published("pages")) push(urlFor("pages", e.id), e.data);
+		const pages = await published("pages");
+		for (const e of pages) push(urlFor("pages", e.id), e.data);
+		const newest = pages.map((e) => iso(e.data?.updatedAt ?? e.data?.publishedAt)).filter(Boolean).sort().at(-1);
+		if (!excluded.has("/mapa-del-sitio/")) items.push({ loc: `${origin}/mapa-del-sitio/`, lastmod: newest, images: [] });
 	} else if (name === "servicios") {
 		for (const e of await published("services")) push(urlFor("services", e.id), e.data);
 	} else if (name === "zonas") {
@@ -94,11 +97,14 @@ export async function sitemapFor(name: SitemapName, origin: string): Promise<{ x
 	} else if (name === "blog") {
 		const posts = await published("posts");
 		for (const e of posts) push(urlFor("posts", e.id), e.data);
-		const terms = await getTaxonomyTerms("category").catch(() => [] as any[]);
-		for (const t of terms as Array<{ slug: string; count?: number }>) {
-			const count = posts.filter((p) => (p.data.terms?.category ?? []).some((c: any) => c.slug === t.slug)).length;
-			if (count >= 4) items.push({ loc: `${origin}${ROUTES.category(t.slug)}`, images: [] });
+		// Las categorías no tienen página propia (filtros dentro de /blog/); sí los perfiles de autor.
+		const authors = new Map<string, string | undefined>();
+		for (const e of posts) {
+			const slug = e.data?.byline?.slug as string | undefined;
+			const when = iso(e.data?.updatedAt ?? e.data?.publishedAt);
+			if (slug && (!authors.has(slug) || (when && when > (authors.get(slug) ?? "")))) authors.set(slug, when);
 		}
+		for (const [slug, lastmod] of authors) if (!excluded.has(ROUTES.author(slug))) items.push({ loc: `${origin}${ROUTES.author(slug)}`, lastmod, images: [] });
 	}
 	const lastmod = items.map((i) => i.lastmod).filter(Boolean).sort().at(-1);
 	return { xml: urlset(items), lastmod };

@@ -1,0 +1,74 @@
+---
+/**
+ * Guías del blog relacionadas, para servicios y zonas. Elige solas, sin configurar nada en el panel:
+ *  - por tema: puntúa cada guía según las palabras del servicio (título, palabra clave, slug) que
+ *    aparecen en su título, slug, palabra clave o resumen;
+ *  - el resto se completa rotando según `seed`, para que cada zona enlace guías distintas y todas las
+ *    guías reciban enlaces internos (las menos enlazadas eran las que Google no indexaba).
+ */
+import { getEmDashCollection } from "emdash";
+import { HUBS, ROUTES } from "../../lib/routes";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	/** Texto que describe el tema (p. ej. título y palabra clave del servicio). Vacío: solo rotación. */
+	topic?: string;
+	/** Semilla de la rotación (slug de la zona o del servicio). */
+	seed: string;
+	eyebrow?: string;
+	title?: string;
+	limit?: number;
+	class?: string;
+}
+const { topic = "", seed, eyebrow = "Guías para familias", title = "Lecturas que te pueden servir", limit = 3, class: className } = Astro.props;
+const { entries } = await getEmDashCollection("posts", { status: "published", limit: 60, orderBy: { published_at: "desc" } }).catch(() => ({ entries: [] as any[] }));
+const posts = entries as Array<{ id: string; data: Record<string, any> }>;
+if (posts.length === 0) return null;
+
+const norm = (s: unknown) =>
+	String(s ?? "")
+		.normalize("NFD")
+		.replace(/[̀-ͯ]/g, "")
+		.toLowerCase();
+// Palabras genéricas del sitio que no distinguen un tema de otro.
+const STOP = new Set(["cuidado", "cuidados", "adulto", "adultos", "mayor", "mayores", "domicilio", "bogota", "casa", "servicio", "persona", "personas", "para", "como", "desde", "turno", "turnos", "horas"]);
+const stems = [...new Set(norm(topic).split(/[^a-z0-9]+/))].filter((w) => w.length >= 5 && !STOP.has(w)).map((w) => w.slice(0, 6));
+const hash = [...seed].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const scored = posts.map((p, i) => {
+	const head = norm(`${p.data.title} ${p.id} ${p.data.focus_keyword ?? ""}`);
+	const body = norm(p.data.excerpt);
+	const score = stems.reduce((s, st) => s + (head.includes(st) ? 3 : 0) + (body.includes(st) ? 1 : 0), 0);
+	return { p, score, order: (i + posts.length - (hash % posts.length)) % posts.length };
+});
+const picked = scored
+	.sort((a, b) => b.score - a.score || a.order - b.order)
+	.slice(0, limit)
+	.map((s) => s.p);
+---
+
+<section class:list={["section-tight", className]} aria-labelledby={`guias-${seed}`}>
+	<div class="container-page">
+		<div class="flex flex-wrap items-end justify-between gap-4">
+			<div>
+				<p class="eyebrow">{eyebrow}</p>
+				<h2 id={`guias-${seed}`} class="mt-3 font-display text-h3 text-deep">{title}</h2>
+			</div>
+			<a href={HUBS.blog} class="link-arrow">Ver todas las guías <Fragment set:html={icon("flecha-derecha", "size-4")} /></a>
+		</div>
+		<ul class="mt-6 grid gap-4 md:grid-cols-3">
+			{
+				picked.map((p) => (
+					<li class="relative flex flex-col rounded-card border border-line bg-surface p-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift sm:p-5">
+						<span class="hidden size-10 place-items-center rounded-full bg-mist text-primary md:grid" set:html={icon("documento", "size-5")} />
+						<h3 class="md:mt-4 font-display text-[1.15rem] leading-snug font-medium text-deep">
+							<a href={ROUTES.posts(p.id)} class="after:absolute after:inset-0">
+								{p.data.title}
+							</a>
+						</h3>
+						{p.data.excerpt && <p class="mt-2 line-clamp-2 text-[0.95rem] text-muted">{p.data.excerpt}</p>}
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>

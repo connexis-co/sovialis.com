@@ -8,6 +8,7 @@ import Hero from "../../components/blocks/Hero.astro";
 import Blocks from "../../components/blocks/Blocks.astro";
 import Faq from "../../components/blocks/Faq.astro";
 import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
+import RelatedGuides from "../../components/blog/RelatedGuides.astro";
 import ClosingCta from "../../components/page/ClosingCta.astro";
 import { icon } from "../../lib/icons";
 import { getCatalog, mediaUrl } from "../../lib/site";
@@ -64,6 +65,7 @@ const heroValue = {
 	<Blocks blocks={blocks} offset={1} context={{ service: name }} edit={entry.edit.layout} />
 	{d.body?.length > 0 && <GuideTabs value={d.body} eyebrow="Guía del servicio" title={`Guía completa: ${name}`} highlight={String(name)} id={`guia-${slug}`} edit={entry.edit.body} />}
 	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Preguntas frecuentes sobre ${name}`, items: d.faqs }} index={50} edit={entry.edit.faqs} />}
+	<RelatedGuides topic={`${d.title} ${d.focus_keyword ?? ""} ${slug}`} seed={String(slug)} title="Guías que complementan este servicio" />
 	<ServicesGrid value={{ eyebrow: "Otros servicios", title: "También te puede servir", style: "lista-compacta", limit: 6 }} exclude={slug} />
 	{
 		zones.length > 0 && (

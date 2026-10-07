@@ -105,13 +105,7 @@ const crumbs = [
 						.filter((g) => g.items.length)
 						.map((g) => (
 							<div class="mt-4 first-of-type:mt-0">
-								{g.slug ? (
-									<a href={ROUTES.category(g.slug)} class="sm-group">
-										{g.label}
-									</a>
-								) : (
-									<p class="sm-group">{g.label}</p>
-								)}
+								<p class="sm-group">{g.label}</p>
 								<ul class="sm-list">
 									{g.items.map((p: any) => (
 										<li>

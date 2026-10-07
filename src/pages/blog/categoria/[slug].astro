@@ -1,36 +1,35 @@
 ---
-/** Archivo de categoría del blog (noindex hasta tener 4 artículos, según la arquitectura SEO). */
-import { getEmDashCollection, getTerm } from "emdash";
+/**
+ * Antiguos archivos de categoría del blog. Los temas ahora filtran dentro de /blog/ (#tema-<slug>), así
+ * que estas URL responden 410 (eliminadas para siempre): Google las retira antes que con un 404 o una
+ * redirección y dejan de aparecer como «noindex» en Search Console. A las personas se les ofrece el
+ * filtro equivalente.
+ */
+import { getTerm } from "emdash";
 import Base from "../../../layouts/Base.astro";
 import PageHeader from "../../../components/page/PageHeader.astro";
-import PostCard from "../../../components/blog/PostCard.astro";
-import ClosingCta from "../../../components/page/ClosingCta.astro";
 
 const { slug } = Astro.params;
 const term = slug ? await getTerm("category", slug).catch(() => null) : null;
-if (!term) return Astro.rewrite("/404/");
-const { entries, cacheHint } = await getEmDashCollection("posts", { status: "published", where: { category: slug! }, orderBy: { published_at: "desc" }, limit: 60 });
-if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+Astro.response.status = 410;
+Astro.response.headers.set("X-Robots-Tag", "noindex");
+const target = term ? `/blog/#tema-${term.slug}` : "/blog/";
 const crumbs = [
 	{ name: "Inicio", url: "/" },
 	{ name: "Guías", url: "/blog/" },
-	{ name: term.label, url: `/blog/categoria/${slug}/` },
 ];
-const description = (term as any).description || `${term.label}: guías para familias que cuidan a un adulto mayor en Bogotá.`;
 ---
 
-<Base title={`${term.label}: guías para familias`} description={description} pageType="collection" breadcrumbs={crumbs} robots={entries.length < 4 ? "noindex,follow" : undefined}>
-	<PageHeader title={term.label} summary={description} crumbs={crumbs} eyebrow="Guías Sovialis" />
+<Base title="Esta sección se movió a Guías" description="Las guías para familias ahora se filtran por tema en una sola página." pageType="webpage" breadcrumbs={crumbs} robots="noindex,follow">
+	<PageHeader
+		title={term ? `Guías de ${term.label}` : "Esta sección ya no existe"}
+		summary="Ahora todas las guías para familias están en una sola página y puedes filtrarlas por tema."
+		crumbs={crumbs}
+		eyebrow="Guías Sovialis"
+	/>
 	<section class="section-tight">
-		<ul class="container-page grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-			{
-				(entries as any[]).map((p) => (
-					<li>
-						<PostCard entry={p} headingLevel="h2" />
-					</li>
-				))
-			}
-		</ul>
+		<div class="container-page text-center">
+			<a href={target} class="btn btn-primary btn-lg">Ver las guías{term ? ` de ${term.label}` : ""}</a>
+		</div>
 	</section>
-	<ClosingCta />
 </Base>

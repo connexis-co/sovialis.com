@@ -3,7 +3,7 @@
 import { getBylineBySlug, getEntriesByByline } from "emdash";
 import Base from "../../layouts/Base.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
-import PostCard from "../../components/blog/PostCard.astro";
+import { ROUTES } from "../../lib/routes";
 
 const { slug } = Astro.params;
 const byline = slug ? await getBylineBySlug(slug).catch(() => null) : null;
@@ -19,15 +19,26 @@ const crumbs = [
 
 <Base title={`${byline.displayName}: autor de guías`} description={byline.bio ?? `Guías escritas por ${byline.displayName}.`} pageType="author" breadcrumbs={crumbs}>
 	<PageHeader title={byline.displayName} summary={byline.bio} crumbs={crumbs} eyebrow="Autor" />
+	{/* Lista compacta (sin resúmenes ni fotos): con tarjetas repetía el 80 % del contenido de /blog/. */}
 	<section class="section-tight">
-		<ul class="container-page grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-			{
-				entries.map((p) => (
-					<li>
-						<PostCard entry={p} headingLevel="h2" />
-					</li>
-				))
-			}
-		</ul>
+		<div class="container-page max-w-3xl">
+			<h2 class="font-display text-h3 text-deep">Guías publicadas ({entries.length})</h2>
+			<ol class="mt-6 divide-y divide-line rounded-card border border-line bg-surface shadow-soft">
+				{
+					entries.map((p) => (
+						<li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-5 py-4">
+							<a href={ROUTES.posts(p.id)} class="font-semibold text-deep hover:text-primary hover:underline">
+								{p.data?.title}
+							</a>
+							{p.data?.publishedAt && (
+								<time class="text-sm text-muted" datetime={new Date(p.data.publishedAt).toISOString()}>
+									{new Date(p.data.publishedAt).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric", timeZone: "America/Bogota" })}
+								</time>
+							)}
+						</li>
+					))
+				}
+			</ol>
+		</div>
 	</section>
 </Base>

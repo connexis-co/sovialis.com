@@ -164,7 +164,9 @@ const AI_BOTS = [
 	"PerplexityBot", "Perplexity-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "DuckAssistBot", "Amazonbot",
 	"meta-externalagent", "MistralAI-User", "CCBot",
 ];
-const RULES = ["Allow: /", "Allow: /_emdash/api/media/file/", "Disallow: /_emdash/", "Disallow: /api/", "Disallow: /cdn-cgi/"];
+// /cdn-cgi/image/ son las fotos del srcset (AVIF/WebP de Cloudflare): Googlebot las necesita para renderizar
+// la página y para Google Imágenes. El resto de /cdn-cgi/ (scripts y avisos internos) sigue bloqueado.
+const RULES = ["Allow: /", "Allow: /_emdash/api/media/file/", "Allow: /cdn-cgi/image/", "Disallow: /_emdash/", "Disallow: /api/", "Disallow: /cdn-cgi/"];
 
 /** robots.txt de la arquitectura SEO (§12.5): visibilidad máxima en buscadores y asistentes de IA. */
 export function buildRobots(settings: SeoSettings, origin: string): string {
