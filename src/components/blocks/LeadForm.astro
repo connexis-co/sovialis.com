@@ -1,0 +1,51 @@
+---
+/** Formulario en la página (contacto, landings): texto + viñetas a un lado y el formulario completo al otro. */
+import Img from "../ui/Img.astro";
+import SectionHead from "../ui/SectionHead.astro";
+import QuoteForm from "../forms/QuoteForm.astro";
+import { icon } from "../../lib/icons";
+import { getCatalog, getSiteData, telLink } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+	context?: { service?: string; zone?: string };
+}
+const { value: v, index, context = {} } = Astro.props;
+const [site, catalog] = await Promise.all([getSiteData(), getCatalog()]);
+const bullets = String(v.bullets ?? "").split("\n").map((b) => b.trim()).filter(Boolean);
+---
+
+<section class="section bg-sand" data-block="lead-form" id="formulario">
+	<div class="container-page grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+		<div>
+			<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.text} align="left" />
+			{
+				bullets.length > 0 && (
+					<ul class="mt-6 grid gap-3">
+						{bullets.map((b) => (
+							<li class="flex items-start gap-3">
+								<span class="mt-0.5 grid size-7 flex-none place-items-center rounded-full bg-primary/10 text-primary" set:html={icon("check", "size-4")} />
+								{b}
+							</li>
+						))}
+					</ul>
+				)
+			}
+			<div class="mt-8 grid gap-3 text-[1.05rem]">
+				<a href={telLink(site)} class="flex items-center gap-3 font-semibold text-deep" data-cta={`formulario:${index}:llamar`}>
+					<span class="grid size-11 place-items-center rounded-full bg-surface text-primary shadow-soft" set:html={icon("telefono", "size-5")} />
+					{site.phoneDisplay}
+				</a>
+				<p class="flex items-center gap-3 text-muted">
+					<span class="grid size-11 place-items-center rounded-full bg-surface text-primary shadow-soft" set:html={icon("reloj", "size-5")} />
+					{site.hours}
+				</p>
+			</div>
+			{v.image && <div class="mt-8 hidden overflow-hidden rounded-card lg:block"><Img image={v.image} class="aspect-[3/2] w-full object-cover" loading="lazy" /></div>}
+		</div>
+		<div class="rounded-[var(--sv-radius-hero)] border border-line bg-surface p-6 shadow-lift sm:p-9">
+			<QuoteForm id={`inline-form-${index}`} site={site} services={catalog.services} zones={catalog.zones} variant="inline" service={v.service || context.service} zone={context.zone} source="pagina" />
+		</div>
+	</div>
+</section>

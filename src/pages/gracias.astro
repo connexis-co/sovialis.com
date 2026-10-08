@@ -1,0 +1,47 @@
+---
+/** Página de gracias tras enviar un formulario (noindex). Texto editable en Páginas → «gracias». */
+import { getEmDashEntry } from "emdash";
+import Prose from "../components/ui/Prose.astro";
+import Base from "../layouts/Base.astro";
+import { icon } from "../lib/icons";
+import { getSiteData, waLink } from "../lib/site";
+
+const [{ entry }, site] = await Promise.all([getEmDashEntry("pages", "gracias").catch(() => ({ entry: null })), getSiteData()]);
+const d = (entry?.data ?? {}) as Record<string, any>;
+---
+
+<Base title={d.seo?.title || d.title || "Gracias por escribirnos"} description={d.seo?.description || d.summary} robots="noindex,follow" pageType="webpage">
+	<section class="section bg-sand">
+		<div class="container-page max-w-3xl text-center">
+			<span class="mx-auto grid size-20 place-items-center rounded-full bg-primary text-white shadow-lift" set:html={icon("check", "size-10")} />
+			<h1 class="mt-6 font-display text-h1 text-deep">{d.title || "¡Gracias! Recibimos tu solicitud"}</h1>
+			<p class="mt-4 text-lead text-muted" data-receipt-message>{d.summary || "Una coordinadora te escribirá por WhatsApp para conocer el caso y enviarte la propuesta."}</p>
+			<div class="mt-8 flex flex-wrap justify-center gap-3">
+				<a href={waLink(site)} class="btn btn-whatsapp btn-lg" data-wa data-receipt-wa data-cta="gracias:whatsapp" target="_blank" rel="noopener">
+					<Fragment set:html={icon("whatsapp", "size-6")} /> Adelantar por WhatsApp
+				</a>
+				<a href="/blog/" class="btn btn-outline btn-lg">Leer guías para familias</a>
+			</div>
+			{d.body?.length > 0 && <div class="prose-sv mx-auto mt-12 max-w-2xl text-left"><Prose value={d.body} /></div>}
+		</div>
+	</section>
+</Base>
+
+<script>
+	try {
+		const receipt = JSON.parse(sessionStorage.getItem("sv:receipt") || "null") as { name?: string; whatsappUrl?: string } | null;
+		if (receipt?.whatsappUrl) {
+			const wa = document.querySelector<HTMLAnchorElement>("[data-receipt-wa]");
+			if (wa) {
+				wa.href = receipt.whatsappUrl;
+				wa.removeAttribute("data-wa");
+			}
+		}
+		if (receipt?.name) {
+			const h1 = document.querySelector("h1");
+			if (h1 && !h1.textContent?.includes(receipt.name)) h1.textContent = `¡Gracias, ${receipt.name.split(" ")[0]}! Recibimos tu solicitud`;
+		}
+	} catch {
+		/* sin almacenamiento */
+	}
+</script>

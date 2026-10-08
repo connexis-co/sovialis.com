@@ -1,0 +1,62 @@
+---
+/** «¿Te resultó útil?»: estrellas 1–5 (plugin sovialis-ratings), con el promedio renderizado en el servidor. */
+import { getPluginSetting } from "emdash";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	target: string;
+	compact?: boolean;
+}
+const { target, compact = false } = Astro.props;
+const agg = await getPluginSetting<{ average: number; count: number }>("sovialis-ratings", `agg:${target}`).catch(() => undefined);
+const summary = agg?.count
+	? `${agg.average.toLocaleString("es-CO", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} de 5 · ${agg.count} ${agg.count === 1 ? "valoración" : "valoraciones"}`
+	: "Sé la primera persona en valorar esta guía";
+const filled = Math.round(agg?.average ?? 0);
+---
+
+{
+	compact ? (
+		agg?.count ? (
+			<span class="inline-flex items-center gap-1.5" aria-label={`Valoración: ${summary}`}>
+				<span class="flex text-[#e8a33d]">{Array.from({ length: 5 }, (_, i) => <span set:html={icon("estrella", `size-4 ${i < filled ? "fill-current" : "opacity-35"}`)} />)}</span>
+				<span>{summary}</span>
+			</span>
+		) : null
+	) : (
+		<section class="rating rounded-card border border-line bg-sand p-6 text-center" data-rating={target}>
+			<p class="font-display text-xl text-deep">¿Te resultó útil esta guía?</p>
+			<div class="mt-3 flex justify-center gap-1" role="group" aria-label="Califica de 1 a 5 estrellas">
+				{Array.from({ length: 5 }, (_, i) => (
+					<button type="button" class="star" data-star={i + 1} aria-pressed="false" aria-label={`${i + 1} ${i ? "estrellas" : "estrella"}`}>
+						<Fragment set:html={icon("estrella", "size-8")} />
+					</button>
+				))}
+			</div>
+			<p class="mt-2 text-muted" data-rating-summary aria-live="polite">{summary}</p>
+			<p class="mt-1 font-semibold text-primary" data-rating-message aria-live="polite" />
+		</section>
+	)
+}
+
+<style>
+	.star {
+		padding: 0.25rem;
+		color: color-mix(in oklab, #e8a33d 45%, var(--sv-border));
+		cursor: pointer;
+		transition: transform var(--sv-dur) var(--sv-ease-spring), color var(--sv-dur);
+	}
+	.star:hover,
+	.star[aria-pressed="true"] {
+		color: #e8a33d;
+	}
+	.star[aria-pressed="true"] :global(svg) {
+		fill: currentColor;
+	}
+	.star:hover {
+		transform: scale(1.15);
+	}
+	.rating:has(.star:hover) .star:hover ~ .star {
+		color: color-mix(in oklab, #e8a33d 45%, var(--sv-border));
+	}
+</style>

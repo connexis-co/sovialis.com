@@ -1,0 +1,249 @@
+---
+/**
+ * Mapa de cobertura con la geografía real de Bogotá (norte arriba, misma escala en ambos ejes).
+ * Los límites de las localidades y las avenidas salen de OpenStreetMap (scripts/build-map.mjs →
+ * src/data/bogota-map.json). Las localidades con página propia se resaltan y enlazan; los barrios
+ * y sectores se marcan con un pin en su latitud/longitud del CMS.
+ */
+import map from "../../data/bogota-map.json";
+import { ROUTES } from "../../lib/routes";
+
+interface Zone {
+	slug: string;
+	parent?: string;
+	shortTitle: string;
+	kind?: string;
+	lat?: number | null;
+	lng?: number | null;
+}
+interface Props {
+	zones: Zone[];
+	active?: string;
+	class?: string;
+}
+const { zones, active, class: className } = Astro.props;
+const { box, width: W, height: H, kmPx } = map;
+const x = (lng: number) => ((lng - box.west) / (box.east - box.west)) * W;
+const y = (lat: number) => ((box.north - lat) / (box.north - box.south)) * H;
+
+const bySlug = new Map(zones.map((z) => [z.slug, z]));
+const activeZone = active ? bySlug.get(active) : undefined;
+// Localidad resaltada como «activa»: la propia zona o la localidad padre de un barrio.
+const activeLocalidad = activeZone ? (bySlug.has(activeZone.slug) && map.localidades.some((l) => l.slug === activeZone.slug) ? activeZone.slug : activeZone.parent) : undefined;
+const areas = map.localidades.map((l) => ({ ...l, zone: bySlug.get(l.slug) }));
+const pins = zones.filter(
+	(z) =>
+		!map.localidades.some((l) => l.slug === z.slug) &&
+		typeof z.lat === "number" &&
+		typeof z.lng === "number" &&
+		z.lat < box.north &&
+		z.lat > box.south &&
+		z.lng > box.west &&
+		z.lng < box.east,
+);
+// Ajustes finos de la etiqueta de algunas localidades para que no choquen con los pins.
+const LABEL_SHIFT: Record<string, [number, number]> = { usaquen: [-10, -40], suba: [-30, 0], chapinero: [6, -30], engativa: [0, 10] };
+const scaleKm = 2;
+const covered = areas.filter((a) => a.zone).map((a) => a.zone!.shortTitle);
+---
+
+<figure class:list={["coverage-map", className]}>
+	<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="map-title map-desc">
+		<title id="map-title">Mapa de cobertura de Sovialis en Bogotá</title>
+		<desc id="map-desc">
+			Localidades y barrios donde prestamos cuidado del adulto mayor a domicilio: {[...covered, ...pins.map((p) => p.shortTitle)].join(", ")}.
+		</desc>
+		<defs>
+			<clipPath id="map-clip"><rect width={W} height={H} rx="28" /></clipPath>
+			<linearGradient id="map-bg" x1="0" y1="0" x2="1" y2="1">
+				<stop offset="0" stop-color="#f3f7fa" /><stop offset="1" stop-color="#fbf8f3" />
+			</linearGradient>
+			<pattern id="map-hills" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+				<path d="M0 0V10" stroke="#3f7a5a" stroke-opacity=".12" stroke-width="3" />
+			</pattern>
+		</defs>
+		<g clip-path="url(#map-clip)">
+			<rect width={W} height={H} fill="url(#map-bg)" />
+			<!-- Franja de los cerros orientales (al oriente de la Séptima / Circunvalar) -->
+			<rect x={x(-74.035)} y="0" width={W - x(-74.035)} height={H} fill="url(#map-hills)" />
+			{
+				areas.map((a) => {
+					const on = a.slug === activeLocalidad;
+					const shape = <path d={a.d} class:list={["map-area", a.zone && "is-covered", on && "is-active"]} />;
+					return a.zone ? (
+						<a href={ROUTES.zones(a.zone.slug, a.zone.parent || null)} aria-label={`Cuidado del adulto mayor en ${a.zone.shortTitle}`}>
+							{shape}
+						</a>
+					) : (
+						shape
+					);
+				})
+			}
+			<g class="map-roads" aria-hidden="true">
+				{map.roads.map((r) => <path d={r.d} />)}
+			</g>
+			{
+				areas
+					.filter((a) => a.zone)
+					.map((a) => {
+						const [dx, dy] = LABEL_SHIFT[a.slug] ?? [0, 0];
+						return (
+							<text x={a.cx + dx} y={a.cy + dy} class:list={["map-area-label", a.slug === activeLocalidad && "is-active"]} text-anchor="middle" aria-hidden="true">
+								{a.zone!.shortTitle}
+							</text>
+						);
+					})
+			}
+			<text x={x(-74.017)} y={y(4.7)} class="map-hills-label" transform={`rotate(-78 ${x(-74.017)} ${y(4.7)})`} aria-hidden="true">
+				Cerros Orientales
+			</text>
+			{
+				pins.map((p) => {
+					const px = x(p.lng!), py = y(p.lat!);
+					const on = p.slug === active;
+					const left = px > W - 140;
+					return (
+						<a href={ROUTES.zones(p.slug, p.parent || null)} class:list={["map-pin", on && "is-active"]} aria-label={`Cuidado del adulto mayor en ${p.shortTitle}`}>
+							<circle cx={px} cy={py} r={on ? 20 : 14} class="map-pin__halo" />
+							<circle cx={px} cy={py} r={on ? 8.5 : 6.5} class="map-pin__dot" />
+							<text x={left ? px - 12 : px + 12} y={py + 4.5} text-anchor={left ? "end" : "start"} class="map-pin__label">
+								{p.shortTitle}
+							</text>
+						</a>
+					);
+				})
+			}
+			<!-- Norte y escala -->
+			<g transform={`translate(${W - 46} 44)`} aria-hidden="true">
+				<circle r="22" fill="#fff" fill-opacity=".9" />
+				<path d="M0 -14 L7 6 L0 2 L-7 6 Z" fill="#0b2a4e" />
+				<text y="18" text-anchor="middle" class="map-north">N</text>
+			</g>
+			<g transform={`translate(24 ${H - 30})`} aria-hidden="true">
+				<path d={`M0 0 H${(kmPx * scaleKm).toFixed(1)}`} stroke="#0b2a4e" stroke-width="3" stroke-linecap="round" />
+				<path d={`M0 -5 V5 M${(kmPx * scaleKm).toFixed(1)} -5 V5`} stroke="#0b2a4e" stroke-width="2" />
+				<text x={(kmPx * scaleKm) / 2} y="-9" text-anchor="middle" class="map-scale">{scaleKm} km</text>
+			</g>
+		</g>
+	</svg>
+	<figcaption class="coverage-map__note">Mapa: © colaboradores de OpenStreetMap (ODbL)</figcaption>
+</figure>
+
+<style>
+	.coverage-map {
+		margin: 0;
+	}
+	.coverage-map svg {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-height: 80svh;
+		font-family: var(--sv-font-body);
+	}
+	.coverage-map__note {
+		margin-top: 6px;
+		text-align: end;
+		font-size: 0.75rem;
+		color: var(--sv-text-muted);
+	}
+	.map-area {
+		fill: #eef1f4;
+		stroke: #fff;
+		stroke-width: 1.6;
+		stroke-linejoin: round;
+		transition: fill var(--sv-dur) var(--sv-ease-out);
+	}
+	.map-area.is-covered {
+		fill: color-mix(in oklab, var(--sv-primary) 26%, #fff);
+		stroke: color-mix(in oklab, var(--sv-primary) 45%, #fff);
+	}
+	a:hover > .map-area.is-covered,
+	a:focus-visible > .map-area.is-covered {
+		fill: color-mix(in oklab, var(--sv-primary) 38%, #fff);
+	}
+	.map-area.is-active {
+		fill: color-mix(in oklab, var(--sv-primary) 46%, #fff);
+		stroke: var(--sv-primary);
+		stroke-width: 2.2;
+	}
+	.map-roads path {
+		fill: none;
+		stroke: #fff;
+		stroke-width: 2.4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		opacity: 0.95;
+	}
+	.map-area-label {
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		fill: var(--sv-deep);
+		paint-order: stroke;
+		stroke: #fff;
+		stroke-width: 4px;
+		stroke-linejoin: round;
+		pointer-events: none;
+	}
+	.map-area-label.is-active {
+		fill: var(--sv-primary);
+	}
+	.map-hills-label {
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		fill: #3f7a5a;
+		fill-opacity: 0.7;
+	}
+	.map-north,
+	.map-scale {
+		font-size: 11px;
+		font-weight: 700;
+		fill: var(--sv-deep);
+	}
+	.map-pin__halo {
+		fill: var(--sv-secondary);
+		fill-opacity: 0.2;
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+	.map-pin__dot {
+		fill: var(--sv-primary);
+		stroke: #fff;
+		stroke-width: 2.5;
+	}
+	.map-pin__label {
+		font-size: 13.5px;
+		font-weight: 700;
+		fill: var(--sv-deep);
+		paint-order: stroke;
+		stroke: #fff;
+		stroke-width: 4px;
+		stroke-linejoin: round;
+	}
+	.map-pin:hover .map-pin__dot,
+	.map-pin:focus-visible .map-pin__dot,
+	.map-pin.is-active .map-pin__dot {
+		fill: var(--sv-deep);
+	}
+	.map-pin.is-active .map-pin__halo {
+		animation: pin-pulse 2.4s var(--sv-ease-out) infinite;
+	}
+	@keyframes pin-pulse {
+		0% {
+			transform: scale(0.8);
+			fill-opacity: 0.35;
+		}
+		100% {
+			transform: scale(1.8);
+			fill-opacity: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.map-pin.is-active .map-pin__halo {
+			animation: none;
+		}
+	}
+</style>

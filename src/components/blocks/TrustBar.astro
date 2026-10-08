@@ -1,0 +1,23 @@
+---
+/** Franja de confianza: garantías verificables con icono. */
+import { icon } from "../../lib/icons";
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+const items: any[] = Array.isArray(v.items) ? v.items : [];
+if (!items.length) return null;
+---
+
+<section class="border-y border-line bg-surface py-6" data-block="trust">
+	<ul class="container-page flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+		{
+			items.map((it) => (
+				<li class="flex items-center gap-3 font-semibold text-deep">
+					<span class="grid size-10 place-items-center rounded-full bg-mist text-primary" set:html={icon(it.icon, "size-5")} />
+					{it.text}
+				</li>
+			))
+		}
+	</ul>
+</section>

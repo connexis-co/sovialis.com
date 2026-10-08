@@ -1,0 +1,107 @@
+---
+/** Comentarios nativos de EmDash con interfaz en español (moderados antes de publicarse). */
+import { getComments } from "emdash";
+
+interface Props {
+	contentId: string;
+	title: string;
+}
+const { contentId, title } = Astro.props;
+const result = await getComments({ collection: "posts", contentId, threaded: true }).catch(() => ({ items: [], total: 0 }));
+const items = (result as any).items ?? [];
+const total = (result as any).total ?? items.length;
+const fmt = (iso: string) => new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Bogota" });
+const endpoint = `/_emdash/api/comments/posts/${encodeURIComponent(contentId)}`;
+---
+
+<section class="comments" aria-labelledby="comments-title" id="comentarios">
+	<h2 id="comments-title" class="font-display text-h3 text-deep">
+		{total ? `${total} ${total === 1 ? "comentario" : "comentarios"}` : "Comentarios"}
+	</h2>
+	{
+		items.length > 0 ? (
+			<ol class="mt-6 grid gap-5">
+				{items.map((c: any) => (
+					<li class="rounded-card border border-line bg-surface p-5">
+						<p class="flex flex-wrap items-baseline gap-x-3">
+							<strong class="text-deep">{c.authorName}</strong>
+							<time class="text-sm text-muted" datetime={c.createdAt}>{fmt(c.createdAt)}</time>
+						</p>
+						<p class="mt-2 whitespace-pre-line">{c.body}</p>
+						{c.replies?.length > 0 && (
+							<ol class="mt-4 grid gap-3 border-l-2 border-primary/30 pl-4">
+								{c.replies.map((r: any) => (
+									<li>
+										<p class="flex flex-wrap items-baseline gap-x-3">
+											<strong class="text-deep">{r.authorName}</strong>
+											{r.isRegisteredUser && <span class="rounded-full bg-primary/10 px-2 text-xs font-semibold text-primary">Sovialis</span>}
+											<time class="text-sm text-muted" datetime={r.createdAt}>{fmt(r.createdAt)}</time>
+										</p>
+										<p class="mt-1 whitespace-pre-line">{r.body}</p>
+									</li>
+								))}
+							</ol>
+						)}
+					</li>
+				))}
+			</ol>
+		) : (
+			<p class="mt-3 text-muted">Aún no hay comentarios. ¿Tienes una duda o una experiencia que quieras compartir?</p>
+		)
+	}
+
+	<form class="comment-form mt-8 rounded-card border border-line bg-sand p-6" data-comment-form data-endpoint={endpoint} novalidate>
+		<p class="font-display text-xl text-deep">Deja un comentario sobre «{title}»</p>
+		<p class="mt-1 text-[0.95rem] text-muted">Tu correo no se publica. Revisamos los comentarios antes de mostrarlos. Por privacidad, no compartas diagnósticos ni datos de salud.</p>
+		<div class="mt-5 grid gap-4 sm:grid-cols-2">
+			<div class="fl-field">
+				<input id="comment-name" name="authorName" required maxlength="100" autocomplete="name" placeholder=" " />
+				<label for="comment-name">Nombre</label>
+			</div>
+			<div class="fl-field">
+				<input id="comment-email" name="authorEmail" type="email" required autocomplete="email" placeholder=" " />
+				<label for="comment-email">Correo electrónico</label>
+			</div>
+			<div class="fl-field sm:col-span-2">
+				<textarea id="comment-body" name="body" required maxlength="5000" rows="4" placeholder=" "></textarea>
+				<label for="comment-body">Comentario</label>
+			</div>
+		</div>
+		<div class="hp" aria-hidden="true" style="position:absolute;left:-10000px"><label>No completar <input name="website_url" tabindex="-1" autocomplete="off" /></label></div>
+		<button type="submit" class="btn btn-primary mt-5">Publicar comentario</button>
+		<p class="mt-3 font-semibold text-deep" data-comment-status role="status" aria-live="polite"></p>
+	</form>
+</section>
+
+<script>
+	for (const form of document.querySelectorAll<HTMLFormElement>("[data-comment-form]")) {
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			const status = form.querySelector<HTMLElement>("[data-comment-status]")!;
+			const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+			if (!data.authorName?.trim() || !/^\S+@\S+\.\S+$/.test(data.authorEmail ?? "") || !data.body?.trim()) {
+				status.textContent = "Completa tu nombre, un correo válido y el comentario.";
+				return;
+			}
+			const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+			button.disabled = true;
+			try {
+				const res = await fetch(form.dataset.endpoint!, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(data),
+				});
+				if (!res.ok) throw new Error(String(res.status));
+				const body = (await res.json()) as { data?: { status?: string } };
+				status.textContent =
+					body.data?.status === "approved" ? "¡Gracias! Tu comentario ya está publicado." : "¡Gracias! Tu comentario será visible cuando lo revisemos.";
+				form.reset();
+				(window as any).dataLayer?.push({ event: "comment_submit" });
+			} catch {
+				status.textContent = "No pudimos enviar tu comentario. Inténtalo de nuevo en unos minutos.";
+			} finally {
+				button.disabled = false;
+			}
+		});
+	}
+</script>

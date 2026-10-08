@@ -1,0 +1,310 @@
+---
+/**
+ * Estimador de presupuesto mensual: perfil, modalidad, días de la semana (sábado y domingo con su
+ * tarifa) y horas por visita. Muestra el total semanal y mensual (52/12 semanas por mes) con el
+ * desglose, y lo envía por WhatsApp o lo pasa al formulario de cotización.
+ */
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+import { MODALITIES, MODALITY_ORDER, PROFILES, type Modality, type Profile } from "../../lib/rates";
+import { getCatalog, getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const [site, catalog] = await Promise.all([getSiteData(), getCatalog()]);
+const id = `estimador-${index}`;
+const serviceName = (slug: string) => catalog.services.find((s) => s.slug === slug)?.shortTitle ?? "";
+const data = {
+	rates: site.rates,
+	minHours: site.minHours,
+	modalities: Object.fromEntries(MODALITY_ORDER.map((m) => [m, { label: MODALITIES[m].label, short: MODALITIES[m].short, serviceName: serviceName(MODALITIES[m].service) }])),
+	profiles: Object.fromEntries((Object.keys(PROFILES) as Profile[]).map((p) => [p, PROFILES[p].label])),
+};
+const DAYS = [
+	{ v: 1, l: "L", n: "Lunes" },
+	{ v: 2, l: "M", n: "Martes" },
+	{ v: 3, l: "X", n: "Miércoles" },
+	{ v: 4, l: "J", n: "Jueves" },
+	{ v: 5, l: "V", n: "Viernes" },
+	{ v: 6, l: "S", n: "Sábado" },
+	{ v: 0, l: "D", n: "Domingo" },
+];
+const startModality: Modality = "12h_dia";
+---
+
+<section class="section budget" data-block="budget-estimator" id={v.anchor || "estimador"}>
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<div class="budget__card mt-8 sm:mt-10" data-budget data-rates={JSON.stringify(data)}>
+			<form class="budget__form" aria-label="Datos para estimar el presupuesto" onsubmit="return false">
+				<fieldset class="bg-group">
+					<legend>Perfil</legend>
+					<div class="bg-chips">
+						{(Object.keys(PROFILES) as Profile[]).map((p, i) => (
+							<label class="bg-chip">
+								<input type="radio" name={`${id}-profile`} value={p} checked={i === 0} data-bg="profile" />
+								<span>{PROFILES[p].label}</span>
+							</label>
+						))}
+					</div>
+				</fieldset>
+				<fieldset class="bg-group">
+					<legend>Modalidad</legend>
+					<div class="bg-chips">
+						{MODALITY_ORDER.map((m) => (
+							<label class="bg-chip">
+								<input type="radio" name={`${id}-modality`} value={m} checked={m === startModality} data-bg="modality" />
+								<span>
+									<span class="bg-chip__icon" set:html={icon(MODALITIES[m].icon, "size-4")} />
+									{MODALITIES[m].short}
+								</span>
+							</label>
+						))}
+					</div>
+				</fieldset>
+				<fieldset class="bg-group">
+					<legend>Días de la semana</legend>
+					<div class="bg-days">
+						{DAYS.map((d) => (
+							<label class="bg-day" title={d.n}>
+								<input type="checkbox" value={d.v} checked={d.v >= 1 && d.v <= 5} data-bg="day" aria-label={d.n} />
+								<span>{d.l}</span>
+							</label>
+						))}
+					</div>
+					<p class="bg-hint">Sábado y domingo se calculan con la tarifa de fin de semana y festivos.</p>
+				</fieldset>
+				<fieldset class="bg-group" data-bg-hours-group hidden>
+					<legend>Horas por visita</legend>
+					<div class="bg-stepper">
+						<button type="button" data-bg-step="-1" aria-label="Menos horas">−</button>
+						<output data-bg-hours>{site.minHours}</output>
+						<button type="button" data-bg-step="1" aria-label="Más horas">+</button>
+						<span class="bg-hint !mt-0">Mínimo {site.minHours} horas</span>
+					</div>
+				</fieldset>
+			</form>
+
+			<aside class="budget__result" aria-live="polite">
+				<p class="budget__eyebrow">Presupuesto mensual estimado</p>
+				<p class="budget__total"><span data-bg-month>$0</span></p>
+				<p class="budget__week">Semanal: <strong data-bg-week>$0</strong></p>
+				<ul class="budget__lines" data-bg-lines></ul>
+				<div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+					<a class="btn btn-whatsapp w-full" href={`https://wa.me/${site.whatsappNumber}`} data-wa data-bg-wa target="_blank" rel="noopener" data-cta="precios:estimador-whatsapp">
+						<Fragment set:html={icon("whatsapp", "size-5")} /> Enviar por WhatsApp
+					</a>
+					<button type="button" class="btn btn-light w-full" data-quote data-bg-quote data-cta="precios:estimador-cotizar">
+						Pedir cotización formal <Fragment set:html={icon("flecha-derecha", "size-5")} />
+					</button>
+				</div>
+				<p class="budget__note">{v.note || "Estimado de referencia con IVA (4,33 semanas por mes). Los festivos entre semana se cobran con tarifa de festivo; el valor exacto queda en tu cotización por escrito."}</p>
+			</aside>
+		</div>
+	</div>
+</section>
+
+<style>
+	.budget__card {
+		display: grid;
+		gap: 0;
+		overflow: hidden;
+		border: 1px solid var(--sv-border);
+		border-radius: var(--sv-radius-hero);
+		background: var(--sv-surface);
+		box-shadow: var(--sv-shadow-lg);
+	}
+	@media (min-width: 1024px) {
+		.budget__card {
+			grid-template-columns: 1.2fr 0.8fr;
+		}
+	}
+	.budget__form {
+		display: grid;
+		gap: 1.4rem;
+		padding: clamp(1.4rem, 4vw, 2.2rem);
+	}
+	.bg-group {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		min-width: 0;
+	}
+	.bg-group legend {
+		margin-bottom: 0.65rem;
+		font-size: 0.82rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--sv-text-muted);
+	}
+	.bg-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.bg-chip,
+	.bg-day {
+		position: relative;
+		cursor: pointer;
+	}
+	.bg-chip input,
+	.bg-day input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.bg-chip > span {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		min-height: 44px;
+		padding: 0.55rem 1rem;
+		border: 1.5px solid var(--sv-border);
+		border-radius: 999px;
+		font-weight: 600;
+		color: var(--sv-deep);
+		background: var(--sv-surface);
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur),
+			border-color var(--sv-dur);
+	}
+	.bg-chip__icon {
+		display: inline-grid;
+		color: var(--sv-primary);
+	}
+	.bg-chip input:checked + span {
+		background: var(--sv-deep);
+		border-color: var(--sv-deep);
+		color: #fff;
+	}
+	.bg-chip input:checked + span .bg-chip__icon {
+		color: #8fd8f2;
+	}
+	.bg-chip input:focus-visible + span,
+	.bg-day input:focus-visible + span {
+		outline: 3px solid var(--sv-primary);
+		outline-offset: 2px;
+	}
+	.bg-days {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 0.45rem;
+		max-width: 26rem;
+	}
+	.bg-day > span {
+		display: grid;
+		place-items: center;
+		aspect-ratio: 1;
+		border: 1.5px solid var(--sv-border);
+		border-radius: 50%;
+		font-weight: 650;
+		color: var(--sv-deep);
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur),
+			border-color var(--sv-dur),
+			transform var(--sv-dur);
+	}
+	.bg-day:nth-child(n + 6) > span {
+		border-style: dashed;
+	}
+	.bg-day input:checked + span {
+		background: var(--sv-primary);
+		border-color: var(--sv-primary);
+		border-style: solid;
+		color: #fff;
+		transform: scale(1.04);
+	}
+	.bg-hint {
+		margin-top: 0.55rem;
+		font-size: 0.9rem;
+		color: var(--sv-text-muted);
+	}
+	.bg-stepper {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	.bg-stepper button {
+		display: grid;
+		place-items: center;
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
+		border: 1.5px solid var(--sv-border);
+		border-radius: 50%;
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: var(--sv-deep);
+		background: var(--sv-surface);
+	}
+	.bg-stepper output {
+		min-inline-size: 2.5rem;
+		text-align: center;
+		font-family: var(--sv-font-display);
+		font-size: 1.6rem;
+		font-weight: 600;
+		color: var(--sv-deep);
+	}
+	.budget__result {
+		position: relative;
+		padding: clamp(1.4rem, 4vw, 2.2rem);
+		background: var(--sv-gradient-deep, linear-gradient(150deg, #0b2a4e, #0e3a68));
+		color: #fff;
+	}
+	.budget__eyebrow {
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: #8fd8f2;
+	}
+	.budget__total {
+		margin-top: 0.5rem;
+		font-family: var(--sv-font-display);
+		font-size: clamp(2.6rem, 6vw, 3.4rem);
+		font-weight: 600;
+		line-height: 1;
+		font-variant-numeric: tabular-nums;
+	}
+	.budget__week {
+		margin-top: 0.6rem;
+		color: rgb(255 255 255 / 0.82);
+	}
+	.budget__lines {
+		display: grid;
+		gap: 0.5rem;
+		margin-top: 1.2rem;
+		padding-top: 1.1rem;
+		border-top: 1px solid rgb(255 255 255 / 0.15);
+		font-size: 0.95rem;
+		color: rgb(255 255 255 / 0.88);
+	}
+	.budget__lines :global(li) {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
+	}
+	.budget__lines :global(small) {
+		display: block;
+		margin-top: 0.1rem;
+		font-size: 0.82rem;
+		color: rgb(255 255 255 / 0.65);
+	}
+	.budget__lines :global(b) {
+		color: #fff;
+		font-weight: 650;
+		white-space: nowrap;
+	}
+	.budget__note {
+		margin-top: 1rem;
+		font-size: 0.85rem;
+		color: rgb(255 255 255 / 0.7);
+	}
+</style>

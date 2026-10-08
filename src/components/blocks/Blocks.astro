@@ -1,0 +1,75 @@
+---
+/** Renderiza el campo «Secciones» (blocks) de cualquier entrada con los componentes del tema. */
+import Hero from "./Hero.astro";
+import TrustBar from "./TrustBar.astro";
+import ServicesGrid from "./ServicesGrid.astro";
+import CardCarousel from "./CardCarousel.astro";
+import Steps from "./Steps.astro";
+import FeatureGrid from "./FeatureGrid.astro";
+import MediaText from "./MediaText.astro";
+import TabsMedia from "./TabsMedia.astro";
+import Pricing from "./Pricing.astro";
+import ZonesGrid from "./ZonesGrid.astro";
+import Comparison from "./Comparison.astro";
+import Testimonials from "./Testimonials.astro";
+import Stats from "./Stats.astro";
+import Faq from "./Faq.astro";
+import CtaBand from "./CtaBand.astro";
+import LeadForm from "./LeadForm.astro";
+import BlogLatest from "./BlogLatest.astro";
+import RichText from "./RichText.astro";
+import Accordion from "./Accordion.astro";
+import PriceExplorer from "./PriceExplorer.astro";
+import BudgetEstimator from "./BudgetEstimator.astro";
+
+interface Props {
+	blocks: Array<Record<string, any>> | null | undefined;
+	context?: { service?: string; zone?: string; priceFrom?: number | null; priceUnit?: string; exclude?: string };
+	/** Índice desde el que cuenta el primer bloque (0 = puede ser el H1). */
+	offset?: number;
+	/** Anotación del modo de edición de EmDash para el campo «Secciones»: un clic abre su editor. */
+	edit?: object;
+}
+const { blocks, context = {}, offset = 0, edit } = Astro.props;
+const editable = Boolean(edit && Object.keys(edit).length);
+const list = Array.isArray(blocks) ? blocks : [];
+// Cada tipo de bloque con su componente; todos reciben las mismas props (cada uno usa las suyas).
+const COMPONENTS: Record<string, any> = {
+	hero: Hero,
+	trust_bar: TrustBar,
+	services_grid: ServicesGrid,
+	card_carousel: CardCarousel,
+	steps: Steps,
+	feature_grid: FeatureGrid,
+	media_text: MediaText,
+	tabs_media: TabsMedia,
+	pricing: Pricing,
+	zones_grid: ZonesGrid,
+	comparison: Comparison,
+	testimonials: Testimonials,
+	stats: Stats,
+	faq: Faq,
+	cta_band: CtaBand,
+	lead_form: LeadForm,
+	blog_latest: BlogLatest,
+	rich_text: RichText,
+	accordion: Accordion,
+	price_explorer: PriceExplorer,
+	budget_estimator: BudgetEstimator,
+};
+---
+
+{
+	list.map((block, i) => {
+		const Component = COMPONENTS[block._type];
+		if (!Component) return null;
+		const props = { value: block, index: i + offset, context, exclude: context.exclude, active: context.zone };
+		return editable ? (
+			<div class="contents" {...edit}>
+				<Component {...props} />
+			</div>
+		) : (
+			<Component {...props} />
+		);
+	})
+}

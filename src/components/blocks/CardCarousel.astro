@@ -1,0 +1,139 @@
+---
+/** Carrusel de tarjetas con foto (scroll-snap nativo, flechas y barra de progreso). Inspirado en VisitValle. */
+import Img from "../ui/Img.astro";
+import { sanitizeHref } from "emdash";
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	value: Record<string, any>;
+}
+const { value: v } = Astro.props;
+const items: any[] = Array.isArray(v.items) ? v.items : [];
+if (!items.length) return null;
+---
+
+<section class="section overflow-hidden bg-sand" data-block="carousel">
+	<div class="container-page" data-carousel>
+		<div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+			<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} align="left" />
+			<div class="hidden gap-3 sm:flex">
+				<button type="button" class="carousel-btn" data-carousel-prev aria-label="Anterior"><Fragment set:html={icon("flecha-izquierda", "size-5")} /></button>
+				<button type="button" class="carousel-btn" data-carousel-next aria-label="Siguiente"><Fragment set:html={icon("flecha-derecha", "size-5")} /></button>
+			</div>
+		</div>
+		<ul class="carousel-track mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4" data-carousel-track>
+			{
+				items.map((it) => (
+					<li class="snap-start">
+						<article class="tile group">
+							{it.image ? <Img image={it.image} class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" sizes="(min-width:1024px) 30vw, 80vw" /> : <div class="absolute inset-0 bg-mist" />}
+							<div class="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent" />
+							{it.tag && <span class="tile__tag">{it.tag}</span>}
+							<div class="tile__panel">
+								<h3 class="font-display text-[1.6rem] leading-tight text-deep">{it.title}</h3>
+								{it.text && <p class="tile__text mt-2 text-muted">{it.text}</p>}
+								{it.url && (
+									<a href={sanitizeHref(it.url)} class="btn btn-primary btn-sm mt-4 after:absolute after:inset-0" data-cta={`carrusel:${it.title}`}>
+										{it.link_label || "Descubrir"}
+									</a>
+								)}
+							</div>
+						</article>
+					</li>
+				))
+			}
+		</ul>
+		<div class="mt-6 flex items-center gap-4">
+			<div class="h-1 flex-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+				<div class="h-full origin-left rounded-full bg-deep transition-transform duration-300" data-carousel-progress style="transform: scaleX(var(--progress, 0.2))" />
+			</div>
+			<div class="flex gap-3 sm:hidden">
+				<button type="button" class="carousel-btn" data-carousel-prev aria-label="Anterior"><Fragment set:html={icon("flecha-izquierda", "size-5")} /></button>
+				<button type="button" class="carousel-btn" data-carousel-next aria-label="Siguiente"><Fragment set:html={icon("flecha-derecha", "size-5")} /></button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.carousel-track {
+		scrollbar-width: none;
+		scroll-padding-inline: 0;
+	}
+	.carousel-track::-webkit-scrollbar {
+		display: none;
+	}
+	.carousel-track > li {
+		flex: 0 0 min(82vw, 400px);
+	}
+	.tile {
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
+		height: clamp(26rem, 60vw, 33rem);
+		border-radius: var(--sv-radius);
+		box-shadow: var(--sv-shadow-sm);
+	}
+	.tile__tag {
+		position: absolute;
+		top: 1rem;
+		left: 1rem;
+		padding: 0.4rem 0.95rem;
+		border-radius: 999px;
+		background: rgb(15 26 42 / 0.72);
+		color: #fff;
+		font-weight: 600;
+		font-size: 0.92rem;
+		backdrop-filter: blur(6px);
+	}
+	.tile__panel {
+		position: absolute;
+		inset: auto 0.75rem 0.75rem;
+		padding: 1.25rem 1.35rem 1.35rem;
+		border-radius: calc(var(--sv-radius) * 0.8);
+		background: var(--sv-surface-warm);
+		transform: translateY(calc(100% - 4.8rem));
+		transition: transform var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.tile__text,
+	.tile__panel :global(.btn) {
+		opacity: 0;
+		transition: opacity var(--sv-dur) var(--sv-ease-out);
+	}
+	.tile:hover .tile__panel,
+	.tile:focus-within .tile__panel {
+		transform: none;
+	}
+	.tile:hover .tile__text,
+	.tile:focus-within .tile__text,
+	.tile:hover .tile__panel :global(.btn),
+	.tile:focus-within .tile__panel :global(.btn) {
+		opacity: 1;
+	}
+	@media (hover: none) {
+		.tile__panel {
+			transform: none;
+		}
+		.tile__text,
+		.tile__panel :global(.btn) {
+			opacity: 1;
+		}
+	}
+	.carousel-btn {
+		display: grid;
+		place-items: center;
+		width: 3.25rem;
+		height: 3.25rem;
+		border-radius: 50%;
+		border: 1.5px solid var(--sv-deep);
+		color: var(--sv-deep);
+		background: transparent;
+		cursor: pointer;
+		transition: background var(--sv-dur), color var(--sv-dur);
+	}
+	.carousel-btn:hover {
+		background: var(--sv-deep);
+		color: #fff;
+	}
+</style>

@@ -1,0 +1,34 @@
+---
+/**
+ * Imagen de la biblioteca de medios de EmDash servida directamente desde R2 (los archivos ya se suben
+ * optimizados en WebP). Con PUBLIC_CF_IMAGES=on genera srcset con las transformaciones de Cloudflare
+ * (/cdn-cgi/image) cuando estén activas en la zona (ver src/lib/images.ts).
+ */
+import { IMAGE_WIDTHS, imageSources, type ImageValue } from "../../lib/images";
+
+interface Props {
+	image: ImageValue | string | null | undefined;
+	alt?: string;
+	class?: string;
+	sizes?: string;
+	priority?: boolean;
+	loading?: "lazy" | "eager";
+	widths?: number[];
+}
+const { image, alt, class: className, sizes = "100vw", priority = false, loading, widths = IMAGE_WIDTHS } = Astro.props;
+const img = imageSources(image, widths);
+if (!img) return null;
+---
+
+<img
+	src={img.src}
+	srcset={img.srcset}
+	sizes={img.srcset ? sizes : undefined}
+	alt={alt ?? img.alt ?? ""}
+	width={img.width}
+	height={img.height}
+	class={className}
+	loading={priority ? "eager" : (loading ?? "lazy")}
+	decoding={priority ? "auto" : "async"}
+	fetchpriority={priority ? "high" : undefined}
+/>

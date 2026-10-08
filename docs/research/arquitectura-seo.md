@@ -6,9 +6,9 @@
 
 ## 0. Resumen ejecutivo
 
-- **71 URLs**: 47 en v1 (lanzamiento con contenido completo) y 24 en v2, más `robots.txt`, `llms.txt`, `llms-full.txt` y el sitemap. 338 FAQ, todas únicas en el sitio (validado por script, también contra casi-duplicados).
+- **71 URLs**: 47 en v1 (lanzamiento con contenido completo) y 24 en v2, más `robots.txt`, `llms.txt`, `llms-full.txt` y `sitemap.xml`. 338 FAQ, todas únicas en el sitio (validado por script, también contra casi-duplicados).
 - **Barra final siempre** (`/servicios/cuidado-nocturno/`), host canónico `https://sovialis.com` sin www.
-- **Patrones:** `/servicios/{servicio}/` · `/zonas/{localidad}/{barrio}/` · `/blog/{articulo}/` (plano) · `/blog/categoria/{categoria}/` · páginas de empresa y legales en la raíz.
+- **Patrones:** `/servicios/{servicio}/` · `/zonas/{zona}/` (localidad, barrio, sector o municipio; la jerarquía localidad › barrio va en las migas) · `/blog/{articulo}/` (plano) · `/blog/categoria/{categoria}/` · páginas de empresa y legales en la raíz. Todos funcionan con el `urlPattern` nativo de EmDash 1.1.0.
 - **Home = cabeza genérica** («cuidado del adulto mayor a domicilio en Bogotá», agencia/empresa, «cuidadoras a domicilio»). **Landings = intención específica** (perfil, horario, necesidad). **Zonas = intención local** (topónimo). **Blog = intención informativa.** Una familia de búsqueda por URL; la regla está escrita en la matriz §6 y validada por script (ninguna keyword ni familia de variantes aparece en dos URLs).
 - **Restricción legal aplicada en la arquitectura:** ninguna página transaccional usa «enfermera/enfermería a domicilio», inyectología ni procedimientos. Esa demanda (la mayor del nicho: ~590 «enfermera domiciliaria», 590 «inyectología a domicilio», 260 «enfermería a domicilio Bogotá») se capta solo con tres guías honestas: `/blog/enfermera-o-cuidadora-a-domicilio/`, `/blog/cuanto-cobra-una-enfermera-a-domicilio/` y `/blog/inyectologia-a-domicilio-bogota/`.
 - **Geografía:** hub `/zonas/` = «norte de Bogotá»; v1 con Usaquén, Cedritos, Chapinero, El Chicó, Suba y Niza; v2 con Santa Bárbara, Colina Campestre, Calle 170, Teusaquillo, Barrios Unidos, Salitre y Modelia, y Chía. La demanda «cuidado + barrio» es casi nula en Keyword Planner; las zonas se justifican por el local pack (aparece en 9 de 16 SERP), por Google Ads geolocalizado y por la demanda proxy «hogar geriátrico + zona».
@@ -47,8 +47,9 @@ Base: NOTAS-LEGALES §7.6 (habilitación sanitaria y publicidad), §8 (protocolo
 ### 3.1 Dominio, protocolo y barra final
 
 - Canónico: `https://sovialis.com/` (sin www). `http://` y `www.` → 301 a la versión canónica (regla de redirección en Cloudflare).
-- **Barra final: `always`.** Astro con `trailingSlash: "always"` y `build.format: "directory"`; el sitio estático en Cloudflare responde `/ruta/` y redirige `/ruta` → `/ruta/` de forma permanente. Canonical, sitemap, enlaces internos, breadcrumbs y schema usan siempre la barra. Los archivos (`/robots.txt`, `/llms.txt`, `/sitemap-index.xml`) no la llevan.
-- Motivo: evita duplicados `/x` vs `/x/`, coincide con la salida de directorios de Astro (sin reglas especiales en el CDN) y con el patrón del brief.
+- **Barra final: `always`.** En `astro.config.mjs`: `trailingSlash: "always"`. Astro redirige `/ruta` → `/ruta/` en las páginas renderizadas en el servidor (confirmar en staging que responde 301/308). Canonical, sitemap, menús, enlaces internos, migas y schema usan siempre la barra. Los archivos (`/robots.txt`, `/llms.txt`, `/sitemap.xml`) no la llevan.
+- **Ajuste al brief técnico de EmDash** (`web/docs/research/emdash-tecnico.md`, §A.3, propone `'ignore'`): verificado en `node_modules/emdash/src/i18n/resolve.ts` que `resolveContentRoutePath` solo añade la barra con `'always'`; con `'ignore'` el sitemap nativo, los menús y los hreflang salen sin barra y no coinciden con el canonical. Recomendación: usar `'always'` y probar en staging el admin y la API de `/_emdash/`. Si algo de `/_emdash/` fallara, plan B: `'ignore'` + redirección 301 en el Worker solo para GET de rutas públicas sin extensión + sitemap propio con barra.
+- Motivo: evita duplicados `/x` vs `/x/` y mantiene una sola forma de cada URL en sitemap, canonical y menús.
 - Sin parámetros de contenido. Los `utm_*` se permiten, pero el canonical siempre es la URL limpia. Sin paginación en v1; cuando el blog la necesite: `/blog/pagina/2/` con canonical propio.
 - Antes del lanzamiento: revisar en Search Console las URLs que hoy tenga el dominio y redirigirlas con 301 a su equivalente.
 
@@ -60,20 +61,26 @@ Base: NOTAS-LEGALES §7.6 (habilitación sanitaria y publicidad), §8 (protocolo
 | Hub de servicios | `/servicios/` | `/servicios/` |
 | Servicio | `/servicios/{servicio}/` | `/servicios/cuidado-nocturno/` |
 | Hub de zonas (= «norte de Bogotá») | `/zonas/` | `/zonas/` |
-| Localidad | `/zonas/{localidad}/` | `/zonas/usaquen/` |
-| Barrio | `/zonas/{localidad}/{barrio}/` | `/zonas/usaquen/cedritos/` |
-| Sector o municipio | `/zonas/{sector}/` | `/zonas/calle-170/`, `/zonas/chia/` |
+| Zona: localidad, barrio, sector o municipio | `/zonas/{zona}/` (campo `localidad` para migas y agrupación) | `/zonas/usaquen/`, `/zonas/cedritos/`, `/zonas/calle-170/`, `/zonas/chia/` |
 | Blog (artículo) | `/blog/{slug}/` (plano: el slug no cambia si cambia la categoría) | `/blog/eps-cuidador-en-casa/` |
 | Categoría del blog | `/blog/categoria/{slug}/` | `/blog/categoria/contratar-cuidado/` |
 | Autor | `/autores/{nombre-apellido}/` | `/autores/nombre-apellido/` |
 | Empresa, conversión y legales | `/{slug}/` | `/precios/`, `/como-funciona/`, `/politica-de-cookies/` |
 
-### 3.3 Por qué `/zonas/…` y no `/cuidado-adulto-mayor/{zona}/`
+### 3.3 Por qué `/zonas/{zona}/`
 
-1. **Canibalización del home.** El patrón `/cuidado-adulto-mayor/usaquen/` obliga a tener un hub `/cuidado-adulto-mayor/`, cuyo URL, title y H1 compiten de frente con el home por «cuidado del adulto mayor (Bogotá)». Con `/zonas/` el hub se posiciona para «norte de Bogotá» y no toca la cabeza del home.
+**Por qué `/zonas/` y no `/cuidado-adulto-mayor/{zona}/`:**
+
+1. **Canibalización del home.** Ese patrón obliga a tener un hub `/cuidado-adulto-mayor/` cuyo URL, title y H1 compiten de frente con el home por «cuidado del adulto mayor (Bogotá)». Con `/zonas/` el hub se posiciona para «norte de Bogotá» y no toca la cabeza del home.
 2. **La palabra clave en la URL pesa poco** frente al title, el H1, el contenido local y los anclajes. El topónimo, que es lo que diferencia la consulta local, sí queda en la URL.
-3. **Jerarquía real:** el barrio cuelga de su localidad (Cedritos → Usaquén; Chicó → Chapinero; Niza → Suba). Las migas, el mega menú y la URL cuentan la misma historia. Los sectores que cruzan dos localidades (Calle 170) y los municipios (Chía) cuelgan del hub.
-4. **Corto y legible** en la miga del SERP: `sovialis.com › zonas › usaquen › cedritos`.
+3. **Corto y legible** en la miga del SERP: `sovialis.com › zonas › cedritos`.
+
+**Por qué un solo nivel (`/zonas/cedritos/`) y no `/zonas/usaquen/cedritos/`:**
+
+1. **EmDash 1.1.0 no lo resuelve de forma nativa.** `interpolateUrlPattern` (`node_modules/emdash/src/i18n/resolve.ts`) solo sustituye `{slug}`, `{id}` y tokens de fecha, y codifica la barra dentro del slug. Un patrón con localidad exigiría rutas Astro propias, un sitemap propio y perder las redirecciones automáticas al cambiar un slug. Con `/zonas/{slug}/` funcionan el sitemap nativo, los menús y las redirecciones.
+2. **La jerarquía se conserva donde importa:** campo `localidad` (referencia) en cada barrio, migas visibles «Inicio › Zonas › Usaquén › Cedritos», `BreadcrumbList`, mega menú por localidad y enlaces padre ↔ hijo.
+3. **Encaja todo sin inventar padres:** sectores que cruzan dos localidades (Calle 170 entre Usaquén y Suba) y municipios (Chía) usan el mismo patrón.
+4. **Corrección al brief técnico:** su borrador de colección `zonas` (§B.2) usa `urlPattern: "/cuidado-adulto-mayor/{slug}/"`; debe ser `"/zonas/{slug}/"`.
 
 ### 3.4 Reglas de slugs
 
@@ -84,63 +91,77 @@ Base: NOTAS-LEGALES §7.6 (habilitación sanitaria y publicidad), §8 (protocolo
 
 ### 3.5 Lo que no se crea (a propósito)
 
-- **Combinaciones servicio × zona** (`/zonas/usaquen/cuidado-nocturno/`): serían páginas puerta (doorway). La zona enlaza a los servicios; el servicio menciona las zonas.
+- **Combinaciones servicio × zona** (`/zonas/usaquen/cuidado-nocturno/` o `/servicios/cuidado-nocturno/usaquen/`): serían páginas puerta (doorway). La zona enlaza a los servicios; el servicio menciona las zonas.
 - **Landings de enfermería, inyectología, procedimientos o home care**: ver §2 y Anexo A.
 - **Archivos públicos por etiqueta** y una página general `/preguntas-frecuentes/` (duplicaría las FAQ, que viven en contexto en cada página).
 - **Página de modalidad «turnos de día»:** el turno de 8 o 12 horas de día es el servicio por defecto y no tiene demanda propia medible; lo cubren las landings de perfil (cuidadora/auxiliar), el hub de servicios y `/precios/`. Una URL aparte canibalizaría la landing de cuidadora.
 - **Página de Engativá:** solo su zona alta tiene sentido comercial; Normandía queda en la página v2 «Salitre y Modelia» (Modelia pertenece a Fontibón).
 
+### 3.6 Implementación en EmDash
+
+| Colección / ruta | urlPattern o ruta | Páginas |
+|---|---|---|
+| `pages` | `/{slug}/` (home como ruta fija `/`) | precios, cómo funciona, nosotros, contacto, trabaja con nosotros, legales, gracias; también los hubs `/servicios/`, `/zonas/` y `/blog/` si se quieren editables y en el sitemap nativo |
+| `servicios` | `/servicios/{slug}/` | 9 landings v1 + 2 v2 |
+| `zonas` | `/zonas/{slug}/` | campos `tipo` (localidad, barrio, sector, municipio), `localidad` (referencia), `toponimos`, `clinicas`, `vivienda`, `recursos`, `vias`, `faqs` |
+| `blog` | `/blog/{slug}/` | 13 cornerstones + 14 de apoyo; campos `primary_keyword`, `secondary_keywords`, `faqs`, `author`, `reviewed_by`, `category` |
+| `autores` / `equipo` | `/autores/{slug}/` | perfil E-E-A-T |
+| Taxonomía `categoria` del blog | ruta propia `src/pages/blog/categoria/[slug].astro` | 5 categorías (noindex hasta 4 artículos) |
+| Rutas propias | `robots.txt`, `llms.txt`, `llms-full.txt` | robots en Settings → SEO → robotsTxt o `src/pages/robots.txt.ts`; llms generados desde el CMS y el tarifario del panel |
+
+`sitemap.json` sirve como fuente para el seed: títulos, metas, H1, H2, FAQ, keywords y enlaces de cada entrada. El plugin `sovialis-seo` propuesto en el brief (`content:beforePublish`) puede bloquear la publicación si la keyword principal ya pertenece a otra URL o si aparece un término prohibido de §2 en una página transaccional (las mismas reglas que valida el script de este plan).
+
 ## 4. Árbol de URLs
 
-`[v1]` lanzamiento con contenido completo · `[v2]` segunda ola · `(noindex)` fuera del índice.
+`[v1]` lanzamiento con contenido completo · `[v2]` segunda ola · `(noindex)` fuera del índice. En zonas, la sangría muestra el padre lógico (miga), no el prefijo de la URL.
 
 ```
 # Núcleo
 /  [v1]
 # Servicios
 /servicios/  [v1]
-    └─ /servicios/cuidadora-adulto-mayor/  [v1]
-    └─ /servicios/auxiliar-de-enfermeria/  [v1]
-    └─ /servicios/cuidado-nocturno/  [v1]
-    └─ /servicios/cuidado-24-horas/  [v1]
-    └─ /servicios/cuidado-por-horas/  [v1]
-    └─ /servicios/acompanamiento-citas-medicas/  [v1]
-    └─ /servicios/acompanamiento-hospitalario/  [v1]
-    └─ /servicios/cuidado-postoperatorio/  [v1]
-    └─ /servicios/cuidado-alzheimer-demencia/  [v1]
-    └─ /servicios/respiro-familiar/  [v2]
-    └─ /servicios/cuidado-personas-dependientes/  [v2]
+  └─ /servicios/cuidadora-adulto-mayor/  [v1]
+  └─ /servicios/auxiliar-de-enfermeria/  [v1]
+  └─ /servicios/cuidado-nocturno/  [v1]
+  └─ /servicios/cuidado-24-horas/  [v1]
+  └─ /servicios/cuidado-por-horas/  [v1]
+  └─ /servicios/acompanamiento-citas-medicas/  [v1]
+  └─ /servicios/acompanamiento-hospitalario/  [v1]
+  └─ /servicios/cuidado-postoperatorio/  [v1]
+  └─ /servicios/cuidado-alzheimer-demencia/  [v1]
+  └─ /servicios/respiro-familiar/  [v2]
+  └─ /servicios/cuidado-personas-dependientes/  [v2]
 # Conversión y empresa
-  └─ /precios/  [v1]
-  └─ /como-funciona/  [v1]
-  └─ /nosotros/  [v1]
-    └─ /autores/nombre-apellido/  [v1]
-  └─ /trabaja-con-nosotros/  [v1]
-  └─ /contacto/  [v1]
-  └─ /gracias/  [v1] (noindex)
-  └─ /404/  [v1] (noindex)
+/precios/  [v1]
+/como-funciona/  [v1]
+/nosotros/  [v1]
+  └─ /autores/nombre-apellido/  [v1]
+/trabaja-con-nosotros/  [v1]
+/contacto/  [v1]
+/gracias/  [v1] (noindex)
+/404/  [v1] (noindex)
 # Zonas
 /zonas/  [v1]
-    └─ /zonas/usaquen/  [v1]
-      └─ /zonas/usaquen/cedritos/  [v1]
-    └─ /zonas/chapinero/  [v1]
-      └─ /zonas/chapinero/chico/  [v1]
-    └─ /zonas/suba/  [v1]
-      └─ /zonas/suba/niza/  [v1]
-      └─ /zonas/usaquen/santa-barbara/  [v2]
-      └─ /zonas/suba/colina-campestre/  [v2]
-    └─ /zonas/calle-170/  [v2]
-    └─ /zonas/teusaquillo/  [v2]
-    └─ /zonas/barrios-unidos/  [v2]
-    └─ /zonas/salitre-y-modelia/  [v2]
-    └─ /zonas/chia/  [v2]
+  └─ /zonas/usaquen/  [v1]
+    └─ /zonas/cedritos/  [v1]
+    └─ /zonas/santa-barbara/  [v2]
+  └─ /zonas/chapinero/  [v1]
+    └─ /zonas/chico/  [v1]
+  └─ /zonas/suba/  [v1]
+    └─ /zonas/niza/  [v1]
+    └─ /zonas/colina-campestre/  [v2]
+  └─ /zonas/calle-170/  [v2]
+  └─ /zonas/teusaquillo/  [v2]
+  └─ /zonas/barrios-unidos/  [v2]
+  └─ /zonas/salitre-y-modelia/  [v2]
+  └─ /zonas/chia/  [v2]
 # Blog
 /blog/  [v1]
-      └─ /blog/categoria/contratar-cuidado/  [v1] (noindex hasta 4 artículos)
-      └─ /blog/categoria/costos-y-alternativas/  [v1] (noindex hasta 4 artículos)
-      └─ /blog/categoria/cuidados-y-salud-en-casa/  [v1] (noindex hasta 4 artículos)
-      └─ /blog/categoria/eps-derechos-y-tramites/  [v1] (noindex hasta 4 artículos)
-      └─ /blog/categoria/bienestar-y-cuidador-familiar/  [v1] (noindex hasta 4 artículos)
+  └─ /blog/categoria/contratar-cuidado/  [v1] (noindex hasta 4 artículos)
+  └─ /blog/categoria/costos-y-alternativas/  [v1] (noindex hasta 4 artículos)
+  └─ /blog/categoria/cuidados-y-salud-en-casa/  [v1] (noindex hasta 4 artículos)
+  └─ /blog/categoria/eps-derechos-y-tramites/  [v1] (noindex hasta 4 artículos)
+  └─ /blog/categoria/bienestar-y-cuidador-familiar/  [v1] (noindex hasta 4 artículos)
   └─ /blog/cuanto-cobra-una-enfermera-a-domicilio/  [v1]
   └─ /blog/cuanto-cuesta-cuidar-a-un-adulto-mayor-en-casa/  [v2]
   └─ /blog/como-contratar-una-cuidadora/  [v1]
@@ -169,11 +190,11 @@ Base: NOTAS-LEGALES §7.6 (habilitación sanitaria y publicidad), §8 (protocolo
   └─ /blog/medico-a-domicilio-en-bogota/  [v2]
   └─ /blog/alimentacion-del-adulto-mayor/  [v2]
 # Legales
-  └─ /politica-de-tratamiento-de-datos/  [v1]
-  └─ /terminos-y-condiciones/  [v1]
-  └─ /politica-de-cookies/  [v1]
+/politica-de-tratamiento-de-datos/  [v1]
+/terminos-y-condiciones/  [v1]
+/politica-de-cookies/  [v1]
 # Archivos
-/robots.txt  /llms.txt  /llms-full.txt  /sitemap-index.xml
+/robots.txt  /llms.txt  /llms-full.txt  /sitemap.xml (índice nativo de EmDash)
 ```
 
 ## 5. Mapa keyword → página
@@ -202,13 +223,13 @@ Base: NOTAS-LEGALES §7.6 (habilitación sanitaria y publicidad), §8 (protocolo
 | `/contacto/` | contacto | sovialis teléfono | s/d | 0 | navegacional / transaccional | v1 |
 | `/zonas/` | hub-zonas | cuidado adulto mayor norte de bogotá | s/d | 100 | transaccional local | v1 |
 | `/zonas/usaquen/` | zona | cuidado adulto mayor usaquén | s/d | 0 | transaccional local | v1 |
-| `/zonas/usaquen/cedritos/` | zona | cuidado adulto mayor cedritos | s/d | 50 | transaccional local | v1 |
+| `/zonas/cedritos/` | zona | cuidado adulto mayor cedritos | s/d | 50 | transaccional local | v1 |
 | `/zonas/chapinero/` | zona | cuidado adulto mayor chapinero | s/d | 0 | transaccional local | v1 |
-| `/zonas/chapinero/chico/` | zona | cuidado adulto mayor chicó | s/d | 0 | transaccional local | v1 |
+| `/zonas/chico/` | zona | cuidado adulto mayor chicó | s/d | 0 | transaccional local | v1 |
 | `/zonas/suba/` | zona | cuidado adulto mayor suba | s/d | 70 | transaccional local | v1 |
-| `/zonas/suba/niza/` | zona | cuidado adulto mayor niza | s/d | 30 | transaccional local | v1 |
-| `/zonas/usaquen/santa-barbara/` | zona | cuidado adulto mayor santa bárbara | s/d | 110 | transaccional local | v2 |
-| `/zonas/suba/colina-campestre/` | zona | cuidado adulto mayor colina campestre | s/d | 0 | transaccional local | v2 |
+| `/zonas/niza/` | zona | cuidado adulto mayor niza | s/d | 30 | transaccional local | v1 |
+| `/zonas/santa-barbara/` | zona | cuidado adulto mayor santa bárbara | s/d | 110 | transaccional local | v2 |
+| `/zonas/colina-campestre/` | zona | cuidado adulto mayor colina campestre | s/d | 0 | transaccional local | v2 |
 | `/zonas/calle-170/` | zona | cuidado adulto mayor calle 170 | s/d | 0 | transaccional local | v2 |
 | `/zonas/teusaquillo/` | zona | cuidado adulto mayor teusaquillo | s/d | 10 | transaccional local | v2 |
 | `/zonas/barrios-unidos/` | zona | cuidado adulto mayor barrios unidos | s/d | 0 | transaccional local | v2 |
@@ -305,26 +326,27 @@ Base: NOTAS-LEGALES §7.6 (habilitación sanitaria y publicidad), §8 (protocolo
 | cuidar al cuidador / síndrome del cuidador | /blog/cuidar-al-cuidador/ (v2) | respiro familiar (v2) |  |
 | trabajo / empleo / hoja de vida cuidadora o auxiliar | /trabaja-con-nosotros/ | todas | Las demás páginas no usan vocabulario de empleo; en Ads son negativas. |
 | norte de Bogotá + cuidado, «cerca de mí» | /zonas/ | localidades y barrios |  |
+| cabezas sin dueño: «adultos mayores» (3.600), «día de la enfermera» (2.400), «enfermería» (1.900), «auxiliar de enfermería» (1.300), «cuidador» (210), «geriátrico» como directorio de marcas | ninguna (no se apuntan) | todas | Intención mixta o ajena (estudio, empleo, efemérides, navegación a terceros). Se mencionan en el cuerpo cuando aportan contexto, nunca en title/H1. |
 
 ### 6.2 Propiedad de topónimos
 
 Cada topónimo lo apunta una sola página. Cuando se publique una página v2 de barrio, la página de la localidad deja de usar ese topónimo en H2 y FAQ y lo enlaza.
 
-| Página | Prior. | Topónimos propios |
-|---|---|---|
-| `/zonas/usaquen/` | v1 | Usaquén, Santa Ana, La Calleja, Country Club, Bella Suiza, San Patricio, Santa Bárbara, Toberín |
-| `/zonas/usaquen/cedritos/` | v1 | Cedritos, Cedro Golf, Cedro Bolívar, Cedro Narváez, Nueva Autopista |
-| `/zonas/chapinero/` | v1 | Chapinero, Chapinero Alto, Rosales, El Retiro, La Cabrera, El Nogal, Quinta Camacho, Bosque Calderón, Emaús, Marly |
-| `/zonas/chapinero/chico/` | v1 | Chicó, Chicó Norte, Chicó Reservado, Antiguo Country, Lago Gaitán, El Virrey |
-| `/zonas/suba/` | v1 | Suba, Pasadena, Puente Largo, La Alhambra, Batán, Prado Veraniego, Mazurén, Colina Campestre, San José de Bavaria |
-| `/zonas/suba/niza/` | v1 | Niza, Niza Norte, Niza Sur, Las Villas, Córdoba, Lagos de Córdoba |
-| `/zonas/usaquen/santa-barbara/` | v2 | Santa Bárbara, Santa Bárbara Central, Santa Bárbara Occidental, Santa Bárbara Alta, Unicentro |
-| `/zonas/suba/colina-campestre/` | v2 | Colina Campestre, Mazurén |
-| `/zonas/calle-170/` | v2 | Toberín, Britalia, San José de Bavaria, Villa del Prado |
-| `/zonas/teusaquillo/` | v2 | Teusaquillo, Galerías, Palermo, La Soledad, Park Way, Quinta Paredes, Nicolás de Federmán, Pablo VI |
-| `/zonas/barrios-unidos/` | v2 | Barrios Unidos, Polo Club, Rionegro, La Castellana, Los Andes, Entre Ríos, Siete de Agosto |
-| `/zonas/salitre-y-modelia/` | v2 | Ciudad Salitre, Modelia, Normandía, Hayuelos |
-| `/zonas/chia/` | v2 | Chía, Cajicá |
+| Página | Prior. | Topónimos propios | Cede al publicar la v2 |
+|---|---|---|---|
+| `/zonas/usaquen/` | v1 | Usaquén, Santa Ana, La Calleja, Country Club, Bella Suiza, San Patricio, Santa Bárbara, Toberín | Santa Bárbara → `/zonas/santa-barbara/`; Toberín → `/zonas/calle-170/` |
+| `/zonas/cedritos/` | v1 | Cedritos, Cedro Golf, Cedro Bolívar, Cedro Narváez, Nueva Autopista | — |
+| `/zonas/chapinero/` | v1 | Chapinero, Chapinero Alto, Rosales, El Retiro, La Cabrera, El Nogal, Quinta Camacho, Bosque Calderón, Emaús, Marly | — |
+| `/zonas/chico/` | v1 | Chicó, Chicó Norte, Chicó Reservado, Antiguo Country, Lago Gaitán, El Virrey | — |
+| `/zonas/suba/` | v1 | Suba, Pasadena, Puente Largo, La Alhambra, Batán, Prado Veraniego, Mazurén, Colina Campestre, San José de Bavaria | Mazurén → `/zonas/colina-campestre/`; Colina Campestre → `/zonas/colina-campestre/`; San José de Bavaria → `/zonas/calle-170/` |
+| `/zonas/niza/` | v1 | Niza, Niza Norte, Niza Sur, Las Villas, Córdoba, Lagos de Córdoba | — |
+| `/zonas/santa-barbara/` | v2 | Santa Bárbara, Santa Bárbara Central, Santa Bárbara Occidental, Santa Bárbara Alta, Unicentro | — |
+| `/zonas/colina-campestre/` | v2 | Colina Campestre, Mazurén | — |
+| `/zonas/calle-170/` | v2 | Toberín, Britalia, San José de Bavaria, Villa del Prado | — |
+| `/zonas/teusaquillo/` | v2 | Teusaquillo, Galerías, Palermo, La Soledad, Park Way, Quinta Paredes, Nicolás de Federmán, Pablo VI | — |
+| `/zonas/barrios-unidos/` | v2 | Barrios Unidos, Polo Club, Rionegro, La Castellana, Los Andes, Entre Ríos, Siete de Agosto | — |
+| `/zonas/salitre-y-modelia/` | v2 | Ciudad Salitre, Modelia, Normandía, Hayuelos | — |
+| `/zonas/chia/` | v2 | Chía, Cajicá | — |
 
 ### 6.3 Reglas de redacción y control
 
@@ -350,9 +372,9 @@ Cada topónimo lo apunta una sola página. Cuando se publique una página v2 de 
 
 **Mega menú Zonas** (columnas por localidad; las v2 se muestran al publicarse):
 
-- **[Usaquén](/zonas/usaquen/):** [Cedritos](/zonas/usaquen/cedritos/) · [Santa Bárbara (v2)](/zonas/usaquen/santa-barbara/) · [Calle 170 (v2)](/zonas/calle-170/)
-- **[Chapinero](/zonas/chapinero/):** [El Chicó](/zonas/chapinero/chico/)
-- **[Suba](/zonas/suba/):** [Niza](/zonas/suba/niza/) · [Colina Campestre (v2)](/zonas/suba/colina-campestre/)
+- **[Usaquén](/zonas/usaquen/):** [Cedritos](/zonas/cedritos/) · [Santa Bárbara (v2)](/zonas/santa-barbara/) · [Calle 170 (v2)](/zonas/calle-170/)
+- **[Chapinero](/zonas/chapinero/):** [El Chicó](/zonas/chico/)
+- **[Suba](/zonas/suba/):** [Niza](/zonas/niza/) · [Colina Campestre (v2)](/zonas/colina-campestre/)
 - **Centro y occidente (v2):** [Teusaquillo](/zonas/teusaquillo/) · [Barrios Unidos](/zonas/barrios-unidos/) · [Salitre y Modelia](/zonas/salitre-y-modelia/)
 - **Sabana Norte (v2):** [Chía y Cajicá](/zonas/chia/)
 - Pie del panel: [Mapa de cobertura](/zonas/) + buscador «¿Atienden mi barrio?» (campo de texto → WhatsApp con el barrio).
@@ -360,7 +382,7 @@ Cada topónimo lo apunta una sola página. Cuando se publique una página v2 de 
 ### 7.2 Pie de página
 
 - **Servicios:** [Cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/) · [Formación de auxiliar de enfermería](/servicios/auxiliar-de-enfermeria/) · [Cuidado por horas](/servicios/cuidado-por-horas/) · [Cuidado nocturno](/servicios/cuidado-nocturno/) · [Cuidado 24 horas](/servicios/cuidado-24-horas/) · [Acompañamiento a citas](/servicios/acompanamiento-citas-medicas/) · [Acompañamiento hospitalario](/servicios/acompanamiento-hospitalario/) · [Cuidado postoperatorio](/servicios/cuidado-postoperatorio/) · [Alzheimer y demencia](/servicios/cuidado-alzheimer-demencia/) · [Precios](/precios/)
-- **Zonas:** [Norte de Bogotá](/zonas/) · [Usaquén](/zonas/usaquen/) · [Cedritos](/zonas/usaquen/cedritos/) · [Chapinero](/zonas/chapinero/) · [El Chicó](/zonas/chapinero/chico/) · [Suba](/zonas/suba/) · [Niza](/zonas/suba/niza/)
+- **Zonas:** [Norte de Bogotá](/zonas/) · [Usaquén](/zonas/usaquen/) · [Cedritos](/zonas/cedritos/) · [Chapinero](/zonas/chapinero/) · [El Chicó](/zonas/chico/) · [Suba](/zonas/suba/) · [Niza](/zonas/niza/)
 - **Guías:** [Contratar cuidado](/blog/categoria/contratar-cuidado/) · [Costos y alternativas](/blog/categoria/costos-y-alternativas/) · [Cuidados y salud en casa](/blog/categoria/cuidados-y-salud-en-casa/) · [EPS, derechos y trámites](/blog/categoria/eps-derechos-y-tramites/) · [Bienestar y cuidador familiar](/blog/categoria/bienestar-y-cuidador-familiar/) · [¿Enfermera o cuidadora?](/blog/enfermera-o-cuidadora-a-domicilio/) · [¿La EPS da cuidador?](/blog/eps-cuidador-en-casa/)
 - **Sovialis:** [Quiénes somos](/nosotros/) · [Cómo funciona](/como-funciona/) · [Trabaja con nosotros](/trabaja-con-nosotros/) · [Contacto](/contacto/) · [Peticiones, quejas y reclamos (PQRS)](/contacto/#pqrs)
 - **Legal:** [Política de tratamiento de datos](/politica-de-tratamiento-de-datos/) · [Términos y condiciones](/terminos-y-condiciones/) · [Política de cookies](/politica-de-cookies/) · [Preferencias de cookies](#preferencias-cookies)
@@ -375,7 +397,7 @@ Patrón `Inicio › Sección › Subsección › Página`, visible en todas las 
 - Inicio › Zonas › Usaquén › Cedritos
 - Inicio › Guías › EPS, derechos y trámites › ¿La EPS da cuidador en casa?
 - Inicio › Precios
-- El blog usa la categoría principal en la miga aunque no esté en la URL; el último elemento no es enlace.
+- El blog usa la categoría principal y las zonas su localidad (padre lógico) aunque no estén en la URL; el último elemento no es enlace.
 
 ## 8. Fichas por página
 
@@ -830,7 +852,7 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Pueden llegar a conjuntos con portería que exigen registro previo?** Sí. Danos con anticipación los datos que pide la administración y registramos a la persona que cuidará a tu familiar para que su ingreso sea ágil.
   - **¿Por qué se enfocan en el norte de Bogotá?** Concentrar el servicio en el norte y el noroccidente nos permite llegar más rápido, organizar reemplazos con agilidad y contar con personal que conoce las clínicas de la zona.
 - **Schema:** CollectionPage, ItemList, Service, BreadcrumbList, FAQPage
-- **Enlaces internos:** [Usaquén](/zonas/usaquen/); [Cedritos](/zonas/usaquen/cedritos/); [Chapinero](/zonas/chapinero/); [El Chicó](/zonas/chapinero/chico/); [Suba](/zonas/suba/); [Niza](/zonas/suba/niza/); [acompañamiento en clínicas del norte](/servicios/acompanamiento-hospitalario/); [hogar geriátrico o cuidado en casa](/blog/hogar-geriatrico-o-cuidado-en-casa/); [tarifas](/precios/)
+- **Enlaces internos:** [Usaquén](/zonas/usaquen/); [Cedritos](/zonas/cedritos/); [Chapinero](/zonas/chapinero/); [El Chicó](/zonas/chico/); [Suba](/zonas/suba/); [Niza](/zonas/niza/); [acompañamiento en clínicas del norte](/servicios/acompanamiento-hospitalario/); [hogar geriátrico o cuidado en casa](/blog/hogar-geriatrico-o-cuidado-en-casa/); [tarifas](/precios/)
 - **CTA:** Consulta la cobertura de tu dirección
 
 #### `/zonas/usaquen/`
@@ -850,12 +872,12 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Cómo manejan las casas con escaleras o pendientes cerca de los cerros?** Revisamos contigo los puntos de riesgo (escaleras, desniveles, baño sin barras) y la cuidadora asiste cada desplazamiento; si hace falta, sugerimos adaptaciones sencillas antes de empezar.
   - **¿Cubren Toberín y los barrios cercanos a la Calle 170?** Sí, también atendemos Toberín y los sectores cercanos a la Calle 170; consulta tu dirección para confirmar la disponibilidad.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Cedritos](/zonas/usaquen/cedritos/); [El Chicó](/zonas/chapinero/chico/); [cuidadora en Usaquén](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Santa Fe de Bogotá](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Cedritos](/zonas/cedritos/); [El Chicó](/zonas/chico/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Santa Fe de Bogotá](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Usaquén
 - **Bloques locales:** clínicas de referencia: la Fundación Santa Fe de Bogotá, la Clínica Reina Sofía, LaCardio (Fundación Cardioinfantil), el Hospital Simón Bolívar. Vivienda: Edificios con portería y conjuntos; casas en el sector fundacional y en Santa Ana, con pendientes hacia los cerros. Recursos: Plaza fundacional y mercado de pulgas dominical de Usaquén; parques de barrio; ciclovía de la Carrera 7 los domingos. Vías: Carrera 7, Carrera 9, Autopista Norte, Calle 116 y Calle 127; TransMilenio por la Autopista Norte.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
-#### `/zonas/usaquen/cedritos/`
+#### `/zonas/cedritos/`
 
 - **Tipo:** zona · **Prioridad:** v1 · **Menú:** main · **Indexación:** index
 - **Title (47):** Cuidado del adulto mayor en Cedritos | Sovialis
@@ -872,10 +894,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Una cuidadora puede llegar a Cedritos para un turno de las 6:00 a. m.?** Sí, siempre que haya personal con disponibilidad para ese horario; al cotizar confirmamos la hora de llegada y quién cubre el relevo.
   - **¿Pueden recoger a mi familiar en un centro día de la zona?** Sí. Combinamos el centro día con horas de cuidado en casa y el traslado de ida o de regreso, en el transporte que disponga la familia.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Usaquén](/zonas/usaquen/); [Niza](/zonas/suba/niza/); [cuidadora en Cedritos](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Reina Sofía](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Usaquén](/zonas/usaquen/); [Niza](/zonas/niza/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Reina Sofía](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Cedritos
 - **Bloques locales:** clínicas de referencia: la Clínica Reina Sofía, LaCardio (Fundación Cardioinfantil), la Fundación Santa Fe de Bogotá. Vivienda: Edificios de apartamentos de varios pisos, no todos con ascensor, y conjuntos cerrados. Recursos: Zona comercial de las calles 140 y 147; parques de barrio. Vías: Calle 140, Calle 147, Avenida 19 y Autopista Norte.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/chapinero/`
 
@@ -894,12 +916,12 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Pueden cuidar a un adulto mayor que vive solo en un apartamento de Chapinero?** Sí. Para personas que viven solas acordamos visitas por horas o turnos, un contacto de emergencia en la familia y un reporte después de cada servicio.
   - **¿La cuidadora puede acompañar a mi familiar a misa o a actividades del barrio?** Sí, las salidas a actividades sociales o religiosas hacen parte del plan si tu familiar quiere y puede hacerlas con seguridad.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [El Chicó](/zonas/chapinero/chico/); [Usaquén](/zonas/usaquen/); [cuidadora en Chapinero](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en el Hospital Universitario San Ignacio](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [El Chicó](/zonas/chico/); [Usaquén](/zonas/usaquen/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en el Hospital Universitario San Ignacio](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Chapinero
 - **Bloques locales:** clínicas de referencia: el Hospital Universitario San Ignacio, la Clínica Marly, la Clínica del Country. Vivienda: Apartamentos en edificios de distintas épocas; en Chapinero Alto y Rosales, calles en pendiente y escaleras. Recursos: Ciclovía de la Carrera 7 los domingos; parques de bolsillo; zona gastronómica de Quinta Camacho. Vías: Carrera 7, Carrera 11, Avenida Caracas y Calle 72; TransMilenio por la Caracas.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
-#### `/zonas/chapinero/chico/`
+#### `/zonas/chico/`
 
 - **Tipo:** zona · **Prioridad:** v1 · **Menú:** main · **Indexación:** index
 - **Title (55):** Cuidado del adulto mayor en el Chicó, Bogotá | Sovialis
@@ -916,10 +938,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Pueden coordinarse con el personal de servicio que ya trabaja en la casa?** Sí. Acordamos en el plan qué tareas son de la cuidadora y cuáles del personal doméstico, para que no se crucen funciones.
   - **¿Pueden cuidar a mi familiar mientras viajamos fuera del país?** Sí, con cobertura por turnos o 24 horas, un familiar o persona de contacto en Bogotá para decisiones urgentes y reportes diarios por mensaje.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Chapinero](/zonas/chapinero/); [Usaquén](/zonas/usaquen/); [cuidadora en Chicó](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica del Country](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Chapinero](/zonas/chapinero/); [Usaquén](/zonas/usaquen/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica del Country](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
 - **CTA:** Consulta disponibilidad en Chicó
 - **Bloques locales:** clínicas de referencia: la Clínica del Country, la Fundación Santa Fe de Bogotá. Vivienda: Apartamentos amplios en edificios con portería y ascensor; personal de servicio doméstico en muchos hogares. Recursos: Parque El Virrey y Parque de la 93 para caminatas cortas. Vías: Carrera 11, Carrera 15, Calle 85, Calle 93 y Autopista Norte.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/suba/`
 
@@ -938,12 +960,12 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Acompañan terapias o citas en la Clínica Juan N. Corpas?** Sí, acompañamos el traslado, la espera y la consulta o terapia, con el transporte que disponga la familia.
   - **¿La cobertura incluye Mazurén, Colina Campestre y San José de Bavaria?** Sí, esos sectores hacen parte de nuestra cobertura en Suba; consulta tu dirección para confirmar la disponibilidad de personal.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Niza](/zonas/suba/niza/); [Usaquén](/zonas/usaquen/); [cuidadora en Suba](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Clínica Shaio](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Niza](/zonas/niza/); [Usaquén](/zonas/usaquen/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Clínica Shaio](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Suba
 - **Bloques locales:** clínicas de referencia: la Fundación Clínica Shaio, la Clínica La Colina, la Clínica Juan N. Corpas. Vivienda: Conjuntos cerrados de casas y edificios; casas de dos y tres pisos con escaleras internas. Recursos: Parque Mirador de los Nevados; Humedal de Córdoba (ver Niza). Vías: Avenida Suba, Avenida Boyacá, Calle 127 y Avenida Pepe Sierra (Calle 116).
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
-#### `/zonas/suba/niza/`
+#### `/zonas/niza/`
 
 - **Tipo:** zona · **Prioridad:** v1 · **Menú:** main · **Indexación:** index
 - **Title (49):** Cuidado del adulto mayor en Niza, Suba | Sovialis
@@ -960,12 +982,12 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Qué hace la cuidadora ante una urgencia en Niza?** Llama al 123, avisa a la familia y a la EPS y acompaña el traslado a la institución que indiquen; tener definida la clínica de preferencia agiliza la decisión.
   - **¿La cuidadora puede acompañar a mi familiar de compras al Bulevar Niza?** Sí, como salida acompañada. La familia define el presupuesto y los pagos los hace tu familiar o un adulto de la familia, no la cuidadora.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Suba](/zonas/suba/); [Cedritos](/zonas/usaquen/cedritos/); [cuidadora en Niza](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Clínica Shaio](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Suba](/zonas/suba/); [Cedritos](/zonas/cedritos/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Clínica Shaio](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Niza
 - **Bloques locales:** clínicas de referencia: la Fundación Clínica Shaio, la Clínica Reina Sofía, la Clínica La Colina. Vivienda: Casas de dos y tres pisos con escaleras internas y conjuntos cerrados. Recursos: Humedal de Córdoba; centros comerciales Bulevar Niza e Iserra 100. Vías: Avenida Suba, Calle 127, Avenida Boyacá y Avenida Córdoba.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
-#### `/zonas/usaquen/santa-barbara/`
+#### `/zonas/santa-barbara/`
 
 - **Tipo:** zona · **Prioridad:** v2 · **Menú:** main · **Indexación:** index
 - **Title (52):** Cuidado del adulto mayor en Santa Bárbara | Sovialis
@@ -982,12 +1004,12 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Pueden apoyar a mi familiar después de una cirugía en la Fundación Santa Fe?** Sí: lo recibimos al alta y acompañamos la recuperación en casa, mientras los controles y procedimientos los hace el equipo de salud.
   - **¿Pueden acompañar a mi familiar a terapias de rehabilitación en la zona?** Sí, acompañamos traslados y esperas en terapias físicas o de lenguaje y anotamos las recomendaciones para la familia.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Usaquén](/zonas/usaquen/); [Cedritos](/zonas/usaquen/cedritos/); [cuidadora en Santa Bárbara](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Santa Fe de Bogotá](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Usaquén](/zonas/usaquen/); [Cedritos](/zonas/cedritos/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Fundación Santa Fe de Bogotá](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
 - **CTA:** Consulta disponibilidad en Santa Bárbara
 - **Bloques locales:** clínicas de referencia: la Fundación Santa Fe de Bogotá, la Clínica Reina Sofía. Vivienda: Edificios residenciales con portería; casas en Santa Bárbara Alta hacia los cerros. Recursos: Parques de barrio y sector comercial de Unicentro. Vías: Carrera 7, Carrera 15, Calle 116 y Calle 127.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
-#### `/zonas/suba/colina-campestre/`
+#### `/zonas/colina-campestre/`
 
 - **Tipo:** zona · **Prioridad:** v2 · **Menú:** main · **Indexación:** index
 - **Title (55):** Cuidado del adulto mayor en Colina Campestre | Sovialis
@@ -1004,10 +1026,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Pueden ayudar a mi familiar con las rutinas de la mañana antes de que salgamos a trabajar?** Sí, con un servicio por horas temprano (mínimo 4 horas) que cubre levantarse, baño, desayuno y recordatorio de medicamentos.
   - **¿Tienen experiencia con personas mayores que aún son muy independientes?** Sí. En esos casos el servicio se enfoca en compañía, salidas y una supervisión discreta, respetando sus decisiones y su autonomía.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Suba](/zonas/suba/); [Niza](/zonas/suba/niza/); [cuidadora en Colina Campestre](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica La Colina](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [cuidado en Suba](/zonas/suba/); [Niza](/zonas/niza/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica La Colina](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
 - **CTA:** Consulta disponibilidad en Colina Campestre
 - **Bloques locales:** clínicas de referencia: la Clínica La Colina, la Fundación Clínica Shaio. Vivienda: Conjuntos cerrados de casas y edificios con zonas comunes y senderos. Recursos: Zonas verdes de los conjuntos; centros comerciales de la Calle 138 y la Avenida Boyacá. Vías: Avenida Boyacá, Calle 138, Calle 147 y Avenida Suba.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/calle-170/`
 
@@ -1026,10 +1048,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Atienden más al norte de la Calle 170, hacia la salida de Bogotá?** Algunas direcciones sí, según disponibilidad; para sectores como Guaymaral o la vía a Chía confirmamos tiempos de llegada antes de cotizar.
   - **¿Qué hago si necesito un acompañante hospitalario para esta misma noche?** Escríbenos por WhatsApp con la clínica y el horario: si hay personal disponible te lo confirmamos de inmediato, y si no, te lo decimos de una vez para que busques otra opción.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Usaquén](/zonas/usaquen/); [Suba](/zonas/suba/); [cuidadora en Calle 170](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en LaCardio (Fundación Cardioinfantil)](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Usaquén](/zonas/usaquen/); [Suba](/zonas/suba/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en LaCardio (Fundación Cardioinfantil)](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
 - **CTA:** Consulta disponibilidad en Calle 170
 - **Bloques locales:** clínicas de referencia: LaCardio (Fundación Cardioinfantil), el Hospital Simón Bolívar, la Clínica La Colina. Vivienda: Conjuntos de apartamentos con varias torres y casas en conjuntos cerrados. Recursos: Parques de barrio; Portal Norte y estación Toberín de TransMilenio. Vías: Calle 170, Autopista Norte, Avenida Boyacá y Avenida 9.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/teusaquillo/`
 
@@ -1048,10 +1070,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿La cuidadora puede acompañar caminatas por el Park Way o el Parque Simón Bolívar?** Sí, con recorridos adaptados a su resistencia, pausas e hidratación, y el regreso planeado.
   - **¿Pueden acompañar a mi familiar a actividades culturales o bibliotecas de la zona?** Sí, si tu familiar las disfruta: acompañamos la salida, cuidamos los tiempos de descanso y el regreso a casa.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Chapinero](/zonas/chapinero/); [Barrios Unidos](/zonas/barrios-unidos/); [cuidadora en Teusaquillo](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Palermo](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Chapinero](/zonas/chapinero/); [Barrios Unidos](/zonas/barrios-unidos/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Palermo](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Teusaquillo
 - **Bloques locales:** clínicas de referencia: la Clínica Palermo, el Hospital Universitario Mayor Méderi. Vivienda: Casas de estilo inglés de dos y tres pisos y edificios de apartamentos. Recursos: Park Way y Parque Simón Bolívar. Vías: Avenida Caracas, Carrera 30 (NQS), Calle 45 y Calle 53.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/barrios-unidos/`
 
@@ -1070,10 +1092,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Pueden acompañar citas en clínicas fuera de Barrios Unidos?** Sí. Acompañamos el traslado y la consulta en la institución que indique tu EPS o tu medicina prepagada, dentro de Bogotá.
   - **¿Trabajan con personas mayores que tienen mascotas en casa?** Sí, siempre que la mascota no represente un riesgo; la cuidadora puede ayudar a tu familiar a alimentarla, pero el cuidado de la mascota no hace parte del servicio.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Teusaquillo](/zonas/teusaquillo/); [Chapinero](/zonas/chapinero/); [cuidadora en Barrios Unidos](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica del Country](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Teusaquillo](/zonas/teusaquillo/); [Chapinero](/zonas/chapinero/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica del Country](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/)
 - **CTA:** Consulta disponibilidad en Barrios Unidos
 - **Bloques locales:** clínicas de referencia: la Clínica del Country, las clínicas de la red de tu EPS. Vivienda: Casas de dos pisos, muchas con local comercial en el primer piso, y edificios de apartamentos. Recursos: Parque de Los Novios (El Lago) y parques de barrio. Vías: Avenida 68, Calle 80, Autopista Norte y Avenida Suba.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/salitre-y-modelia/`
 
@@ -1092,10 +1114,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿La cuidadora puede llevar a mi familiar a su grupo de actividad física del parque?** Sí. Si participa en grupos de actividad física del barrio o del Distrito, lo acompañamos y cuidamos su hidratación y descanso.
   - **¿Atienden también en Hayuelos y otros barrios de Fontibón?** Atendemos Hayuelos y sectores cercanos a la Avenida La Esperanza según la disponibilidad de personal; confírmanos la dirección.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Teusaquillo](/zonas/teusaquillo/); [cuidadora en Salitre](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Universitaria Colombia](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Teusaquillo](/zonas/teusaquillo/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Universitaria Colombia](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Salitre
 - **Bloques locales:** clínicas de referencia: la Clínica Universitaria Colombia, las clínicas de la red de tu EPS. Vivienda: Conjuntos de apartamentos en Ciudad Salitre; casas de dos pisos en Modelia y Normandía. Recursos: Zonas verdes de los conjuntos; parques de barrio; cercanía al aeropuerto El Dorado. Vías: Avenida La Esperanza, Avenida 68, Avenida Boyacá y Calle 26.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 #### `/zonas/chia/`
 
@@ -1114,10 +1136,10 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Qué pasa si hay trancón en la Autopista Norte y la cuidadora se retrasa?** Programamos la llegada con margen y, si hay un retraso, te avisamos de inmediato; el tiempo no prestado no se cobra.
   - **¿Pueden cuidar a mi familiar en una casa campestre con jardín y desniveles?** Sí. Revisamos senderos, escalones e iluminación exterior, y la cuidadora acompaña cada salida al jardín para prevenir caídas.
 - **Schema:** WebPage, Service, Place, BreadcrumbList, FAQPage
-- **Enlaces internos:** [zonas de cobertura](/zonas/); [Calle 170](/zonas/calle-170/); [cuidadora en Chía](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Universidad de La Sabana](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
+- **Enlaces internos:** [zonas de cobertura](/zonas/); [Calle 170](/zonas/calle-170/); [cuidadora de adulto mayor](/servicios/cuidadora-adulto-mayor/); [turnos de noche](/servicios/cuidado-nocturno/); [acompañamiento en la Clínica Universidad de La Sabana](/servicios/acompanamiento-hospitalario/); [acompañamiento a citas](/servicios/acompanamiento-citas-medicas/); [tarifas](/precios/); [comparar con un hogar geriátrico](/blog/hogar-geriatrico-o-cuidado-en-casa/)
 - **CTA:** Consulta disponibilidad en Chía
 - **Bloques locales:** clínicas de referencia: la Clínica Universidad de La Sabana, el Hospital San Antonio de Chía. Vivienda: Casas en conjuntos cerrados y condominios campestres con jardín y desniveles. Recursos: Parques del casco urbano de Chía; senderos de los conjuntos. Vías: Autopista Norte, Carrera Séptima (vía a Chía) y Variante Chía–Cajicá.
-- **Notas:** Bloques locales únicos obligatorios (ver §Zonas: anti-doorway). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
+- **Notas:** Bloques locales únicos obligatorios (ver §9). Clínicas y barrios: verificar dirección y pertenencia antes de publicar; aviso «Sovialis no tiene vínculo con estas instituciones».
 
 ### 8.4 Blog: hub y categorías
 
@@ -1701,7 +1723,7 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
   - **¿Un centro día sirve para una persona con demencia?** Algunos tienen programas para demencia leve o moderada; pregunta por su experiencia, la cantidad de personal y cómo manejan la desorientación o la deambulación.
   - **¿Qué revisar al visitar un centro día?** Que haya actividades acordes a sus intereses, personal suficiente, alimentación adecuada, accesibilidad, protocolos de emergencia y comunicación diaria con la familia.
 - **Schema:** BlogPosting, WebPage, BreadcrumbList, FAQPage
-- **Enlaces internos:** [horas de cuidado para tardes y fines de semana](/servicios/cuidado-por-horas/); [hogar geriátrico o casa](/blog/hogar-geriatrico-o-cuidado-en-casa/); [recogida en centros día de Cedritos](/zonas/usaquen/cedritos/)
+- **Enlaces internos:** [horas de cuidado para tardes y fines de semana](/servicios/cuidado-por-horas/); [hogar geriátrico o casa](/blog/hogar-geriatrico-o-cuidado-en-casa/); [recogida en centros día de Cedritos](/zonas/cedritos/)
 - **CTA:** Complementa el centro día con horas de cuidado
 - **Notas:** Posee la familia «centro día» (≈690/mes Bogotá). Verificar oferta vigente de la SDIS antes de publicar.
 
@@ -1875,13 +1897,13 @@ Formato: URL · tipo · prioridad · menú. Title (≤ 60 caracteres) y meta (�
 | Zona | Prior. | Clínicas de referencia | Vivienda | Demanda proxy |
 |---|---|---|---|---|
 | `/zonas/usaquen/` | v1 | la Fundación Santa Fe de Bogotá, la Clínica Reina Sofía, LaCardio (Fundación Cardioinfantil), el Hospital Simón Bolívar | Edificios con portería y conjuntos; casas en el sector fundacional y en Santa Ana, con pendientes hacia los cerros. | «hogares geriatricos usaquen» 10. |
-| `/zonas/usaquen/cedritos/` | v1 | la Clínica Reina Sofía, LaCardio (Fundación Cardioinfantil), la Fundación Santa Fe de Bogotá | Edificios de apartamentos de varios pisos, no todos con ascensor, y conjuntos cerrados. | «hogares geriatricos cedritos» 30 · «hogar geriátrico cedritos» 30 · «hogares geriátricos en cedritos bogotá» 20. |
+| `/zonas/cedritos/` | v1 | la Clínica Reina Sofía, LaCardio (Fundación Cardioinfantil), la Fundación Santa Fe de Bogotá | Edificios de apartamentos de varios pisos, no todos con ascensor, y conjuntos cerrados. | «hogares geriatricos cedritos» 30 · «hogar geriátrico cedritos» 30 · «hogares geriátricos en cedritos bogotá» 20. |
 | `/zonas/chapinero/` | v1 | el Hospital Universitario San Ignacio, la Clínica Marly, la Clínica del Country | Apartamentos en edificios de distintas épocas; en Chapinero Alto y Rosales, calles en pendiente y escaleras. | «hogar geriatrico chapinero» 10. |
-| `/zonas/chapinero/chico/` | v1 | la Clínica del Country, la Fundación Santa Fe de Bogotá | Apartamentos amplios en edificios con portería y ascensor; personal de servicio doméstico en muchos hogares. | sin búsquedas con el topónimo; prioridad por valor del negocio (estrato alto, clínicas de referencia). |
+| `/zonas/chico/` | v1 | la Clínica del Country, la Fundación Santa Fe de Bogotá | Apartamentos amplios en edificios con portería y ascensor; personal de servicio doméstico en muchos hogares. | sin búsquedas con el topónimo; prioridad por valor del negocio (estrato alto, clínicas de referencia). |
 | `/zonas/suba/` | v1 | la Fundación Clínica Shaio, la Clínica La Colina, la Clínica Juan N. Corpas | Conjuntos cerrados de casas y edificios; casas de dos y tres pisos con escaleras internas. | «hogar geriatrico suba» 50 · «hogares geriatricos en suba bogota» 20. |
-| `/zonas/suba/niza/` | v1 | la Fundación Clínica Shaio, la Clínica Reina Sofía, la Clínica La Colina | Casas de dos y tres pisos con escaleras internas y conjuntos cerrados. | «hogar geriátrico niza 127» 50 (marca de terceros) · «hogares geriátricos en niza bogotá» 20. |
-| `/zonas/usaquen/santa-barbara/` | v2 | la Fundación Santa Fe de Bogotá, la Clínica Reina Sofía | Edificios residenciales con portería; casas en Santa Bárbara Alta hacia los cerros. | «hogar geriatrico santa barbara» 110 (marca de terceros). |
-| `/zonas/suba/colina-campestre/` | v2 | la Clínica La Colina, la Fundación Clínica Shaio | Conjuntos cerrados de casas y edificios con zonas comunes y senderos. | sin búsquedas con el topónimo; prioridad por valor del negocio. |
+| `/zonas/niza/` | v1 | la Fundación Clínica Shaio, la Clínica Reina Sofía, la Clínica La Colina | Casas de dos y tres pisos con escaleras internas y conjuntos cerrados. | «hogar geriátrico niza 127» 50 (marca de terceros) · «hogares geriátricos en niza bogotá» 20. |
+| `/zonas/santa-barbara/` | v2 | la Fundación Santa Fe de Bogotá, la Clínica Reina Sofía | Edificios residenciales con portería; casas en Santa Bárbara Alta hacia los cerros. | «hogar geriatrico santa barbara» 110 (marca de terceros). |
+| `/zonas/colina-campestre/` | v2 | la Clínica La Colina, la Fundación Clínica Shaio | Conjuntos cerrados de casas y edificios con zonas comunes y senderos. | sin búsquedas con el topónimo; prioridad por valor del negocio. |
 | `/zonas/calle-170/` | v2 | LaCardio (Fundación Cardioinfantil), el Hospital Simón Bolívar, la Clínica La Colina | Conjuntos de apartamentos con varias torres y casas en conjuntos cerrados. | sin búsquedas con el topónimo; sector de alto crecimiento residencial entre Usaquén y Suba. |
 | `/zonas/teusaquillo/` | v2 | la Clínica Palermo, el Hospital Universitario Mayor Méderi | Casas de estilo inglés de dos y tres pisos y edificios de apartamentos. | «hogar geriatrico teusaquillo» 10. |
 | `/zonas/barrios-unidos/` | v2 | la Clínica del Country, las clínicas de la red de tu EPS | Casas de dos pisos, muchas con local comercial en el primer piso, y edificios de apartamentos. | sin búsquedas con el topónimo. |
@@ -1924,6 +1946,7 @@ Solo internas (artículos relacionados y filtros del CMS), sin páginas pública
 8. **CTA suave** al final y en la barra lateral (WhatsApp); en guías legales sensibles (C05, C13) el CTA lleva a cuidado, nunca a procedimientos.
 9. **Actualización:** revisar cada 6 meses o cuando cambie una norma o una tarifa; actualizar `dateModified` solo con cambios reales.
 10. **Imágenes:** fotografías reales con consentimiento, `alt` descriptivo, formato AVIF/WebP y dimensiones fijas (sin desplazamiento de diseño).
+11. **Comentarios** (EmDash los trae nativos): moderación `all` o desactivados en guías de salud y trámites, porque los lectores tienden a publicar datos de salud de terceros.
 
 ## 11. Datos estructurados
 
@@ -2166,7 +2189,7 @@ Datos clave (actualizados el {fecha}):
 - [Precios](https://sovialis.com/precios/) · [Cómo funciona](https://sovialis.com/como-funciona/) · [Términos y condiciones](https://sovialis.com/terminos-y-condiciones/)
 
 ## Zonas
-- [Norte de Bogotá](https://sovialis.com/zonas/): [Usaquén](https://sovialis.com/zonas/usaquen/), [Cedritos](https://sovialis.com/zonas/usaquen/cedritos/), [Chapinero](https://sovialis.com/zonas/chapinero/), [El Chicó](https://sovialis.com/zonas/chapinero/chico/), [Suba](https://sovialis.com/zonas/suba/), [Niza](https://sovialis.com/zonas/suba/niza/)
+- [Norte de Bogotá](https://sovialis.com/zonas/): [Usaquén](https://sovialis.com/zonas/usaquen/), [Cedritos](https://sovialis.com/zonas/cedritos/), [Chapinero](https://sovialis.com/zonas/chapinero/), [El Chicó](https://sovialis.com/zonas/chico/), [Suba](https://sovialis.com/zonas/suba/), [Niza](https://sovialis.com/zonas/niza/)
 
 ## Guías
 - [¿Enfermera a domicilio o cuidadora?](https://sovialis.com/blog/enfermera-o-cuidadora-a-domicilio/)
@@ -2207,6 +2230,8 @@ Texto plano en Markdown generado en el build (sin HTML ni navegación), con: la 
 
 User-agent: *
 Allow: /
+Allow: /_emdash/api/media/file/
+Disallow: /_emdash/
 Disallow: /api/
 Disallow: /cdn-cgi/
 
@@ -2230,17 +2255,20 @@ User-agent: meta-externalagent
 User-agent: MistralAI-User
 User-agent: CCBot
 Allow: /
+Allow: /_emdash/api/media/file/
+Disallow: /_emdash/
 Disallow: /api/
 Disallow: /cdn-cgi/
 
-Sitemap: https://sovialis.com/sitemap-index.xml
+Sitemap: https://sovialis.com/sitemap.xml
 ```
 
 Notas:
 
-- Un grupo con `User-agent` específico reemplaza al grupo `*` para ese robot (RFC 9309); por eso se repiten las líneas `Disallow`.
+- Un grupo con `User-agent` específico reemplaza al grupo `*` para ese robot (RFC 9309); por eso se repiten las reglas.
+- `/_emdash/` es el admin y la API del CMS; se abre solo `/_emdash/api/media/file/` porque de ahí salen las imágenes públicas (si se bloqueara, Google no las indexaría). Cargar este texto en Settings → SEO → robotsTxt de EmDash o servirlo con `src/pages/robots.txt.ts`.
 - `/gracias/` y `/404/` **no** se bloquean en robots: llevan `noindex` en la página (si se bloquearan, Google no vería el `noindex`).
-- `Google-Extended` y `Applebot-Extended` no rastrean: controlan el uso del contenido en Gemini y Apple Intelligence. Permitirlos da visibilidad a la marca en esas respuestas. `GPTBot` y `CCBot` alimentan el entrenamiento de modelos; se permiten por la misma razón. Si JP decide no ceder contenido para entrenamiento, basta con cambiar `Allow` por `Disallow` en esos cuatro.
+- `Google-Extended` y `Applebot-Extended` no rastrean: controlan el uso del contenido en Gemini y Apple Intelligence. Permitirlos da visibilidad a la marca en esas respuestas. `GPTBot` y `CCBot` alimentan el entrenamiento de modelos; se permiten por la misma razón. Si JP decide no ceder contenido para entrenamiento, se sacan esos cuatro del grupo y se les crea un grupo propio con `Disallow: /`.
 - **Cloudflare:** desactivar «Block AI bots» / AI Crawl Control y el «robots.txt administrado» (o confirmar que no añade bloqueos); revisar que Bot Fight Mode y las reglas WAF no desafíen a robots verificados. Comprobar en los registros que OAI-SearchBot, PerplexityBot y Claude-SearchBot reciben 200.
 
 ## 13. Plan de lanzamiento
@@ -2273,11 +2301,11 @@ Orden de producción sugerido (todo debe estar publicado el día del lanzamiento
 | `/contacto/` | contacto | 0 |
 | `/zonas/` | hub-zonas | 100 |
 | `/zonas/usaquen/` | zona | 0 |
-| `/zonas/usaquen/cedritos/` | zona | 50 |
+| `/zonas/cedritos/` | zona | 50 |
 | `/zonas/chapinero/` | zona | 0 |
-| `/zonas/chapinero/chico/` | zona | 0 |
+| `/zonas/chico/` | zona | 0 |
 | `/zonas/suba/` | zona | 70 |
-| `/zonas/suba/niza/` | zona | 30 |
+| `/zonas/niza/` | zona | 30 |
 | `/blog/` | hub-blog | 10 |
 | `/blog/categoria/contratar-cuidado/` | categoria-blog | 0 |
 | `/blog/categoria/costos-y-alternativas/` | categoria-blog | 0 |
@@ -2309,8 +2337,8 @@ Orden de producción sugerido (todo debe estar publicado el día del lanzamiento
 |---|---|---|---|
 | `/servicios/respiro-familiar/` | servicio-necesidad | 0 | demanda visible en GSC o necesidad de Ads |
 | `/servicios/cuidado-personas-dependientes/` | servicio-necesidad | 60 | demanda visible en GSC o necesidad de Ads |
-| `/zonas/usaquen/santa-barbara/` | zona | 110 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |
-| `/zonas/suba/colina-campestre/` | zona | 0 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |
+| `/zonas/santa-barbara/` | zona | 110 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |
+| `/zonas/colina-campestre/` | zona | 0 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |
 | `/zonas/calle-170/` | zona | 0 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |
 | `/zonas/teusaquillo/` | zona | 10 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |
 | `/zonas/barrios-unidos/` | zona | 0 | cobertura real confirmada + impresiones en GSC o campaña geolocalizada |

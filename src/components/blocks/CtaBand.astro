@@ -1,0 +1,61 @@
+---
+/** Llamado a la acción: oscuro con la S del isotipo como marca de agua, claro o con imagen. */
+import Img from "../ui/Img.astro";
+import BrandS from "../ui/BrandS.astro";
+import Cta from "../ui/Cta.astro";
+import { getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+	context?: { service?: string; zone?: string };
+}
+const { value: v, index, context = {} } = Astro.props;
+const site = await getSiteData();
+const variant = v.variant || "oscuro";
+const dark = variant !== "claro";
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+const titleHtml = (() => {
+	const t = String(v.title ?? "");
+	const hl = String(v.highlight ?? "");
+	const i = hl ? t.toLowerCase().indexOf(hl.toLowerCase()) : -1;
+	return i < 0 ? esc(t) : `${esc(t.slice(0, i))}<span class="hl">${esc(t.slice(i, i + hl.length))}</span>${esc(t.slice(i + hl.length))}`;
+})();
+---
+
+<section class="section-tight" data-block="cta">
+	<div class="container-page">
+		<div class:list={["cta-band reveal relative isolate overflow-hidden px-6 py-14 sm:px-12 lg:px-16 lg:py-20", dark ? "on-dark text-white" : "on-light bg-mist text-deep", `cta-band--${variant}`]}>
+			{variant === "imagen" && v.image && (
+				<>
+					<Img image={v.image} class="absolute inset-0 -z-20 size-full object-cover" loading="lazy" sizes="100vw" />
+					<div class="absolute inset-0 -z-10 bg-gradient-to-r from-deep/95 via-deep/80 to-deep/30" />
+				</>
+			)}
+			{variant === "oscuro" && (
+				<BrandS class="pointer-events-none absolute -right-16 -bottom-24 -z-10 h-[30rem] w-auto text-[#8fd8f2] opacity-[0.14]" />
+			)}
+			<div class="max-w-2xl">
+				{v.eyebrow && <p class="eyebrow">{v.eyebrow}</p>}
+				<h2 class:list={["mt-3 font-display text-h2", dark ? "text-white" : "text-deep"]} set:html={titleHtml} />
+				{v.text && <p class:list={["mt-4 text-lead", dark ? "text-white/85" : "text-muted"]}>{v.text}</p>}
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+					<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`cierre:${index}:primario`} site={site} variant={dark && v.primary_action !== "whatsapp" ? "light" : undefined} service={context.service} zone={context.zone} />
+					<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`cierre:${index}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.cta-band {
+		border-radius: var(--sv-radius-hero);
+	}
+	.cta-band--oscuro {
+		background: var(--sv-gradient-deep);
+	}
+	.cta-band--imagen {
+		background: var(--sv-deep);
+	}
+</style>

@@ -1,0 +1,89 @@
+/*
+ * Tokens de Sovialis — valores de fábrica (paleta Océano del manual de marca).
+ * El plugin «sovialis-design» los sobrescribe desde el panel inyectando `:root:root{--sv-*}`.
+ * Tailwind los consume a través de `@theme inline` en global.css.
+ */
+
+@font-face {
+	font-family: "Jost";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 300 700;
+	src: url("/fonts/jost-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "Atkinson Hyperlegible Next";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 200 800;
+	src: url("/fonts/atkinson-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212;
+}
+
+:root {
+	/* Color (editable) */
+	--sv-primary: #005e9d;
+	--sv-primary-hover: #004e85;
+	--sv-on-primary: #ffffff;
+	--sv-deep: #0b2a4e;
+	--sv-secondary: #00a6d6;
+	--sv-accent: #f08a65;
+	--sv-accent-text: #b4431f;
+	--sv-text: #0b2a4e;
+	--sv-text-muted: #3e4754;
+	--sv-bg: #ffffff;
+	--sv-surface: #ffffff;
+	--sv-surface-alt: #eef7fb;
+	--sv-surface-warm: #fbf8f3;
+	--sv-border: #dce6ee;
+	--sv-success: #006c4c;
+	--sv-danger: #a8181a;
+	--sv-whatsapp: #25d366;
+
+	/* Derivados */
+	--sv-gradient-brand: linear-gradient(120deg, var(--sv-primary) 0%, #0073aa 45%, var(--sv-secondary) 100%);
+	--sv-gradient-highlight: linear-gradient(100deg, #8fd8f2 0%, var(--sv-secondary) 55%, #4fc3e8 100%);
+	--sv-gradient-deep: radial-gradient(120% 120% at 85% 0%, #0f4f86 0%, var(--sv-deep) 55%, #071c35 100%);
+	--sv-highlight-fill: var(--sv-gradient-highlight);
+	--sv-highlight-color: transparent;
+	--sv-hero-overlay: 0.55;
+
+	/* Tipografía (editable) */
+	--sv-font-display: "Jost", ui-sans-serif, system-ui, sans-serif;
+	--sv-font-body: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+	--sv-font-scale: 1;
+
+	/* Forma (editable) */
+	--sv-radius: 24px;
+	--sv-radius-control: 14px;
+	--sv-radius-hero: 32px;
+	--sv-radius-button: 999px;
+	--sv-shadow-sm: 0 1px 2px rgb(11 42 78 / 0.06), 0 2px 8px -2px rgb(11 42 78 / 0.08);
+	--sv-shadow-md: 0 12px 32px -12px rgb(11 42 78 / 0.22);
+	--sv-shadow-lg: 0 30px 70px -28px rgb(11 42 78 / 0.35);
+
+	/* Movimiento (editable): 1 completo, 0.5 sutil, 0 ninguno */
+	--sv-motion: 1;
+	--sv-ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+	--sv-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+	--sv-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--sv-dur-micro: calc(120ms * var(--sv-motion));
+	--sv-dur: calc(200ms * var(--sv-motion));
+	--sv-dur-reveal: calc(400ms * var(--sv-motion));
+	--sv-dur-slow: calc(700ms * var(--sv-motion));
+
+	/* Layout */
+	--sv-container: 1240px;
+	--sv-gutter: clamp(16px, 4vw, 40px);
+	--sv-header-h: 76px;
+	--sv-sticky-cta-h: 72px;
+
+	color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--sv-motion: 0;
+	}
+}

@@ -1,0 +1,35 @@
+---
+/**
+ * Antiguos archivos de categoría del blog. Los temas ahora filtran dentro de /blog/ (#tema-<slug>), así
+ * que estas URL responden 410 (eliminadas para siempre): Google las retira antes que con un 404 o una
+ * redirección y dejan de aparecer como «noindex» en Search Console. A las personas se les ofrece el
+ * filtro equivalente.
+ */
+import { getTerm } from "emdash";
+import Base from "../../../layouts/Base.astro";
+import PageHeader from "../../../components/page/PageHeader.astro";
+
+const { slug } = Astro.params;
+const term = slug ? await getTerm("category", slug).catch(() => null) : null;
+Astro.response.status = 410;
+Astro.response.headers.set("X-Robots-Tag", "noindex");
+const target = term ? `/blog/#tema-${term.slug}` : "/blog/";
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Guías", url: "/blog/" },
+];
+---
+
+<Base title="Esta sección se movió a Guías" description="Las guías para familias ahora se filtran por tema en una sola página." pageType="webpage" breadcrumbs={crumbs} robots="noindex,follow">
+	<PageHeader
+		title={term ? `Guías de ${term.label}` : "Esta sección ya no existe"}
+		summary="Ahora todas las guías para familias están en una sola página y puedes filtrarlas por tema."
+		crumbs={crumbs}
+		eyebrow="Guías Sovialis"
+	/>
+	<section class="section-tight">
+		<div class="container-page text-center">
+			<a href={target} class="btn btn-primary btn-lg">Ver las guías{term ? ` de ${term.label}` : ""}</a>
+		</div>
+	</section>
+</Base>

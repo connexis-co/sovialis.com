@@ -1,0 +1,71 @@
+---
+/** Pasos (cómo funciona): numerados, con línea de progreso y botón final. */
+import SectionHead from "../ui/SectionHead.astro";
+import Cta from "../ui/Cta.astro";
+import { icon } from "../../lib/icons";
+import { getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const site = await getSiteData();
+const items: any[] = Array.isArray(v.items) ? v.items : [];
+---
+
+<section class="section bg-mist" data-block="steps">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<ol class="steps mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+			{
+				items.map((it, i) => (
+					<li class="reveal step card relative p-7">
+						<span class="step__num font-display">{String(i + 1).padStart(2, "0")}</span>
+						<span class="grid size-12 place-items-center rounded-2xl bg-primary text-white" set:html={icon(it.icon, "size-6")} />
+						<h3 class="mt-5 font-display text-h3 text-deep">{it.title}</h3>
+						{it.text && <p class="mt-2 text-muted">{it.text}</p>}
+					</li>
+				))
+			}
+		</ol>
+		{
+			v.cta_label && (
+				<div class="mt-12 flex justify-center">
+					<Cta label={v.cta_label} action={v.cta_action} url={v.cta_url} cta={`pasos:${index}`} site={site} />
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.step__num {
+		position: absolute;
+		top: 1.25rem;
+		right: 1.5rem;
+		font-size: 2.6rem;
+		font-weight: 500;
+		line-height: 1;
+		background: var(--sv-gradient-brand);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		opacity: 0.35;
+	}
+	@media (min-width: 1024px) {
+		.steps {
+			position: relative;
+		}
+		.steps::before {
+			content: "";
+			position: absolute;
+			top: 3.1rem;
+			left: 3rem;
+			right: 3rem;
+			height: 2px;
+			background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--sv-primary) 35%, transparent), transparent);
+			z-index: -1;
+		}
+	}
+</style>

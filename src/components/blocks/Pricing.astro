@@ -1,0 +1,112 @@
+---
+/** Precios «desde» por turno, con lo que incluye y nota de vigencia/IVA editable. */
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+import { formatCOP } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const plans: any[] = Array.isArray(v.plans) ? v.plans : [];
+---
+
+<section class="section" data-block="pricing" id="precios">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		<ul class:list={["mt-12 grid gap-6", plans.length >= 3 ? "lg:grid-cols-3" : "md:grid-cols-2", "mx-auto max-w-6xl"]}>
+			{
+				plans.map((p) => (
+					<li class:list={["reveal price-card", p.highlighted && "price-card--hl"]}>
+						{p.highlighted && <span class="price-card__badge">Más solicitado</span>}
+						<h3 class="font-display text-h3">{p.name}</h3>
+						{p.description && <p class="mt-2 opacity-80">{p.description}</p>}
+						{p.price ? (
+							<p class="mt-6 leading-none">
+								<span class="block text-sm font-semibold uppercase tracking-wider opacity-70">desde</span>
+								<strong class="mt-1 block font-display text-[2.6rem] font-medium tracking-tight">{formatCOP(p.price)}</strong>
+								{p.unit && <span class="mt-2 block opacity-80">{p.unit}</span>}
+							</p>
+						) : (
+							<p class="mt-6 font-display text-2xl">A convenir</p>
+						)}
+						<ul class="mt-6 grid gap-2.5">
+							{String(p.features ?? "")
+								.split("\n")
+								.map((x) => x.trim())
+								.filter(Boolean)
+								.map((f) => (
+									<li class="flex items-start gap-2.5">
+										<span class="price-card__check" set:html={icon("check", "size-4")} />
+										<span>{f}</span>
+									</li>
+								))}
+						</ul>
+						<button type="button" class:list={["btn mt-8 w-full", p.highlighted ? "btn-light" : "btn-primary"]} data-quote data-service={p.name} data-cta={`precios:${index}:${p.name}`}>
+							{p.cta_label || "Cotizar este turno"}
+						</button>
+					</li>
+				))
+			}
+		</ul>
+		{v.note && <p class="mx-auto mt-8 max-w-3xl text-center text-[0.98rem] text-muted">{v.note}</p>}
+	</div>
+</section>
+
+<style>
+	.price-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		padding: 2rem;
+		border-radius: var(--sv-radius);
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		color: var(--sv-text);
+		box-shadow: var(--sv-shadow-sm);
+	}
+	.price-card > button {
+		margin-top: auto;
+	}
+	.price-card > ul {
+		margin-bottom: 2rem;
+	}
+	.price-card--hl {
+		background: var(--sv-gradient-deep);
+		color: #fff;
+		border-color: transparent;
+		box-shadow: var(--sv-shadow-lg);
+	}
+	@media (min-width: 1024px) {
+		.price-card--hl {
+			transform: translateY(-12px);
+		}
+	}
+	.price-card__badge {
+		position: absolute;
+		top: -0.85rem;
+		left: 2rem;
+		padding: 0.3rem 0.9rem;
+		border-radius: 999px;
+		background: var(--sv-accent);
+		color: var(--sv-deep);
+		font-size: 0.85rem;
+		font-weight: 700;
+	}
+	.price-card__check {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-top: 0.15rem;
+		border-radius: 999px;
+		background: color-mix(in oklab, var(--sv-primary) 12%, transparent);
+		color: var(--sv-primary);
+	}
+	.price-card--hl .price-card__check {
+		background: rgb(255 255 255 / 0.14);
+		color: #8fd8f2;
+	}
+</style>

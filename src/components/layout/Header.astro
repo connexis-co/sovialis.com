@@ -1,0 +1,350 @@
+---
+/**
+ * Cabecera fija: barra superior opcional, logotipo, navegación con mega menús nativos (<details name>),
+ * teléfono, WhatsApp y botón de cotización. En móvil: llamar + «Menú» (WhatsApp va en el botón flotante). Landings de campaña: versión reducida.
+ */
+import Logo from "../ui/Logo.astro";
+import { icon } from "../../lib/icons";
+import { HUBS, ROUTES } from "../../lib/routes";
+import { formatCOP, telLink, waLink, type CatalogItem, type SiteData } from "../../lib/site";
+
+interface Props {
+	site: SiteData;
+	services: CatalogItem[];
+	zones: CatalogItem[];
+	campaign?: boolean;
+}
+const { site, services, zones, campaign = false } = Astro.props;
+const byTurn = services.filter((s) => s.group === "turno");
+const byNeed = services.filter((s) => s.group !== "turno");
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+const links = [
+	{ label: "Precios", href: HUBS.prices },
+	{ label: "Cómo funciona", href: "/como-funciona/" },
+	{ label: "Guías", href: HUBS.blog },
+	{ label: "Nosotros", href: "/nosotros/" },
+];
+// En móvil solo se muestra la primera parte del anuncio (antes de « · ») para que quepa en una línea.
+const [announcementHead, ...announcementTail] = site.announcement.split(" · ");
+const announcementRest = announcementTail.length ? ` · ${announcementTail.join(" · ")}` : "";
+---
+
+{
+	site.announcement && !campaign && (
+		<div class="bg-deep text-white">
+			<div class="container-page flex min-h-10 items-center justify-center gap-3 py-2 text-center text-[0.875rem] sm:justify-between sm:text-[0.95rem]">
+				<p class="flex items-center gap-2">
+					<Fragment set:html={icon("escudo", "size-4 text-[#8fd8f2]")} />
+					{site.announcementUrl ? (
+						<a href={site.announcementUrl} class="underline-offset-4 hover:underline">
+							{announcementHead}
+							<span class="hidden md:inline">{announcementRest}</span>
+						</a>
+					) : (
+						<span>
+							{announcementHead}
+							<span class="hidden md:inline">{announcementRest}</span>
+						</span>
+					)}
+				</p>
+				<p class="hidden items-center gap-4 sm:flex">
+					<span class="text-white/80">{site.hours}</span>
+					<a href={telLink(site)} data-cta="global:barra-superior-llamar" class="font-semibold underline-offset-4 hover:underline">
+						{site.phoneDisplay}
+					</a>
+				</p>
+			</div>
+		</div>
+	)
+}
+
+<header id="site-header" class="site-header sticky top-0 z-50">
+	<div class="container-page flex h-[var(--sv-header-h)] items-center gap-4 transition-[height] duration-200">
+		<a href="/" class="mr-auto flex shrink-0 items-center lg:mr-6" aria-label={`${site.name}, ir al inicio`}>
+			<Logo class="h-8 w-auto sm:h-9" />
+		</a>
+
+		{
+			!campaign && (
+				<nav aria-label="Principal" class="hidden flex-1 items-center gap-0.5 lg:flex xl:gap-1">
+					<details class="nav-dropdown" name="main-menu">
+						<summary class:list={["nav-link", isActive(HUBS.services) && "is-active"]} aria-controls="mega-servicios" aria-expanded="false">
+							Servicios <Fragment set:html={icon("chevron-abajo", "size-4 transition-transform")} />
+						</summary>
+						<div class="mega" id="mega-servicios">
+							<div class="container-page grid grid-cols-[1fr_1fr_0.9fr] gap-10">
+								{[
+									["Por turno", byTurn],
+									["Por necesidad", byNeed],
+								].map(([heading, items]) => (
+									<div>
+										<p class="mega-heading">{heading as string}</p>
+										<ul class="grid gap-1">
+											{(items as CatalogItem[]).map((s) => (
+												<li>
+													<a href={ROUTES.services(s.slug)} class="mega-item group">
+														<span class="mega-icon" set:html={icon(s.icon, "size-5")} />
+														<span>
+															<strong>{s.shortTitle}</strong>
+															{s.priceFrom ? (
+																<small>
+																	desde {formatCOP(s.priceFrom)} {s.priceUnit}
+																</small>
+															) : (
+																<small>{s.excerpt.slice(0, 64)}</small>
+															)}
+														</span>
+													</a>
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+								<aside class="relative overflow-hidden rounded-card bg-deep p-7 text-white on-dark">
+									<p class="eyebrow">Respuesta el mismo día</p>
+									<p class="mt-3 font-display text-2xl leading-tight font-medium">¿No sabes qué turno necesita tu familiar?</p>
+									<p class="mt-2 text-white/80">Cuéntanos el caso y te recomendamos el perfil y el horario.</p>
+									<div class="mt-5 flex flex-wrap gap-3">
+										<button type="button" class="btn btn-light btn-sm" data-quote data-cta="global:mega-servicios">
+											{site.headerCta}
+										</button>
+										<a href={HUBS.services} class="btn btn-outline btn-sm">
+											Ver todos
+										</a>
+									</div>
+								</aside>
+							</div>
+						</div>
+					</details>
+
+					<details class="nav-dropdown" name="main-menu">
+						<summary class:list={["nav-link", isActive(HUBS.zones) && "is-active"]} aria-controls="mega-zonas" aria-expanded="false">
+							Zonas <Fragment set:html={icon("chevron-abajo", "size-4 transition-transform")} />
+						</summary>
+						<div class="mega" id="mega-zonas">
+							<div class="container-page grid grid-cols-[0.8fr_2fr] gap-10">
+								<div>
+									<p class="mega-heading">Cobertura</p>
+									<p class="text-muted">{site.coverage}. Busca tu barrio o localidad:</p>
+									<label class="mt-4 block">
+										<span class="sr-only">Buscar zona o barrio</span>
+										<input type="search" class="field-input" placeholder="Ej.: Cedritos, Chicó, Suba" data-zone-search="mega-zonas-list" autocomplete="off" />
+									</label>
+									<p class="mt-2 text-sm text-muted" aria-live="polite" data-zone-count />
+									<a href={HUBS.zones} class="link-arrow mt-4">
+										Ver mapa de cobertura <Fragment set:html={icon("flecha-derecha", "size-4")} />
+									</a>
+								</div>
+								<ul id="mega-zonas-list" class="grid grid-cols-3 gap-x-6 gap-y-1">
+									{zones.map((z) => (
+										<li data-zone-name={`${z.shortTitle} ${z.group} ${z.excerpt}`}>
+											<a href={z.url} class="mega-item py-2">
+												<span class="mega-icon" set:html={icon("ubicacion", "size-5")} />
+												<span>
+													<strong>{z.shortTitle}</strong>
+													{z.group && <small>{z.group}</small>}
+												</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					</details>
+
+					{links.map((l) => (
+						<a href={l.href} class:list={["nav-link", isActive(l.href) && "is-active"]} aria-current={isActive(l.href) ? "page" : undefined}>
+							{l.label}
+						</a>
+					))}
+				</nav>
+			)
+		}
+
+		<div class="flex items-center gap-2 sm:gap-3">
+			<a href={telLink(site)} class="hidden items-center gap-2 font-semibold whitespace-nowrap text-deep 2xl:flex" data-cta="global:header-llamar">
+				<Fragment set:html={icon("telefono", "size-5 text-primary")} />
+				{site.phoneDisplay}
+			</a>
+			<a
+				href={waLink(site)}
+				data-wa
+				data-wa-text={site.whatsappMessage.replace(/\{[a-z]+\}/g, "").trim()}
+				data-cta="global:header-whatsapp"
+				target="_blank"
+				rel="noopener"
+				class="btn btn-whatsapp btn-sm hidden !min-h-12 !px-4 lg:inline-flex"
+				aria-label="Escríbenos por WhatsApp"
+			>
+				<Fragment set:html={icon("whatsapp", "size-6")} />
+				<span class="hidden xl:inline">WhatsApp</span>
+			</a>
+			{
+				!campaign && (
+					<a
+						href={telLink(site)}
+						class="grid size-11 place-items-center rounded-full border border-line text-primary transition-colors hover:border-primary lg:hidden"
+						data-cta="global:header-llamar-movil"
+						aria-label={`Llamar a Sovialis al ${site.phoneDisplay}`}
+					>
+						<Fragment set:html={icon("telefono", "size-5")} />
+					</a>
+				)
+			}
+			{
+				!campaign && (
+					<button type="button" class="btn btn-primary btn-sm hidden whitespace-nowrap lg:inline-flex" data-quote data-cta="global:header-cotizar">
+						{site.headerCta}
+					</button>
+				)
+			}
+			{
+				!campaign && (
+					<button
+						type="button"
+						class="btn btn-outline btn-sm !min-h-11 lg:hidden"
+						data-menu-open
+						aria-haspopup="dialog"
+						aria-expanded="false"
+						aria-controls="mobile-menu"
+					>
+						<Fragment set:html={icon("menu", "size-5")} />
+						Menú
+					</button>
+				)
+			}
+			{
+				campaign && (
+					<a href={telLink(site)} class="btn btn-outline btn-sm !min-h-12" data-cta="campana:header-llamar">
+						<Fragment set:html={icon("telefono", "size-5")} />
+						<span class="hidden sm:inline">Llamar</span>
+					</a>
+				)
+			}
+		</div>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		background: color-mix(in oklab, var(--sv-bg) 92%, transparent);
+		backdrop-filter: saturate(1.4) blur(14px);
+		-webkit-backdrop-filter: saturate(1.4) blur(14px);
+		border-bottom: 1px solid transparent;
+		transition:
+			box-shadow var(--sv-dur) var(--sv-ease-out),
+			border-color var(--sv-dur) var(--sv-ease-out);
+	}
+	:global(.site-header.is-compact) {
+		border-color: var(--sv-border);
+		box-shadow: 0 10px 30px -22px rgb(11 42 78 / 0.45);
+	}
+	:global(.site-header.is-compact) > div {
+		height: 66px;
+	}
+	.nav-link {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		padding: 0.6rem 0.7rem;
+		white-space: nowrap;
+		border-radius: 999px;
+		font-weight: 600;
+		font-size: 1.02rem;
+		color: var(--sv-deep);
+		text-decoration: none;
+		cursor: pointer;
+		list-style: none;
+		transition: background-color var(--sv-dur) var(--sv-ease-out);
+	}
+	.nav-link::-webkit-details-marker {
+		display: none;
+	}
+	.nav-link::after {
+		content: "";
+		position: absolute;
+		left: 0.85rem;
+		right: 0.85rem;
+		bottom: 0.3rem;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--sv-gradient-brand);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform var(--sv-dur) var(--sv-ease-out);
+	}
+	.nav-link:hover::after,
+	.nav-link.is-active::after,
+	details[open] > .nav-link::after {
+		transform: scaleX(1);
+	}
+	details[open] > .nav-link :global(svg) {
+		transform: rotate(180deg);
+	}
+	.nav-dropdown {
+		position: static;
+	}
+	.mega {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%;
+		padding: 2rem 0 2.25rem;
+		background: var(--sv-surface);
+		border-top: 1px solid var(--sv-border);
+		box-shadow: 0 40px 60px -40px rgb(11 42 78 / 0.35);
+		max-height: calc(100dvh - 108px);
+		overflow: auto;
+		animation: mega-in var(--sv-dur) var(--sv-ease-out);
+	}
+	@keyframes mega-in {
+		from {
+			opacity: 0;
+			transform: translateY(calc(-6px * var(--sv-motion)));
+		}
+	}
+	.mega-heading {
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--sv-text-muted);
+		margin-bottom: 0.75rem;
+	}
+	.mega-item {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding: 0.6rem 0.7rem;
+		border-radius: var(--sv-radius-control);
+		text-decoration: none;
+		transition: background-color var(--sv-dur) var(--sv-ease-out);
+	}
+	.mega-item:hover,
+	.mega-item:focus-visible {
+		background: var(--sv-surface-alt);
+	}
+	.mega-item strong {
+		display: block;
+		font-weight: 650;
+		color: var(--sv-deep);
+		line-height: 1.25;
+	}
+	.mega-item small {
+		display: block;
+		color: var(--sv-text-muted);
+		font-size: 0.92rem;
+	}
+	.mega-icon {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 2.6rem;
+		height: 2.6rem;
+		border-radius: 12px;
+		background: var(--sv-surface-alt);
+		color: var(--sv-primary);
+	}
+</style>

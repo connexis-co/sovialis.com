@@ -1,0 +1,466 @@
+---
+/**
+ * Portada editable. Diseños:
+ *  - dividido: texto + foto 4:5 con tarjeta de vidrio y atajos de servicios (home, zonas).
+ *  - foto-completa: foto redondeada a lo ancho con tarjeta de texto flotante (inspiración VisitValle).
+ *  - centrado: texto centrado sobre degradado suave (páginas institucionales).
+ * Con «formulario corto» activo muestra la tarjeta de cotización de 3 campos (landings y Ads).
+ * El título es el H1 cuando el bloque es el primero de la página.
+ */
+import Img from "../ui/Img.astro";
+import Cta from "../ui/Cta.astro";
+import QuoteForm from "../forms/QuoteForm.astro";
+import StarRating from "../ui/StarRating.astro";
+import BrandS from "../ui/BrandS.astro";
+import { icon } from "../../lib/icons";
+import { HUBS, ROUTES } from "../../lib/routes";
+import { HERO_SIZES, heroFormMode, heroHasImage, heroMediaKind } from "../../lib/images";
+import { formatCOP, getCatalog, getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+	context?: { service?: string; zone?: string; priceFrom?: number | null; priceUnit?: string; rating?: string; ratingLabel?: string };
+	/** Anotaciones del modo de edición de EmDash (vacías fuera de él) para los campos de la entrada. */
+	edit?: { eyebrow?: object; title?: object; subtitle?: object; image?: object };
+}
+const { value: v, index, context = {}, edit = {} } = Astro.props;
+const [site, catalog] = await Promise.all([getSiteData(), getCatalog()]);
+const variant = v.variant || "dividido";
+const Tag = index === 0 ? "h1" : "h2";
+const badges = String(v.badges ?? "")
+	.split("\n")
+	.map((b) => b.trim())
+	.filter(Boolean);
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+const titleHtml = (() => {
+	const t = String(v.title ?? "");
+	const hl = String(v.highlight ?? "");
+	const i = hl ? t.toLowerCase().indexOf(hl.toLowerCase()) : -1;
+	return i < 0 ? esc(t) : `${esc(t.slice(0, i))}<span class="hl">${esc(t.slice(i, i + hl.length))}</span>${esc(t.slice(i + hl.length))}`;
+})();
+const ctaId = `hero:${index}`;
+const shortcuts = v.shortcuts_title ? catalog.services : [];
+const hasImage = heroHasImage(v);
+const imageLeft = v.image_side === "izquierda";
+// Recorte según la proporción real de la foto: las horizontales (servicios, 3:2) no se recortan en móvil
+// y quedan 4:3 en escritorio; las verticales (inicio, 4:5) van cuadradas en móvil y 5:6 en escritorio.
+const landscape = Number(v.image?.width) > 0 && Number(v.image?.height) > 0 ? v.image.width / v.image.height >= 1.2 : true;
+// En móvil la foto va completa, en su proporción real (sin recortes); en escritorio, el encuadre de la columna.
+const photoAspect = landscape ? "aspect-[3/2] lg:aspect-[5/4]" : "aspect-[4/5] lg:aspect-[5/6]";
+// Puntos clave en una tarjeta de vidrio sobre la foto (servicios), como la tarjeta del inicio.
+const badgesOnPhoto = Boolean(v.badges_on_photo) && badges.length > 0 && !(v.card_title || v.card_text);
+// En móvil el título es más compacto para que los botones queden en la primera pantalla.
+const titleClass = v.title_size === "h1" ? "text-[1.9rem] leading-[1.12] sm:text-h1" : "text-[2.05rem] leading-[1.08] sm:text-h1 lg:text-display";
+// Formulario del hero: «barra» (foto + barra horizontal debajo), «tarjeta» (formulario en lugar de la
+// foto) o «boton» (solo el botón Cotizar, que abre la ventana emergente). show_form es el valor heredado.
+const formMode = heroFormMode(v);
+const mediaKind = heroMediaKind(v);
+---
+
+{
+	variant === "foto-completa" ? (
+		<section class="px-3 pt-3 sm:px-4" data-block="hero">
+			<div class="hero-full relative isolate overflow-hidden">
+				{hasImage && <Img image={v.image} priority class="absolute inset-0 -z-10 size-full object-cover animate-ken-burns" sizes={HERO_SIZES.full} />}
+				<div class="absolute inset-0 -z-10 bg-gradient-to-t from-deep/80 via-deep/25 to-transparent" style="opacity: calc(var(--sv-hero-overlay) + 0.3)" />
+				<div class="container-page flex min-h-[min(88svh,760px)] items-end pt-32 pb-8 sm:pb-12">
+					<div class="hero-card max-w-xl animate-fade-up on-dark p-7 text-white sm:p-9">
+						{v.eyebrow && <p class="eyebrow">{v.eyebrow}</p>}
+						<Tag class="mt-3 font-display text-h1 text-white" set:html={titleHtml} />
+						{v.subtitle && <p class="mt-4 text-lead text-white/85">{v.subtitle}</p>}
+						<div class="mt-7 flex flex-wrap gap-3">
+							<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel service={context.service} zone={context.zone} />
+							<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	) : variant === "centrado" ? (
+		<section class="hero-centered relative isolate overflow-hidden" data-block="hero">
+			<BrandS class="pointer-events-none absolute top-[-10%] left-1/2 -z-10 hidden h-[125%] w-auto -translate-x-1/2 text-primary opacity-[0.05] sm:block" />
+			<div class="container-page pt-[clamp(2.75rem,9vw,8rem)] pb-[clamp(3.25rem,9vw,8rem)] text-center">
+				{v.eyebrow && <p class="eyebrow animate-fade-up">{v.eyebrow}</p>}
+				<Tag class="on-light mx-auto mt-4 max-w-4xl font-display text-[2.15rem]/[1.1] text-deep sm:text-display" set:html={titleHtml} />
+				{v.subtitle && <p class="mx-auto mt-5 max-w-2xl text-[1.06rem] leading-relaxed text-muted sm:text-lead">{v.subtitle}</p>}
+				{/* En móvil los botones van apilados y del mismo ancho. */}
+				<div class="mx-auto mt-7 grid max-w-sm gap-3 sm:mt-8 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center">
+					<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel />
+					<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" />
+				</div>
+				{badges.length > 0 && (
+					<ul class="mt-6 flex flex-wrap justify-center gap-2 sm:mt-8 sm:gap-2.5">
+						{badges.map((b) => (
+							<li class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-3 py-1 text-[0.85rem] font-semibold text-deep backdrop-blur sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-[0.95rem]">
+								<span class="text-primary" set:html={icon("check", "size-4")} />
+								{b}
+							</li>
+						))}
+					</ul>
+				)}
+				{hasImage && (
+					<div class="mx-auto mt-12 max-w-5xl overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
+						<Img image={v.image} priority class="aspect-[21/9] w-full object-cover" sizes={HERO_SIZES.centered} />
+					</div>
+				)}
+			</div>
+		</section>
+	) : (
+		<section class="hero-split relative overflow-hidden" data-block="hero">
+			<div class:list={["hero-grid container-page pt-8 pb-[clamp(3rem,6vw,5.5rem)] lg:pt-14", imageLeft && "is-image-left", mediaKind === "form" && "is-form", !mediaKind && "is-text", mediaKind === "photo" && landscape && "is-wide-media"]}>
+				<div class="hero-head on-light relative z-[1]">
+					{v.eyebrow && <p class="eyebrow" {...edit.eyebrow}>{v.eyebrow}</p>}
+					<Tag class:list={["mt-4 font-display font-medium text-deep", titleClass]} set:html={titleHtml} {...edit.title} />
+				</div>
+
+				<div class="hero-body on-light relative z-[1]">
+					{v.subtitle && <p class="max-w-xl text-lead text-muted" {...edit.subtitle}>{v.subtitle}</p>}
+					{context.rating && <StarRating target={context.rating} label={context.ratingLabel} class="mt-4" />}
+					{context.priceFrom ? (
+						<p class="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[1.02rem] font-semibold text-deep shadow-soft">
+							<Fragment set:html={icon("check", "size-5 text-success")} />
+							Desde {formatCOP(context.priceFrom)} {context.priceUnit}
+						</p>
+					) : null}
+					{badges.length > 0 && (
+						<ul class:list={["mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[1.02rem] font-semibold text-deep", badgesOnPhoto && "sm:hidden"]}>
+							{badges.map((b) => (
+								<li class="flex items-center gap-2">
+									<span class="grid size-6 place-items-center rounded-full bg-primary/10 text-primary" set:html={icon("check", "size-4")} />
+									{b}
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
+
+				<div class="hero-actions relative z-[1] flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+					<Cta label={v.primary_label} action={v.primary_action} url={v.primary_url} cta={`${ctaId}:primario`} site={site} heroSentinel service={context.service} zone={context.zone} />
+					<Cta label={v.secondary_label} action={v.secondary_action} url={v.secondary_url} cta={`${ctaId}:secundario`} site={site} variant="outline" service={context.service} zone={context.zone} />
+				</div>
+
+				{mediaKind === "form" ? (
+					<div class="hero-media relative">
+						<div class="rounded-[var(--sv-radius-hero)] border border-line bg-surface p-6 shadow-float sm:p-8" id="cotizar">
+							<p class="eyebrow">Cotiza sin compromiso</p>
+							<p class="mt-2 font-display text-2xl leading-tight text-deep">Recibe el precio para tu caso hoy</p>
+							<div class="mt-5">
+								<QuoteForm id={`hero-form-${index}`} site={site} services={catalog.services} zones={catalog.zones} variant="hero" service={context.service} zone={context.zone} source="hero" submitLabel="Recibir cotización" />
+							</div>
+						</div>
+					</div>
+				) : mediaKind === "photo" ? (
+					<div class:list={["hero-media relative mx-auto w-full", landscape ? "max-w-[44rem]" : "max-w-[36rem]"]}>
+						<div class="hero-photo relative overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float" {...edit.image}>
+							<Img image={v.image} priority class:list={["w-full object-cover", photoAspect]} sizes={HERO_SIZES.split} />
+						</div>
+						<div class="absolute -top-6 -right-6 -z-10 hidden size-40 rounded-full bg-secondary/25 blur-2xl sm:block" aria-hidden="true" />
+						{badgesOnPhoto && (
+							<div class:list={["glass-card absolute -bottom-7 hidden max-w-[21rem] p-5 sm:block", imageLeft ? "right-4 sm:-right-8" : "left-4 sm:-left-10"]}>
+								<ul class="grid gap-2.5 text-[0.98rem] font-semibold text-deep">
+									{badges.map((b) => (
+										<li class="flex items-start gap-2.5">
+											<span class="mt-0.5 grid size-6 flex-none place-items-center rounded-full bg-primary text-white" set:html={icon("check", "size-3.5")} />
+											{b}
+										</li>
+									))}
+								</ul>
+							</div>
+						)}
+						{(v.card_title || v.card_text) && (
+							<div class="glass-card absolute -bottom-6 left-4 hidden max-w-[19rem] p-5 sm:block sm:-left-10">
+								{v.card_title && (
+									<p class="flex items-center gap-2 font-display text-lg leading-tight text-deep">
+										<span class="grid size-9 flex-none place-items-center rounded-full bg-primary text-white" set:html={icon("corazon", "size-5")} />
+										{v.card_title}
+									</p>
+								)}
+								{v.card_text && <p class="mt-2 text-[0.98rem] text-muted">{v.card_text}</p>}
+							</div>
+						)}
+					</div>
+				) : null}
+			</div>
+			{formMode === "barra" && (
+				<div class="container-page relative z-[2] -mt-[clamp(1.5rem,4vw,3rem)] pb-[clamp(2.5rem,5vw,4rem)]">
+					<div class="hero-quote-bar rounded-[var(--sv-radius-hero)] border border-line bg-surface p-5 shadow-float sm:p-7" id="cotizar">
+						<div class="mb-4 flex flex-wrap items-end justify-between gap-2">
+							<div>
+								<p class="eyebrow">Cotiza sin compromiso</p>
+								<p class="mt-1 font-display text-[1.45rem] leading-tight text-deep">Recibe el precio para tu caso hoy</p>
+							</div>
+							<p class="text-[0.95rem] text-muted">Te respondemos por WhatsApp el mismo día.</p>
+						</div>
+						<QuoteForm id={`hero-form-${index}`} site={site} services={catalog.services} zones={catalog.zones} variant="bar" service={context.service} zone={context.zone} source="hero" submitLabel="Recibir cotización" />
+					</div>
+				</div>
+			)}
+
+			{shortcuts.length > 0 && (
+				<div class="container-page pb-[clamp(3rem,6vw,5rem)]">
+					<div class="shortcuts rounded-[var(--sv-radius-hero)] border border-line bg-surface p-5 shadow-lift sm:p-7" data-carousel>
+						<div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+							<div>
+								<p class="font-display text-[1.45rem] leading-tight text-deep">{v.shortcuts_title}</p>
+								<p class="mt-1 text-[0.98rem] text-muted">Elige el servicio y conoce el precio desde. Te ayudamos a decidir.</p>
+							</div>
+							<a href={HUBS.services} class="link-arrow hidden lg:inline-flex">
+								Ver todos los servicios <Fragment set:html={icon("flecha-derecha", "size-4")} />
+							</a>
+						</div>
+						<ul class="shortcuts__track -mx-5 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-1 sm:-mx-7 sm:px-7 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-3 lg:overflow-visible lg:px-0" data-carousel-track>
+							{shortcuts.map((s) => (
+								<li class="w-[64%] flex-none snap-start sm:w-[40%] lg:w-auto">
+									<a href={ROUTES.services(s.slug)} class="shortcut group" data-cta={`home:atajo-${s.slug}`}>
+										<span class="shortcut__icon" set:html={icon(s.icon, "size-6")} />
+										<span class="shortcut__text">
+											<strong>{s.shortTitle}</strong>
+											{s.priceFrom ? (
+												<small>
+													desde <b>{formatCOP(s.priceFrom)}</b>
+												</small>
+											) : (
+												<small>Ver servicio</small>
+											)}
+										</span>
+										<span class="shortcut__go" set:html={icon("chevron-derecha", "size-5")} aria-hidden="true" />
+									</a>
+								</li>
+							))}
+						</ul>
+						<div class="mt-4 flex items-center gap-3 lg:hidden">
+							<div class="h-1.5 flex-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+								<div class="h-full origin-left rounded-full bg-primary transition-transform duration-300" data-carousel-progress style="transform: scaleX(var(--progress, 0.2))" />
+							</div>
+							<span class="text-[0.85rem] font-semibold text-muted">Desliza para ver más</span>
+							<button type="button" class="shortcuts__nav" data-carousel-prev aria-label="Servicio anterior">
+								<Fragment set:html={icon("flecha-izquierda", "size-4")} />
+							</button>
+							<button type="button" class="shortcuts__nav" data-carousel-next aria-label="Servicio siguiente">
+								<Fragment set:html={icon("flecha-derecha", "size-4")} />
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+		</section>
+	)
+}
+
+<style>
+	/* Móvil: título → imagen → texto y botones (la foto sube junto al título). Escritorio: dos columnas. */
+	/* Móvil: título → foto completa → botones → texto. Escritorio: dos columnas. */
+	.hero-grid {
+		display: grid;
+		gap: 1.5rem;
+		grid-template-areas: "head" "media" "actions" "body";
+	}
+	.hero-grid.is-form {
+		grid-template-areas: "head" "actions" "body" "media";
+	}
+	.hero-grid.is-text {
+		grid-template-areas: "head" "actions" "body";
+	}
+	.hero-actions {
+		grid-area: actions;
+	}
+
+	.hero-head {
+		grid-area: head;
+	}
+	.hero-body {
+		grid-area: body;
+	}
+	.hero-media {
+		grid-area: media;
+	}
+	@media (min-width: 1024px) {
+		.hero-grid {
+			column-gap: 3.5rem;
+			row-gap: 1.25rem;
+			grid-template-columns: 1.08fr 0.92fr;
+			grid-template-rows: auto auto auto 1fr;
+			grid-template-areas: "head media" "body media" "actions media" ". media";
+		}
+		.hero-actions {
+			align-self: start;
+		}
+		.hero-grid.is-image-left {
+			grid-template-columns: 0.92fr 1.08fr;
+			grid-template-areas: "media head" "media body" "media actions" "media .";
+		}
+		.hero-grid.is-wide-media {
+			grid-template-columns: 0.95fr 1.05fr;
+		}
+		.hero-grid.is-wide-media.is-image-left {
+			grid-template-columns: 1.05fr 0.95fr;
+		}
+		.hero-grid.is-text {
+			grid-template-columns: minmax(0, 52rem);
+			grid-template-areas: "head" "body" "actions";
+		}
+		.hero-head {
+			align-self: end;
+		}
+		.hero-body {
+			align-self: start;
+		}
+		.hero-media {
+			align-self: center;
+		}
+	}
+	.hero-split {
+		background:
+			radial-gradient(60% 70% at 100% 0%, color-mix(in oklab, var(--sv-surface-alt) 90%, transparent) 0%, transparent 70%),
+			linear-gradient(180deg, var(--sv-surface-warm) 0%, var(--sv-bg) 100%);
+	}
+	.hero-centered {
+		background:
+			radial-gradient(40% 55% at 85% 10%, color-mix(in oklab, var(--sv-secondary) 20%, transparent) 0%, transparent 70%),
+			radial-gradient(40% 55% at 10% 90%, color-mix(in oklab, var(--sv-primary) 10%, transparent) 0%, transparent 70%),
+			radial-gradient(50% 60% at 50% 0%, var(--sv-surface-alt) 0%, transparent 75%),
+			var(--sv-surface-warm);
+	}
+	.hero-full {
+		border-radius: var(--sv-radius-hero);
+	}
+	.hero-card {
+		border-radius: var(--sv-radius);
+		background: color-mix(in oklab, var(--sv-deep) 72%, transparent);
+		backdrop-filter: blur(14px) saturate(1.2);
+		-webkit-backdrop-filter: blur(14px) saturate(1.2);
+		border: 1px solid rgb(255 255 255 / 0.14);
+		box-shadow: var(--sv-shadow-lg);
+	}
+	.glass-card {
+		border-radius: var(--sv-radius);
+		background: color-mix(in oklab, var(--sv-surface-warm) 86%, transparent);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgb(255 255 255 / 0.6);
+		box-shadow: var(--sv-shadow-md);
+		animation: sv-fade-up var(--sv-dur-reveal) var(--sv-ease-out) 0.25s both;
+	}
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+			.hero-photo :global(img) {
+				animation: hero-parallax linear both;
+				animation-timeline: view();
+				animation-range: exit 0% exit 100%;
+			}
+		}
+	}
+	@keyframes hero-parallax {
+		to {
+			transform: translateY(calc(16px * var(--sv-motion))) scale(1.03);
+		}
+	}
+	.shortcuts__track {
+		scrollbar-width: none;
+		scroll-padding-inline: 1.25rem;
+	}
+	.shortcuts__track::-webkit-scrollbar {
+		display: none;
+	}
+	.shortcut {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.75rem;
+		height: 100%;
+		padding: 1rem 1.05rem;
+		border-radius: 18px;
+		background: var(--sv-surface-warm);
+		border: 1px solid color-mix(in oklab, var(--sv-border) 70%, transparent);
+		text-decoration: none;
+		transition:
+			transform var(--sv-dur) var(--sv-ease-out),
+			border-color var(--sv-dur) var(--sv-ease-out),
+			background var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out);
+	}
+	@media (min-width: 1024px) {
+		.shortcut {
+			flex-direction: row;
+			align-items: center;
+			gap: 0.9rem;
+			padding: 0.95rem 1rem;
+		}
+	}
+	.shortcut:hover,
+	.shortcut:focus-visible {
+		transform: translateY(calc(-2px * var(--sv-motion)));
+		border-color: color-mix(in oklab, var(--sv-primary) 40%, transparent);
+		background: var(--sv-surface);
+		box-shadow: var(--sv-shadow-md);
+	}
+	.shortcut__text {
+		display: grid;
+		gap: 0.2rem;
+		flex: 1;
+		min-width: 0;
+	}
+	.shortcut strong {
+		font-weight: 650;
+		font-size: 1.04rem;
+		line-height: 1.25;
+		color: var(--sv-deep);
+		hyphens: manual;
+		overflow-wrap: normal;
+	}
+	.shortcut small {
+		color: var(--sv-text-muted);
+		font-size: 0.92rem;
+	}
+	.shortcut small b {
+		color: var(--sv-deep);
+		font-weight: 650;
+	}
+	.shortcut__go {
+		display: none;
+		color: var(--sv-text-muted);
+		transition:
+			transform var(--sv-dur) var(--sv-ease-out),
+			color var(--sv-dur);
+	}
+	@media (min-width: 1024px) {
+		.shortcut__go {
+			display: block;
+		}
+	}
+	.shortcut:hover .shortcut__go {
+		color: var(--sv-primary);
+		transform: translateX(3px);
+	}
+	.shortcuts__nav {
+		display: grid;
+		place-items: center;
+		inline-size: 2.5rem;
+		block-size: 2.5rem;
+		border-radius: 50%;
+		border: 1px solid var(--sv-border);
+		background: var(--sv-surface);
+		color: var(--sv-deep);
+	}
+	.shortcuts__nav:active {
+		transform: scale(0.95);
+	}
+	.shortcut__icon {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--sv-primary) 11%, transparent);
+		color: var(--sv-primary);
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur);
+	}
+	.shortcut:hover .shortcut__icon {
+		background: var(--sv-primary);
+		color: #fff;
+	}
+</style>

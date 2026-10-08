@@ -1,0 +1,104 @@
+---
+/**
+ * Hub del blog: introducción editable (Páginas → «blog»), filtro por tema y guías publicadas.
+ * Los temas (categorías) filtran aquí mismo, sin páginas de archivo: así no hay URL delgadas ni
+ * avisos de «noindex» en Search Console. #tema-<slug> abre la página con el filtro aplicado.
+ */
+import { getEmDashCollection, getEmDashEntry, getTaxonomyTerms } from "emdash";
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import Faq from "../../components/blocks/Faq.astro";
+import ClosingCta from "../../components/page/ClosingCta.astro";
+
+const [{ entry }, { entries: posts, cacheHint }, categories] = await Promise.all([
+	getEmDashEntry("pages", "blog").catch(() => ({ entry: null })),
+	getEmDashCollection("posts", { status: "published", limit: 60, orderBy: { published_at: "desc" } }),
+	getTaxonomyTerms("category").catch(() => [] as any[]),
+]);
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const d = (entry?.data ?? {}) as Record<string, any>;
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Guías", url: "/blog/" },
+];
+const [first, ...rest] = posts as any[];
+const catOf = (p: any): string => p.data?.terms?.category?.[0]?.slug ?? p.terms?.category?.[0]?.slug ?? "";
+const topics = (categories as any[])
+	.map((c) => ({ slug: c.slug as string, label: c.label as string, count: (posts as any[]).filter((p) => catOf(p) === c.slug).length }))
+	.filter((c) => c.count > 0);
+---
+
+<Base
+	title={d.seo?.title || d.title || "Guías para cuidar a un adulto mayor"}
+	description={d.seo?.description || d.summary}
+	pageType="collection"
+	content={entry ? { collection: "pages", id: d.id, slug: "blog" } : undefined}
+	breadcrumbs={crumbs}
+>
+	<PageHeader title={d.title || "Guías para familias que cuidan a un adulto mayor"} summary={d.summary} crumbs={crumbs} eyebrow="Guías para familias" />
+	<section class="section-tight">
+		<div class="container-page">
+			{
+				topics.length > 1 && (
+					<div role="group" aria-label="Filtrar guías por tema" class="-mx-5 mb-10 flex gap-2.5 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0" data-blog-filter>
+						<button type="button" class="chip flex-none aria-pressed:border-deep aria-pressed:bg-deep aria-pressed:text-white" aria-pressed="true" data-topic="">
+							Todas <span class="opacity-70">({posts.length})</span>
+						</button>
+						{topics.map((t) => (
+							<button type="button" class="chip flex-none hover:!border-primary aria-pressed:border-deep aria-pressed:bg-deep aria-pressed:text-white" aria-pressed="false" data-topic={t.slug}>
+								{t.label} <span class="opacity-70">({t.count})</span>
+							</button>
+						))}
+					</div>
+				)
+			}
+			{
+				first && (
+					<div class="mb-10" data-topic-item={catOf(first)}>
+						<PostCard entry={first} headingLevel="h2" />
+					</div>
+				)
+			}
+			<ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+				{rest.map((p) => (
+					<li class="reveal" data-topic-item={catOf(p)}>
+						<PostCard entry={p} headingLevel="h2" />
+					</li>
+				))}
+			</ul>
+			<p class="mt-8 text-center text-muted" data-topic-empty hidden>No hay guías de este tema todavía.</p>
+		</div>
+	</section>
+	{d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} />}
+	<ClosingCta />
+</Base>
+
+<script>
+	// Filtro por tema sin recargar ni crear URL nuevas (el hash solo recuerda la elección).
+	const bar = document.querySelector<HTMLElement>("[data-blog-filter]");
+	if (bar) {
+		const buttons = [...bar.querySelectorAll<HTMLButtonElement>("[data-topic]")];
+		const items = [...document.querySelectorAll<HTMLElement>("[data-topic-item]")];
+		const empty = document.querySelector<HTMLElement>("[data-topic-empty]");
+		const apply = (topic: string) => {
+			for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.topic === topic));
+			let shown = 0;
+			for (const el of items) {
+				const on = !topic || el.dataset.topicItem === topic;
+				el.hidden = !on;
+				if (on) shown++;
+			}
+			if (empty) empty.hidden = shown > 0;
+		};
+		bar.addEventListener("click", (e) => {
+			const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-topic]");
+			if (!b) return;
+			const topic = b.dataset.topic ?? "";
+			apply(topic);
+			history.replaceState(null, "", topic ? `#tema-${topic}` : location.pathname);
+		});
+		const fromHash = location.hash.startsWith("#tema-") ? decodeURIComponent(location.hash.slice(6)) : "";
+		if (fromHash && buttons.some((b) => b.dataset.topic === fromHash)) apply(fromHash);
+	}
+</script>

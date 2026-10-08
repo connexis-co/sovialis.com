@@ -1,0 +1,31 @@
+---
+/** Migas de pan visibles (el JSON-LD BreadcrumbList lo emite el plugin SEO con los mismos datos). */
+import { icon } from "../../lib/icons";
+import type { Crumb } from "../../layouts/Base.astro";
+interface Props {
+	items: Crumb[];
+	dark?: boolean;
+}
+const { items, dark = false } = Astro.props;
+---
+
+<nav aria-label="Migas de pan" class:list={["text-[0.95rem]", dark ? "text-white/75" : "text-muted"]}>
+	<ol class="flex flex-wrap items-center gap-1.5">
+		{
+			items.map((c, i) => (
+				<li class="flex items-center gap-1.5">
+					{i > 0 && <span set:html={icon("chevron-derecha", "size-4 opacity-60")} />}
+					{i < items.length - 1 ? (
+						<a href={c.url} class="underline-offset-4 hover:underline">
+							{c.name}
+						</a>
+					) : (
+						<span aria-current="page" class:list={["font-semibold", dark ? "text-white" : "text-deep"]}>
+							{c.name}
+						</span>
+					)}
+				</li>
+			))
+		}
+	</ol>
+</nav>

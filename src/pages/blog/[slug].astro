@@ -1,0 +1,170 @@
+---
+/** Guía del blog: migas → H1 → meta → imagen → índice → En resumen → contenido → CTA → FAQ → autor → estrellas → comentarios → relacionados. */
+import { getEmDashCollection, getEmDashEntry } from "emdash";
+import Prose from "../../components/ui/Prose.astro";
+import Img from "../../components/ui/Img.astro";
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
+import Toc from "../../components/blog/Toc.astro";
+import RatingWidget from "../../components/blog/RatingWidget.astro";
+import BlogComments from "../../components/blog/BlogComments.astro";
+import AuthorBox from "../../components/blog/AuthorBox.astro";
+import CtaCard from "../../components/blog/CtaCard.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import Faq from "../../components/blocks/Faq.astro";
+import { icon } from "../../lib/icons";
+import { ROUTES } from "../../lib/routes";
+import { mediaUrl } from "../../lib/site";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/blog/", 301);
+const { entry, cacheHint } = await getEmDashEntry("posts", slug);
+if (!entry) return Astro.rewrite("/404/");
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const d = entry.data as Record<string, any>;
+const category = d.terms?.category?.[0];
+// Sin la categoría en las migas: los temas no tienen página propia (filtran dentro de /blog/).
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Guías", url: "/blog/" },
+	{ name: d.title, url: `/blog/${slug}/` },
+];
+const fmt = (v: unknown) => (v ? new Date(v as string).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Bogota" }) : "");
+const published = d.publishedAt ? new Date(d.publishedAt) : null;
+const updated = d.updatedAt ? new Date(d.updatedAt) : published;
+const takeaways = String(d.key_takeaways ?? "").split("\n").map((l) => l.trim().replace(/^[-•]\s*/, "")).filter(Boolean);
+const minutes = d.reading_minutes || Math.max(3, Math.round(JSON.stringify(d.content ?? "").split(/\s+/).length / 230));
+// Relacionadas: primero las del mismo tema y, si no alcanzan, las más recientes (más enlaces entre guías).
+const [{ entries: sameTopic }, { entries: latest }] = await Promise.all([
+	category
+		? getEmDashCollection("posts", { status: "published", limit: 4, orderBy: { published_at: "desc" }, where: { category: category.slug } }).catch(() => ({ entries: [] as any[] }))
+		: Promise.resolve({ entries: [] as any[] }),
+	getEmDashCollection("posts", { status: "published", limit: 6, orderBy: { published_at: "desc" } }).catch(() => ({ entries: [] as any[] })),
+]);
+const relatedPosts = [...(sameTopic as any[]), ...(latest as any[])]
+	.filter((p, i, all) => p.id !== slug && p.slug !== slug && all.findIndex((x) => x.id === p.id) === i)
+	.slice(0, 3);
+---
+
+<Base
+	title={d.seo?.title || d.title}
+	description={d.seo?.description || d.excerpt}
+	image={mediaUrl(d.featured_image)}
+	pageType="article"
+	content={{ collection: "posts", id: d.id, slug }}
+	breadcrumbs={crumbs}
+	article={{ publishedTime: published?.toISOString(), modifiedTime: updated?.toISOString(), author: d.byline?.displayName }}
+	robots={d.seo?.noIndex ? "noindex,follow" : undefined}
+>
+	<article>
+		<header class="bg-sand">
+			<div class="container-page max-w-5xl pt-8 pb-10">
+				<Breadcrumbs items={crumbs} />
+				{
+					category && (
+						<p class="eyebrow mt-6">
+							<a href={`/blog/#tema-${category.slug}`} class="hover:underline">{category.label}</a>
+						</p>
+					)
+				}
+				<h1 class="mt-4 font-display text-h1 text-deep" {...entry.edit.title}>{d.title}</h1>
+				{d.excerpt && <p class="mt-4 max-w-3xl text-lead text-muted" {...entry.edit.excerpt}>{d.excerpt}</p>}
+				<p class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.98rem] text-muted">
+					{d.byline?.displayName && (
+						<span class="flex items-center gap-2">
+							<Fragment set:html={icon("usuario", "size-4")} />
+							{d.byline.slug ? <a href={ROUTES.author(d.byline.slug)} class="font-semibold text-deep hover:underline">{d.byline.displayName}</a> : d.byline.displayName}
+						</span>
+					)}
+					{published && (
+						<span class="flex items-center gap-2">
+							<Fragment set:html={icon("calendario", "size-4")} />
+							<time datetime={published.toISOString()}>{fmt(published)}</time>
+							{updated && published && updated.getTime() - published.getTime() > 86_400_000 && <span>· actualizado el {fmt(updated)}</span>}
+						</span>
+					)}
+					<span class="flex items-center gap-2"><Fragment set:html={icon("reloj", "size-4")} />{minutes} min de lectura</span>
+					<RatingWidget target={`posts:${d.id}`} compact />
+				</p>
+			</div>
+		</header>
+
+		{
+			d.featured_image && (
+				<div class="container-page max-w-5xl">
+					<div class="-mt-2 overflow-hidden rounded-[var(--sv-radius-hero)] shadow-lift" {...entry.edit.featured_image}>
+						<Img image={d.featured_image} priority class="aspect-[16/9] w-full object-cover" sizes="(min-width:1100px) 1040px, 94vw" />
+					</div>
+				</div>
+			)
+		}
+
+		<div class="container-page grid max-w-6xl gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
+			<div class="min-w-0">
+				{
+					takeaways.length > 0 && (
+						<section class="mb-10 rounded-card border-l-4 border-primary bg-mist p-6" aria-labelledby="resumen">
+							<h2 id="resumen" class="font-display text-xl text-deep">En resumen</h2>
+							<ul class="mt-3 grid gap-2.5">
+								{takeaways.map((t) => (
+									<li class="flex gap-3">
+										<span class="mt-1 text-primary" set:html={icon("check", "size-5")} />
+										<span>{t}</span>
+									</li>
+								))}
+							</ul>
+						</section>
+					)
+				}
+				<div class="lg:hidden mb-8"><Toc content={d.content} /></div>
+				{/* Llamado temprano en móvil: en escritorio vive en la columna lateral. */}
+				<div class="mb-10 flex items-center gap-4 rounded-card border border-line bg-surface p-4 shadow-soft lg:hidden">
+					<span class="grid size-11 flex-none place-items-center rounded-full bg-primary/10 text-primary" set:html={icon("chat", "size-5")} />
+					<p class="flex-1 text-[0.98rem] leading-snug text-deep"><strong>¿Necesitas ayuda con el cuidado?</strong> Te orientamos sin compromiso.</p>
+					<button type="button" class="btn btn-primary btn-sm flex-none" data-quote data-cta={`guia:${slug}:temprano`}>Cotizar</button>
+				</div>
+				<div class="prose-sv">
+					<Prose value={d.content} />
+				</div>
+				<div class="mt-12"><CtaCard service={d.cta_service} /></div>
+			</div>
+			<aside class="hidden lg:block">
+				<div class="sticky top-28 grid gap-6">
+					<Toc content={d.content} />
+					<div class="rounded-card bg-deep p-5 text-white on-dark">
+						<p class="font-display text-lg">¿Necesitas ayuda con el cuidado?</p>
+						<p class="mt-1 text-[0.95rem] text-white/80">Te orientamos sin compromiso.</p>
+						<button type="button" class="btn btn-light btn-sm mt-4 w-full" data-quote data-cta={`guia:${slug}:lateral`}>Cotiza en 2 minutos</button>
+					</div>
+				</div>
+			</aside>
+		</div>
+	</article>
+
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: "Dudas frecuentes sobre este tema", items: d.faqs }} index={40} edit={entry.edit.faqs} />}
+
+	<section class="section-tight">
+		<div class="container-page grid max-w-4xl gap-8">
+			<AuthorBox byline={d.byline} updated={updated} />
+			<RatingWidget target={`posts:${d.id}`} />
+			<BlogComments contentId={d.id} title={d.title} />
+		</div>
+	</section>
+
+	{
+		relatedPosts.length > 0 && (
+			<section class="section bg-sand">
+				<div class="container-page">
+					<h2 class="font-display text-h2 text-deep">Sigue leyendo</h2>
+					<ul class="mt-8 grid gap-6 md:grid-cols-3">
+						{relatedPosts.map((p) => (
+							<li>
+								<PostCard entry={p} />
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+</Base>

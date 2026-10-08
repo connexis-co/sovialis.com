@@ -1,0 +1,54 @@
+---
+/** Imagen + texto con viñetas y botón; la imagen puede ir a la izquierda o a la derecha. */
+import Prose from "../ui/Prose.astro";
+import BrandS from "../ui/BrandS.astro";
+import Img from "../ui/Img.astro";
+import SectionHead from "../ui/SectionHead.astro";
+import Cta from "../ui/Cta.astro";
+import { icon } from "../../lib/icons";
+import { getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const site = await getSiteData();
+const tone = v.tone || "claro";
+const dark = tone === "oscuro";
+const bg = { claro: "bg-canvas", arena: "bg-sand", bruma: "bg-mist", oscuro: "bg-deep text-white" }[tone as string] ?? "bg-canvas";
+const bullets = String(v.bullets ?? "").split("\n").map((b) => b.trim()).filter(Boolean);
+const left = v.image_side === "izquierda";
+---
+
+<section class:list={["section", bg, dark && "on-dark"]} data-block="media-text">
+	<div class="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+		<div class:list={["reveal", left && "lg:order-2"]}>
+			<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} align="left" dark={dark} />
+			{v.body && <div class:list={["prose-sv mt-5", dark && "!text-white/85"]}><Prose value={v.body} /></div>}
+			{
+				bullets.length > 0 && (
+					<ul class="mt-6 grid gap-3">
+						{bullets.map((b) => (
+							<li class="flex items-start gap-3">
+								<span class:list={["mt-0.5 grid size-7 flex-none place-items-center rounded-full", dark ? "bg-white/10 text-[#8fd8f2]" : "bg-primary/10 text-primary"]} set:html={icon("check", "size-4")} />
+								<span>{b}</span>
+							</li>
+						))}
+					</ul>
+				)
+			}
+			{v.cta_label && <div class="mt-8"><Cta label={v.cta_label} action={v.cta_action} url={v.cta_url} cta={`media:${index}`} site={site} variant={dark ? "light" : undefined} /></div>}
+		</div>
+		{
+			v.image && (
+				<div class:list={["reveal relative", left && "lg:order-1"]}>
+					<div class="overflow-hidden rounded-[var(--sv-radius-hero)] shadow-float">
+						<Img image={v.image} class="aspect-[3/2] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]" loading="lazy" sizes="(min-width:1024px) 45vw, 92vw" />
+					</div>
+					<BrandS class:list={["absolute -bottom-10 z-0 hidden h-36 w-auto text-secondary opacity-25 lg:block", left ? "-right-8" : "-left-8"]} />
+				</div>
+			)
+		}
+	</div>
+</section>

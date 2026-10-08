@@ -1,12 +1,42 @@
 {
-  "extends": ["@commitlint/config-conventional"],
+  "extends": [
+    "@commitlint/config-conventional"
+  ],
   "rules": {
     "scope-enum": [
       1,
       "always",
-      ["seo", "theme", "ui", "blocks", "content", "seed", "leads", "whatsapp", "email", "analytics", "design", "ratings", "comments", "deploy", "deps", "ci", "docs", "brand", "images", "a11y", "perf"]
+      [
+        "seo",
+        "theme",
+        "ui",
+        "blocks",
+        "content",
+        "seed",
+        "leads",
+        "whatsapp",
+        "email",
+        "analytics",
+        "design",
+        "ratings",
+        "comments",
+        "deploy",
+        "deps",
+        "ci",
+        "docs",
+        "brand",
+        "images",
+        "a11y",
+        "perf",
+        "worker",
+        "auth"
+      ]
     ],
-    "subject-case": [0],
-    "body-max-line-length": [0]
+    "subject-case": [
+      0
+    ],
+    "body-max-line-length": [
+      0
+    ]
   }
 }

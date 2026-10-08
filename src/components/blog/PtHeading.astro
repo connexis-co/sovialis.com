@@ -1,0 +1,11 @@
+---
+/** H2/H3 del Portable Text con id (anclas del índice). */
+import { slugify } from "emdash";
+import type { BlockProps } from "astro-portabletext/types";
+const { node, index: _index, isInline: _inline, ...attrs } = Astro.props as BlockProps;
+const text = ((node as any).children ?? []).map((c: any) => c.text ?? "").join("");
+const id = slugify(text);
+const Tag = (node.style === "h3" ? "h3" : "h2") as "h2" | "h3";
+---
+
+<Tag id={id} {...attrs}><slot /></Tag>

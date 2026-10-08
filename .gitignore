@@ -42,7 +42,12 @@ npm-debug.log*
 # Sovialis
 .dev.vars*
 !.dev.vars.example
-graphify-out/cache/
+graphify-out/
 scripts/.cache/
 public/_generated/
 *.local.json
+scripts/.cache/
+
+# Tarjetas Open Graph generadas en cada despliegue (scripts/build-og.mjs)
+public/og/gen/
+src/data/og-manifest.json

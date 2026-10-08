@@ -1,0 +1,317 @@
+---
+/**
+ * Formulario de cotización (un solo módulo para modal, hero de landings y bloque en página).
+ * Envía al plugin sovialis-leads; la lógica vive en src/scripts/site.ts (sin frameworks).
+ *   variant="modal"  → progresivo: nombre + celular; luego zona, servicio, correo y comentarios
+ *   variant="hero"   → 3 campos visibles (nombre, WhatsApp, zona)
+ *   variant="inline" → completo, sin pasos
+ *   variant="bar"    → 3 campos en una fila y envío al lado (barra bajo el hero de las landings)
+ */
+import { getPluginSetting } from "emdash";
+import { icon } from "../../lib/icons";
+import { LEAD_DEFAULTS } from "../../../plugins/sovialis-leads/model";
+import type { CatalogItem, SiteData } from "../../lib/site";
+
+interface Props {
+	id: string;
+	site: SiteData;
+	services: CatalogItem[];
+	zones: CatalogItem[];
+	variant?: "modal" | "hero" | "inline" | "bar";
+	service?: string;
+	zone?: string;
+	submitLabel?: string;
+	source?: string;
+}
+const { id, site, services, zones, variant = "inline", service = "", zone = "", submitLabel = "Recibir mi cotización", source = variant } = Astro.props;
+const consentText = (await getPluginSetting<string>("sovialis-leads", "consentText").catch(() => undefined)) || LEAD_DEFAULTS.consentText;
+const turnstileKey = (await getPluginSetting<string>("sovialis-leads", "turnstileSiteKey").catch(() => undefined)) || "";
+const progressive = variant === "modal";
+const bar = variant === "bar";
+const compact = variant === "hero" || bar;
+const f = (name: string) => `${id}-${name}`;
+---
+
+<form
+	id={id}
+	class:list={["quote-form", progressive && "is-progressive", bar && "is-bar"]}
+	data-quote-form
+	data-source={source}
+	data-wa-number={site.whatsappNumber}
+	novalidate
+	autocomplete="on"
+>
+	{
+		progressive && (
+			<p class="form-steps" data-step-indicator aria-live="polite">
+				<span class="form-steps__bar"><span /></span>
+				<span data-step-text>Paso 1 de 2 · Tus datos de contacto</span>
+			</p>
+		)
+	}
+	<div class="quote-errors" data-error-summary tabindex="-1" role="alert" hidden>
+		<p class="font-semibold">Revisa estos datos:</p>
+		<ul></ul>
+	</div>
+
+	<div class:list={["grid gap-3.5", !compact && "sm:grid-cols-2", bar && "sm:grid-cols-2 lg:grid-cols-3"]}>
+		<div class="field fl-field" data-step="1">
+			<input id={f("name")} name="name" type="text" autocomplete="name" required maxlength="120" placeholder="Tu nombre completo" aria-describedby={`${f("name")}-err`} />
+			<label for={f("name")}>Nombre y apellido</label>
+			<small data-error="name" id={`${f("name")}-err`} hidden></small>
+		</div>
+		<div class="field fl-field" data-step="1">
+			<input
+				id={f("phone")}
+				name="phone"
+				type="tel"
+				inputmode="tel"
+				autocomplete="tel-national"
+				required
+				maxlength="20"
+				placeholder="300 123 4567"
+				aria-describedby={`${f("phone")}-err`}
+			/>
+			<label for={f("phone")}>Celular (WhatsApp)</label>
+			<small data-error="phone" id={`${f("phone")}-err`} hidden></small>
+		</div>
+
+		<div class:list={["field fl-field", compact && "!col-span-1"]} data-step={compact ? "1" : "2"}>
+			<select id={f("zone")} name="zone" aria-describedby={`${f("zone")}-err`}>
+				<option value="">Selecciona tu zona</option>
+				{
+					zones.map((z) => (
+						<option value={z.shortTitle} selected={z.slug === zone || z.shortTitle === zone}>
+							{z.shortTitle}
+						</option>
+					))
+				}
+				<option value="Otra zona de Bogotá">Otra zona de Bogotá</option>
+				<option value="Municipio de la Sabana">Municipio de la Sabana</option>
+			</select>
+			<label for={f("zone")}>Zona o barrio</label>
+			<small data-error="zone" id={`${f("zone")}-err`} hidden></small>
+		</div>
+
+		{
+			!compact && (
+				<div class="field fl-field" data-step="2">
+					<select id={f("service")} name="service">
+						<option value="">Aún no lo sé</option>
+						{services.map((s) => (
+							<option value={s.shortTitle} selected={s.slug === service || s.shortTitle === service}>
+								{s.shortTitle}
+							</option>
+						))}
+					</select>
+					<label for={f("service")}>¿Qué servicio buscas?</label>
+				</div>
+			)
+		}
+
+		{
+			!compact && (
+				<div class="field fl-field sm:col-span-2" data-step="2">
+					<input id={f("email")} name="email" type="email" autocomplete="email" maxlength="190" placeholder="nombre@correo.com" aria-describedby={`${f("email")}-err`} />
+					<label for={f("email")}>
+						Correo electrónico <span class="opt">(opcional)</span>
+					</label>
+					<small data-error="email" id={`${f("email")}-err`} hidden />
+				</div>
+			)
+		}
+
+		{
+			!compact && !progressive && (
+				<div class="field fl-field" data-step="3">
+					<select id={f("schedule")} name="schedule">
+						<option value="">Selecciona</option>
+						{site.leadSchedules.map((s) => (
+							<option>{s}</option>
+						))}
+					</select>
+					<label for={f("schedule")}>Turno que necesitas</label>
+				</div>
+			)
+		}
+		{
+			!compact && !progressive && (
+				<div class="field fl-field" data-step="3">
+					<select id={f("forWhom")} name="forWhom">
+						<option value="">Selecciona</option>
+						{site.leadRelations.map((s) => (
+							<option>{s}</option>
+						))}
+					</select>
+					<label for={f("forWhom")}>¿Para quién es el cuidado?</label>
+				</div>
+			)
+		}
+		<div class:list={["field fl-field", !compact && "sm:col-span-2", bar && "sm:col-span-2 lg:col-span-3"]} data-step={compact ? "1" : progressive ? "2" : "3"}>
+			<textarea id={f("message")} name="message" rows={compact ? 2 : 3} maxlength="2000" placeholder="Días, horarios, el apoyo que necesita o tus recomendaciones" aria-describedby={`${f("message")}-hint`} />
+			<label for={f("message")}>
+				Comentarios o mensaje <span class="opt">(opcional)</span>
+			</label>
+			<small class="hint" id={`${f("message")}-hint`}>
+				Por privacidad, evita escribir diagnósticos médicos.
+			</small>
+		</div>
+	</div>
+
+	<div class="hp" aria-hidden="true">
+		<label for={f("website")}>No completar</label>
+		<input id={f("website")} name="website" type="text" tabindex="-1" autocomplete="off" />
+	</div>
+
+	<div class:list={[bar && "lg:mt-1 lg:flex lg:items-center lg:gap-6"]}>
+		<div class:list={[bar && "lg:flex-1"]}>
+			<label class="consent" data-step="1">
+				<input type="checkbox" name="consent" value="true" required aria-describedby={`${f("consent")}-err`} />
+				<span>
+					{consentText} <a href="/politica-de-tratamiento-de-datos/" target="_blank" class="underline underline-offset-2">Ver política</a>.
+				</span>
+			</label>
+			<small data-error="consent" id={`${f("consent")}-err`} class="field-error" hidden></small>
+		</div>
+
+		{turnstileKey && <div class="cf-turnstile mt-3" data-sitekey={turnstileKey} data-size="flexible" data-appearance="interaction-only" />}
+
+		<button type="submit" class:list={["btn btn-primary btn-lg mt-5 w-full", bar && "lg:mt-[18px] lg:w-auto lg:flex-none"]}>
+			<span data-submit-label>{submitLabel}</span>
+			<Fragment set:html={icon("flecha-derecha", "size-5")} />
+		</button>
+	</div>
+
+	{
+		!bar && (
+			<p class="mt-3 text-center">
+				<a href={`https://wa.me/${site.whatsappNumber}`} data-contact-whatsapp data-cta={`${source}:formulario-whatsapp`} target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-semibold text-deep underline-offset-4 hover:underline">
+					<Fragment set:html={icon("whatsapp", "size-5 text-[#1a9e4b]")} /> o escríbenos por WhatsApp
+				</a>
+			</p>
+		)
+	}
+	<p class="form-status" data-status role="status" hidden></p>
+	{
+		!bar && (
+			<p class="mt-3 flex items-center justify-center gap-2 text-center text-sm text-muted">
+				<Fragment set:html={icon("escudo", "size-4")} /> Usamos tus datos solo para atender esta solicitud.
+			</p>
+		)
+	}
+</form>
+
+<style>
+	.form-steps {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 16px;
+		font-size: 0.92rem;
+		font-weight: 650;
+		color: var(--sv-text-muted);
+	}
+	.form-steps__bar {
+		position: relative;
+		flex: none;
+		inline-size: 72px;
+		block-size: 6px;
+		border-radius: 999px;
+		background: var(--sv-border);
+		overflow: hidden;
+	}
+	.form-steps__bar > span {
+		position: absolute;
+		inset: 0 auto 0 0;
+		inline-size: 50%;
+		border-radius: inherit;
+		background: var(--sv-primary);
+		transition: inline-size var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.form-steps[data-step="2"] .form-steps__bar > span {
+		inline-size: 100%;
+	}
+	.quote-form [aria-invalid="true"] {
+		border-color: var(--sv-accent-text) !important;
+	}
+	.quote-form [data-error],
+	.quote-form .field-error {
+		display: block;
+		margin-top: 6px;
+		color: #8a3315;
+		font-weight: 650;
+		font-size: 0.95rem;
+	}
+	.quote-form [data-error][hidden] {
+		display: none;
+	}
+	.quote-form .hint {
+		display: block;
+		margin-top: 6px;
+		color: var(--sv-text-muted);
+		font-size: 0.93rem;
+	}
+	.quote-form .consent {
+		display: flex;
+		gap: 12px;
+		align-items: flex-start;
+		margin-top: 18px;
+		font-size: 0.97rem;
+		line-height: 1.45;
+		color: var(--sv-text-muted);
+	}
+	.quote-form .consent input {
+		flex: none;
+		width: 22px;
+		height: 22px;
+		margin-top: 2px;
+		accent-color: var(--sv-primary);
+	}
+	.quote-form .hp {
+		position: absolute;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+	.quote-errors {
+		margin-bottom: 16px;
+		padding: 12px 16px;
+		border-radius: var(--sv-radius-control);
+		background: #fff4f0;
+		border: 1px solid #f3c2ae;
+		color: #6b2a10;
+	}
+	.quote-errors ul {
+		margin-top: 6px;
+		padding-left: 1.1em;
+		list-style: disc;
+	}
+	.quote-errors a {
+		text-decoration: underline;
+	}
+	.form-status {
+		margin-top: 12px;
+		padding: 12px 16px;
+		border-radius: var(--sv-radius-control);
+		background: var(--sv-surface-alt);
+		color: var(--sv-deep);
+		font-weight: 600;
+	}
+	.quote-form.is-progressive [data-step]:not(.is-visible) {
+		display: none !important;
+	}
+	.quote-form.is-progressive [data-step].is-visible {
+		animation: field-in var(--sv-dur) var(--sv-ease-out);
+	}
+	@keyframes field-in {
+		from {
+			opacity: 0;
+			transform: translateY(calc(-6px * var(--sv-motion)));
+		}
+	}
+	.quote-form[aria-busy="true"] button[type="submit"] {
+		opacity: 0.7;
+		cursor: progress;
+	}
+</style>

@@ -1,0 +1,652 @@
+---
+/**
+ * Explorador de precios: el visitante elige perfil, modalidad y días y ve el precio final al
+ * instante, con lo que incluye y botones que precargan la cotización o WhatsApp con su elección.
+ * Debajo, la tabla completa de tarifas (visible para buscadores; en móvil, como tarjetas).
+ * Las tarifas salen de los Ajustes del sitio (repetidor «Tarifas»).
+ */
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+import { MODALITIES, MODALITY_ORDER, PROFILES, findRate, type Modality, type Profile } from "../../lib/rates";
+import { formatCOP, getCatalog, getSiteData } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	index: number;
+}
+const { value: v, index } = Astro.props;
+const [site, catalog] = await Promise.all([getSiteData(), getCatalog()]);
+const rates = site.rates;
+const id = `precios-${index}`;
+const start: { profile: Profile; modality: Modality } = { profile: "cuidadora", modality: "12h_dia" };
+const first = findRate(rates, start.profile, start.modality);
+const serviceName = (slug: string) => catalog.services.find((s) => s.slug === slug)?.shortTitle ?? "";
+const data = {
+	rates,
+	minHours: site.minHours,
+	modalities: Object.fromEntries(MODALITY_ORDER.map((m) => [m, { ...MODALITIES[m], serviceName: serviceName(MODALITIES[m].service) }])),
+	profiles: PROFILES,
+	auxService: serviceName("auxiliar-de-enfermeria"),
+};
+const showTable = v.show_table !== false;
+const profileKeys = Object.keys(PROFILES) as Profile[];
+---
+
+<section class="section price-explorer" data-block="price-explorer" id={v.anchor || "explorador"}>
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+
+		<div class="mt-8 grid grid-cols-1 gap-6 sm:mt-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10" data-price-explorer data-rates={JSON.stringify(data)}>
+			<form class="pe-controls" aria-label="Elige perfil, modalidad y días" onsubmit="return false">
+				<fieldset class="pe-group">
+					<legend class="pe-legend"><span class="pe-step">1</span> ¿Qué perfil necesitas?</legend>
+					<div class="pe-segment">
+						{(Object.keys(PROFILES) as Profile[]).map((p) => (
+							<label class="pe-seg">
+								<input type="radio" name={`${id}-profile`} value={p} checked={p === start.profile} data-pe="profile" />
+								<span>
+									<strong>{PROFILES[p].label}</strong>
+									<small>{PROFILES[p].description}</small>
+								</span>
+							</label>
+						))}
+					</div>
+				</fieldset>
+
+				<fieldset class="pe-group">
+					<legend class="pe-legend"><span class="pe-step">2</span> ¿Qué modalidad?</legend>
+					<div class="pe-grid">
+						{MODALITY_ORDER.map((m) => (
+							<label class="pe-option">
+								<input type="radio" name={`${id}-modality`} value={m} checked={m === start.modality} data-pe="modality" />
+								<span class="pe-option__body">
+									<span class="pe-option__icon" set:html={icon(MODALITIES[m].icon, "size-5")} />
+									<span class="pe-option__label">
+										<span class="sm:hidden">{MODALITIES[m].short}</span>
+										<span class="max-sm:hidden">{MODALITIES[m].label}</span>
+									</span>
+									<span class="pe-option__from" data-pe-from={m}>
+										desde {formatCOP(findRate(rates, start.profile, m).price)}
+									</span>
+								</span>
+							</label>
+						))}
+					</div>
+				</fieldset>
+
+				<fieldset class="pe-group">
+					<legend class="pe-legend"><span class="pe-step">3</span> ¿Qué días?</legend>
+					<div class="pe-segment pe-segment--compact">
+						<label class="pe-seg">
+							<input type="radio" name={`${id}-days`} value="weekday" checked data-pe="days" />
+							<span><strong>Lunes a viernes</strong></span>
+						</label>
+						<label class="pe-seg">
+							<input type="radio" name={`${id}-days`} value="weekend" data-pe="days" />
+							<span><strong>Sáb., dom. y festivos</strong></span>
+						</label>
+					</div>
+				</fieldset>
+				<a href={`#${id}-resultado`} class="pe-mini" data-pe-mini>
+					<span class="pe-mini__label" data-pe-mini-label>{PROFILES[start.profile].short} · {MODALITIES[start.modality].short}</span>
+					<span class="pe-mini__price" data-pe-mini-price>{formatCOP(first.price)}</span>
+					<span class="pe-mini__go" set:html={icon("chevron-abajo", "size-4")} /><span class="sr-only">Ver detalle</span>
+				</a>
+			</form>
+
+			<aside id={`${id}-resultado`} class="pe-result" aria-live="polite">
+				<p class="pe-result__eyebrow">Tu precio de referencia</p>
+				<p class="pe-result__title" data-pe-title>{PROFILES[start.profile].short} · {MODALITIES[start.modality].label}</p>
+				<p class="pe-result__price">
+					<span data-pe-price>{formatCOP(first.price)}</span>
+				</p>
+				<p class="pe-result__unit" data-pe-unit>{MODALITIES[start.modality].unit} · lunes a viernes</p>
+				<p class="pe-result__alt" data-pe-alt>Sáb., dom. y festivos: {formatCOP(first.priceWeekend)}</p>
+				<p class="pe-result__min" data-pe-min hidden />
+				<ul class="pe-result__list" data-pe-includes>
+					{MODALITIES[start.modality].includes.map((t) => (
+						<li><span set:html={icon("check", "size-4")} />{t}</li>
+					))}
+				</ul>
+				<div class="mt-6 grid gap-3">
+					<button type="button" class="btn btn-light w-full" data-quote data-pe-quote data-service={serviceName(MODALITIES[start.modality].service)} data-cta="precios:explorador-cotizar">
+						Cotizar este turno <Fragment set:html={icon("flecha-derecha", "size-5")} />
+					</button>
+					<a class="btn btn-whatsapp w-full" href={`https://wa.me/${site.whatsappNumber}`} data-wa data-pe-wa target="_blank" rel="noopener" data-cta="precios:explorador-whatsapp">
+						<Fragment set:html={icon("whatsapp", "size-5")} /> Preguntar por WhatsApp
+					</a>
+				</div>
+				<p class="pe-result__note">Precio final con IVA. Te lo confirmamos por escrito antes de empezar.</p>
+			</aside>
+		</div>
+
+		{
+			showTable && (
+				<div class="mt-14">
+					<h3 class="text-center font-display text-h3 text-deep">{v.table_title || "Tabla completa de tarifas"}</h3>
+					<p class="mx-auto mt-2 max-w-2xl text-center text-muted">{v.note || "Precios de referencia con IVA incluido. Sábados, domingos y festivos tienen tarifa propia."}</p>
+					{/* En móvil, un selector de perfil deja la tabla en 3 columnas legibles (sin JS: :has()). */}
+					<div class="rates mx-auto mt-6 max-w-5xl">
+						<div class="rates__toggle" role="radiogroup" aria-label="Perfil que quieres ver en la tabla">
+							{profileKeys.map((p) => (
+								<label>
+									<input type="radio" name={`${id}-tabla`} value={p} checked={p === "cuidadora"} />
+									<span>{PROFILES[p].label}</span>
+								</label>
+							))}
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th scope="col">Modalidad</th>
+									{profileKeys.map((p) => (
+										<Fragment>
+											<th scope="col" data-p={p}>
+												<span class="rates__who">{PROFILES[p].short} · </span>lun. a vie.
+											</th>
+											<th scope="col" data-p={p}>
+												<span class="rates__who">{PROFILES[p].short} · </span>sáb., dom. y fest.
+											</th>
+										</Fragment>
+									))}
+								</tr>
+							</thead>
+							<tbody>
+								{MODALITY_ORDER.map((m) => (
+									<tr>
+										<th scope="row">
+											<span class="sm:hidden">{MODALITIES[m].short}</span>
+											<span class="max-sm:hidden">{MODALITIES[m].label}</span>
+										</th>
+										{profileKeys.map((p) => {
+											const r = findRate(rates, p, m);
+											return (
+												<Fragment>
+													<td data-p={p}>{formatCOP(r.price)}</td>
+													<td data-p={p}>{formatCOP(r.priceWeekend)}</td>
+												</Fragment>
+											);
+										})}
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+					<p class="mt-3 text-center text-[0.92rem] text-muted">Servicio por horas: mínimo {site.minHours} horas por visita.</p>
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.price-explorer {
+		background:
+			radial-gradient(50% 60% at 100% 0%, color-mix(in oklab, var(--sv-secondary) 12%, transparent) 0%, transparent 70%),
+			var(--sv-surface-warm);
+	}
+	.pe-controls {
+		display: grid;
+		gap: 1.6rem;
+	}
+	.pe-group {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		min-width: 0;
+	}
+	.pe-legend {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 0.8rem;
+		font-family: var(--sv-font-display);
+		font-size: 1.15rem;
+		font-weight: 500;
+		color: var(--sv-deep);
+	}
+	.pe-step {
+		display: grid;
+		place-items: center;
+		inline-size: 1.75rem;
+		block-size: 1.75rem;
+		border-radius: 50%;
+		background: var(--sv-deep);
+		color: #fff;
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+	.pe-segment {
+		display: grid;
+		gap: 0.6rem;
+	}
+	@media (min-width: 640px) {
+		.pe-segment {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.pe-segment--compact {
+		grid-template-columns: 1fr 1fr;
+	}
+	.pe-seg,
+	.pe-option {
+		position: relative;
+		cursor: pointer;
+	}
+	.pe-seg input,
+	.pe-option input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.pe-seg > span {
+		display: grid;
+		gap: 0.25rem;
+		height: 100%;
+		padding: 0.9rem 1rem;
+		border: 1.5px solid var(--sv-border);
+		border-radius: 16px;
+		background: var(--sv-surface);
+		transition:
+			border-color var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out),
+			background var(--sv-dur);
+	}
+	.pe-seg strong {
+		color: var(--sv-deep);
+		font-weight: 650;
+		line-height: 1.25;
+	}
+	.pe-seg small {
+		color: var(--sv-text-muted);
+		font-size: 0.9rem;
+		line-height: 1.4;
+	}
+	.pe-segment--compact .pe-seg > span {
+		place-items: center;
+		text-align: center;
+		padding-block: 0.8rem;
+	}
+	.pe-seg input:checked + span,
+	.pe-option input:checked + .pe-option__body {
+		border-color: var(--sv-primary);
+		background: color-mix(in oklab, var(--sv-primary) 7%, var(--sv-surface));
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--sv-primary) 16%, transparent);
+	}
+	.pe-seg input:focus-visible + span,
+	.pe-option input:focus-visible + .pe-option__body {
+		outline: 3px solid var(--sv-deep);
+		outline-offset: 2px;
+	}
+	.pe-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.6rem;
+	}
+	@media (min-width: 768px) {
+		.pe-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+	.pe-option__body {
+		display: grid;
+		gap: 0.35rem;
+		height: 100%;
+		padding: 0.85rem 0.95rem;
+		border: 1.5px solid var(--sv-border);
+		border-radius: 16px;
+		background: var(--sv-surface);
+		transition:
+			border-color var(--sv-dur) var(--sv-ease-out),
+			box-shadow var(--sv-dur) var(--sv-ease-out),
+			transform var(--sv-dur) var(--sv-ease-out);
+	}
+	.pe-option:hover .pe-option__body {
+		transform: translateY(-1px);
+		border-color: color-mix(in oklab, var(--sv-primary) 45%, var(--sv-border));
+	}
+	.pe-option__icon {
+		display: grid;
+		place-items: center;
+		inline-size: 2.2rem;
+		block-size: 2.2rem;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--sv-primary) 11%, transparent);
+		color: var(--sv-primary);
+	}
+	.pe-option input:checked + .pe-option__body .pe-option__icon {
+		background: var(--sv-primary);
+		color: #fff;
+	}
+	.pe-option__label {
+		font-weight: 650;
+		color: var(--sv-deep);
+		line-height: 1.25;
+	}
+	.pe-option__from {
+		font-size: 0.88rem;
+		color: var(--sv-text-muted);
+	}
+	.pe-result {
+		position: relative;
+		overflow: hidden;
+		padding: clamp(1.5rem, 4vw, 2.2rem);
+		border-radius: var(--sv-radius-hero);
+		background: var(--sv-gradient-deep, linear-gradient(150deg, #0b2a4e, #0e3a68));
+		color: #fff;
+		box-shadow: var(--sv-shadow-lg);
+	}
+	.pe-result::after {
+		content: "";
+		position: absolute;
+		inset: -40% -30% auto auto;
+		inline-size: 18rem;
+		block-size: 18rem;
+		border-radius: 50%;
+		background: radial-gradient(circle, color-mix(in oklab, var(--sv-secondary) 45%, transparent), transparent 70%);
+		pointer-events: none;
+	}
+	.pe-result > * {
+		position: relative;
+		z-index: 1;
+	}
+	.pe-result__eyebrow {
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: #8fd8f2;
+	}
+	.pe-result__title {
+		margin-top: 0.6rem;
+		font-size: 1.05rem;
+		font-weight: 600;
+		color: rgb(255 255 255 / 0.86);
+	}
+	.pe-result__price {
+		margin-top: 0.2rem;
+		font-family: var(--sv-font-display);
+		font-size: clamp(2.8rem, 6vw, 3.8rem);
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: -0.01em;
+		font-variant-numeric: tabular-nums;
+	}
+	.pe-result__unit {
+		margin-top: 0.5rem;
+		color: rgb(255 255 255 / 0.82);
+	}
+	.pe-result__alt,
+	.pe-result__min {
+		margin-top: 0.9rem;
+		display: inline-flex;
+		padding: 0.4rem 0.8rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.1);
+		font-size: 0.92rem;
+		font-weight: 600;
+	}
+	.pe-result__min:not([hidden]) {
+		display: flex;
+		width: fit-content;
+		margin-top: 0.5rem;
+	}
+	.pe-result__list {
+		display: grid;
+		gap: 0.55rem;
+		margin-top: 1.4rem;
+		padding-top: 1.2rem;
+		border-top: 1px solid rgb(255 255 255 / 0.15);
+	}
+	.pe-result__list :global(li) {
+		display: flex;
+		gap: 0.6rem;
+		align-items: flex-start;
+		color: rgb(255 255 255 / 0.9);
+	}
+	.pe-result__list :global(li > span) {
+		margin-top: 0.15rem;
+		color: #8fd8f2;
+		flex: none;
+	}
+	.pe-result__note {
+		margin-top: 1rem;
+		font-size: 0.85rem;
+		color: rgb(255 255 255 / 0.7);
+	}
+	/* Resumen fijo en móvil mientras se eligen las opciones (deja libre el botón de WhatsApp). */
+	.pe-mini {
+		position: sticky;
+		bottom: 14px;
+		z-index: 5;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-right: 64px;
+		padding: 0.5rem 0.5rem 0.5rem 1rem;
+		border-radius: 999px;
+		background: var(--sv-deep);
+		color: #fff;
+		box-shadow: var(--sv-shadow-lg);
+		text-decoration: none;
+	}
+	.pe-mini__label {
+		flex: 1;
+		min-width: 0;
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		font-size: 0.8rem;
+		line-height: 1.2;
+		color: rgb(255 255 255 / 0.8);
+	}
+	.pe-mini__price {
+		font-family: var(--sv-font-display);
+		font-size: 1.2rem;
+		font-weight: 600;
+	}
+	.pe-mini__go {
+		display: grid;
+		place-items: center;
+		flex: none;
+		inline-size: 2rem;
+		block-size: 2rem;
+		border-radius: 50%;
+		background: rgb(255 255 255 / 0.14);
+	}
+	/* Indicador de selección en las tarjetas de perfil. */
+	.pe-segment:not(.pe-segment--compact) .pe-seg > span {
+		position: relative;
+		padding-right: 2.75rem;
+	}
+	.pe-segment:not(.pe-segment--compact) .pe-seg > span::after {
+		content: "";
+		position: absolute;
+		top: 0.95rem;
+		right: 0.95rem;
+		inline-size: 1.25rem;
+		block-size: 1.25rem;
+		border: 2px solid var(--sv-border);
+		border-radius: 50%;
+		transition:
+			background var(--sv-dur),
+			border-color var(--sv-dur),
+			box-shadow var(--sv-dur);
+	}
+	.pe-segment:not(.pe-segment--compact) .pe-seg input:checked + span::after {
+		border-color: var(--sv-primary);
+		background: var(--sv-primary);
+		box-shadow: inset 0 0 0 3px var(--sv-surface);
+	}
+	@media (max-width: 639px) {
+		.pe-controls {
+			gap: 1.4rem;
+		}
+		.pe-seg > span {
+			padding: 0.8rem 0.95rem;
+		}
+		.pe-seg small {
+			font-size: 0.86rem;
+		}
+		/* Modalidades en móvil: ícono a la izquierda y nombre corto, dos por fila. */
+		.pe-option__body {
+			grid-template-columns: auto minmax(0, 1fr);
+			align-items: center;
+			column-gap: 0.5rem;
+			row-gap: 0.05rem;
+			padding: 0.7rem 0.65rem;
+		}
+		.pe-option__icon {
+			grid-row: span 2;
+			inline-size: 1.9rem;
+			block-size: 1.9rem;
+		}
+		.pe-option__from {
+			font-size: 0.8rem;
+			white-space: nowrap;
+		}
+		.pe-result {
+			padding: 1.5rem 1.3rem;
+		}
+	}
+
+	/* Tabla completa de tarifas */
+	.rates table {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		border-radius: calc(var(--sv-radius) * 0.75);
+		overflow: hidden;
+		box-shadow: var(--sv-shadow-sm);
+		font-variant-numeric: tabular-nums;
+		line-height: 1.4;
+	}
+	.rates :is(th, td) {
+		padding: 0.85rem 1.1rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sv-border);
+	}
+	.rates thead th {
+		vertical-align: bottom;
+		background: var(--sv-deep);
+		color: #fff;
+		font-size: 0.95rem;
+		font-weight: 650;
+	}
+	.rates tbody th {
+		font-weight: 650;
+		color: var(--sv-deep);
+	}
+	.rates td {
+		color: var(--sv-deep);
+	}
+	.rates tbody tr:nth-child(even) {
+		background: color-mix(in oklab, var(--sv-surface-alt) 60%, transparent);
+	}
+	.rates tbody tr:last-child > * {
+		border-bottom: 0;
+	}
+	.rates__toggle {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4px;
+		margin-bottom: 0.9rem;
+		padding: 4px;
+		border: 1px solid var(--sv-border);
+		border-radius: 999px;
+		background: var(--sv-surface);
+	}
+	.rates__toggle label {
+		position: relative;
+		cursor: pointer;
+	}
+	.rates__toggle input {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
+	}
+	.rates__toggle span {
+		display: grid;
+		place-items: center;
+		min-height: 44px;
+		padding: 0.45rem 0.6rem;
+		border-radius: 999px;
+		font-size: 0.93rem;
+		font-weight: 650;
+		line-height: 1.2;
+		text-align: center;
+		color: var(--sv-deep);
+		transition:
+			background var(--sv-dur),
+			color var(--sv-dur);
+	}
+	.rates__toggle input:checked + span {
+		background: var(--sv-deep);
+		color: #fff;
+	}
+	.rates__toggle input:focus-visible + span {
+		outline: 3px solid var(--sv-primary);
+		outline-offset: 2px;
+	}
+	@media (max-width: 639px) {
+		.rates :is(th, td) {
+			padding: 0.8rem 0.75rem;
+		}
+		.rates thead th {
+			font-size: 0.8rem;
+			line-height: 1.25;
+		}
+		.rates :is(thead th[data-p], td) {
+			text-align: right;
+		}
+		.rates :is(tbody th, td) {
+			white-space: nowrap;
+		}
+		.rates td {
+			font-weight: 600;
+		}
+		.rates__who {
+			display: none;
+		}
+		.rates:has(input[value="cuidadora"]:checked) [data-p="auxiliar"],
+		.rates:has(input[value="auxiliar"]:checked) [data-p="cuidadora"] {
+			display: none;
+		}
+	}
+
+	/* Las reglas del componente ganan a las utilidades de Tailwind (van en capa), así que
+	   la visibilidad y el sticky por tamaño de pantalla se declaran aquí. */
+	@media (min-width: 640px) {
+		.rates__toggle {
+			display: none;
+		}
+	}
+	@media (min-width: 1024px) {
+		.pe-mini {
+			display: none;
+		}
+		.pe-result {
+			position: sticky;
+			top: 7rem;
+			align-self: start;
+		}
+	}
+
+	.pe-bump {
+		animation: pe-bump 0.45s var(--sv-ease-out);
+	}
+	@keyframes pe-bump {
+		from {
+			opacity: 0.4;
+			transform: translateY(6px);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.pe-bump {
+			animation: none;
+		}
+	}
+</style>

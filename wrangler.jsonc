@@ -5,11 +5,13 @@
   "account_id": "104bb1d9de543f588ab0537c9d381516",
   "compatibility_date": "2026-10-02",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": true,
+  "workers_dev": false,
   "preview_urls": false,
   "assets": {
     "binding": "ASSETS",
-    "run_worker_first": true
+    // El Worker atiende todo (redirecciones, caché, EmDash) salvo los archivos estáticos con hash y
+    // las fuentes, que se sirven directo desde la red de assets con las cabeceras de public/_headers.
+    "run_worker_first": ["/*", "!/_astro/*", "!/fonts/*"]
   },
   "routes": [
     { "pattern": "sovialis.com", "custom_domain": true },
@@ -26,10 +28,16 @@
     {
       "binding": "MEDIA",
       "bucket_name": "sovialis-web-media"
+    },
+    // Sesiones de Astro/EmDash en R2 (1 M escrituras/mes gratis; KV solo admite 1.000 al día).
+    // Se llama SESSION a propósito: el adaptador de Cloudflare inyecta env.SESSION como almacén de
+    // sesiones. El bucket expira objetos a los 30 días (regla «expirar-sesiones»).
+    {
+      "binding": "SESSION",
+      "bucket_name": "sovialis-web-sessions"
     }
   ],
   "kv_namespaces": [
-    { "binding": "SESSION", "id": "dae5053ae0e34c90955aa5784c99530d" },
     { "binding": "CACHE", "id": "9eef230f0b144e8d88bde3d200062e02" }
   ],
   // Correo saliente de Cloudflare (Email Routing / Email Service). Con Email Routing solo entrega a
@@ -37,7 +45,12 @@
   "send_email": [{ "name": "EMAIL" }],
   "vars": {
     "SOVIALIS_ENV": "production",
-    "EMDASH_SITE_URL": "https://sovialis.com"
+    "EMDASH_SITE_URL": "https://sovialis.com",
+    // Cloudflare Access (panel /_emdash/admin): equipo y audiencia de la aplicación «Sovialis · Web (panel EmDash)».
+    "CF_ACCESS_TEAM_DOMAIN": "holy-king-fdc9.cloudflareaccess.com",
+    "CF_ACCESS_AUDIENCE": "cab13b1a85efeb6ae0af0d6a79d212703a56d9f1a0c907fea2e240e7b5d2ea78",
+    "ADMIN_EMAILS": "connexis.co@gmail.com,equipo.sovialis@gmail.com",
+    "ADMIN_NAMES": "connexis.co@gmail.com=JP Misat;equipo.sovialis@gmail.com=Eilin Dayanna"
   },
   // Mantenimiento de EmDash (publicaciones programadas, cron de plugins).
   "triggers": {

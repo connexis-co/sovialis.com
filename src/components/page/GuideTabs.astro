@@ -1,0 +1,173 @@
+---
+/**
+ * Convierte un Portable Text largo en una guía por pestañas: cada H2 es una pestaña y su contenido
+ * el panel. Los paneles ocultos usan hidden="until-found", así Google y la búsqueda del navegador
+ * siguen viendo todo el texto. Con menos de dos H2 se pinta como texto normal.
+ */
+import Prose from "../ui/Prose.astro";
+import SectionHead from "../ui/SectionHead.astro";
+
+interface Props {
+	value: any[];
+	eyebrow?: string;
+	title?: string;
+	highlight?: string;
+	id?: string;
+	/** En el modo de edición de EmDash se pinta el texto completo para editarlo en la página. */
+	edit?: object;
+	/** Sin sección ni contenedor propios y con las pestañas siempre en fila (para columnas angostas). */
+	bare?: boolean;
+}
+const { value, eyebrow, title, highlight, id = "guia", edit, bare = false } = Astro.props;
+const Wrapper = bare ? "div" : "section";
+const editing = Boolean(edit && Object.keys(edit).length);
+const blocks = Array.isArray(value) ? value : [];
+const textOf = (b: any) => (Array.isArray(b?.children) ? b.children.map((c: any) => c?.text ?? "").join("") : "");
+const intro: any[] = [];
+const sections: Array<{ title: string; blocks: any[] }> = [];
+for (const b of blocks) {
+	if (b?._type === "block" && b.style === "h2") sections.push({ title: textOf(b), blocks: [b] });
+	else if (sections.length) sections.at(-1)!.blocks.push(b);
+	else intro.push(b);
+}
+const asTabs = sections.length >= 2 && !editing;
+---
+
+<Wrapper class:list={[!bare && "section"]} data-block="guide">
+	<div class:list={[!bare && "container-page"]}>
+		{(eyebrow || title) && <SectionHead eyebrow={eyebrow} title={title ?? ""} highlight={highlight} />}
+		{
+			!editing && intro.length > 0 && (
+				<div class:list={["prose-sv max-w-3xl", bare ? "mb-6" : "mx-auto mt-6 text-center text-lead"]}>
+					<Prose value={intro} />
+				</div>
+			)
+		}
+		{
+			asTabs ? (
+				<div class:list={["guide", bare ? "is-horizontal" : "mt-10"]} data-tabs>
+					<div class="guide__nav" role="tablist" aria-orientation="vertical" aria-label={title || "Guía"}>
+						{sections.map((s, i) => (
+							<button type="button" role="tab" id={`${id}-t${i}`} aria-controls={`${id}-p${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="guide__tab">
+								<span class="guide__num">{String(i + 1).padStart(2, "0")}</span>
+								<span>{s.title}</span>
+							</button>
+						))}
+					</div>
+					<div class="guide__panels">
+						{sections.map((s, i) => (
+							<div role="tabpanel" id={`${id}-p${i}`} aria-labelledby={`${id}-t${i}`} hidden={i === 0 ? undefined : "until-found"} data-until-found class="guide__panel prose-sv">
+								<Prose value={s.blocks} />
+							</div>
+						))}
+					</div>
+				</div>
+			) : (
+				<article class:list={["prose-sv max-w-3xl", !bare && "mx-auto mt-8"]}>
+					<Prose value={blocks} />
+				</article>
+			)
+		}
+	</div>
+</Wrapper>
+
+<style>
+	.guide {
+		display: grid;
+		gap: 1.5rem;
+	}
+	@media (min-width: 1024px) {
+		.guide:not(.is-horizontal) {
+			grid-template-columns: 19rem 1fr;
+			gap: 2.5rem;
+			align-items: start;
+		}
+		.guide:not(.is-horizontal) .guide__nav {
+			position: sticky;
+			top: 7rem;
+			flex-direction: column;
+			overflow: visible;
+		}
+	}
+	.guide__nav {
+		display: flex;
+		gap: 8px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		padding-bottom: 4px;
+		scrollbar-width: none;
+	}
+	.guide__tab {
+		display: flex;
+		flex: none;
+		align-items: flex-start;
+		gap: 0.75rem;
+		max-width: 17rem;
+		padding: 0.85rem 1rem;
+		border: 1px solid var(--sv-border);
+		border-radius: 16px;
+		background: var(--sv-surface);
+		color: var(--sv-deep);
+		font-weight: 600;
+		font-size: 0.98rem;
+		line-height: 1.35;
+		text-align: left;
+		cursor: pointer;
+		scroll-snap-align: start;
+		transition:
+			background var(--sv-dur) var(--sv-ease-out),
+			border-color var(--sv-dur) var(--sv-ease-out),
+			color var(--sv-dur) var(--sv-ease-out);
+	}
+	@media (min-width: 1024px) {
+		.guide:not(.is-horizontal) .guide__tab {
+			max-width: none;
+		}
+	}
+	.guide.is-horizontal .guide__nav {
+		flex-wrap: nowrap;
+	}
+	.guide__tab:hover {
+		border-color: color-mix(in oklab, var(--sv-primary) 40%, var(--sv-border));
+	}
+	.guide__tab[aria-selected="true"] {
+		background: var(--sv-deep);
+		border-color: var(--sv-deep);
+		color: #fff;
+	}
+	.guide__num {
+		flex: none;
+		font-family: var(--sv-font-display);
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--sv-secondary);
+		padding-top: 0.1rem;
+	}
+	.guide__panel {
+		padding: clamp(1.4rem, 4vw, 2.6rem);
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		border-radius: var(--sv-radius-hero);
+		box-shadow: var(--sv-shadow-md);
+	}
+	.guide__panel:not([hidden]) {
+		animation: sv-fade-up var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.guide__panel :global(h2:first-child) {
+		margin-top: 0;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+	}
+	.guide__panel :global(ul) {
+		display: grid;
+		gap: 0.5rem;
+	}
+	@media (min-width: 768px) {
+		.guide__panel :global(ul:has(> li:nth-child(4))) {
+			grid-template-columns: 1fr 1fr;
+			column-gap: 1.5rem;
+		}
+	}
+	.guide__panel :global(ul > li + li) {
+		margin-top: 0;
+	}
+</style>

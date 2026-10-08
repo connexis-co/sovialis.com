@@ -1,0 +1,104 @@
+---
+/** Servicios (automático desde la colección): tarjetas con foto o lista compacta. */
+import Img from "../ui/Img.astro";
+import SectionHead from "../ui/SectionHead.astro";
+import { icon } from "../../lib/icons";
+import { HUBS, ROUTES } from "../../lib/routes";
+import { formatCOP, getCatalog } from "../../lib/site";
+
+interface Props {
+	value: Record<string, any>;
+	exclude?: string;
+}
+const { value: v, exclude } = Astro.props;
+const { services } = await getCatalog();
+let items = services.filter((s) => s.slug !== exclude);
+if (v.mode === "destacados") items = items.filter((s) => s.featured);
+if (v.limit) items = items.slice(0, v.limit);
+const compact = v.style === "lista-compacta";
+// Tarjetas con foto: en móvil, carrusel deslizable (9 tarjetas apiladas eran ~4.000 px); desde sm, cuadrícula.
+---
+
+<section class="section" data-block="services">
+	<div class="container-page">
+		<SectionHead eyebrow={v.eyebrow} title={v.title} highlight={v.highlight} subtitle={v.subtitle} />
+		{
+			compact ? (
+				<ul class="mx-auto mt-12 grid max-w-5xl gap-3 sm:grid-cols-2">
+					{items.map((s) => (
+						<li class="reveal">
+							<a href={ROUTES.services(s.slug)} class="card group flex items-center gap-4 p-4 transition hover:-translate-y-0.5 hover:shadow-lift">
+								<span class="grid size-12 flex-none place-items-center rounded-2xl bg-mist text-primary" set:html={icon(s.icon, "size-6")} />
+								<span class="flex-1">
+									<strong class="block font-semibold text-deep">{s.shortTitle}</strong>
+									{s.priceFrom ? <span class="text-muted">desde {formatCOP(s.priceFrom)} {s.priceUnit}</span> : <span class="text-muted">{s.excerpt.slice(0, 70)}</span>}
+								</span>
+								<Fragment set:html={icon("chevron-derecha", "size-5 text-primary transition group-hover:translate-x-1")} />
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<ul class="-mx-4 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3">
+					{items.map((s, i) => (
+						<li class="reveal w-[82%] flex-none snap-start sm:w-auto">
+							<a href={ROUTES.services(s.slug)} class="service-card group">
+								<div class="relative overflow-hidden">
+									{s.image ? (
+										<Img image={s.image as never} class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-[1.04]" loading="lazy" sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 80vw" />
+									) : (
+										<div class="aspect-[3/2] w-full bg-mist" />
+									)}
+									<span class="absolute top-4 left-4 grid size-11 place-items-center rounded-full bg-surface/95 text-primary shadow-soft" set:html={icon(s.icon, "size-5")} />
+								</div>
+								<div class="flex flex-1 flex-col p-6">
+									<h3 class="font-display text-h3 text-deep">{s.shortTitle}</h3>
+									<p class="mt-2 flex-1 text-muted">{s.excerpt}</p>
+									<div class="mt-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-3 border-t border-line pt-4">
+										{s.priceFrom ? (
+											<p class="leading-tight">
+												<span class="block text-sm text-muted">desde</span>
+												<strong class="text-xl text-deep">{formatCOP(s.priceFrom)}</strong>
+												<span class="block text-sm text-muted">{s.priceUnit}</span>
+											</p>
+										) : (
+											<span />
+										)}
+										<span class="link-arrow whitespace-nowrap">
+											Ver servicio <Fragment set:html={icon("flecha-derecha", "size-4")} />
+										</span>
+									</div>
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+		<p class="mt-10 text-center">
+			<a href={HUBS.services} class="link-arrow text-lg">Ver todos los servicios <Fragment set:html={icon("flecha-derecha", "size-5")} /></a>
+		</p>
+	</div>
+</section>
+
+<style>
+	.service-card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
+		border-radius: var(--sv-radius);
+		background: var(--sv-surface);
+		border: 1px solid var(--sv-border);
+		box-shadow: var(--sv-shadow-sm);
+		text-decoration: none;
+		transition:
+			transform var(--sv-dur-reveal) var(--sv-ease-out),
+			box-shadow var(--sv-dur-reveal) var(--sv-ease-out);
+	}
+	.service-card:hover,
+	.service-card:focus-visible {
+		transform: translateY(calc(-4px * var(--sv-motion)));
+		box-shadow: var(--sv-shadow-md);
+	}
+</style>

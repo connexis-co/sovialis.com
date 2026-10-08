@@ -1,0 +1,99 @@
+---
+/**
+ * Estrellas votables en línea para cabeceras (servicios, zonas). Muestra el promedio real del plugin
+ * sovialis-ratings y deja votar de 1 a 5; el agregado de servicios alimenta el Product del JSON-LD
+ * cuando alcanza el mínimo configurado. Las zonas no emiten aggregateRating para Google.
+ */
+import { getPluginSetting } from "emdash";
+import { icon } from "../../lib/icons";
+
+interface Props {
+	target: string;
+	label?: string;
+	class?: string;
+}
+const { target, label = "Califica este servicio", class: className } = Astro.props;
+const agg = await getPluginSetting<{ average: number; count: number }>("sovialis-ratings", `agg:${target}`).catch(() => undefined);
+const count = agg?.count ?? 0;
+const average = agg?.average ?? 0;
+const fmt = (n: number) => n.toLocaleString("es-CO", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const summary = count ? `${fmt(average)} de 5 · ${count} ${count === 1 ? "valoración" : "valoraciones"}` : label;
+const filled = Math.round(average);
+---
+
+<div class:list={["star-inline", className]} data-rating={target} id="calificar">
+	<div class="star-inline__stars" role="group" aria-label={`${label}: elige de 1 a 5 estrellas`}>
+		{
+			Array.from({ length: 5 }, (_, i) => (
+				<button type="button" class:list={["star-inline__btn", i < filled && "is-avg"]} data-star={i + 1} aria-pressed="false" aria-label={`${i + 1} ${i ? "estrellas" : "estrella"}`}>
+					<Fragment set:html={icon("estrella", "size-[1.35rem]")} />
+				</button>
+			))
+		}
+	</div>
+	<p class="star-inline__text">
+		<span data-rating-summary>{summary}</span>
+		<span class="star-inline__msg" data-rating-message aria-live="polite"></span>
+	</p>
+</div>
+
+<style>
+	.star-inline {
+		scroll-margin-top: calc(var(--sv-header-h) + 24px);
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 6px 12px;
+	}
+	.star-inline__stars {
+		display: flex;
+		gap: 1px;
+	}
+	.star-inline__btn {
+		display: grid;
+		place-items: center;
+		inline-size: 30px;
+		block-size: 30px;
+		border-radius: 8px;
+		color: color-mix(in oklab, #e8a33d 32%, var(--sv-border));
+		cursor: pointer;
+		transition:
+			color var(--sv-dur) var(--sv-ease-out),
+			transform var(--sv-dur) var(--sv-ease-out);
+	}
+	.star-inline__btn :global(svg) {
+		fill: currentColor;
+	}
+	.star-inline__btn.is-avg {
+		color: #e8a33d;
+	}
+	/* Vista previa al pasar el mouse y voto propio. */
+	.star-inline__stars:hover .star-inline__btn {
+		color: #e8a33d;
+	}
+	.star-inline__stars .star-inline__btn:hover ~ .star-inline__btn {
+		color: color-mix(in oklab, #e8a33d 32%, var(--sv-border));
+	}
+	.star-inline__stars:has([aria-pressed="true"]) .star-inline__btn {
+		color: color-mix(in oklab, #e8a33d 32%, var(--sv-border));
+	}
+	.star-inline__stars:has([aria-pressed="true"]) .star-inline__btn[aria-pressed="true"] {
+		color: #e8a33d;
+	}
+	.star-inline__btn:hover {
+		transform: scale(1.15);
+	}
+	.star-inline__btn:focus-visible {
+		outline: 2px solid var(--sv-primary);
+		outline-offset: 1px;
+	}
+	.star-inline__text {
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--sv-text-muted);
+	}
+	.star-inline__msg:not(:empty) {
+		margin-inline-start: 6px;
+		color: var(--sv-primary);
+	}
+</style>

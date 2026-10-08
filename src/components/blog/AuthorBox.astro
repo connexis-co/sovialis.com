@@ -1,0 +1,24 @@
+---
+/** Caja de autor / revisión editorial (E-E-A-T). */
+import { ROUTES } from "../../lib/routes";
+interface Props {
+	byline: { displayName?: string; slug?: string; bio?: string | null } | null | undefined;
+	updated?: Date | string | null;
+}
+const { byline, updated } = Astro.props;
+if (!byline?.displayName) return null;
+const date = updated ? new Date(updated).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Bogota" }) : null;
+const initials = byline.displayName.split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("");
+---
+
+<aside class="flex gap-5 rounded-card border border-line bg-surface p-6" aria-label="Sobre el autor">
+	<span class="grid size-16 flex-none place-items-center rounded-full bg-primary font-display text-xl text-white">{initials}</span>
+	<div>
+		<p class="text-sm font-bold tracking-wider text-muted uppercase">Escrito por</p>
+		<p class="mt-1 font-display text-xl text-deep">
+			{byline.slug ? <a href={ROUTES.author(byline.slug)} class="hover:underline">{byline.displayName}</a> : byline.displayName}
+		</p>
+		{byline.bio && <p class="mt-2 text-muted">{byline.bio}</p>}
+		{date && <p class="mt-2 text-sm text-muted">Última revisión: {date}</p>}
+	</div>
+</aside>

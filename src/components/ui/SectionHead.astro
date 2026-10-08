@@ -1,0 +1,36 @@
+---
+/** Encabezado de sección: antetítulo, título con palabras destacadas y subtítulo. */
+interface Props {
+	eyebrow?: string | null;
+	title?: string | null;
+	highlight?: string | null;
+	subtitle?: string | null;
+	align?: "left" | "center";
+	as?: "h1" | "h2" | "h3";
+	dark?: boolean;
+	class?: string;
+	id?: string;
+}
+const { eyebrow, title, highlight, subtitle, align = "center", as: Tag = "h2", dark = false, class: className, id } = Astro.props;
+if (!title && !eyebrow) return null;
+
+/** Envuelve en <span class="hl"> la primera aparición de las palabras destacadas (sin HTML del editor). */
+function withHighlight(text: string, hl?: string | null): string {
+	const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+	if (!hl) return esc(text);
+	const i = text.toLowerCase().indexOf(hl.toLowerCase());
+	if (i < 0) return esc(text);
+	return `${esc(text.slice(0, i))}<span class="hl">${esc(text.slice(i, i + hl.length))}</span>${esc(text.slice(i + hl.length))}`;
+}
+const html = title ? withHighlight(title, highlight) : "";
+---
+
+<div class:list={["max-w-3xl", align === "center" ? "mx-auto text-center" : "", dark ? "on-dark text-white" : "on-light", className]}>
+	{eyebrow && <p class="eyebrow">{eyebrow}</p>}
+	{
+		title && (
+			<Tag id={id} class:list={["mt-3 text-h2 text-balance", Tag === "h1" && "text-h1", dark ? "text-white" : "text-deep"]} set:html={html} />
+		)
+	}
+	{subtitle && <p class:list={["mt-4 text-lead", dark ? "text-white/80" : "text-muted"]}>{subtitle}</p>}
+</div>

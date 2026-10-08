@@ -1,0 +1,41 @@
+---
+/** Inicio: entrada «inicio» de la colección Páginas (secciones editables). */
+import { getEmDashEntry } from "emdash";
+import Base from "../layouts/Base.astro";
+import Blocks from "../components/blocks/Blocks.astro";
+import Faq from "../components/blocks/Faq.astro";
+import { HOME_SLUG } from "../lib/routes";
+import { mediaUrl } from "../lib/site";
+import { heroPreload } from "../lib/images";
+
+const { entry, cacheHint } = await getEmDashEntry("pages", HOME_SLUG);
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const d = (entry?.data ?? {}) as Record<string, any>;
+const hasFaqBlock = Array.isArray(d.layout) && d.layout.some((b: any) => b._type === "faq");
+const hero = Array.isArray(d.layout) && d.layout[0]?._type === "hero" ? d.layout[0] : undefined;
+const heroImage = mediaUrl(hero?.image);
+---
+
+<Base
+	title={d.title || "Cuidado del adulto mayor a domicilio en Bogotá"}
+	description={d.summary}
+	pageType="website"
+	content={entry ? { collection: "pages", id: d.id, slug: HOME_SLUG } : undefined}
+	breadcrumbs={[]}
+	preloadImage={heroPreload(hero)}
+	image={heroImage}
+>
+	{
+		entry ? (
+			<>
+				<Blocks blocks={d.layout} edit={entry.edit.layout} />
+				{!hasFaqBlock && d.faqs?.length > 0 && <Faq value={{ title: "Preguntas frecuentes", items: d.faqs }} index={99} edit={entry.edit.faqs} />}
+			</>
+		) : (
+			<section class="container-page py-24 text-center">
+				<h1 class="font-display text-h1 text-deep">Sovialis · Vínculos que protegen</h1>
+				<p class="mt-4 text-lead text-muted">Estamos preparando el contenido de esta página.</p>
+			</section>
+		)
+	}
+</Base>

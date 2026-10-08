@@ -1,0 +1,122 @@
+---
+/** Landing de zona: contenido local único, lugares de referencia, servicios, mapa y FAQ. */
+import { getEmDashEntry } from "emdash";
+import GuideTabs from "../../components/page/GuideTabs.astro";
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
+import Hero from "../../components/blocks/Hero.astro";
+import Blocks from "../../components/blocks/Blocks.astro";
+import Faq from "../../components/blocks/Faq.astro";
+import ServicesGrid from "../../components/blocks/ServicesGrid.astro";
+import ZonesGrid from "../../components/blocks/ZonesGrid.astro";
+import RelatedGuides from "../../components/blog/RelatedGuides.astro";
+import ClosingCta from "../../components/page/ClosingCta.astro";
+import ZoneFacts from "../../components/page/ZoneFacts.astro";
+import { icon } from "../../lib/icons";
+import { getCatalog, mediaUrl } from "../../lib/site";
+import { heroPreload } from "../../lib/images";
+
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/zonas/", 301);
+const { entry, cacheHint } = await getEmDashEntry("zones", slug);
+if (!entry) return Astro.rewrite("/404/");
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+const d = entry.data as Record<string, any>;
+const { zones, services } = await getCatalog();
+const name = d.short_title || d.title;
+const parent = d.parent ? zones.find((z) => z.slug === d.parent) : null;
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Zonas", url: "/zonas/" },
+	...(parent ? [{ name: parent.shortTitle, url: parent.url }] : []),
+	{ name, url: `/zonas/${slug}/` },
+];
+const children = zones.filter((z) => z.parent === slug);
+const landmarks: any[] = Array.isArray(d.landmarks) ? d.landmarks : [];
+const kindIcon: Record<string, string> = { clinica: "hospital", hospital: "hospital", parque: "sol", "centro-comercial": "casa", otro: "ubicacion" };
+const heroValue = {
+	variant: "dividido",
+	eyebrow: parent ? `${parent.shortTitle} · Bogotá` : d.kind === "municipio" ? "Sabana Norte" : "Bogotá",
+	title: d.title,
+	subtitle: d.excerpt,
+	// Respaldo mientras una zona nueva no tiene foto propia: la de su zona padre o una genérica.
+	image: d.hero_image ?? parent?.image ?? services.find((s) => s.slug === "cuidado-por-horas")?.image,
+	image_side: d.hero_image_side,
+	title_size: "h1",
+	primary_label: "Escríbenos por WhatsApp",
+	primary_action: "whatsapp",
+	secondary_label: "Confirmar cobertura",
+	secondary_action: "cotizar",
+	badges: ["Personas verificadas", "Relevos coordinados", "Cobertura confirmada antes de empezar"].join("\n"),
+};
+---
+
+<Base
+	preloadImage={heroPreload(heroValue)}
+	title={d.seo?.title || d.title}
+	description={d.seo?.description || d.excerpt}
+	image={mediaUrl(d.hero_image)}
+	pageType="zone"
+	content={{ collection: "zones", id: d.id, slug }}
+	breadcrumbs={crumbs}
+	quoteZone={name}
+	robots={d.seo?.noIndex ? "noindex,follow" : undefined}
+>
+	<div class="bg-sand">
+		<div class="container-page pt-6"><Breadcrumbs items={crumbs} /></div>
+	</div>
+	<Hero value={heroValue} index={0} context={{ zone: name, rating: `zones:${d.id}`, ratingLabel: "Califica nuestro servicio en esta zona" }} edit={{ title: entry.edit.title, subtitle: entry.edit.excerpt, image: entry.edit.hero_image }} />
+	<ZoneFacts name={name} neighborhoods={d.neighborhoods} landmarks={landmarks} edit={{ neighborhoods: entry.edit.neighborhoods, landmarks: entry.edit.landmarks }} />
+	{
+		(d.intro?.length > 0 || landmarks.length > 0) && (
+			<section class="section">
+				<div class="container-page grid gap-12 lg:grid-cols-[1fr_22rem]">
+					<div class="min-w-0">{d.intro?.length > 0 && <GuideTabs value={d.intro} id={`zona-${slug}`} edit={entry.edit.intro} bare />}</div>
+					{landmarks.length > 0 && (
+						<aside {...entry.edit.landmarks}>
+							<div class="rounded-card border border-line bg-surface p-6 shadow-soft lg:sticky lg:top-28">
+								<h2 class="font-display text-xl text-deep">Clínicas y lugares de referencia en {name}</h2>
+								<ul class="mt-4 grid gap-4">
+									{landmarks.map((l) => (
+										<li class="flex gap-3">
+											<span class="grid size-10 flex-none place-items-center rounded-full bg-mist text-primary" set:html={icon(kindIcon[l.kind] ?? "ubicacion", "size-5")} />
+											<span>
+												<strong class="block font-semibold text-deep">{l.name}</strong>
+												{l.note && <span class="text-[0.95rem] text-muted">{l.note}</span>}
+											</span>
+										</li>
+									))}
+								</ul>
+							</div>
+						</aside>
+					)}
+				</div>
+			</section>
+		)
+	}
+	{
+		children.length > 0 && (
+			<section class="section-tight bg-mist">
+				<div class="container-page">
+					<h2 class="font-display text-h3 text-deep">Barrios de {name} con página propia</h2>
+					<ul class="mt-5 flex flex-wrap gap-3">
+						{children.map((z) => (
+							<li>
+								<a href={z.url} class="chip !bg-surface hover:!border-primary">
+									<span class="text-primary" set:html={icon("ubicacion", "size-4")} />
+									{z.shortTitle}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+	<Blocks blocks={d.layout} offset={1} context={{ zone: name }} edit={entry.edit.layout} />
+	<ServicesGrid value={{ eyebrow: `Servicios en ${name}`, title: `Cuidado del adulto mayor en ${name}`, highlight: name, mode: "destacados", limit: 6 }} />
+	<ZonesGrid value={{ eyebrow: "Cobertura", title: "Zonas cercanas donde también cuidamos", subtitle: "Confirmamos la cobertura de tu dirección antes de empezar." }} index={60} active={slug} />
+	{d.faqs?.length > 0 && <Faq value={{ eyebrow: "Preguntas frecuentes", title: `Cuidado en ${name}: dudas frecuentes`, items: d.faqs }} index={70} edit={entry.edit.faqs} />}
+	<RelatedGuides seed={String(slug)} title="Guías para familias que cuidan en casa" />
+	<ClosingCta zone={name} title={`¿Buscas cuidado para tu familiar en ${name}?`} />
+</Base>

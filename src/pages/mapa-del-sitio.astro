@@ -1,0 +1,190 @@
+---
+/**
+ * Mapa del sitio en HTML: todas las páginas públicas e indexables, agrupadas como las ve una
+ * persona (páginas principales, servicios, zonas por localidad, guías por categoría y legales).
+ * Complementa el sitemap XML y refuerza el enlazado interno.
+ */
+import { getEmDashCollection, getTaxonomyTerms } from "emdash";
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/page/PageHeader.astro";
+import { icon } from "../lib/icons";
+import { HOME_SLUG, ROUTES } from "../lib/routes";
+import { getCatalog } from "../lib/site";
+
+const [{ services, zones }, { entries: pages }, { entries: posts }, categories] = await Promise.all([
+	getCatalog(),
+	getEmDashCollection("pages", { status: "published", limit: 100 }),
+	getEmDashCollection("posts", { status: "published", limit: 200, orderBy: { published_at: "desc" } }),
+	getTaxonomyTerms("category").catch(() => [] as any[]),
+]);
+const visible = (pages as any[]).filter((p) => !p.data?.seo?.noIndex && p.slug !== "gracias");
+const legal = visible.filter((p) => /politica|terminos|cookies/.test(p.slug));
+const main = visible.filter((p) => !legal.includes(p));
+const ORDER = [HOME_SLUG, "servicios", "precios", "como-funciona", "zonas", "nosotros", "blog", "trabaja-con-nosotros", "contacto"];
+main.sort((a, b) => (ORDER.indexOf(a.slug) + 1 || 99) - (ORDER.indexOf(b.slug) + 1 || 99));
+// Nombres como en el menú; las demás páginas usan su título.
+const NAMES: Record<string, string> = {
+	[HOME_SLUG]: "Inicio",
+	servicios: "Servicios",
+	precios: "Precios",
+	"como-funciona": "Cómo funciona",
+	zonas: "Zonas de cobertura",
+	nosotros: "Nosotros",
+	blog: "Guías para familias",
+	"trabaja-con-nosotros": "Trabaja con nosotros",
+	contacto: "Contacto",
+};
+const pageTitle = (p: any) => NAMES[p.slug] ?? String(p.data?.title ?? p.slug);
+
+// Zonas: cada localidad con sus barrios o sectores debajo.
+const roots = zones.filter((z) => !z.parent || !zones.some((x) => x.slug === z.parent));
+const childrenOf = (slug: string) => zones.filter((z) => z.parent === slug);
+
+// Guías por categoría (las sin categoría al final).
+const catOf = (p: any) => (p.data?.terms?.category?.[0]?.slug as string | undefined) ?? (p.terms?.category?.[0]?.slug as string | undefined);
+const groups = (categories as any[]).map((c) => ({ label: c.label as string, slug: c.slug as string, items: (posts as any[]).filter((p) => catOf(p) === c.slug) }));
+const loose = (posts as any[]).filter((p) => !groups.some((g) => g.slug === catOf(p)));
+if (loose.length) groups.push({ label: "Otras guías", slug: "", items: loose });
+
+const crumbs = [
+	{ name: "Inicio", url: "/" },
+	{ name: "Mapa del sitio", url: "/mapa-del-sitio/" },
+];
+---
+
+<Base
+	title="Mapa del sitio: servicios, zonas y guías"
+	description="Todas las páginas de Sovialis en un solo lugar: servicios de cuidado del adulto mayor, zonas de Bogotá donde atendemos, precios y guías para familias."
+	pageType="webpage"
+	breadcrumbs={crumbs}
+>
+	<PageHeader title="Mapa del sitio" summary="Todas las páginas de Sovialis en un solo lugar: servicios, zonas de cobertura, precios y guías para familias." crumbs={crumbs} eyebrow="Sovialis" />
+	<section class="section">
+		<div class="container-page grid gap-10 lg:grid-cols-3">
+			<nav aria-labelledby="sm-principal" class="sm-card">
+				<h2 id="sm-principal" class="sm-title"><span set:html={icon("casa", "size-5")} /> Páginas principales</h2>
+				<ul class="sm-list">
+					{main.map((p) => <li><a href={ROUTES.pages(p.slug)}>{pageTitle(p)}</a></li>)}
+				</ul>
+				<h2 class="sm-title mt-8"><span set:html={icon("documento", "size-5")} /> Información legal</h2>
+				<ul class="sm-list">
+					{legal.map((p) => <li><a href={ROUTES.pages(p.slug)}>{pageTitle(p)}</a></li>)}
+				</ul>
+			</nav>
+
+			<nav aria-labelledby="sm-servicios" class="sm-card">
+				<h2 id="sm-servicios" class="sm-title"><span set:html={icon("corazon", "size-5")} /> Servicios</h2>
+				<ul class="sm-list">
+					{services.map((s) => <li><a href={s.url}>{s.title}</a></li>)}
+				</ul>
+				<h2 class="sm-title mt-8"><span set:html={icon("ubicacion", "size-5")} /> Zonas de cobertura</h2>
+				<ul class="sm-list">
+					{
+						roots.map((z) => (
+							<li>
+								<a href={z.url}>{z.title}</a>
+								{childrenOf(z.slug).length > 0 && (
+									<ul class="sm-sub">
+										{childrenOf(z.slug).map((c) => (
+											<li>
+												<a href={c.url}>{c.title}</a>
+											</li>
+										))}
+									</ul>
+								)}
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+
+			<nav aria-labelledby="sm-guias" class="sm-card">
+				<h2 id="sm-guias" class="sm-title"><span set:html={icon("lista", "size-5")} /> Guías para familias</h2>
+				{
+					groups
+						.filter((g) => g.items.length)
+						.map((g) => (
+							<div class="mt-4 first-of-type:mt-0">
+								<p class="sm-group">{g.label}</p>
+								<ul class="sm-list">
+									{g.items.map((p: any) => (
+										<li>
+											<a href={ROUTES.posts(p.slug)}>{p.data?.title}</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						))
+				}
+			</nav>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.sm-card {
+		padding: clamp(1.3rem, 3vw, 1.8rem);
+		border: 1px solid var(--sv-border);
+		border-radius: var(--sv-radius);
+		background: var(--sv-surface);
+		box-shadow: var(--sv-shadow-sm);
+	}
+	.sm-title {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: var(--sv-font-display);
+		font-size: 1.3rem;
+		font-weight: 500;
+		color: var(--sv-deep);
+	}
+	.sm-title > span {
+		display: grid;
+		place-items: center;
+		inline-size: 2.3rem;
+		block-size: 2.3rem;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--sv-primary) 11%, transparent);
+		color: var(--sv-primary);
+	}
+	.sm-group {
+		display: inline-block;
+		margin-bottom: 0.2rem;
+		font-size: 0.82rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--sv-primary);
+	}
+	.sm-list {
+		display: grid;
+		gap: 0.15rem;
+		margin-top: 0.7rem;
+	}
+	.sm-list a {
+		display: inline-block;
+		padding: 0.3rem 0;
+		color: var(--sv-deep);
+		font-weight: 600;
+		line-height: 1.35;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-underline-offset: 4px;
+		transition: text-decoration-color var(--sv-dur);
+	}
+	.sm-list a:hover {
+		text-decoration-color: var(--sv-primary);
+		color: var(--sv-primary);
+	}
+	.sm-sub {
+		display: grid;
+		gap: 0.1rem;
+		margin: 0.1rem 0 0.4rem 1rem;
+		padding-left: 0.9rem;
+		border-left: 2px solid var(--sv-border);
+	}
+	.sm-sub a {
+		font-weight: 500;
+		font-size: 0.97rem;
+	}
+</style>
