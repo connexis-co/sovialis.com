@@ -65,20 +65,20 @@ function BusinessTab({ s, set }: { s: SeoSettings; set: (s: SeoSettings) => void
 					<textarea value={b.sameAs.join("\n")} onChange={(e) => up("sameAs", lines(e.target.value))} />
 				</label>
 			</div>
-			<h2 style={{ marginTop: 18 }}>Valoraciones del blog</h2>
+			<h2 style={{ marginTop: 18 }}>Valoraciones y servicios</h2>
 			<label className="check">
 				<input type="checkbox" checked={s.ratingsInSchema} onChange={(e) => set({ ...s, ratingsInSchema: e.target.checked })} />
-				Incluir el promedio real de estrellas (aggregateRating) en servicios, zonas y guías
+				Incluir el promedio de valoraciones de servicios en Product (aggregateRating)
 			</label>
 			<label className="check">
 				<input type="checkbox" checked={s.productSchema} onChange={(e) => set({ ...s, productSchema: e.target.checked })} />
-				Marcar cada servicio también como Product (precio desde, disponible y estrellas en Google)
+				Marcar cada servicio también como Product (precio desde y valoraciones disponibles)
 			</label>
 			<label style={{ maxWidth: 260, marginTop: 10 }}>
 				Mínimo de votos para publicarlo
 				<input type="number" min={1} max={100} value={s.ratingsMinVotes} onChange={(e) => set({ ...s, ratingsMinVotes: Number(e.target.value) })} />
 			</label>
-			<p className="hint">Nunca se agregan reseñas propias al negocio (LocalBusiness): Google no las admite.</p>
+			<p className="hint">Google no admite Service ni BlogPosting para fragmentos de reseñas. Las estrellas de zonas y guías se muestran en el sitio sin ese marcado. Tampoco se agregan reseñas propias al negocio (LocalBusiness). Google decide si muestra un resultado enriquecido.</p>
 		</section>
 	);
 }

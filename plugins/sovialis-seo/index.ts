@@ -1,7 +1,7 @@
 /**
  * sovialis-seo — Lo esencial de Rank Math, adaptado a EmDash:
  *  - Grafo JSON-LD por página (Organization, LocalBusiness, WebSite, WebPage, BreadcrumbList, Service con
- *    precios, FAQPage, BlogPosting con valoraciones, ProfilePage) vía `page:metadata`.
+ *    precios, Product con valoraciones, FAQPage, BlogPosting, ProfilePage) vía `page:metadata`.
  *  - Ajustes de la entidad del negocio (NAP, horario, zonas, perfiles) editables en el panel.
  *  - robots.txt para buscadores e IA, llms.txt / llms-full.txt y sitemaps (los sirve el tema con estos datos).
  *  - IndexNow (Bing, Yandex, Seznam…) al publicar, y envío manual de todas las URLs.
@@ -57,8 +57,8 @@ export function createPlugin() {
 					const by = data.byline as { displayName?: string; slug?: string; bio?: string | null } | null;
 					if (by?.slug) author = { name: by.displayName ?? "Sovialis", slug: by.slug, bio: by.bio, isTeam: by.slug === "equipo-sovialis" };
 				}
-				// Valoraciones reales de los visitantes (plugin sovialis-ratings), solo con el mínimo de votos configurado.
-				if (settings.ratingsInSchema && data?.id && collection && ["posts", "services", "zones", "pages"].includes(collection)) {
+				// Solo Product recibe aggregateRating: Service y BlogPosting generan errores de reseñas en Google.
+				if (settings.ratingsInSchema && settings.productSchema && data?.id && collection === "services") {
 					const agg = await getPluginSetting<{ average: number; count: number }>("sovialis-ratings", `agg:${collection}:${data.id}`).catch(() => undefined);
 					if (agg && agg.count >= settings.ratingsMinVotes) rating = { average: agg.average, count: agg.count };
 				}

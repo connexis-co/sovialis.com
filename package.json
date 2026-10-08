@@ -28,7 +28,9 @@
     "content:validate": "node scripts/validate-content.mjs",
     "schema:sync": "node scripts/sync-schema.mjs",
     "map:build": "node scripts/build-map.mjs",
-    "og:build": "node scripts/build-og.mjs"
+    "og:build": "node scripts/build-og.mjs",
+    "gsc:audit": "node scripts/audit-search-console.mjs",
+    "test:seo": "node --experimental-strip-types --test scripts/tests/seo-schema.test.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.3.3",

@@ -162,7 +162,11 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 		};
 	}
 
-	const aggregateRating = input.rating
+	// Google admite reseñas de Product; Service y BlogPosting no son tipos elegibles.
+	// Los votos siguen visibles en el sitio, pero no deben crear fragmentos inválidos.
+	const validRating = input.rating && Number.isInteger(input.rating.count) && input.rating.count > 0
+		&& Number.isFinite(input.rating.average) && input.rating.average >= 1 && input.rating.average <= 5;
+	const aggregateRating = validRating && input.rating
 		? { "@type": "AggregateRating", ratingValue: Math.round(input.rating.average * 10) / 10, ratingCount: input.rating.count, bestRating: 5, worstRating: 1 }
 		: undefined;
 	// Foto real primero (Google prefiere fotos sin texto) y la tarjeta OG de la página como segunda.
@@ -200,7 +204,6 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 						seller: { "@id": ORG },
 					}
 				: undefined,
-			aggregateRating,
 		});
 		webPage.mainEntity = { "@id": `${url}#service` };
 		// schema.org define Product como «cualquier producto o servicio ofrecido»: con precio, disponibilidad
@@ -254,7 +257,6 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 			provider: { "@id": LB },
 			areaServed: place,
 			url,
-			aggregateRating,
 		});
 		webPage.about = place;
 	}
@@ -284,7 +286,6 @@ export function buildGraph(input: GraphInput): Record<string, unknown> {
 			articleSection: data.terms?.category?.[0]?.label ?? undefined,
 			keywords: Array.isArray(data.terms?.tag) ? data.terms.tag.map((t: any) => t.label).join(", ") : undefined,
 			wordCount: words > 50 ? words : undefined,
-			aggregateRating,
 		});
 	}
 

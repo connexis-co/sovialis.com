@@ -34,7 +34,7 @@ src/            Tema: layouts, componentes, bloques, páginas, rutas y worker
 | `sovialis-leads` | Leads | Formularios → almacenamiento, aviso por correo, estados, exportar CSV, Turnstile opcional |
 | `sovialis-seo` | SEO | Grafo JSON-LD, sitemaps con imágenes, robots.txt, llms.txt, IndexNow y registro de 404 |
 | `sovialis-analytics` | Ajustes | GTM, GA4, Clarity, Meta Pixel con Consent Mode v2 y aviso de cookies |
-| `sovialis-ratings` | — | Estrellas en las guías del blog (alimentan `aggregateRating`) |
+| `sovialis-ratings` | — | Estrellas visibles en servicios, zonas y guías; solo los servicios alimentan `Product.aggregateRating` |
 | `sovialis-email` | Ajustes | Proveedor de correo de EmDash sobre `send_email` |
 
 Los comentarios del blog son los nativos de EmDash (`/_emdash/api/comments/...`).
@@ -83,6 +83,8 @@ SYNC_URL=https://sovialis.com npm run schema:sync
 
 - `npm run map:build`: regenera `src/data/bogota-map.json` (límites de localidades y avenidas de OpenStreetMap).
 - `npm run sitemap:submit`: envía el sitemap y las URLs a Bing Webmaster (y a Search Console si la service account tiene acceso).
+- `npm run gsc:audit`: inspecciona las URLs del sitemap en Search Console y compara el marcado indexado con el HTML actual. Usa `GSC_SERVICE_ACCOUNT` o `~/.config/connexis/connexis-sa.json`; la cuenta debe tener acceso a `sc-domain:sovialis.com`. `-- --submit-sitemap` envía el sitemap y `-- --output /ruta/informe.json` guarda el informe sin credenciales. La API de inspección devuelve el último rastreo de Google, no una validación en vivo ni una solicitud de indexación.
+- `npm run test:seo`: pruebas de regresión del grafo JSON-LD. El promedio se publica solo en Product y nunca en Service, BlogPosting, Organization ni LocalBusiness. Los widgets visibles permanecen disponibles.
 - IndexNow: la clave está en el plugin SEO y se sirve en `/<clave>.txt`; «Enviar todas las URLs» en el panel → SEO.
 
 ## Despliegue

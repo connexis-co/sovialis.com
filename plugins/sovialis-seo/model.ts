@@ -33,8 +33,9 @@ export interface BusinessSettings {
 
 export interface SeoSettings {
 	business: BusinessSettings;
+	/** Promedio de los servicios, solo en el nodo Product elegible para Google. */
 	ratingsInSchema: boolean;
-	/** Además de Service, marca cada servicio como Product (schema.org: «cualquier producto o servicio ofrecido»): precio desde, disponibilidad y estrellas reales en Google. */
+	/** Además de Service, marca cada servicio como Product (schema.org: «cualquier producto o servicio ofrecido»): precio desde y valoraciones; Google decide la apariencia del resultado. */
 	productSchema: boolean;
 	ratingsMinVotes: number;
 	llmsIntro: string;
